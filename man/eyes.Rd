@@ -28,7 +28,7 @@ Looks for columns that identify patients and eyes and counts number of patients 
 set.seed(42)
 foo <- data.frame(id = c(letters[sample(10)], letters[sample(10)] ), eyes = c("r","l"))
 eyes(foo)
-
+#'
 set.seed(42)
 foo1 <- data.frame(id = c(letters[sample(10)], letters[sample(10)] ), eyes = c(NA,"l"))
 set.seed(42)
@@ -37,9 +37,16 @@ set.seed(42)
 foo3 <- data.frame(id = c(letters[sample(10)], letters[sample(10)] ), eyes = c("e","l"))
 set.seed(42)
 foo4 <- data.frame(id = c(letters[sample(10)], letters[sample(10)] ), eyes = c("od","le"))
+set.seed(42)
 foo5 <- data.frame(patient= c(letters[sample(10)], letters[sample(10)] ), eyes = c("od","le"))
+set.seed(42)
 foo6 <- data.frame(patient= c(letters[sample(10)], letters[sample(10)] ), eyes = c("od","le", "re", "le"))
+set.seed(42)
 foo7 <- data.frame(patient= c(letters[sample(10)], letters[sample(10)] ), eyes = c("od","le"), patience = 'c')
+set.seed(42)
 foo8 <- data.frame(patient= c(letters[sample(10)], letters[sample(10)] ), eyes = c("od","le", "re", "os"))
-map(map(paste0("foo", 1:8), get), function(x) try(eyes(x)))
+
+purrr::map(purrr::map(paste0("foo", 1:8), get), function(x) try(eyes(x)))
+
+eyes(amd)
 }

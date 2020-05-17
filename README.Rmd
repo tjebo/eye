@@ -3,6 +3,7 @@ output:
   md_document:
     variant: gfm
 bibliography: eye.bib
+link-citations: true
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -39,13 +40,15 @@ This package will help you work with eye data.
 - [geom_trail: A base plot type = "b" equivalent for ggplot2](#geom_trail)
 
 ## AMD data 
-Data from a large cohort of patients with age-related macular degeneration from Moorfields Eye Hospital. Data available [on a public repository](https://datadryad.org/stash/dataset/doi:10.5061/dryad.97r9289). In order to reference this data in your publication, please kindly cite the corresponding article.[@fasler] 
+Real life anonymised human subject data from a large cohort of patients with treatment-naive neovascular age-related macular degeneration (AMD) that received intravitreal anti-VEGF therapy. The data is from Moorfields Eye Hospital, London, UK and was made available [on a public repository](https://datadryad.org/stash/dataset/doi:10.5061/dryad.97r9289). 
+
+To reference this data in your publication, please kindly cite the corresponding article by Fasler and colleagues.[@fasler] 
 
 # Examples
 ## Eye stuff
 ### Count patients and eyes
-```{r eyes, warning=FALSE, message=FALSE, results='hide'}
-
+```{r eyes, warning=TRUE, message=FALSE}
+eyes(amd)
 ```
 
 ### VA conversion

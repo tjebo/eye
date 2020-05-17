@@ -9,7 +9,7 @@
 #' set.seed(42)
 #' foo <- data.frame(id = c(letters[sample(10)], letters[sample(10)] ), eyes = c("r","l"))
 #' eyes(foo)
-#'
+#' #'
 #' set.seed(42)
 #' foo1 <- data.frame(id = c(letters[sample(10)], letters[sample(10)] ), eyes = c(NA,"l"))
 #' set.seed(42)
@@ -18,12 +18,18 @@
 #' foo3 <- data.frame(id = c(letters[sample(10)], letters[sample(10)] ), eyes = c("e","l"))
 #' set.seed(42)
 #' foo4 <- data.frame(id = c(letters[sample(10)], letters[sample(10)] ), eyes = c("od","le"))
+#' set.seed(42)
 #' foo5 <- data.frame(patient= c(letters[sample(10)], letters[sample(10)] ), eyes = c("od","le"))
+#' set.seed(42)
 #' foo6 <- data.frame(patient= c(letters[sample(10)], letters[sample(10)] ), eyes = c("od","le", "re", "le"))
+#' set.seed(42)
 #' foo7 <- data.frame(patient= c(letters[sample(10)], letters[sample(10)] ), eyes = c("od","le"), patience = 'c')
+#' set.seed(42)
 #' foo8 <- data.frame(patient= c(letters[sample(10)], letters[sample(10)] ), eyes = c("od","le", "re", "os"))
-
-#' map(map(paste0("foo", 1:8), get), function(x) try(eyes(x)))
+#'
+#' purrr::map(purrr::map(paste0("foo", 1:8), get), function(x) try(eyes(x)))
+#'
+#' eyes(amd)
 #' @export
 #'
 eyes <- function(data, id = NULL, eye = NULL, text = FALSE) {
@@ -46,46 +52,73 @@ eyes <- function(data, id = NULL, eye = NULL, text = FALSE) {
   }
 
   if (length(pat_col) < 1) {
-    stop("Patient and/or eye column(s) are missing.\n The patient ID column name needs to contain either of or both strings \"pat\" and \"ID\" at any location.\n The eye column name needs to contain the string \"eye\" (for both columns ignore.case = TRUE)")
+    stop("Patient and/or eye column(s) are missing.\n
+         The patient ID column name needs to contain either of or both strings
+         \"pat\" and \"ID\" at any location.\n
+         The eye column name needs to contain the string \"eye\"
+         Cases can be ignored.", call. = FALSE)
   }
 
   if (length(eye_col) > 1 | length(pat_col) > 1) {
-    stop("Patient and/or eye column(s) are not uniquely identified.")
+    stop("Patient and/or eye column(s) are not uniquely identified.", call. = FALSE)
   }
 
   n_pat <- length(unique(x[[pat_col]]))
 
   if (length(eye_col) == 1) {
-    if (!all(tolower(unique(x[[eye_col]])) %in% c(NA, "r", "l", "re", "le", "od", "os"))) {
-      stop("Eyes not coded clearly.
+    eye_int <- suppressWarnings(unique(as.integer(x[[eye_col]])))
+
+    if (length(eye_int) > 2) {
+      stop("There are more than 2 numeric codes for eyes. Clean your data", call. = FALSE)
+    } else if (length(eye_int) == 2) {
+      if(!(all(eye_int %in% 0:1) | all(eye_int %in% 1:2))){
+        stop("Eyes are numerically coded, but coding is not 0/1 or 1/2.
+           Please change the codes for eyes.", call. = FALSE)
+      } else {
+        warning("Eyes are numerically coded with 0/1 or 1/2.
+              Default to r = 0 / l = 1 or r = 1 / l = 2")
+      }
+    } else if (is.na(eye_col)){
+      if (!all(tolower(unique(x[[eye_col]])) %in% c(NA, "r", "l", "re", "le", "od", "os"))) {
+        stop("Eyes not coded clearly.
           Must be either of c(\"r\", \"l\", \"re\", \"le\", \"od\", \"os\") - any cases allowed!", call. = FALSE)
+      }
     }
     if (sum(is.na(x[[eye_col]]) > 0)) {
       warning("There are observations where the eyes are not identified (NA)", call. = FALSE)
     }
     eye_tab <- table(unique(x[, c(pat_col, eye_col)]))
     n_eyes <- sum(colSums(eye_tab))
-    tab_r <- eye_tab[, tolower(colnames(eye_tab)) %in% c("r", "re", "od"), drop = FALSE]
-    if (ncol(tab_r) > 1) {
-      warning(paste0(
-        "Found several ways to code for right eyes (",
-        paste(colnames(tab_r), collapse = ","), ") - suggest clean your data"
-      ),
-      call. = FALSE
-      )
-    }
-    n_r <- sum(colSums(tab_r))
-    tab_l <- eye_tab[, tolower(colnames(eye_tab)) %in% c("l", "le", "os"), drop = FALSE]
-    if (ncol(tab_l) > 1) {
-      warning(paste0(
-        "Found several ways to code for left eyes (",
-        paste(colnames(tab_l), collapse = ","), ") - suggest clean your data"
-      ),
-      call. = FALSE
-      )
-    }
+    if(all(eye_int %in% 0:1)){
+      n_r <- colSums(eye_tab[, colnames(eye_tab) == 0, drop = FALSE])
+      n_l <- colSums(eye_tab[, colnames(eye_tab) == 1, drop = FALSE])
+    } else if (all(eye_int %in% 1:2)){
+      n_r <- colSums(eye_tab[, colnames(eye_tab) == 1, drop = FALSE])
+      n_l <- colSums(eye_tab[, colnames(eye_tab) == 2, drop = FALSE])
+    } else {
+      tab_r <- eye_tab[, tolower(colnames(eye_tab)) %in% c("r", "re", "od"), drop = FALSE]
+      if (ncol(tab_r) > 1) {
+        warning(paste0(
+          "Found several ways to code for right eyes (",
+          paste(colnames(tab_r), collapse = ","), ") - suggest clean your data"
+        ),
+        call. = FALSE
+        )
+      }
+      n_r <- sum(colSums(tab_r))
 
-    n_l <- sum(colSums(tab_l))
+      tab_l <- eye_tab[, tolower(colnames(eye_tab)) %in% c("l", "le", "os"), drop = FALSE]
+      if (ncol(tab_l) > 1) {
+        warning(paste0(
+          "Found several ways to code for left eyes (",
+          paste(colnames(tab_l), collapse = ","), ") - suggest clean your data"
+        ),
+        call. = FALSE
+        )
+      }
+
+      n_l <- sum(colSums(tab_l))
+    }
 
     if (text) {
       return(paste(n_eyes, "eyes of", n_pat, "patients"))

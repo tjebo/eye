@@ -33,17 +33,29 @@ This package will help you work with eye data.
 
 ## AMD data
 
-Data from a large cohort of patients with age-related macular
-degeneration from Moorfields Eye Hospital. Data available [on a public
+Real life anonymised human subject data from a large cohort of patients
+with treatment-naive neovascular age-related macular degeneration (AMD)
+that received intravitreal anti-VEGF therapy. The data is from
+Moorfields Eye Hospital, London, UK and was made available [on a public
 repository](https://datadryad.org/stash/dataset/doi:10.5061/dryad.97r9289).
-In order to reference this data in your publication, please kindly cite
-the corresponding article.(Fasler et al. 2019)
+
+To reference this data in your publication, please kindly cite the
+corresponding article by Fasler and colleagues.(Fasler et al.
+[2019](#ref-fasler))
 
 # Examples
 
 ## Eye stuff
 
 ### Count patients and eyes
+
+``` r
+eyes(amd)
+#> Warning in eyes(amd): Eyes are numerically coded with 0/1 or 1/2.
+#>               Default to r = 0 / l = 1 or r = 1 / l = 2
+#> patients     eyes  right.0   left.1 
+#>     3357     3357     1681     1676
+```
 
 ### VA conversion
 
@@ -59,30 +71,30 @@ mylist <- list(x = x, y = y, z = z)
 mydf <- data.frame(x, y, z)
 
 show_stats(mylist)
-#>   mean sd  n median min max
-#> x -0.1  1 21    0.2  -2 1.5
-#> y -0.1  1 21    0.2  -2 1.5
-#> z -0.1  1 21    0.2  -2 1.5
+#>   mean  sd  n median  min max
+#> x  0.1 0.8 21    0.3 -1.3 1.4
+#> y  0.1 0.8 21    0.3 -1.3 1.4
+#> z  0.1 0.8 21    0.3 -1.3 1.4
 show_stats(mydf)
-#>   mean sd  n median min max
-#> x -0.1  1 21    0.2  -2 1.5
-#> y -0.1  1 21    0.2  -2 1.5
-#> z -0.1  1 21    0.2  -2 1.5
+#>   mean  sd  n median  min max
+#> x  0.1 0.8 21    0.3 -1.3 1.4
+#> y  0.1 0.8 21    0.3 -1.3 1.4
+#> z  0.1 0.8 21    0.3 -1.3 1.4
 
 # For an aggregation by group, split the data frame first
 mydf2 <- data.frame(group = rep(letters[1:2], each = 42), x, y, z)
 lapply(split(mydf2, mydf2$group), show_stats, rownames = FALSE)
 #> $a
-#>   var mean sd  n median min max
-#> 1   x -0.1  1 42    0.2  -2 1.5
-#> 2   y -0.1  1 42    0.2  -2 1.5
-#> 3   z -0.1  1 42    0.2  -2 1.5
+#>   var mean  sd  n median  min max
+#> 1   x  0.1 0.8 42    0.3 -1.3 1.4
+#> 2   y  0.1 0.8 42    0.3 -1.3 1.4
+#> 3   z  0.1 0.8 42    0.3 -1.3 1.4
 #> 
 #> $b
-#>   var mean sd  n median min max
-#> 1   x -0.1  1 42    0.2  -2 1.5
-#> 2   y -0.1  1 42    0.2  -2 1.5
-#> 3   z -0.1  1 42    0.2  -2 1.5
+#>   var mean  sd  n median  min max
+#> 1   x  0.1 0.8 42    0.3 -1.3 1.4
+#> 2   y  0.1 0.8 42    0.3 -1.3 1.4
+#> 3   z  0.1 0.8 42    0.3 -1.3 1.4
 ```
 
 ### Probability contours
