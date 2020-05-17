@@ -51,8 +51,7 @@ corresponding article by Fasler and colleagues.(Fasler et al.
 
 ``` r
 eyes(amd)
-#> Warning in eyes(amd): Eyes are coded 0/1 or 1/2. Interpreting r = 0 or 1,
-#> respectivelyFALSE
+#> Warning: Eyes are coded 0/1 or 1/2. Interpreting r = 0 or 1, respectively
 #> patients     eyes  right.0   left.1 
 #>     3357     3357     1681     1676
 ```
@@ -72,29 +71,29 @@ mydf <- data.frame(x, y, z)
 
 show_stats(mylist)
 #>   mean  sd  n median  min max
-#> x    0 1.1 21   -0.1 -2.1 2.3
-#> y    0 1.1 21   -0.1 -2.1 2.3
-#> z    0 1.1 21   -0.1 -2.1 2.3
+#> x  0.2 1.1 21    0.1 -2.1 2.4
+#> y  0.2 1.1 21    0.1 -2.1 2.4
+#> z  0.2 1.1 21    0.1 -2.1 2.4
 show_stats(mydf)
 #>   mean  sd  n median  min max
-#> x    0 1.1 21   -0.1 -2.1 2.3
-#> y    0 1.1 21   -0.1 -2.1 2.3
-#> z    0 1.1 21   -0.1 -2.1 2.3
+#> x  0.2 1.1 21    0.1 -2.1 2.4
+#> y  0.2 1.1 21    0.1 -2.1 2.4
+#> z  0.2 1.1 21    0.1 -2.1 2.4
 
 # For an aggregation by group, split the data frame first
 mydf2 <- data.frame(group = rep(letters[1:2], each = 42), x, y, z)
 lapply(split(mydf2, mydf2$group), show_stats, rownames = FALSE)
 #> $a
 #>   var mean  sd  n median  min max
-#> 1   x    0 1.1 42   -0.1 -2.1 2.3
-#> 2   y    0 1.1 42   -0.1 -2.1 2.3
-#> 3   z    0 1.1 42   -0.1 -2.1 2.3
+#> 1   x  0.2 1.1 42    0.1 -2.1 2.4
+#> 2   y  0.2 1.1 42    0.1 -2.1 2.4
+#> 3   z  0.2 1.1 42    0.1 -2.1 2.4
 #> 
 #> $b
 #>   var mean  sd  n median  min max
-#> 1   x    0 1.1 42   -0.1 -2.1 2.3
-#> 2   y    0 1.1 42   -0.1 -2.1 2.3
-#> 3   z    0 1.1 42   -0.1 -2.1 2.3
+#> 1   x  0.2 1.1 42    0.1 -2.1 2.4
+#> 2   y  0.2 1.1 42    0.1 -2.1 2.4
+#> 3   z  0.2 1.1 42    0.1 -2.1 2.4
 ```
 
 ### Probability contours

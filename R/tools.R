@@ -75,7 +75,7 @@ eyes <- function(data, id = NULL, eye = NULL, text = FALSE) {
         stop("Eyes are numerically coded, but coding is not 0/1 or 1/2.
            Please change the codes for eyes.", call. = FALSE)
       } else {
-        warning("Eyes are coded 0/1 or 1/2. Interpreting r = 0 or 1, respectively", .call = FALSE)
+        warning("Eyes are coded 0/1 or 1/2. Interpreting r = 0 or 1, respectively", call. = FALSE)
       }
     } else if (is.na(eye_col)){
       if (!all(tolower(unique(x[[eye_col]])) %in% c(NA, "r", "l", "re", "le", "od", "os"))) {
