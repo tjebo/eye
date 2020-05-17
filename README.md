@@ -135,27 +135,18 @@ A base plot type = “b” equivalent for ggplot. Works also with text\!
 ``` r
 library(ggplot2)
 library(dplyr)
-#> 
-#> Attaching package: 'dplyr'
-#> The following objects are masked from 'package:lubridate':
-#> 
-#>     intersect, setdiff, union
-#> The following objects are masked from 'package:stats':
-#> 
-#>     filter, lag
-#> The following objects are masked from 'package:base':
-#> 
-#>     intersect, setdiff, setequal, union
 # data preparation
 amd %>%
   group_by(
     age_cut10 = cut_width(BaselineAge, 10),
-    days_cut90 = cut_width(FollowupDays, 90)
+    days_cut90 = cut_width(FollowupDays, 90, labels = seq(0, 810, 90))
   ) %>%
   summarise(mean_va = mean(VA_ETDRS_Letters)) %>%
 # plot
 ggplot(aes(days_cut90, mean_va, color = age_cut10)) +
-  geom_trail(aes(group = age_cut10))
+  geom_trail(aes(group = age_cut10)) +
+  theme_classic() +
+  labs(x = "Follow up time [Days]", y = "Mean VA [ETDRS letters]", color = "Age strata")
 ```
 
 ![](README-trail-1.png)<!-- -->
