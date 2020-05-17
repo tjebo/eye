@@ -64,9 +64,11 @@ eyes(amd)
 ## Beyond eye stuff
 ### Common statistics
 ```{r stats, warning=FALSE, message=FALSE}
-see(amd$BaselineAge, dec = 1)
+amd_unq <- amd[!duplicated(amd$Id),]
 
-see(amd[c("BaselineAge", "VA_ETDRS_Letters", "FollowupDays")])
+see(amd_unq$BaselineAge, dec = 1)
+
+see(amd_unq[c("BaselineAge", "VA_ETDRS_Letters", "FollowupDays")])
 ```
 
 ### Probability contours
@@ -109,10 +111,17 @@ csv(amd)
 A base plot type = "b" equivalent for ggplot. Works also with text!
 ```{r trail}
 library(ggplot2)
-
-ggplot(pressure, aes(temperature, pressure)) +
-  geom_ribbon(aes(ymin = pressure - 50, ymax = pressure + 50), alpha = 0.2) +
-  geom_trail()
+library(dplyr)
+# data preparation
+amd %>%
+  group_by(
+    age_cut10 = cut_width(BaselineAge, 10),
+    days_cut90 = cut_width(FollowupDays, 90)
+  ) %>%
+  summarise(mean_va = mean(VA_ETDRS_Letters)) %>%
+# plot
+ggplot(aes(days_cut90, mean_va, color = age_cut10)) +
+  geom_trail(aes(group = age_cut10))
 ```
 
 # References

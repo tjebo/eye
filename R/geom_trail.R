@@ -1,4 +1,5 @@
 #' geom_trail
+#' @source modified from post on https://stackoverflow.com/a/55857158/7941188
 #' @author Teun van den Brand / Tjebo Heeren
 #' @rdname geom_trail
 #' @format NULL
@@ -10,6 +11,10 @@
 GeomTrail <- ggplot2::ggproto(
   "GeomTrail", ggplot2::GeomPoint,
   draw_panel = function(data, panel_params, coord, na.rm = FALSE) {
+
+    # must be sorted on group
+    data <- data[order(data$group), , drop = FALSE]
+    munched <- coord_munch(coord, data, panel_params)
 
     # Default geom point behaviour
     if (is.character(data$shape)) {
@@ -32,19 +37,38 @@ GeomTrail <- ggplot2::ggproto(
         )
       )
     }
+
+    # Silently drop lines with less than two points, preserving order
+    rows <- stats::ave(seq_len(nrow(munched)), munched$group, FUN = length)
+    munched <- munched[rows >= 2, ]
+    if (nrow(munched) < 2) {
+      return(zeroGrob())
+    }
+
     # New behaviour
     ## Convert x and y to units
     x <- unit(coords$x, "npc")
     y <- unit(coords$y, "npc")
 
+    # Work out grouping variables for grobs
+    n <- nrow(munched)
+    group_diff <- munched$group[-1] != munched$group[-n]
+    start <- c(TRUE, group_diff)
+    end <- c(group_diff, TRUE)
+
     ## Make custom grob class
     my_path <- grid::grob(
-      x = x, y = y, mult = coords$gap * .pt, name = "trail",
+      x = x, y = y,
+      mult = munched$gap * .pt,
+      name = "trail",
       gp = grid::gpar(
-        col = alpha(coords$colour, coords$alpha),
-        fill = alpha(coords$colour, coords$alpha), lwd = coords$linesize *
-          .pt, lty = coords$linetype, lineend = "butt",
-        linejoin = "round", linemitre = 10
+        col = alpha(munched$colour, munched$alpha)[!end],
+        fill = alpha(munched$colour, munched$alpha)[!end],
+        lwd = munched$linesize * .pt,
+        lty = munched$linetype,
+        lineend = "butt",
+        linejoin = "round",
+        linemitre = 10
       ),
       vp = NULL,
       ### Now this is the important bit:
@@ -110,6 +134,7 @@ makeContent.trail <- function(x){
 
 #' geom_trail
 #' @description Mark your trail with a plot just like the good old base plot type = b
+#' modified from post on https://stackoverflow.com/a/55857158/7941188
 #' @rdname geom_trail
 #' @import ggplot2
 #' @inheritParams ggplot2::geom_point

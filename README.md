@@ -68,37 +68,17 @@ eyes(amd)
 ### Common statistics
 
 ``` r
-x = y = z = c(rnorm(20), NA)
-# named or unnamed list
-mylist <- list(x = x, y = y, z = z)
-# with a data frame
-mydf <- data.frame(x, y, z)
+amd_unq <- amd[!duplicated(amd$Id),]
 
-show_stats(mylist)
-#>   mean  sd  n median  min max
-#> x -0.2 1.1 21    0.1 -2.2 1.4
-#> y -0.2 1.1 21    0.1 -2.2 1.4
-#> z -0.2 1.1 21    0.1 -2.2 1.4
-show_stats(mydf)
-#>   mean  sd  n median  min max
-#> x -0.2 1.1 21    0.1 -2.2 1.4
-#> y -0.2 1.1 21    0.1 -2.2 1.4
-#> z -0.2 1.1 21    0.1 -2.2 1.4
+see(amd_unq$BaselineAge, dec = 1)
+#>   mean  sd length median min max
+#> 1 78.3 9.1   3357     79  60  99
 
-# For an aggregation by group, split the data frame first
-mydf2 <- data.frame(group = rep(letters[1:2], each = 42), x, y, z)
-lapply(split(mydf2, mydf2$group), show_stats, rownames = FALSE)
-#> $a
-#>   var mean  sd  n median  min max
-#> 1   x -0.2 1.1 42    0.1 -2.2 1.4
-#> 2   y -0.2 1.1 42    0.1 -2.2 1.4
-#> 3   z -0.2 1.1 42    0.1 -2.2 1.4
-#> 
-#> $b
-#>   var mean  sd  n median  min max
-#> 1   x -0.2 1.1 42    0.1 -2.2 1.4
-#> 2   y -0.2 1.1 42    0.1 -2.2 1.4
-#> 3   z -0.2 1.1 42    0.1 -2.2 1.4
+see(amd_unq[c("BaselineAge", "VA_ETDRS_Letters", "FollowupDays")])
+#>                  mean   sd length median min max
+#> BaselineAge      78.3  9.1   3357     79  60  99
+#> VA_ETDRS_Letters 56.3 14.7   3357     58   0  92
+#> FollowupDays      0.1  3.1   3357      0   0 168
 ```
 
 ### Probability contours
@@ -154,10 +134,28 @@ A base plot type = “b” equivalent for ggplot. Works also with text\!
 
 ``` r
 library(ggplot2)
-
-ggplot(pressure, aes(temperature, pressure)) +
-  geom_ribbon(aes(ymin = pressure - 50, ymax = pressure + 50), alpha = 0.2) +
-  geom_trail()
+library(dplyr)
+#> 
+#> Attaching package: 'dplyr'
+#> The following objects are masked from 'package:lubridate':
+#> 
+#>     intersect, setdiff, union
+#> The following objects are masked from 'package:stats':
+#> 
+#>     filter, lag
+#> The following objects are masked from 'package:base':
+#> 
+#>     intersect, setdiff, setequal, union
+# data preparation
+amd %>%
+  group_by(
+    age_cut10 = cut_width(BaselineAge, 10),
+    days_cut90 = cut_width(FollowupDays, 90)
+  ) %>%
+  summarise(mean_va = mean(VA_ETDRS_Letters)) %>%
+# plot
+ggplot(aes(days_cut90, mean_va, color = age_cut10)) +
+  geom_trail(aes(group = age_cut10))
 ```
 
 ![](README-trail-1.png)<!-- -->

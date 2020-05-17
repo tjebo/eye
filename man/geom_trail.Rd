@@ -5,6 +5,9 @@
 \alias{GeomTrail}
 \alias{geom_trail}
 \title{geom_trail}
+\source{
+modified from post on https://stackoverflow.com/a/55857158/7941188
+}
 \usage{
 geom_trail(
   mapping = NULL,
@@ -67,6 +70,7 @@ to the paired geom/stat.}
 }
 \description{
 Mark your trail with a plot just like the good old base plot type = b
+modified from post on https://stackoverflow.com/a/55857158/7941188
 }
 \section{Aesthetics}{
 
