@@ -41,6 +41,6 @@ ggplot() +
 }
 \seealso{
 Other stats functions: 
-\code{\link{show_stats}()}
+\code{\link{see}()}
 }
 \concept{stats functions}
