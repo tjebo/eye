@@ -51,30 +51,30 @@ mylist <- list(x = x, y = y, z = z)
 mydf <- data.frame(x, y, z)
 
 show_stats(mylist)
-#>   mean  sd  n median  min max
-#> x  0.2 1.3 21    0.3 -2.4 2.9
-#> y  0.2 1.3 21    0.3 -2.4 2.9
-#> z  0.2 1.3 21    0.3 -2.4 2.9
+#>   mean sd  n median  min max
+#> x  0.1  1 21    0.5 -1.7 1.5
+#> y  0.1  1 21    0.5 -1.7 1.5
+#> z  0.1  1 21    0.5 -1.7 1.5
 show_stats(mydf)
-#>   mean  sd  n median  min max
-#> x  0.2 1.3 21    0.3 -2.4 2.9
-#> y  0.2 1.3 21    0.3 -2.4 2.9
-#> z  0.2 1.3 21    0.3 -2.4 2.9
+#>   mean sd  n median  min max
+#> x  0.1  1 21    0.5 -1.7 1.5
+#> y  0.1  1 21    0.5 -1.7 1.5
+#> z  0.1  1 21    0.5 -1.7 1.5
 
 # For an aggregation by group, split the data frame first
 mydf2 <- data.frame(group = rep(letters[1:2], each = 42), x, y, z)
 lapply(split(mydf2, mydf2$group), show_stats, rownames = FALSE)
 #> $a
 #>   var mean  sd  n median  min max
-#> 1   x  0.2 1.3 42    0.3 -2.4 2.9
-#> 2   y  0.2 1.3 42    0.3 -2.4 2.9
-#> 3   z  0.2 1.3 42    0.3 -2.4 2.9
+#> 1   x  0.1 0.9 42    0.5 -1.7 1.5
+#> 2   y  0.1 0.9 42    0.5 -1.7 1.5
+#> 3   z  0.1 0.9 42    0.5 -1.7 1.5
 #> 
 #> $b
 #>   var mean  sd  n median  min max
-#> 1   x  0.2 1.3 42    0.3 -2.4 2.9
-#> 2   y  0.2 1.3 42    0.3 -2.4 2.9
-#> 3   z  0.2 1.3 42    0.3 -2.4 2.9
+#> 1   x  0.1 0.9 42    0.5 -1.7 1.5
+#> 2   y  0.1 0.9 42    0.5 -1.7 1.5
+#> 3   z  0.1 0.9 42    0.5 -1.7 1.5
 ```
 
 ### Probability contours
@@ -96,9 +96,13 @@ ggplot() +
   scale_color_brewer(name = "Probs", palette = "Set1")
 ```
 
-![](README-prob-1.png)<!-- --> \#\# ggplot2 extensions \#\#\#
-geom\_trail A base plot type = “b” equivalent for ggplot. Works also
-with text\!
+![](README-prob-1.png)<!-- -->
+
+## ggplot2 extensions
+
+### geom\_trail
+
+A base plot type = “b” equivalent for ggplot. Works also with text\!
 
 ``` r
 library(ggplot2)
@@ -116,14 +120,14 @@ ggplot(pressure, aes(temperature, pressure)) +
 
 ### Export your data to csv
 
-## Installation
+# Installation
 
 ``` r
 # for the development version 
 devtools::install_github(tjebo/eye)
 ```
 
-## Sources
+# Sources
 
 Containing data from Fasler et al..
 [data](https://bmjopen.bmj.com/content/9/6/e027441)

@@ -9,7 +9,7 @@
 
 GeomTrail <- ggplot2::ggproto(
   "GeomTrail", ggplot2::GeomPoint,
-  draw_panel = function(data, panel_params, coord, na.rm = FALSE){
+  draw_panel = function(data, panel_params, coord, na.rm = FALSE) {
 
     # Default geom point behaviour
     if (is.character(data$shape)) {
@@ -17,17 +17,20 @@ GeomTrail <- ggplot2::ggproto(
     }
     coords <- coord$transform(data, panel_params)
 
-    if(unique(coords$size == 0)) {
+    if (unique(coords$size == 0)) {
       my_points <- NULL
     } else {
-      my_points <- pointsGrob(
-      coords$x,
-      coords$y,
-      pch = coords$shape,
-      gp = gpar(col = alpha(coords$colour, coords$alpha),
-                fill = alpha(coords$fill, coords$alpha),
-                fontsize = coords$size * .pt + coords$stroke * .stroke/2,
-                lwd = coords$stroke * .stroke/2))
+      my_points <- grid::pointsGrob(
+        coords$x,
+        coords$y,
+        pch = coords$shape,
+        gp = grid::gpar(
+          col = alpha(coords$colour, coords$alpha),
+          fill = alpha(coords$fill, coords$alpha),
+          fontsize = coords$size * .pt + coords$stroke * .stroke / 2,
+          lwd = coords$stroke * .stroke / 2
+        )
+      )
     }
     # New behaviour
     ## Convert x and y to units
@@ -35,22 +38,17 @@ GeomTrail <- ggplot2::ggproto(
     y <- unit(coords$y, "npc")
 
     ## Make custom grob class
-    my_path <- grob(
-      x = x,
-      y = y,
-      mult =  coords$gap * .pt,
-      name = "trail",
+    my_path <- grid::grob(
+      x = x, y = y, mult = coords$gap * .pt, name = "trail",
       gp = grid::gpar(
         col = alpha(coords$colour, coords$alpha),
-        fill = alpha(coords$colour, coords$alpha),
-        lwd = coords$linesize * .pt,
-        lty = coords$linetype,
-        lineend = "butt",
+        fill = alpha(coords$colour, coords$alpha), lwd = coords$linesize *
+          .pt, lty = coords$linetype, lineend = "butt",
         linejoin = "round", linemitre = 10
       ),
       vp = NULL,
       ### Now this is the important bit:
-      cl = 'trail'
+      cl = "trail"
     )
 
     ## Combine grobs
@@ -136,12 +134,10 @@ makeContent.trail <- function(x){
 #' @export
 
 geom_trail <-
-  function(mapping = NULL, data = NULL, stat = "identity",
-           position = "identity", na.rm = FALSE,
-           show.legend = NA, inherit.aes = TRUE, ...) {
-    layer(data = data, mapping = mapping, stat = stat,
-          geom = GeomTrail, position = position, show.legend = show.legend,
-          inherit.aes = inherit.aes,
-          params = list(na.rm = na.rm, ...))
+function (mapping = NULL, data = NULL, stat = "identity", position = "identity",
+          na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, ...) {
+  layer(data = data, mapping = mapping, stat = stat, geom = GeomTrail,
+        position = position, show.legend = show.legend, inherit.aes = inherit.aes,
+        params = list(na.rm = na.rm, ...))
 }
 
