@@ -17,7 +17,7 @@ Will use the name of the data frame for the generated .csv file.
 }
 \seealso{
 Other convenience functions: 
-\code{\link{anonymize}()},
-\code{\link{get_age}()}
+\code{\link{age}()},
+\code{\link{anonymize}()}
 }
 \concept{convenience functions}

@@ -138,24 +138,31 @@ counteyes <- eyes
 #' @export
 count_eyes <- eyes
 
-#' get_age
+#' age
+#' @name age
 #' @description calculates age in years, either as duration or as period
 #' Slight modification of a function [posted on stackoverflow by user Moody_Mudskipper](https://stackoverflow.com/a/47529507/7941188)
 #' @param from_date start date
 #' @param to_date end date
 #' @param period default FALSE: output as a duration. If TRUE, output as a period
 #' @family convenience functions
+#' @examples
+#' age("1984-10-16")
+#'
+#' dob <-  c("1984-10-16", "2000-01-01")
+#' test_date <-  as.Date(dob) + c(15000, 20000)
+#' age(dob, test_date)
 #' @export
 
-get_age <- function(from_date, to_date = lubridate::now(), period = FALSE){
+age <- function(from_date, to_date = lubridate::now(), period = FALSE, dec = 1){
   if(!require('lubridate'))
     stop('Please install the lubridate package')
   if(is.character(from_date)) from_date <- lubridate::as_date(from_date)
   if(is.character(to_date))   to_date   <- lubridate::as_date(to_date)
   if (period) { age <- lubridate::year(lubridate::as.period(lubridate::interval(start = from_date, end = to_date)))
-  age
+  round(age, dec)
   } else { age <- lubridate::interval(start = from_date, end = to_date)/lubridate::dyears(1)
-  age
+  round(age, dec)
   }
 }
 

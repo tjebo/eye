@@ -8,9 +8,8 @@ This package will help you work with eye data.
 
 ## Only about the eye
 
-### [Easy count of patients and eyes](#count-patients-and-eyes)
-
-### [Conversion of visual acuity notations](#va-conversion)
+  - [Easy count of patients and eyes](#count-patients-and-eyes)
+  - [Conversion of visual acuity notations](#va-conversion)
 
 ## Beyond the eye
 
@@ -22,8 +21,8 @@ This package will help you work with eye data.
 
 ### Convenience functions:
 
-  - Save your data frame as csv
-  - Calculate age
+  - [Easy save of your data frame as csv](#save-to-csv)
+  - [Calculate age](#calculate-age)
   - Anonymize your data frame
 
 ### ggplot2 extensions
@@ -71,29 +70,29 @@ mydf <- data.frame(x, y, z)
 
 show_stats(mylist)
 #>   mean  sd  n median  min max
-#> x  0.2 1.1 21    0.1 -2.1 2.4
-#> y  0.2 1.1 21    0.1 -2.1 2.4
-#> z  0.2 1.1 21    0.1 -2.1 2.4
+#> x -0.3 1.2 21   -0.4 -2.7 2.2
+#> y -0.3 1.2 21   -0.4 -2.7 2.2
+#> z -0.3 1.2 21   -0.4 -2.7 2.2
 show_stats(mydf)
 #>   mean  sd  n median  min max
-#> x  0.2 1.1 21    0.1 -2.1 2.4
-#> y  0.2 1.1 21    0.1 -2.1 2.4
-#> z  0.2 1.1 21    0.1 -2.1 2.4
+#> x -0.3 1.2 21   -0.4 -2.7 2.2
+#> y -0.3 1.2 21   -0.4 -2.7 2.2
+#> z -0.3 1.2 21   -0.4 -2.7 2.2
 
 # For an aggregation by group, split the data frame first
 mydf2 <- data.frame(group = rep(letters[1:2], each = 42), x, y, z)
 lapply(split(mydf2, mydf2$group), show_stats, rownames = FALSE)
 #> $a
 #>   var mean  sd  n median  min max
-#> 1   x  0.2 1.1 42    0.1 -2.1 2.4
-#> 2   y  0.2 1.1 42    0.1 -2.1 2.4
-#> 3   z  0.2 1.1 42    0.1 -2.1 2.4
+#> 1   x -0.3 1.2 42   -0.4 -2.7 2.2
+#> 2   y -0.3 1.2 42   -0.4 -2.7 2.2
+#> 3   z -0.3 1.2 42   -0.4 -2.7 2.2
 #> 
 #> $b
 #>   var mean  sd  n median  min max
-#> 1   x  0.2 1.1 42    0.1 -2.1 2.4
-#> 2   y  0.2 1.1 42    0.1 -2.1 2.4
-#> 3   z  0.2 1.1 42    0.1 -2.1 2.4
+#> 1   x -0.3 1.2 42   -0.4 -2.7 2.2
+#> 2   y -0.3 1.2 42   -0.4 -2.7 2.2
+#> 3   z -0.3 1.2 42   -0.4 -2.7 2.2
 ```
 
 ### Probability contours
@@ -135,9 +134,25 @@ ggplot(pressure, aes(temperature, pressure)) +
 
 ### Calculate age
 
+Age calculated in years. Periods or duration possible. If only one
+argument, the age today.
+
+``` r
+age("1984-10-16")
+#> [1] 35.6
+
+dob <-  c("1984-10-16", "2000-01-01")
+test_date <-  as.Date(dob) + c(15000, 20000)
+
+age(dob, test_date)
+#> [1] 41.1 54.8
+```
+
 ### Anonymize your data
 
-### Export your data to csv
+### Save to csv
+
+This is a convenience wrapper around write.csv
 
 # Installation
 

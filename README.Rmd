@@ -23,8 +23,8 @@ This package will help you work with eye data.
 
 # Features
 ## Only about the eye
-### [Easy count of patients and eyes](#count-patients-and-eyes)
-### [Conversion of visual acuity notations](#va-conversion)
+- [Easy count of patients and eyes](#count-patients-and-eyes)
+- [Conversion of visual acuity notations](#va-conversion)
 
 ## Beyond the eye
 ### Stats functions
@@ -32,8 +32,8 @@ This package will help you work with eye data.
 - [Calculate 2d probability contours for the use in ggplot2](#probability-contours)
 
 ### Convenience functions: 
-- Save your data frame as csv 
-- Calculate age
+- [Easy save of your data frame as csv](#save-to-csv)
+- [Calculate age](#calculate-age)
 - Anonymize your data frame
 
 ### ggplot2 extensions 
@@ -103,8 +103,14 @@ ggplot(pressure, aes(temperature, pressure)) +
 ```
 
 ### Calculate age
+Age calculated in years. Periods or duration possible. If only one argument, the age today.
 ```{r age, warning=FALSE, message=FALSE}
+age("1984-10-16")
 
+dob <-  c("1984-10-16", "2000-01-01")
+test_date <-  as.Date(dob) + c(15000, 20000)
+
+age(dob, test_date)
 ```
 
 ### Anonymize your data 
@@ -112,7 +118,8 @@ ggplot(pressure, aes(temperature, pressure)) +
 
 ```
 
-### Export your data to csv 
+### Save to csv 
+This is a convenience wrapper around write.csv
 ```{r csv, warning=FALSE, message=FALSE}
 
 ```
