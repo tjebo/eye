@@ -159,7 +159,7 @@ p2 <- p + geom_trail(aes(group = age_cut10), size = 0) +
 p1 + p2
 ```
 
-<img src="README-trail-1.png" width="45%" />
+<img src="README-trail-1.png" width="90%" />
 
 # References
 
