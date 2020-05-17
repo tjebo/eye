@@ -1,0 +1,82 @@
+---
+output:
+  md_document:
+    variant: gfm
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "README-"
+)
+```
+
+# eye
+
+This package will help you work with eye data. 
+
+# Features
+
+## Eye stuff
+
+### Conversion of visual acuity notations 
+
+### [Easy count of patients and eyes](#count-patients-and-eyes)
+
+## Beyond eye stuff
+
+### Stats functions
+- Show common summary statistics
+- Calculate 2d probability contours for the use in ggplot2
+
+### Convenience functions: 
+- Save your data frame as csv 
+- Calculate age
+- Anonymize your data frame
+
+### ggplot2 extensions 
+- geom_trail: Make a "base plot type = b" with ggplot
+
+# Examples
+## Eye stuff
+### Count patients and eyes
+```{r example1, warning=FALSE, message=FALSE, results='hide'}
+
+```
+### Get basic statistics
+```{r mpstats, warning=FALSE, message=FALSE}
+
+```
+### Plot probability contours
+```{r example2, warning=FALSE, message=FALSE, results='hide'}
+
+```
+### Make a "base plot type = b" with ggplot
+```{r trail}
+
+```
+
+### Calculate age
+```{r age, warning=FALSE, message=FALSE}
+
+```
+### Anonymize your data 
+```{r anonymize, warning=FALSE, message=FALSE}
+
+```
+### Export your data to csv 
+```{r csv, warning=FALSE, message=FALSE}
+
+```
+## Installation 
+```{r, eval=FALSE}
+# for the development version 
+devtools::install_github(tjebo/eye)
+```
+
+## Sources
+Containing data from Fasler et al.. [data](https://bmjopen.bmj.com/content/9/6/e027441)
+
