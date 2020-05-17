@@ -109,21 +109,31 @@ csv(amd)
 ## ggplot2 extensions
 ### geom_trail
 A base plot type = "b" equivalent for ggplot. Works also with text!
-```{r trail, message=FALSE}
+```{r trail, message=FALSE, out.width="45%"}
 library(ggplot2)
 library(dplyr)
 # data preparation
-amd %>%
+amd_aggr <-
+  amd %>%
   group_by(
     age_cut10 = cut_width(BaselineAge, 10),
     days_cut90 = cut_width(FollowupDays, 90, labels = seq(0, 810, 90))
   ) %>%
-  summarise(mean_va = mean(VA_ETDRS_Letters)) %>%
+  summarise(mean_va = mean(VA_ETDRS_Letters))
+
 # plot
-ggplot(aes(days_cut90, mean_va, color = age_cut10)) +
-  geom_trail(aes(group = age_cut10)) +
-  theme_classic() +
-  labs(x = "Follow up time [Days]", y = "Mean VA [ETDRS letters]", color = "Age strata")
+p <-
+  ggplot(amd_aggr, aes(days_cut90, mean_va, color = age_cut10)) +
+    theme_classic() +
+    labs(x = "Follow up time [Days]", y = "Mean VA [ETDRS letters]", color = "Age strata")
+
+p +
+  geom_trail(aes(group = age_cut10))
+
+p +
+  geom_trail(aes(group = age_cut10), size = 0) +
+  geom_text(aes(label = round(mean_va, 0)), show.legend = FALSE)
+
 ```
 
 # References
