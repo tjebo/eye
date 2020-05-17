@@ -19,7 +19,7 @@ library(eye)
 
 # eye
 
-This package will help you work with eye data. 
+See your data with a new eye. 
 
 # Features
 ## Only about the eye
@@ -34,7 +34,6 @@ This package will help you work with eye data.
 ### Convenience functions: 
 - [Easy save of your data frame as csv](#save-to-csv)
 - [Calculate age](#calculate-age)
-- Anonymize your data frame
 
 ### ggplot2 extensions 
 - [geom_trail: A base plot type = "b" equivalent for ggplot2](#geom_trail)
@@ -43,6 +42,12 @@ This package will help you work with eye data.
 Real life anonymised human subject data from a large cohort of patients with treatment-naive neovascular age-related macular degeneration (AMD) that received intravitreal anti-VEGF therapy. The data is from Moorfields Eye Hospital, London, UK and was made available [on a public repository](https://datadryad.org/stash/dataset/doi:10.5061/dryad.97r9289). 
 
 To reference this data in your publication, please kindly cite the corresponding article by Fasler and colleagues.[@fasler] 
+
+# Get eye 
+```{r, eval=FALSE}
+# for the development version 
+devtools::install_github("tjebo/eye")
+```
 
 # Examples
 ## Eye stuff
@@ -91,17 +96,6 @@ ggplot() +
   scale_color_brewer(name = "Probs", palette = "Set1")
 ```
 
-## ggplot2 extensions
-### geom_trail
-A base plot type = "b" equivalent for ggplot. Works also with text!
-```{r trail}
-library(ggplot2)
-
-ggplot(pressure, aes(temperature, pressure)) +
-  geom_ribbon(aes(ymin = pressure - 50, ymax = pressure + 50), alpha = 0.2) +
-  geom_trail()
-```
-
 ### Calculate age
 Age calculated in years. Periods or duration possible. If only one argument, the age today.
 ```{r age, warning=FALSE, message=FALSE}
@@ -113,21 +107,21 @@ test_date <-  as.Date(dob) + c(15000, 20000)
 age(dob, test_date)
 ```
 
-### Anonymize your data 
-```{r anonymize, warning=FALSE, message=FALSE}
-
-```
-
 ### Save to csv 
 This is a convenience wrapper around write.csv
-```{r csv, warning=FALSE, message=FALSE}
-
+```{r csv, warning=FALSE, message=FALSE, eval = FALSE}
+csv(amd)
 ```
 
-# Installation 
-```{r, eval=FALSE}
-# for the development version 
-devtools::install_github("tjebo/eye")
+## ggplot2 extensions
+### geom_trail
+A base plot type = "b" equivalent for ggplot. Works also with text!
+```{r trail}
+library(ggplot2)
+
+ggplot(pressure, aes(temperature, pressure)) +
+  geom_ribbon(aes(ymin = pressure - 50, ymax = pressure + 50), alpha = 0.2) +
+  geom_trail()
 ```
 
 # References

@@ -15,9 +15,13 @@ csv(x, name = deparse(substitute(x)))
 wrapper around write.csv with default 'row.names = FALSE'.
 Will use the name of the data frame for the generated .csv file.
 }
+\examples{
+\dontrun{
+csv(amd)
+}
+}
 \seealso{
 Other convenience functions: 
-\code{\link{age}()},
-\code{\link{anonymize}()}
+\code{\link{age}()}
 }
 \concept{convenience functions}

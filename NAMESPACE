@@ -3,8 +3,6 @@
 S3method(makeContent,trail)
 export(GeomTrail)
 export(age)
-export(anonymise)
-export(anonymize)
 export(count_eyes)
 export(counteyes)
 export(csv)

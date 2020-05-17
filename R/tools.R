@@ -224,57 +224,6 @@ show_stats <- function(x, dec = 1, rownames = TRUE) {
   }
 }
 
-#' anonymize
-#' @name anonymize
-#' @aliases anonymise
-#' @description The function will anonymize your data.
-#' Modified from [this](https://stackoverflow.com/a/10455729/7941188) and [this](https://stackoverflow.com/a/10458688/7941188)
-#' post on Stackoverflow from user Etienne Low-Décarie and Gavin Simpson
-#' @param df data frame to anonymise
-#' @param simple_names logical, column names will be converted to letters. If FALSE, colString will be used for renaming
-#' @param replace_rownames if TRUE, replacement with string from rowString argument
-#' @family convenience functions
-#' @return Data frame
-#' @export
-
-anonymize <- function(df, simple_names = TRUE, replace_rownames = FALSE, colString = "var", rowString = "sample") {
-  level.id.df <- function(df) {
-    if (simple_names) {
-      if (length(df) > 26) {
-        LETTERS <- replicate(floor(length(df) / 26), {
-          LETTERS <- c(LETTERS, paste(LETTERS, LETTERS, sep = ""))
-        })
-      }
-      colnames(df) <- paste(LETTERS[1:length(df)])
-    } else {
-      colnames(df) <- paste(colString, seq_len(ncol(df)), sep = "")
-    }
-    level.id <- function(i) {
-      if (class(df[, i]) == "factor" | class(df[, i]) == "character") {
-        column <- paste(names(df)[i], as.numeric(as.factor(df[, i])), sep = "_")
-      } else if (is.numeric(df[, i])) {
-        column <- round(scale(df[, i]), 2)
-      } else {
-        column <- df[, i]
-      }
-      return(column)
-    }
-    DF <- data.frame(sapply(seq_along(df), level.id))
-    colnames(DF) <- colnames(df)
-    return(DF)
-  }
-  df <- level.id.df(df)
-  if (replace_rownames) {
-    rownames(df) <- paste(rowString, seq_len(nrow(df)), sep = "")
-  }
-  return(df)
-}
-
-#' anonymise
-#' @rdname anonymize
-#' @export
-anonymise <- anonymize
-
 #' csv
 #' @description wrapper around write.csv with default 'row.names = FALSE'.
 #' Will use the name of the data frame for the generated .csv file.
@@ -282,6 +231,10 @@ anonymise <- anonymize
 #' @param x data frame
 #' @param name Filename. Default: Name of dataframe to save as csv. Or character string (.csv extension added automatically)
 #' @family convenience functions
+#' @examples
+#' \dontrun{
+#' csv(amd)
+#' }
 #' @export
 
 csv <- function(x, name = deparse(substitute(x))) {

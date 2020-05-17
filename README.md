@@ -2,7 +2,7 @@
 
 # eye
 
-This package will help you work with eye data.
+See your data with a new eye.
 
 # Features
 
@@ -23,7 +23,6 @@ This package will help you work with eye data.
 
   - [Easy save of your data frame as csv](#save-to-csv)
   - [Calculate age](#calculate-age)
-  - Anonymize your data frame
 
 ### ggplot2 extensions
 
@@ -41,6 +40,13 @@ repository](https://datadryad.org/stash/dataset/doi:10.5061/dryad.97r9289).
 To reference this data in your publication, please kindly cite the
 corresponding article by Fasler and colleagues.(Fasler et al.
 [2019](#ref-fasler))
+
+# Get eye
+
+``` r
+# for the development version 
+devtools::install_github("tjebo/eye")
+```
 
 # Examples
 
@@ -70,29 +76,29 @@ mydf <- data.frame(x, y, z)
 
 show_stats(mylist)
 #>   mean  sd  n median  min max
-#> x -0.3 1.2 21   -0.4 -2.7 2.2
-#> y -0.3 1.2 21   -0.4 -2.7 2.2
-#> z -0.3 1.2 21   -0.4 -2.7 2.2
+#> x -0.2 1.1 21    0.1 -2.2 1.4
+#> y -0.2 1.1 21    0.1 -2.2 1.4
+#> z -0.2 1.1 21    0.1 -2.2 1.4
 show_stats(mydf)
 #>   mean  sd  n median  min max
-#> x -0.3 1.2 21   -0.4 -2.7 2.2
-#> y -0.3 1.2 21   -0.4 -2.7 2.2
-#> z -0.3 1.2 21   -0.4 -2.7 2.2
+#> x -0.2 1.1 21    0.1 -2.2 1.4
+#> y -0.2 1.1 21    0.1 -2.2 1.4
+#> z -0.2 1.1 21    0.1 -2.2 1.4
 
 # For an aggregation by group, split the data frame first
 mydf2 <- data.frame(group = rep(letters[1:2], each = 42), x, y, z)
 lapply(split(mydf2, mydf2$group), show_stats, rownames = FALSE)
 #> $a
 #>   var mean  sd  n median  min max
-#> 1   x -0.3 1.2 42   -0.4 -2.7 2.2
-#> 2   y -0.3 1.2 42   -0.4 -2.7 2.2
-#> 3   z -0.3 1.2 42   -0.4 -2.7 2.2
+#> 1   x -0.2 1.1 42    0.1 -2.2 1.4
+#> 2   y -0.2 1.1 42    0.1 -2.2 1.4
+#> 3   z -0.2 1.1 42    0.1 -2.2 1.4
 #> 
 #> $b
 #>   var mean  sd  n median  min max
-#> 1   x -0.3 1.2 42   -0.4 -2.7 2.2
-#> 2   y -0.3 1.2 42   -0.4 -2.7 2.2
-#> 3   z -0.3 1.2 42   -0.4 -2.7 2.2
+#> 1   x -0.2 1.1 42    0.1 -2.2 1.4
+#> 2   y -0.2 1.1 42    0.1 -2.2 1.4
+#> 3   z -0.2 1.1 42    0.1 -2.2 1.4
 ```
 
 ### Probability contours
@@ -116,22 +122,6 @@ ggplot() +
 
 ![](README-prob-1.png)<!-- -->
 
-## ggplot2 extensions
-
-### geom\_trail
-
-A base plot type = “b” equivalent for ggplot. Works also with text\!
-
-``` r
-library(ggplot2)
-
-ggplot(pressure, aes(temperature, pressure)) +
-  geom_ribbon(aes(ymin = pressure - 50, ymax = pressure + 50), alpha = 0.2) +
-  geom_trail()
-```
-
-![](README-trail-1.png)<!-- -->
-
 ### Calculate age
 
 Age calculated in years. Periods or duration possible. If only one
@@ -148,18 +138,29 @@ age(dob, test_date)
 #> [1] 41.1 54.8
 ```
 
-### Anonymize your data
-
 ### Save to csv
 
 This is a convenience wrapper around write.csv
 
-# Installation
+``` r
+csv(amd)
+```
+
+## ggplot2 extensions
+
+### geom\_trail
+
+A base plot type = “b” equivalent for ggplot. Works also with text\!
 
 ``` r
-# for the development version 
-devtools::install_github("tjebo/eye")
+library(ggplot2)
+
+ggplot(pressure, aes(temperature, pressure)) +
+  geom_ribbon(aes(ymin = pressure - 50, ymax = pressure + 50), alpha = 0.2) +
+  geom_trail()
 ```
+
+![](README-trail-1.png)<!-- -->
 
 # References
 

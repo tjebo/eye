@@ -26,7 +26,6 @@ age(dob, test_date)
 }
 \seealso{
 Other convenience functions: 
-\code{\link{anonymize}()},
 \code{\link{csv}()}
 }
 \concept{convenience functions}
