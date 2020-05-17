@@ -39,7 +39,6 @@ post on Stackoverflow from user Etienne Low-Décarie and Gavin Simpson
 \seealso{
 Other convenience functions: 
 \code{\link{csv}()},
-\code{\link{get_age}()},
-\code{\link{show_stats}()}
+\code{\link{get_age}()}
 }
 \concept{convenience functions}

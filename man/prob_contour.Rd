@@ -39,3 +39,8 @@ ggplot() +
   geom_polygon(data = df_contours, aes(x = x, y = y, color = prob), fill = NA) +
   scale_color_brewer(name = "Probs", palette = "Set1")
 }
+\seealso{
+Other stats functions: 
+\code{\link{show_stats}()}
+}
+\concept{stats functions}

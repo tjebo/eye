@@ -34,9 +34,7 @@ mydf2 <- data.frame(group = rep(letters[1:2], each = 42), x, y, z)
 lapply(split(mydf2, mydf2$group), show_stats, rownames = FALSE)
 }
 \seealso{
-Other convenience functions: 
-\code{\link{anonymize}()},
-\code{\link{csv}()},
-\code{\link{get_age}()}
+Other stats functions: 
+\code{\link{prob_contour}()}
 }
-\concept{convenience functions}
+\concept{stats functions}

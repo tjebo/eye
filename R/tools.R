@@ -135,7 +135,7 @@ get_age <- function(from_date, to_date = lubridate::now(), period = FALSE){
 #' @param dec how many decimals are displayed
 #' @param rownames if FALSE, column with variable names will be created
 #' @importFrom purrr partial
-#' @family convenience functions
+#' @family stats functions
 #' @return named vector (for vector) or data frame (for list)
 #' @examples
 #' x = y = z = c(rnorm(20), NA)
@@ -260,6 +260,7 @@ csv <- function(x, name = deparse(substitute(x))) {
 #' @param prob probability to be estimated
 #' @param n passed to [MASS::kde2d]
 #' @param ... further parameters passed to [MASS::kde2d]
+#' @family stats functions
 #' @export
 #' @examples
 #'

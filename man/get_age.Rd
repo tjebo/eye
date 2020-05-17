@@ -20,7 +20,6 @@ Slight modification of a function \href{https://stackoverflow.com/a/47529507/794
 \seealso{
 Other convenience functions: 
 \code{\link{anonymize}()},
-\code{\link{csv}()},
-\code{\link{show_stats}()}
+\code{\link{csv}()}
 }
 \concept{convenience functions}

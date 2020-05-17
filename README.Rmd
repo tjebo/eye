@@ -19,42 +19,43 @@ knitr::opts_chunk$set(
 This package will help you work with eye data. 
 
 # Features
-
-## Eye stuff
-
-### Conversion of visual acuity notations 
-
+## Only about the eye
 ### [Easy count of patients and eyes](#count-patients-and-eyes)
+### [Conversion of visual acuity notations](#va-conversion)
 
-## Beyond eye stuff
-
+## Beyond the eye
 ### Stats functions
-- Show common summary statistics
-- Calculate 2d probability contours for the use in ggplot2
-
+- [Show common summary statistics](#basic-statistics)
+- [Calculate 2d probability contours for the use in ggplot2](#probability-contours)
 ### Convenience functions: 
 - Save your data frame as csv 
 - Calculate age
 - Anonymize your data frame
-
 ### ggplot2 extensions 
-- geom_trail: Make a "base plot type = b" with ggplot
+- [geom_trail: A base plot type = "b" equivalent for ggplot2](#geom_trail)
 
 # Examples
 ## Eye stuff
 ### Count patients and eyes
-```{r example1, warning=FALSE, message=FALSE, results='hide'}
+```{r eyes, warning=FALSE, message=FALSE, results='hide'}
 
 ```
-### Get basic statistics
-```{r mpstats, warning=FALSE, message=FALSE}
+### VA conversion
+```{r va, warning=FALSE, message=FALSE, results='hide'}
 
 ```
-### Plot probability contours
-```{r example2, warning=FALSE, message=FALSE, results='hide'}
+## Beyond eye stuff
+### Basic statistics
+```{r stats, warning=FALSE, message=FALSE}
 
 ```
-### Make a "base plot type = b" with ggplot
+### Probability contours
+```{r prob, warning=FALSE, message=FALSE, results='hide'}
+
+```
+## ggplot2 extensions
+### geom_trail
+A base plot type = "b" equivalent for ggplot. Works also with text!
 ```{r trail}
 
 ```

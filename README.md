@@ -6,28 +6,24 @@ This package will help you work with eye data.
 
 # Features
 
-## Eye stuff
-
-### Conversion of visual acuity notations
+## Only about the eye
 
 ### [Easy count of patients and eyes](#count-patients-and-eyes)
 
-## Beyond eye stuff
+### [Conversion of visual acuity notations](#va-conversion)
+
+## Beyond the eye
 
 ### Stats functions
 
-  - Show common summary statistics
-  - Calculate 2d probability contours for the use in ggplot2
-
-### Convenience functions:
-
+  - [Show common summary statistics](#basic-statistics)
+  - [Calculate 2d probability contours for the use in
+    ggplot2](#probability-contours) \#\#\# Convenience functions:
   - Save your data frame as csv
   - Calculate age
-  - Anonymize your data frame
-
-### ggplot2 extensions
-
-  - geom\_trail: Make a “base plot type = b” with ggplot
+  - Anonymize your data frame \#\#\# ggplot2 extensions
+  - [geom\_trail: A base plot type = “b” equivalent for
+    ggplot2](#geom_trail)
 
 # Examples
 
@@ -35,11 +31,19 @@ This package will help you work with eye data.
 
 ### Count patients and eyes
 
-### Get basic statistics
+### VA conversion
 
-### Plot probability contours
+## Beyond eye stuff
 
-### Make a “base plot type = b” with ggplot
+### Basic statistics
+
+### Probability contours
+
+## ggplot2 extensions
+
+### geom\_trail
+
+A base plot type = “b” equivalent for ggplot. Works also with text\!
 
 ### Calculate age
 
