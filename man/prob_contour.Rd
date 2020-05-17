@@ -25,6 +25,7 @@ Modified from \href{https://stackoverflow.com/a/59173290/7941188}{this post} by 
 }
 \examples{
 
+library(ggplot2)
 set.seed(1)
 n=100
 foo <- data.frame(x=rnorm(n, 0, 1), y=rnorm(n, 0, 1))
@@ -34,7 +35,6 @@ df_contours <- dplyr::bind_rows(
 )
 
 ggplot() +
-  stat_density_2d(data = foo, aes(x, y), bins = 5, color = "black") +
   geom_point(data = foo, aes(x = x, y = y)) +
   geom_polygon(data = df_contours, aes(x = x, y = y, color = prob), fill = NA) +
   scale_color_brewer(name = "Probs", palette = "Set1")

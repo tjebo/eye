@@ -7,3 +7,14 @@
 \description{
 Analysis of eye data
 }
+\section{stats functions}{
+NA
+}
+
+\section{convenience functions}{
+NA
+}
+
+\author{
+
+}

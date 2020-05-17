@@ -264,6 +264,7 @@ csv <- function(x, name = deparse(substitute(x))) {
 #' @export
 #' @examples
 #'
+#' library(ggplot2)
 #' set.seed(1)
 #' n=100
 #' foo <- data.frame(x=rnorm(n, 0, 1), y=rnorm(n, 0, 1))
@@ -273,7 +274,6 @@ csv <- function(x, name = deparse(substitute(x))) {
 #' )
 #'
 #' ggplot() +
-#'   stat_density_2d(data = foo, aes(x, y), bins = 5, color = "black") +
 #'   geom_point(data = foo, aes(x = x, y = y)) +
 #'   geom_polygon(data = df_contours, aes(x = x, y = y, color = prob), fill = NA) +
 #'   scale_color_brewer(name = "Probs", palette = "Set1")
