@@ -1,4 +1,5 @@
 ---
+title: eye
 output:
   md_document:
     variant: gfm
@@ -109,7 +110,7 @@ csv(amd)
 ## ggplot2 extensions
 ### geom_trail
 A base plot type = "b" equivalent for ggplot. Works also with text!
-```{r trail, message=FALSE, out.width="90%"}
+```{r trail, message=FALSE, out.width="90%", fig.width=7, fig.height=4}
 library(ggplot2)
 library(dplyr)
 library(patchwork)
