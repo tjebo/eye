@@ -6,4 +6,5 @@
 #' @section stats functions
 #' @section convenience functions
 #' @examples
+#' data("amd")
 NULL

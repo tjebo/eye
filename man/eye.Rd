@@ -15,6 +15,9 @@ NA
 NA
 }
 
+\examples{
+data("amd")
+}
 \author{
 
 }
