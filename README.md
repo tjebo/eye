@@ -155,11 +155,9 @@ p1 <- p + geom_trail(aes(group = age_cut10))
 
 p2 <- p + geom_trail(aes(group = age_cut10), size = 0) +
           geom_text(aes(label = round(mean_va, 0)), show.legend = FALSE)
-
-p1 + p2
 ```
 
-<img src="README-trail-1.png" width="90%" />
+<img src="README-unnamed-chunk-3-1.png" width="45%" /><img src="README-unnamed-chunk-3-2.png" width="45%" />
 
 # References
 
