@@ -135,6 +135,7 @@ A base plot type = “b” equivalent for ggplot. Works also with text\!
 ``` r
 library(ggplot2)
 library(dplyr)
+library(patchwork)
 # data preparation
 amd_aggr <-
   amd %>%
@@ -150,20 +151,15 @@ p <-
     theme_classic() +
     labs(x = "Follow up time [Days]", y = "Mean VA [ETDRS letters]", color = "Age strata")
 
-p +
-  geom_trail(aes(group = age_cut10))
+p1 <- p + geom_trail(aes(group = age_cut10))
+
+p2 <- p + geom_trail(aes(group = age_cut10), size = 0) +
+          geom_text(aes(label = round(mean_va, 0)), show.legend = FALSE)
+
+p1 + p2
 ```
 
 <img src="README-trail-1.png" width="45%" />
-
-``` r
-
-p +
-  geom_trail(aes(group = age_cut10), size = 0) +
-  geom_text(aes(label = round(mean_va, 0)), show.legend = FALSE)
-```
-
-<img src="README-trail-2.png" width="45%" />
 
 # References
 
