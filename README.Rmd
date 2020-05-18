@@ -34,8 +34,8 @@ To reference this data in your publication, please kindly cite the corresponding
 
 ### Convenience functions: 
 - [See common summary statistics](#common-statistics)
-- [Easy save of your data frame as csv](#save-to-csv)
 - [Calculate age](#calculate-age)
+- [Conveniently save a data frame to csv](#save-to-csv)
 
 ### Catch eyes - ggplot2 extensions 
 - [geom_trail: A base plot type = "b" equivalent for ggplot2](#geom_trail)
@@ -55,16 +55,14 @@ eyes(amd)
 ```
 
 ### VA notation conversions
-```{r va, warning=FALSE, message=FALSE, results='hide'}
-
+```{r va, warning=FALSE, eval = FALSE, message=FALSE, results='hide'}
+# TBC
 ```
 
 ## Beyond the eye
 ### Common statistics
 ```{r stats, warning=FALSE, message=FALSE}
 amd_unq <- amd[!duplicated(amd$Id),]
-
-see(amd_unq$BaselineAge, dec = 1)
 
 see(amd_unq[c("BaselineAge", "VA_ETDRS_Letters", "FollowupDays")])
 ```

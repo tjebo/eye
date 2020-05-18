@@ -38,8 +38,8 @@ corresponding article by Fasler and colleagues.(Fasler et al.
 ### Convenience functions:
 
   - [See common summary statistics](#common-statistics)
-  - [Easy save of your data frame as csv](#save-to-csv)
   - [Calculate age](#calculate-age)
+  - [Conveniently save a data frame to csv](#save-to-csv)
 
 ### Catch eyes - ggplot2 extensions
 
@@ -70,16 +70,16 @@ eyes(amd)
 
 ### VA notation conversions
 
+``` r
+# TBC
+```
+
 ## Beyond the eye
 
 ### Common statistics
 
 ``` r
 amd_unq <- amd[!duplicated(amd$Id),]
-
-see(amd_unq$BaselineAge, dec = 1)
-#>   mean  sd    n median min max
-#> 1 78.3 9.1 3357     79  60  99
 
 see(amd_unq[c("BaselineAge", "VA_ETDRS_Letters", "FollowupDays")])
 #>                  mean   sd    n median min max
