@@ -3,7 +3,14 @@ eye
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-See your data with a new eye.
+See more with eye.
+
+eye is a package dedicated to facilitate ophtalmic research. Its two
+core functions help with very common tasks (counting patients and eyes,
+visual acuity notation conversions). It contains a well curated [real
+life data set](#amd-data) and some functions beyond ophtalmology, which
+could make your data analysis a tiny bit more convenient. Finally, there
+are also a few ggplot2 extensions to make some nice graphs.
 
 # Features
 
@@ -58,7 +65,7 @@ devtools::install_github("tjebo/eye")
 ``` r
 eyes(amd)
 #> Warning: Eyes are coded 0/1 or 1/2. Interpreting r = 0 or 1, respectively
-#> patients     eyes  right.0   left.1 
+#> patients     eyes    right     left 
 #>     3357     3357     1681     1676
 ```
 

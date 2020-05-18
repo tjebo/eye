@@ -16,7 +16,9 @@ knitr::opts_chunk$set(
 library(eye)
 ```
 
-See your data with a new eye. 
+See more with eye. 
+
+eye is a package dedicated to facilitate ophtalmic research. Its two core functions help with very common tasks (counting patients and eyes, visual acuity notation conversions). It contains a well curated [real life data set](#amd-data) and some functions beyond ophtalmology, which could make your data analysis a tiny bit more convenient. Finally, there are also a few ggplot2 extensions to make some nice graphs. 
 
 # Features
 ## Pure ophthalmology
