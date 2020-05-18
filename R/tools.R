@@ -194,7 +194,7 @@ see <- function(x, dec = 1, dataframe = TRUE) {
   funs <- list(
     mean = function(x) mean(x, na.rm = TRUE),
     sd = function(x) sd(x, na.rm = TRUE),
-    length = length,
+    n = length,
     median = function(x) median(x, na.rm = TRUE),
     min = function(x) min(x, na.rm = TRUE),
     max = function(x) max(x, na.rm = TRUE)

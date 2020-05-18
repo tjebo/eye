@@ -16,14 +16,17 @@ knitr::opts_chunk$set(
 library(eye)
 ```
 
-# eye
-
 See your data with a new eye. 
 
 # Features
-## Only about the eye
+## Pure ophthalmology
 - [Easy count of patients and eyes](#count-patients-and-eyes)
 - [Conversion of visual acuity notations](#va-conversion)
+
+### AMD data 
+Anonymised [real life data from a large cohort](https://datadryad.org/stash/dataset/doi:10.5061/dryad.97r9289) of patients with treatment-naive neovascular age-related macular degeneration (AMD) who received intravitreal anti-VEGF therapy in Moorfields Eye Hospital, London, UK. 
+
+To reference this data in your publication, please kindly cite the corresponding article by Fasler and colleagues.[@fasler] 
 
 ## Beyond the eye
 ### Stats functions
@@ -37,12 +40,7 @@ See your data with a new eye.
 ### ggplot2 extensions 
 - [geom_trail: A base plot type = "b" equivalent for ggplot2](#geom_trail)
 
-## AMD data 
-Real life anonymised human subject data from a large cohort of patients with treatment-naive neovascular age-related macular degeneration (AMD) that received intravitreal anti-VEGF therapy. The data is from Moorfields Eye Hospital, London, UK and was made available [on a public repository](https://datadryad.org/stash/dataset/doi:10.5061/dryad.97r9289). 
-
-To reference this data in your publication, please kindly cite the corresponding article by Fasler and colleagues.[@fasler] 
-
-# Get eye 
+# Get "eye"
 ```{r, eval=FALSE}
 # for the development version 
 devtools::install_github("tjebo/eye")

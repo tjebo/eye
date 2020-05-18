@@ -3,16 +3,26 @@ eye
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# eye
-
 See your data with a new eye.
 
 # Features
 
-## Only about the eye
+## Pure ophthalmology
 
   - [Easy count of patients and eyes](#count-patients-and-eyes)
   - [Conversion of visual acuity notations](#va-conversion)
+
+### AMD data
+
+Anonymised [real life data from a large
+cohort](https://datadryad.org/stash/dataset/doi:10.5061/dryad.97r9289)
+of patients with treatment-naive neovascular age-related macular
+degeneration (AMD) who received intravitreal anti-VEGF therapy in
+Moorfields Eye Hospital, London, UK.
+
+To reference this data in your publication, please kindly cite the
+corresponding article by Fasler and colleagues.(Fasler et al.
+[2019](#ref-fasler))
 
 ## Beyond the eye
 
@@ -32,19 +42,7 @@ See your data with a new eye.
   - [geom\_trail: A base plot type = “b” equivalent for
     ggplot2](#geom_trail)
 
-## AMD data
-
-Real life anonymised human subject data from a large cohort of patients
-with treatment-naive neovascular age-related macular degeneration (AMD)
-that received intravitreal anti-VEGF therapy. The data is from
-Moorfields Eye Hospital, London, UK and was made available [on a public
-repository](https://datadryad.org/stash/dataset/doi:10.5061/dryad.97r9289).
-
-To reference this data in your publication, please kindly cite the
-corresponding article by Fasler and colleagues.(Fasler et al.
-[2019](#ref-fasler))
-
-# Get eye
+# Get “eye”
 
 ``` r
 # for the development version 
@@ -74,14 +72,14 @@ eyes(amd)
 amd_unq <- amd[!duplicated(amd$Id),]
 
 see(amd_unq$BaselineAge, dec = 1)
-#>   mean  sd length median min max
-#> 1 78.3 9.1   3357     79  60  99
+#>   mean  sd    n median min max
+#> 1 78.3 9.1 3357     79  60  99
 
 see(amd_unq[c("BaselineAge", "VA_ETDRS_Letters", "FollowupDays")])
-#>                  mean   sd length median min max
-#> BaselineAge      78.3  9.1   3357     79  60  99
-#> VA_ETDRS_Letters 56.3 14.7   3357     58   0  92
-#> FollowupDays      0.1  3.1   3357      0   0 168
+#>                  mean   sd    n median min max
+#> BaselineAge      78.3  9.1 3357     79  60  99
+#> VA_ETDRS_Letters 56.3 14.7 3357     58   0  92
+#> FollowupDays      0.1  3.1 3357      0   0 168
 ```
 
 ### Probability contours
