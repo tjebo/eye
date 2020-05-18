@@ -1,3 +1,6 @@
+eye
+================
+
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 # eye
@@ -135,7 +138,6 @@ A base plot type = “b” equivalent for ggplot. Works also with text\!
 ``` r
 library(ggplot2)
 library(dplyr)
-library(patchwork)
 # data preparation
 amd_aggr <-
   amd %>%
@@ -143,7 +145,7 @@ amd_aggr <-
     age_cut10 = cut_width(BaselineAge, 10),
     days_cut90 = cut_width(FollowupDays, 90, labels = seq(0, 810, 90))
   ) %>%
-  summarise(mean_va = mean(VA_ETDRS_Letters))
+  summarise(mean_va = mean(VA_ETDRS_Letters)) 
 
 # plot
 p <-
@@ -157,7 +159,13 @@ p2 <- p + geom_trail(aes(group = age_cut10), size = 0) +
           geom_text(aes(label = round(mean_va, 0)), show.legend = FALSE)
 ```
 
-<img src="README-unnamed-chunk-3-1.png" width="45%" /><img src="README-unnamed-chunk-3-2.png" width="45%" />
+``` r
+p1 
+
+p2
+```
+
+<img src="README-unnamed-chunk-4-1.png" width="45%" /><img src="README-unnamed-chunk-4-2.png" width="45%" />
 
 # References
 
