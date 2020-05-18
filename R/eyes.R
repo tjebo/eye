@@ -50,7 +50,11 @@ eyes <- function(data, id = NULL, eye = NULL, text = FALSE) {
       if (!(all(eye_integ %in% 0:1) | all(eye_integ %in% 1:2))) {
         stop("Eye coding ambiguous - guessing failed! Please clean data", call. = FALSE)
       } else {
-        message("Eyes are coded 0:1 or 1:2. Interpreting as r:l")
+        if(all(eye_integ %in% 0:1)){
+        message("Eyes coded 0:1. Interpreting as r = 0")
+        } else if(all(eye_integ %in% 1:2)){
+          message("Eyes coded 1:2. Interpreting as r = 1")
+        }
         if(eye_char){
           warning("Eye coding ambiguous - characters omitted", call. = FALSE )
         }

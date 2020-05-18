@@ -63,7 +63,7 @@ devtools::install_github("tjebo/eye")
 
 ``` r
 eyes(amd)
-#> Eyes are coded 0:1 or 1:2. Interpreting as r:l
+#> Eyes coded 0:1. Interpreting as r = 0
 #> patients     eyes    right     left 
 #>     3357     3357     1681     1676
 ```
