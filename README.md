@@ -6,40 +6,38 @@ eye
 See more with eye.
 
 eye is a package dedicated to facilitate ophtalmic research. Its two
-core functions
-[`eyes()`](https://github.com/tjebo/eye/blob/master/R/eyes.R) and `va()`
-help with very common tasks (counting patients and eyes, visual acuity
-notation conversions). It contains a well curated [real life data
-set](#amd-data) and some functions beyond ophtalmology, which could make
-your data analysis a tiny bit more convenient. Finally, there are also a
-few ggplot2 extensions to make some nice graphs.
+core functions [`eyes()`](#eyes) and [`va()`](#va) help with very common
+tasks (counting patients and eyes, visual acuity notation conversions).
+It contains a well curated [real life data set](#amd-data) and some
+functions beyond ophtalmology, which could make your data analysis a
+tiny bit more convenient. Finally, there are also a few ggplot2
+extensions to make some nice graphs.
 
 # Features
 
 ## Pure ophthalmology
 
-  - [Easy count of patients and eyes](#count-patients-and-eyes)
-  - [Conversion of visual acuity notations](#va-conversion)
+  - [Easy count of patients and eyes](#eyes)
+  - [Conversion of visual acuity notations](#va)
 
 ### AMD data
 
-Anonymised [real life data from a large
-cohort](https://datadryad.org/stash/dataset/doi:10.5061/dryad.97r9289)
-of patients with treatment-naive neovascular age-related macular
-degeneration (AMD) who received intravitreal anti-VEGF therapy in
-Moorfields Eye Hospital, London, UK.
-
-To reference this data in your publication, please kindly cite the
-corresponding article by Fasler and colleagues.(Fasler et al.
-[2019](#ref-fasler))
+  - Anonymised [real life data from a large
+    cohort](https://datadryad.org/stash/dataset/doi:10.5061/dryad.97r9289)
+    of patients with treatment-naive neovascular age-related macular
+    degeneration (AMD) who received intravitreal anti-VEGF therapy in
+    Moorfields Eye Hospital, London, UK.
+  - To reference this data in your publication, please kindly cite the
+    corresponding article by Fasler and colleagues.(Fasler et al.
+    [2019](#ref-fasler))
 
 ## Beyond the eye
 
 ### Convenience functions:
 
-  - [See common summary statistics](#common-statistics)
-  - [Calculate age](#calculate-age)
-  - [Conveniently save a data frame to csv](#save-to-csv)
+  - [See common summary statistics](#see)
+  - [Calculate age](#age)
+  - [Conveniently save a data frame to csv](#csv)
 
 ### Catch eyes - ggplot2 extensions
 
@@ -59,7 +57,10 @@ devtools::install_github("tjebo/eye")
 
 ## Pure eye stuff - core eye functions
 
-### Count patients and eyes
+### eyes
+
+Count patient and eyes.
+[source](https://github.com/tjebo/eye/blob/master/R/eyes.R)
 
 ``` r
 eyes(amd)
@@ -68,7 +69,9 @@ eyes(amd)
 #>     3357     3357     1681     1676
 ```
 
-### VA notation conversions
+### va
+
+Visual acuity notation conversion
 
 ``` r
 # TBC
@@ -76,7 +79,9 @@ eyes(amd)
 
 ## Beyond the eye
 
-### Common statistics
+### see
+
+Show common statistics
 
 ``` r
 amd_unq <- amd[!duplicated(amd$Id),]
@@ -88,10 +93,13 @@ see(amd_unq[c("BaselineAge", "VA_ETDRS_Letters", "FollowupDays")])
 #> FollowupDays      0.1  3.1 3357      0   0 168
 ```
 
-### Calculate age
+### age
 
-Age calculated in years. Periods or duration possible. If only one
-argument, the age today.
+  - Calculate age in years, as [periods or
+    durations](https://lubridate.tidyverse.org/articles/lubridate.html#time-intervals)
+  - If only the start date given, calculating the age today.
+
+<!-- end list -->
 
 ``` r
 age("1984-10-16")
@@ -104,9 +112,12 @@ age(dob, test_date)
 #> [1] 41.1 54.8
 ```
 
-### Save to csv
+### csv
 
-This is a convenience wrapper around write.csv
+  - A convenience wrapper around `write.csv`. Saves a .csv file with the
+    name of the data frame, or with a different name.
+
+<!-- end list -->
 
 ``` r
 csv(amd)
