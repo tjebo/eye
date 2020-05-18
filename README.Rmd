@@ -31,11 +31,9 @@ Anonymised [real life data from a large cohort](https://datadryad.org/stash/data
 To reference this data in your publication, please kindly cite the corresponding article by Fasler and colleagues.[@fasler] 
 
 ## Beyond the eye
-### Stats functions
-- [Show common summary statistics](#basic-statistics)
-- [Calculate 2d probability contours for the use in ggplot2](#probability-contours)
 
 ### Convenience functions: 
+- [See common summary statistics](#common-statistics)
 - [Easy save of your data frame as csv](#save-to-csv)
 - [Calculate age](#calculate-age)
 
@@ -52,7 +50,7 @@ devtools::install_github("tjebo/eye")
 # Examples
 ## Pure eye stuff - core eye functions 
 ### Count patients and eyes
-```{r eyes, warning=TRUE, message=FALSE}
+```{r eyes}
 eyes(amd)
 ```
 
@@ -69,24 +67,6 @@ amd_unq <- amd[!duplicated(amd$Id),]
 see(amd_unq$BaselineAge, dec = 1)
 
 see(amd_unq[c("BaselineAge", "VA_ETDRS_Letters", "FollowupDays")])
-```
-
-### Probability contours
-```{r prob, warning=FALSE, message=FALSE, results='hide'}
-library(ggplot2)
-
-set.seed(1)
-n=100
-foo <- data.frame(x=rnorm(n, 0, 1), y=rnorm(n, 0, 1))
-
-df_contours <- dplyr::bind_rows(
-  purrr::map(seq(0.2, 0.8, 0.2), function(p) prob_contour(foo, prob = p))
-)
-
-ggplot() +
-  geom_point(data = foo, aes(x = x, y = y)) +
-  geom_polygon(data = df_contours, aes(x = x, y = y, color = prob), fill = NA) +
-  scale_color_brewer(name = "Probs", palette = "Set1")
 ```
 
 ### Calculate age
@@ -141,7 +121,6 @@ p2
 p1
 p2
 ```
-
 
 # References
 

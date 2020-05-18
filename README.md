@@ -35,14 +35,9 @@ corresponding article by Fasler and colleagues.(Fasler et al.
 
 ## Beyond the eye
 
-### Stats functions
-
-  - [Show common summary statistics](#basic-statistics)
-  - [Calculate 2d probability contours for the use in
-    ggplot2](#probability-contours)
-
 ### Convenience functions:
 
+  - [See common summary statistics](#common-statistics)
   - [Easy save of your data frame as csv](#save-to-csv)
   - [Calculate age](#calculate-age)
 
@@ -68,6 +63,7 @@ devtools::install_github("tjebo/eye")
 
 ``` r
 eyes(amd)
+#> Eyes are coded 0:1 or 1:2. Interpreting as r:l
 #> patients     eyes    right     left 
 #>     3357     3357     1681     1676
 ```
@@ -91,27 +87,6 @@ see(amd_unq[c("BaselineAge", "VA_ETDRS_Letters", "FollowupDays")])
 #> VA_ETDRS_Letters 56.3 14.7 3357     58   0  92
 #> FollowupDays      0.1  3.1 3357      0   0 168
 ```
-
-### Probability contours
-
-``` r
-library(ggplot2)
-
-set.seed(1)
-n=100
-foo <- data.frame(x=rnorm(n, 0, 1), y=rnorm(n, 0, 1))
-
-df_contours <- dplyr::bind_rows(
-  purrr::map(seq(0.2, 0.8, 0.2), function(p) prob_contour(foo, prob = p))
-)
-
-ggplot() +
-  geom_point(data = foo, aes(x = x, y = y)) +
-  geom_polygon(data = df_contours, aes(x = x, y = y, color = prob), fill = NA) +
-  scale_color_brewer(name = "Probs", palette = "Set1")
-```
-
-![](README-prob-1.png)<!-- -->
 
 ### Calculate age
 
