@@ -29,33 +29,35 @@ eyes <- function(data, id = NULL, eye = NULL, text = FALSE) {
   }
 
   if (length(eye_col) > 1 | length(pat_col) > 1) {
-    stop("Could not identify patient or eye column -
-         there seem to be more than one variable containing the strings \"eye\" or \"id\".
-         Fix with the id or eye argument", call. = FALSE)
+    stop("Could not identify patient or eye column - fix with \"id\" or \"eye\" argument", call. = FALSE)
   }
 
   n_pat <- length(unique(x[[pat_col]]))
 
   if (length(eye_col) < 1 | identical(eye_col, character(0))) {
-    message("No eye column found in data: Only patients counted.")
+    message("No eye column found: Only patients counted.")
     return(c(patients = n_pat))
+
   } else if (length(eye_col) == 1) {
     eye_int <- suppressWarnings(unique(as.integer(x[[eye_col]])))
+    eye_integ <- eye_int[!is.na(eye_int)]
+    eye_char <- as.logical(sum(is.na(eye_int)))
 
-    if (length(eye_int) > 2) {
-      stop("There are more than 2 numeric codes for eyes. Clean your data", call. = FALSE)
-    } else if (length(eye_int) == 2) {
-      if (!(all(eye_int %in% 0:1) | all(eye_int %in% 1:2))) {
-        stop("Eyes are numerically coded, but coding is not 0/1 or 1/2.
-           Please change the codes for eyes.", call. = FALSE)
+    if (length(eye_integ) > 2 | length(eye_integ) == 1) {
+      stop("Eye coding ambiguous - guessing failed! Please clean data", call. = FALSE)
+    } else if (length(eye_integ) == 2) {
+      # return(eye_int)
+      if (!(all(eye_integ %in% 0:1) | all(eye_integ %in% 1:2))) {
+        stop("Eye coding ambiguous - guessing failed! Please clean data", call. = FALSE)
       } else {
-        message("Eyes are numerically coded. Interpreting r = 0 or 1, respectively")
-      }
-    } else if (is.na(eye_col)) {
+        message("Eyes are coded 0:1 or 1:2. Interpreting as r:l")
+        if(eye_char){
+          warning("Eye coding ambiguous - characters omitted", call. = FALSE )
+        }
+        }
+        } else if (eye_char) {
       if (!all(tolower(unique(x[[eye_col]])) %in% c(NA, "r", "l", "re", "le", "od", "os"))) {
-        stop("Eyes not coded clearly.
-          Must be either integers 0/1 or 1/2 or characters c(\"r\", \"l\", \"re\", \"le\", \"od\", \"os\") -
-             any cases allowed!", call. = FALSE)
+        stop("Eye coding ambiguous - guessing failed! Please clean data", call. = FALSE)
       }
     }
     if (sum(is.na(x[[eye_col]]) > 0)) {
@@ -73,7 +75,7 @@ eyes <- function(data, id = NULL, eye = NULL, text = FALSE) {
         paste_fac <- function(x) {
           paste(x, collapse = ",")
         }
-        warning("Eye coding ambiguous - guessing! Recommend to clean data", call. = FALSE
+        message("Eye coding somewhat messy - recommend cleaning"
         )
       }
       n_r <- sum(colSums(tab_r))

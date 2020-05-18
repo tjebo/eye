@@ -6,11 +6,13 @@ eye
 See more with eye.
 
 eye is a package dedicated to facilitate ophtalmic research. Its two
-core functions help with very common tasks (counting patients and eyes,
-visual acuity notation conversions). It contains a well curated [real
-life data set](#amd-data) and some functions beyond ophtalmology, which
-could make your data analysis a tiny bit more convenient. Finally, there
-are also a few ggplot2 extensions to make some nice graphs.
+core functions
+[`eyes()`](https://github.com/tjebo/eye/blob/master/R/eyes.R) and `va()`
+help with very common tasks (counting patients and eyes, visual acuity
+notation conversions). It contains a well curated [real life data
+set](#amd-data) and some functions beyond ophtalmology, which could make
+your data analysis a tiny bit more convenient. Finally, there are also a
+few ggplot2 extensions to make some nice graphs.
 
 # Features
 
@@ -44,12 +46,14 @@ corresponding article by Fasler and colleagues.(Fasler et al.
   - [Easy save of your data frame as csv](#save-to-csv)
   - [Calculate age](#calculate-age)
 
-### ggplot2 extensions
+### Catch eyes - ggplot2 extensions
 
   - [geom\_trail: A base plot type = “b” equivalent for
     ggplot2](#geom_trail)
 
-# Get “eye”
+# Install eye
+
+Currently only on github.
 
 ``` r
 # for the development version 
@@ -58,7 +62,7 @@ devtools::install_github("tjebo/eye")
 
 # Examples
 
-## Eye stuff
+## Pure eye stuff - core eye functions
 
 ### Count patients and eyes
 
@@ -69,9 +73,9 @@ eyes(amd)
 #>     3357     3357     1681     1676
 ```
 
-### VA conversion
+### VA notation conversions
 
-## Beyond eye stuff
+## Beyond the eye
 
 ### Common statistics
 
