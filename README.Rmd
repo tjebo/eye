@@ -152,9 +152,8 @@ p2
 
 # Acknowledgements
 - Thanks to Siegfried Wagner and Abraham Olvera, for their help with VA conversion
-- Thanks to Tim Yap for helping to find typos. All remaining typos are entirely his responsability.
-- Thanks to Hadley Wickham and his development tools, (in particular roxygen2, usethis, testthis, and devtools) without I would have never been able to make this package.
-
+- Thanks to Tim Yap for helping find typos. All remaining typos are entirely his fault.
+- Thanks to Hadley Wickham! Many of the functions in my package rely on the `tidyverse` package, but I would never have been able to make this package without his development tools `roxygen2`, `usethis`, `testthis` and `devtools`.
 
 # References
 
