@@ -5,7 +5,7 @@ eye
 
 See more with eye.
 
-eye is a package dedicated to facilitate ophtalmic research. Its two
+eye is a package dedicated to facilitate ophthalmic research. Its two
 core functions [`eyes()`](#eyes) and [`va()`](#va) help with very common
 tasks (counting patients and eyes, visual acuity notation conversions).
 It contains a well curated [real life data set](#amd-data) and some
@@ -75,6 +75,67 @@ Visual acuity notation conversion
 
 ``` r
 # TBC
+```
+
+### myop
+
+Make your data long (myope). Convenience wrapper around
+`tidyr::pivot_longer`
+
+``` r
+set.seed(42)
+iop <- data.frame(id = letters[1:3], r = sample(11:13), l = sample(14:16))
+
+myop(iop, values_to = "iop")
+#> # A tibble: 6 x 3
+#>   id    eye     iop
+#>   <chr> <chr> <int>
+#> 1 a     r        11
+#> 2 a     l        14
+#> 3 b     r        13
+#> 4 b     l        15
+#> 5 c     r        12
+#> 6 c     l        16
+```
+
+Often enough, data is a bit messy and there are right eye / left eye
+columns for more than one variable, e.g., for both IOP and VA. The
+following example shows one way to clean up this mess.
+
+``` r
+library(dplyr)
+#> 
+#> Attaching package: 'dplyr'
+#> The following objects are masked from 'package:stats':
+#> 
+#>     filter, lag
+#> The following objects are masked from 'package:base':
+#> 
+#>     intersect, setdiff, setequal, union
+iop_va <- data.frame(id = letters[1:3], 
+                     iop_r = sample(11:13), iop_l = sample(11:13),
+                     va_r = sample(41:43), va_l = sample(41:43))
+iop_va
+#>   id iop_r iop_l va_r va_l
+#> 1  a    12    13   41   42
+#> 2  b    13    12   43   43
+#> 3  c    11    11   42   41
+# use myope twice on both iop and va columns
+iop_long <- myop(iop_va, cols = c("iop_r", "iop_l"), values_to = "iop") 
+va_long <- myop(iop_va, cols = c("va_r", "va_l"), values_to = "va") 
+# full join both data frames
+iop_va_clean <- full_join(iop_long, va_long, by = c("id", "eye")) %>%
+  select(id, eye, va, iop)
+head(iop_va_clean)
+#> # A tibble: 6 x 4
+#>   id    eye      va   iop
+#>   <chr> <chr> <int> <int>
+#> 1 a     r        41    12
+#> 2 a     l        42    13
+#> 3 b     r        43    13
+#> 4 b     l        43    12
+#> 5 c     r        42    11
+#> 6 c     l        41    11
 ```
 
 ## Beyond the eye
@@ -160,6 +221,16 @@ p2
 ```
 
 <img src="README-unnamed-chunk-4-1.png" width="45%" /><img src="README-unnamed-chunk-4-2.png" width="45%" />
+
+# Acknowledgements
+
+  - Thanks to Siegfried Wagner and Abraham Olvera, for their help with
+    VA conversion
+  - Thanks to Tim Yap for helping to find typos. All remaining typos are
+    entirely his responsability.
+  - Thanks to Hadley Wickham and his development tools, (in particular
+    roxygen2, usethis, testthis, and devtools) without I would have
+    never been able to make this package.
 
 # References
 

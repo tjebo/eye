@@ -94,7 +94,7 @@ eyes <- function(data, id = NULL, eye = NULL, text = FALSE) {
   }
 }
 
-#' count_eyes
+#' counteyes
 #' @rdname eyes
 #' @export
 counteyes <- eyes
@@ -103,3 +103,99 @@ counteyes <- eyes
 #' @rdname eyes
 #' @export
 count_eyes <- eyes
+
+#' long eye data
+#' @description Wrapper around [tidyr::pivot_longer()] to make your data
+#' long ("myope")
+#' @name myop
+#' @param x data frame
+#' @param cols Eye columns either automatic or with vector of two - see details
+#' @param eye_code Vector of two with right eye coded first.
+#' @param values_to passed to [tidyr::pivot_longer()]
+#' @param names_to passed to [tidyr::pivot_longer()]
+#' @param ... other arguments passed to [tidyr::pivot_longer()]
+#' @details
+#' - **cols**: if not specified, `myop()` will look for columns that have
+#' typical eye codes, i.e. c("r", "re" and "od") for right eyes and
+#' c("l", "le" and "os") for left eyes.
+#' - if argument specified, right eye has to be given first!
+#' - **eye_code**: numeric codes of 0:1 or 1:2 are allowed, other
+#' numeric codes are not supported.
+#' @eye_code
+#' @import tidyr
+#' @examples
+#' set.seed(42)
+#' iop <- data.frame(id = letters[1:11], r = sample(10:20), l = sample(10:20))
+#'
+#' myop(iop, values_to = "iop")
+#'
+#' # Example to clean a messy data frame
+#' iop_va <- data.frame(id = letters[1:11],
+#'                      iop_r = sample(10:20), iop_l = sample(10:20),
+#'                      va_r = sample(40:50), va_l = sample(40:50))
+#' head(iop_va)
+#' # use myope twice on both iop and va columns
+#' iop_long <- myop(iop_va, cols = c("iop_r", "iop_l"), values_to = "iop")
+#' va_long <- myop(iop_va, cols = c("va_r", "va_l"), values_to = "va")
+#' # full join both data frames
+#' iop_va_clean <- full_join(iop_long, va_long, by = c("id", "eye")) %>%
+#'   select(id, eye, va, iop)
+#' head(iop_va_clean)
+#'
+#' @export
+
+myop <- function(x, cols, values_to, names_to = "eye", eye_code = c("r", "l"), ...) {
+  eye_r <- c("r", "re", "od")
+  if (missing(values_to)) {
+    values_to <- "value"
+  }
+  if (length(values_to) > 1) {
+    stop("Only one value should be provided")
+  }
+  eye_l <- c("l", "le", "os")
+  if (eye_code[1] %in% eye_l | eye_code[2] %in% eye_r) {
+    stop("right eyes need to be coded first", call. = FALSE)
+  }
+  if (identical(eye_code, 0:1) | identical(eye_code, 1:2)) {
+    message("Consider characters instead of numeric eye coding. Converted to characters")
+    eye_code <- as.character(eye_code)
+  } else if (!eye_code[1] %in% eye_r | !eye_code[2] %in% eye_l) {
+    if (sum(!is.na(as.integer(eye_code))) > 0) {
+      stop("Numeric coding apart from 0:1 or 1:2 not supported", .call = FALSE)
+    }
+    warning("Very unusual way of coding for eyes", call. = FALSE)
+  }
+  if (missing(cols)) {
+    low_col <- tolower(names(x))
+    col_r <- low_col[low_col %in% eye_r]
+    col_l <- low_col[low_col %in% eye_l]
+    if (length(col_r) != 1 | length(col_l) != 1) {
+      stop("Eye columns ambiguous. Fix with cols argument or change variables names", call. = FALSE)
+    }
+    names(x)[names(x) %in% c(col_r, col_l)] <- eye_code
+    cols <- rlang::expr(c(eye_code[1], eye_code[2]))
+  } else {
+    if(length(cols)!=2){
+      stop("Two variables have to be specified.", call. = FALSE)
+    }
+    names(x)[names(x) %in% c(cols[1], cols[2])] <- eye_code
+    cols <- rlang::expr(c(eye_code[1], eye_code[2]))
+  }
+  tidyr::pivot_longer(x, cols = !!cols, names_to = names_to, values_to = values_to, ...)
+
+}
+
+#' myope
+#' @rdname myop
+#' @export
+myope <- myop
+
+#' myopise
+#' @rdname myop
+#' @export
+myopise <- myop
+
+#' myopize
+#' @rdname myop
+#' @export
+myopize <- myop
