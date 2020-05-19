@@ -19,6 +19,7 @@ extensions to make some nice graphs.
 
   - [Easy count of patients and eyes](#eyes)
   - [Conversion of visual acuity notations](#va)
+  - [Make your eye data long](#myop)
 
 ### AMD data
 
@@ -98,34 +99,29 @@ myop(iop, values_to = "iop")
 #> 6 c     l        16
 ```
 
-Often enough, data is a bit messy and there are right eye / left eye
-columns for more than one variable, e.g., for both IOP and VA. The
-following example shows one way to clean up this mess.
+Often enough, data can be a bit messy and there are right eye / left eye
+columns for more than one variable, e.g., for both IOP and VA.
+
+The following example shows one way to clean up this mess.
 
 ``` r
 library(dplyr)
-#> 
-#> Attaching package: 'dplyr'
-#> The following objects are masked from 'package:stats':
-#> 
-#>     filter, lag
-#> The following objects are masked from 'package:base':
-#> 
-#>     intersect, setdiff, setequal, union
-iop_va <- data.frame(id = letters[1:3], 
-                     iop_r = sample(11:13), iop_l = sample(11:13),
-                     va_r = sample(41:43), va_l = sample(41:43))
+iop_va <- data.frame(id = letters[1:3], iop_r = sample(11:13), iop_l = sample(11:13), va_r = sample(41:43), va_l = sample(41:43))
 iop_va
 #>   id iop_r iop_l va_r va_l
 #> 1  a    12    13   41   42
 #> 2  b    13    12   43   43
 #> 3  c    11    11   42   41
+
 # use myope twice on both iop and va columns
 iop_long <- myop(iop_va, cols = c("iop_r", "iop_l"), values_to = "iop") 
 va_long <- myop(iop_va, cols = c("va_r", "va_l"), values_to = "va") 
+
 # full join both data frames
-iop_va_clean <- full_join(iop_long, va_long, by = c("id", "eye")) %>%
+iop_va_clean <- 
+  full_join(iop_long, va_long, by = c("id", "eye")) %>%
   select(id, eye, va, iop)
+
 head(iop_va_clean)
 #> # A tibble: 6 x 4
 #>   id    eye      va   iop
