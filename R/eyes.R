@@ -5,6 +5,7 @@
 #' @param id id column. If not specified, automatically selected. In this case, the patient ID column name needs to contain the strings "pat" OR "id" ignore.case = TRUE.
 #' @param eye eye colum. If not specified, automatically selected, in which case the eye column name needs to contain the string "eye" ignore.case = TRUE
 #' @param text default = FALSE (TRUE will return text which can be pasted for example into a markdown document). As default a named vector will be returned
+#' @family ophthalmic functions
 #' @examples
 #' eyes(amd)
 #' @export
@@ -121,7 +122,6 @@ count_eyes <- eyes
 #' - if argument specified, right eye has to be given first!
 #' - **eye_code**: numeric codes of 0:1 or 1:2 are allowed, other
 #' numeric codes are not supported.
-#' @eye_code
 #' @import tidyr
 #' @examples
 #' set.seed(42)

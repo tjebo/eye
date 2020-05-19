@@ -1,6 +1,6 @@
 #' eye
 #' @name eye
-#' @author
+#' @author Tjebo Heeren
 #' @description Analysis of eye data
 #' @docType package
 #' @section stats functions

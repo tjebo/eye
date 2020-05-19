@@ -27,3 +27,4 @@ Looks for columns that identify patients and eyes and counts number of patients 
 \examples{
 eyes(amd)
 }
+\concept{ophthalmic functions}

@@ -19,5 +19,5 @@ NA
 data("amd")
 }
 \author{
-
+Tjebo Heeren
 }
