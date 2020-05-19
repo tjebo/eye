@@ -29,8 +29,7 @@ extensions to make some nice graphs.
     degeneration (AMD) who received intravitreal anti-VEGF therapy in
     Moorfields Eye Hospital, London, UK.
   - To reference this data in your publication, please kindly cite the
-    corresponding article by Fasler and colleagues.(Fasler et al.
-    [2019](#ref-fasler))
+    corresponding publication.(Fasler et al. [2019](#ref-fasler))
 
 ## Beyond the eye
 
@@ -60,7 +59,7 @@ devtools::install_github("tjebo/eye")
 
 ### eyes
 
-Count patient and eyes.
+Count patient and eyes
 [source](https://github.com/tjebo/eye/blob/master/R/eyes.R)
 
 ``` r
@@ -73,6 +72,10 @@ eyes(amd)
 ### va
 
 Visual acuity notation conversion
+([source](https://github.com/tjebo/eye/blob/master/R/va.R)). Based on
+conversion tables, formulas and findings from (Schulze-Bonsel et al.
+[2006](#ref-bach)) and (Gregori, Feuer, and Rosenfeld
+[2010](#ref-gregori)).
 
 ``` r
 # TBC
@@ -87,6 +90,14 @@ Make your data long (“myopic”). Convenience wrapper around
 set.seed(42)
 iop <- data.frame(id = letters[1:3], r = sample(11:13), l = sample(14:16))
 
+#wide data
+iop
+#>   id  r  l
+#> 1  a 11 14
+#> 2  b 13 15
+#> 3  c 12 16
+
+# Make it long
 myop(iop, values_to = "iop")
 #> # A tibble: 6 x 3
 #>   id    eye     iop
@@ -235,6 +246,25 @@ Two-Year Visual Outcomes from the Moorfields Age-Related Macular
 Degeneration Database: A Retrospective Cohort Study and an Open Science
 Resource.” *BMJ Open* 9 (6). British Medical Journal Publishing Group.
 <https://doi.org/10.1136/bmjopen-2018-027441>.
+
+</div>
+
+<div id="ref-gregori">
+
+Gregori, Ninel Z, William Feuer, and Philip J Rosenfeld. 2010. “NOVEL
+Method for Analyzing Snellen Visual Acuity Measurements.” *Retina* 30
+(7). Ovid Technologies (Wolters Kluwer Health): 1046–50.
+<https://doi.org/10.1097/iae.0b013e3181d87e04>.
+
+</div>
+
+<div id="ref-bach">
+
+Schulze-Bonsel, Kilian, Nicolas Feltgen, Hermann Burau, Lutz Hansen, and
+Michael Bach. 2006. “Visual Acuities ‘Hand Motion’ and ‘Counting
+Fingers’ Can Be Quantified with the Freiburg Visual Acuity Test.”
+*Investigative Ophthalmology & Visual Science* 47 (3): 1236–40.
+<https://doi.org/10.1167/iovs.05-0981>.
 
 </div>
 
