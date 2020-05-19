@@ -80,7 +80,7 @@ Visual acuity notation conversion
 
 ### myop
 
-Make your data long (myope). Convenience wrapper around
+Make your data long (“myopic”). Convenience wrapper around
 `tidyr::pivot_longer`
 
 ``` r
@@ -99,10 +99,9 @@ myop(iop, values_to = "iop")
 #> 6 c     l        16
 ```
 
-Often enough, data can be a bit messy and there are right eye / left eye
-columns for more than one variable, e.g., for both IOP and VA.
-
-The following example shows one way to clean up this mess.
+Often enough, there are right eye / left eye columns for more than one
+variable, e.g., for both IOP and VA. The following example shows one way
+to clean up this mess.
 
 ``` r
 library(dplyr)
@@ -113,16 +112,12 @@ iop_va
 #> 2  b    13    12   43   43
 #> 3  c    11    11   42   41
 
-# use myope twice on both iop and va columns
+# use myope twice on both iop and va columns and join the results
 iop_long <- myop(iop_va, cols = c("iop_r", "iop_l"), values_to = "iop") 
-va_long <- myop(iop_va, cols = c("va_r", "va_l"), values_to = "va") 
+va_long  <- myop(iop_va, cols = c("va_r", "va_l"), values_to = "va") 
 
-# full join both data frames
-iop_va_clean <- 
-  full_join(iop_long, va_long, by = c("id", "eye")) %>%
+full_join(iop_long, va_long, by = c("id", "eye")) %>%
   select(id, eye, va, iop)
-
-head(iop_va_clean)
 #> # A tibble: 6 x 4
 #>   id    eye      va   iop
 #>   <chr> <chr> <int> <int>

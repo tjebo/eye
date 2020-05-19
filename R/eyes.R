@@ -106,7 +106,7 @@ count_eyes <- eyes
 
 #' long eye data
 #' @description Wrapper around [tidyr::pivot_longer()] to make your data
-#' long ("myope")
+#' long ("myopic")
 #' @name myop
 #' @param x data frame
 #' @param cols Eye columns either automatic or with vector of two - see details
@@ -129,18 +129,16 @@ count_eyes <- eyes
 #'
 #' myop(iop, values_to = "iop")
 #'
-#' # Example to clean a messy data frame
+#' # Example to clean a bit messy data frame
 #' iop_va <- data.frame(id = letters[1:11],
 #'                      iop_r = sample(10:20), iop_l = sample(10:20),
 #'                      va_r = sample(40:50), va_l = sample(40:50))
-#' head(iop_va)
 #' # use myope twice on both iop and va columns
 #' iop_long <- myop(iop_va, cols = c("iop_r", "iop_l"), values_to = "iop")
 #' va_long <- myop(iop_va, cols = c("va_r", "va_l"), values_to = "va")
 #' # full join both data frames
 #' iop_va_clean <- full_join(iop_long, va_long, by = c("id", "eye")) %>%
 #'   select(id, eye, va, iop)
-#' head(iop_va_clean)
 #'
 #' @export
 
@@ -199,3 +197,8 @@ myopise <- myop
 #' @rdname myop
 #' @export
 myopize <- myop
+
+#' myopic
+#' @rdname myop
+#' @export
+myopic <- myop
