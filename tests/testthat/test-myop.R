@@ -21,6 +21,7 @@ list_err <- c(2,4,7,9,11,14)
 test_that("No warning",{
   plyr::l_ply(list_works, function(i) expect_warning(myop(ls_eye[[i]]), regexp = NA))
   expect_warning(myop(ls_eye[[1]], eye_code = c("re","le")), regexp = NA)
+  expect_warning(myop(iop_va), regexp = NA)
 })
 
 test_that("Warning", {
