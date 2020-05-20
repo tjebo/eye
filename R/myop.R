@@ -80,7 +80,7 @@ myop <- function(x, cols, id, values_to, names_to = "eye", eye_code = c("r", "l"
     eye_cols <- unlist(ls_eye)
     names(x)[names(x) %in% eye_cols] <- eye_code
     cols <- rlang::expr(c(eye_code[1], eye_code[2]))
-    return(tidyr::pivot_longer(x, cols = !!cols, names_to = names_to, values_to = values_to, ...))
+    res_df <- tidyr::pivot_longer(x, cols = !!cols, names_to = names_to, values_to = values_to, ...)
   } else if (all(leng_va == 1) & all(leng_iop == 1)) {
     message("Gathering both VA and IOP columns")
     if (missing(id)) {
@@ -100,20 +100,22 @@ myop <- function(x, cols, id, values_to, names_to = "eye", eye_code = c("r", "l"
     names(x_va)[names(x_va) %in% eye_cols_va] <- eye_code
     cols <- rlang::expr(c(eye_code[1], eye_code[2]))
     va_long <- tidyr::pivot_longer(x_va, cols = !!cols, names_to = names_to, values_to = "VA", ...)
-    return(dplyr::full_join(iop_long, va_long, by = c(id, "eye")))
+    res_df <- dplyr::full_join(iop_long, va_long, by = c(id, "eye"))
   } else if (any(leng_va < 1) & all(leng_iop == 1)) {
     message("Gathering IOP columns")
     eye_cols <- unlist(iop_cols)
     names(x)[names(x) %in% eye_cols] <- eye_code
     cols <- rlang::expr(c(eye_code[1], eye_code[2]))
-    return(tidyr::pivot_longer(x, cols = !!cols, names_to = names_to, values_to = "IOP"))
+    res_df <- tidyr::pivot_longer(x, cols = !!cols, names_to = names_to, values_to = "IOP")
   } else if (all(leng_va == 1) & any(leng_iop < 1)) {
     message("Gathering VA columns")
     eye_cols <- unlist(va_cols)
     names(x)[names(x) %in% eye_cols] <- eye_code
     cols <- rlang::expr(c(eye_code[1], eye_code[2]))
-    return(tidyr::pivot_longer(x, cols = !!cols, names_to = names_to, values_to = "VA", ...))
+    res_df <- tidyr::pivot_longer(x, cols = !!cols, names_to = names_to, values_to = "VA", ...)
   }
+  class(res_df) <- c("myop", "tibble", "data.frame")
+  res_df
 }
 
 #' myope
