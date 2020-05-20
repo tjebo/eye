@@ -67,7 +67,7 @@ myop <- function(x, cols, id, values_to, names_to = "eye", eye_code = c("r", "l"
   leng_va <- lengths(va_cols)
   leng_iop <- lengths(iop_cols)
 
-  message(paste0("Selected \"", paste(ls_eye[[1]], collapse = ","), "\" and \"", paste(ls_eye[[2]], collapse = ","), "\" for right and left eyes"))
+  message(paste0("Picked \"", paste(ls_eye[[1]], collapse = ","), "\" and \"", paste(ls_eye[[2]], collapse = ","), "\" for right and left eyes"))
 
   if (any(leng_va > 1) | any(leng_iop > 1)) {
     stop("Too many VA and/or IOP columns - don't know how to gather", call. = FALSE)
