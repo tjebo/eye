@@ -6,25 +6,29 @@
 \alias{count_eyes}
 \title{eyes}
 \usage{
-eyes(data, id = NULL, eye = NULL, text = FALSE)
+eyes(x, id = NULL, eye = NULL)
 
-counteyes(data, id = NULL, eye = NULL, text = FALSE)
+counteyes(x, id = NULL, eye = NULL)
 
-count_eyes(data, id = NULL, eye = NULL, text = FALSE)
+count_eyes(x, id = NULL, eye = NULL)
 }
 \arguments{
+\item{x}{dataframe where patient / eye information is included.}
+
 \item{id}{id column. If not specified, automatically selected. In this case, the patient ID column name needs to contain the strings "pat" OR "id" ignore.case = TRUE.}
 
 \item{eye}{eye colum. If not specified, automatically selected, in which case the eye column name needs to contain the string "eye" ignore.case = TRUE}
 
 \item{text}{default = FALSE (TRUE will return text which can be pasted for example into a markdown document). As default a named vector will be returned}
-
-\item{date}{dataframe where patient / eye information is included.}
 }
 \description{
 Looks for columns that identify patients and eyes and counts number of patients and eyes.
 }
 \examples{
 eyes(amd)
+}
+\seealso{
+Other ophthalmic functions: 
+\code{\link{va}}
 }
 \concept{ophthalmic functions}

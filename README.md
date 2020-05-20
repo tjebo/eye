@@ -88,19 +88,22 @@ Make your data long (“myopic”). Convenience wrapper around
 
 ``` r
 set.seed(42)
-iop <- data.frame(id = letters[1:3], r = sample(11:13), l = sample(14:16))
+iop_wide <- data.frame(id = letters[1:3], r = sample(11:13), l = sample(14:16))
 
 #wide data
-iop
+iop_wide
 #>   id  r  l
 #> 1  a 11 14
 #> 2  b 13 15
 #> 3  c 12 16
 
 # Make it long
-myop(iop, values_to = "iop")
+iop_long <- myop(iop_wide)
+#> Selected "r" and "l" for right and left eyes
+#> Neither VA nor IOP column(s) found. Gathering eye columns
+iop_long
 #> # A tibble: 6 x 3
-#>   id    eye     iop
+#>   id    eye   value
 #>   <chr> <chr> <int>
 #> 1 a     r        11
 #> 2 a     l        14
@@ -111,33 +114,29 @@ myop(iop, values_to = "iop")
 ```
 
 Often enough, there are right eye / left eye columns for more than one
-variable, e.g., for both IOP and VA. The following example shows one way
-to clean up this mess.
+variable, e.g., for both IOP and VA. `myop` helps you clean this
+mess.
 
 ``` r
-library(dplyr)
-iop_va <- data.frame(id = letters[1:3], iop_r = sample(11:13), iop_l = sample(11:13), va_r = sample(41:43), va_l = sample(41:43))
-iop_va
+messy_df <- data.frame(id = letters[1:3], iop_r = sample(11:13), iop_l = sample(11:13), va_r = sample(41:43), va_l = sample(41:43))
+messy_df
 #>   id iop_r iop_l va_r va_l
 #> 1  a    12    13   41   42
 #> 2  b    13    12   43   43
 #> 3  c    11    11   42   41
 
-# use myope twice on both iop and va columns and join the results
-iop_long <- myop(iop_va, cols = c("iop_r", "iop_l"), values_to = "iop") 
-va_long  <- myop(iop_va, cols = c("va_r", "va_l"), values_to = "va") 
-
-full_join(iop_long, va_long, by = c("id", "eye")) %>%
-  select(id, eye, va, iop)
+#myop will try to detect IOP and VA columns automatically
+clean_df <- myop(messy_df)
+clean_df
 #> # A tibble: 6 x 4
-#>   id    eye      va   iop
+#>   id    eye     IOP    VA
 #>   <chr> <chr> <int> <int>
-#> 1 a     r        41    12
-#> 2 a     l        42    13
-#> 3 b     r        43    13
-#> 4 b     l        43    12
-#> 5 c     r        42    11
-#> 6 c     l        41    11
+#> 1 a     r        12    41
+#> 2 a     l        13    42
+#> 3 b     r        13    43
+#> 4 b     l        12    43
+#> 5 c     r        11    42
+#> 6 c     l        11    41
 ```
 
 ## Beyond the eye
@@ -252,7 +251,7 @@ Resource.” *BMJ Open* 9 (6). British Medical Journal Publishing Group.
 
 <div id="ref-gregori">
 
-Gregori, Ninel Z, William Feuer, and Philip J Rosenfeld. 2010. “NOVEL
+Gregori, Ninel Z, William Feuer, and Philip J Rosenfeld. 2010. “Novel
 Method for Analyzing Snellen Visual Acuity Measurements.” *Retina* 30
 (7). Ovid Technologies (Wolters Kluwer Health): 1046–50.
 <https://doi.org/10.1097/iae.0b013e3181d87e04>.

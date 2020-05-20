@@ -8,20 +8,22 @@
 \alias{myopic}
 \title{long eye data}
 \usage{
-myop(x, cols, values_to, names_to = "eye", eye_code = c("r", "l"), ...)
+myop(x, cols, id, values_to, names_to = "eye", eye_code = c("r", "l"), ...)
 
-myope(x, cols, values_to, names_to = "eye", eye_code = c("r", "l"), ...)
+myope(x, cols, id, values_to, names_to = "eye", eye_code = c("r", "l"), ...)
 
-myopise(x, cols, values_to, names_to = "eye", eye_code = c("r", "l"), ...)
+myopise(x, cols, id, values_to, names_to = "eye", eye_code = c("r", "l"), ...)
 
-myopize(x, cols, values_to, names_to = "eye", eye_code = c("r", "l"), ...)
+myopize(x, cols, id, values_to, names_to = "eye", eye_code = c("r", "l"), ...)
 
-myopic(x, cols, values_to, names_to = "eye", eye_code = c("r", "l"), ...)
+myopic(x, cols, id, values_to, names_to = "eye", eye_code = c("r", "l"), ...)
 }
 \arguments{
 \item{x}{data frame}
 
 \item{cols}{Eye columns either automatic or with vector of two - see details}
+
+\item{id}{id column to gather by - relevant if gathering multiple variables}
 
 \item{values_to}{passed to \code{\link[tidyr:pivot_longer]{tidyr::pivot_longer()}}}
 
@@ -55,11 +57,6 @@ myop(iop, values_to = "iop")
 iop_va <- data.frame(id = letters[1:11],
                      iop_r = sample(10:20), iop_l = sample(10:20),
                      va_r = sample(40:50), va_l = sample(40:50))
-# use myope twice on both iop and va columns
-iop_long <- myop(iop_va, cols = c("iop_r", "iop_l"), values_to = "iop")
-va_long <- myop(iop_va, cols = c("va_r", "va_l"), values_to = "va")
-# full join both data frames
-iop_va_clean <- full_join(iop_long, va_long, by = c("id", "eye")) \%>\%
-  select(id, eye, va, iop)
+myop(iop_va)
 
 }

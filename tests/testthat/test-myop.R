@@ -8,6 +8,10 @@ df_sample <- as.data.frame(replicate(6, sample(30:40, size = 20, replace = T)))
 eye <- c("r", "l", "re", "le", "od", "os")
 colnames(df_sample) <- eye
 
+iop_va <- data.frame(id = letters[1:11],
+                     IOP_r = sample(10:20), iop_l = sample(10:20),
+                     Va_r = sample(40:50), va_l = sample(40:50))
+
 ls_eye <- combn(eye, 2L, function(x) cbind(id, df_sample[, x]), simplify = FALSE)
 ls_eye3 <- combn(eye, 3L, function(x) cbind(id, df_sample[, x]), simplify = FALSE)[1:5]
 

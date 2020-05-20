@@ -1,7 +1,7 @@
 #' eyes
 #' @name eyes
 #' @description Looks for columns that identify patients and eyes and counts number of patients and eyes.
-#' @param date dataframe where patient / eye information is included.
+#' @param x dataframe where patient / eye information is included.
 #' @param id id column. If not specified, automatically selected. In this case, the patient ID column name needs to contain the strings "pat" OR "id" ignore.case = TRUE.
 #' @param eye eye colum. If not specified, automatically selected, in which case the eye column name needs to contain the string "eye" ignore.case = TRUE
 #' @param text default = FALSE (TRUE will return text which can be pasted for example into a markdown document). As default a named vector will be returned
@@ -10,23 +10,23 @@
 #' eyes(amd)
 #' @export
 #'
-eyes <- function(data, id = NULL, eye = NULL, text = FALSE) {
-  x <- eval(data)
+eyes <- function(x, id = NULL, eye = NULL) {
+  x <- eval(x)
 
   if (missing(id)) {
-    pat_col <- names(x)[grepl("pat|id", names(x), ignore.case = TRUE)]
+    pat_col <- partial(c("pat", "id"))(x)
   } else {
     pat_col <- id
   }
 
-  if (missing(eye)) {
-    eye_col <- names(x)[grepl("eye", names(x), ignore.case = TRUE, perl = TRUE)]
-  } else {
-    eye_col <- eye
-  }
-
   if (length(pat_col) < 1) {
     stop("Patient column missing. Fix with \"id\" argument", call. = FALSE)
+  }
+
+  if (missing(eye)) {
+    eye_col <- partial("eye")(x)
+  } else {
+    eye_col <- eye
   }
 
   if (length(eye_col) > 1 | length(pat_col) > 1) {
@@ -87,10 +87,6 @@ eyes <- function(data, id = NULL, eye = NULL, text = FALSE) {
       n_l <- sum(colSums(tab_l))
     }
     n_eyes <- n_r + n_l
-
-    if (text) {
-      return(paste(n_eyes, "eyes of", n_pat, "patients"))
-    }
     return(c(patients = n_pat, eyes = n_eyes, right = n_r, left = n_l))
   }
 }
@@ -111,6 +107,7 @@ count_eyes <- eyes
 #' @name myop
 #' @param x data frame
 #' @param cols Eye columns either automatic or with vector of two - see details
+#' @param id id column to gather by - relevant if gathering multiple variables
 #' @param eye_code Vector of two with right eye coded first.
 #' @param values_to passed to [tidyr::pivot_longer()]
 #' @param names_to passed to [tidyr::pivot_longer()]
@@ -123,6 +120,8 @@ count_eyes <- eyes
 #' - **eye_code**: numeric codes of 0:1 or 1:2 are allowed, other
 #' numeric codes are not supported.
 #' @import tidyr
+#' @importFrom rlang expr
+#' @importFrom dplyr full_join
 #' @examples
 #' set.seed(42)
 #' iop <- data.frame(id = letters[1:11], r = sample(10:20), l = sample(10:20))
@@ -133,24 +132,15 @@ count_eyes <- eyes
 #' iop_va <- data.frame(id = letters[1:11],
 #'                      iop_r = sample(10:20), iop_l = sample(10:20),
 #'                      va_r = sample(40:50), va_l = sample(40:50))
-#' # use myope twice on both iop and va columns
-#' iop_long <- myop(iop_va, cols = c("iop_r", "iop_l"), values_to = "iop")
-#' va_long <- myop(iop_va, cols = c("va_r", "va_l"), values_to = "va")
-#' # full join both data frames
-#' iop_va_clean <- full_join(iop_long, va_long, by = c("id", "eye")) %>%
-#'   select(id, eye, va, iop)
+#' myop(iop_va)
 #'
 #' @export
 
-myop <- function(x, cols, values_to, names_to = "eye", eye_code = c("r", "l"), ...) {
-  eye_r <- c("r", "re", "od")
-  if (missing(values_to)) {
-    values_to <- "value"
-  }
-  if (length(values_to) > 1) {
-    stop("Only one value should be provided")
-  }
-  eye_l <- c("l", "le", "os")
+myop <- function(x, cols, id, values_to, names_to = "eye", eye_code = c("r", "l"), ...) {
+  x <- eval(x)
+  eye_r <- c("r", "re", "od", "right")
+  eye_l <- c("l", "le", "os", "left")
+
   if (eye_code[1] %in% eye_l | eye_code[2] %in% eye_r) {
     stop("right eyes need to be coded first", call. = FALSE)
   }
@@ -163,24 +153,70 @@ myop <- function(x, cols, values_to, names_to = "eye", eye_code = c("r", "l"), .
     }
     warning("Very unusual way of coding for eyes", call. = FALSE)
   }
-  if (missing(cols)) {
-    low_col <- tolower(names(x))
-    col_r <- low_col[low_col %in% eye_r]
-    col_l <- low_col[low_col %in% eye_l]
-    if (length(col_r) != 1 | length(col_l) != 1) {
-      stop("Eye columns ambiguous. Fix with cols argument or change variables names", call. = FALSE)
-    }
-    names(x)[names(x) %in% c(col_r, col_l)] <- eye_code
-    cols <- rlang::expr(c(eye_code[1], eye_code[2]))
-  } else {
-    if(length(cols)!=2){
-      stop("Two variables have to be specified.", call. = FALSE)
-    }
-    names(x)[names(x) %in% c(cols[1], cols[2])] <- eye_code
-    cols <- rlang::expr(c(eye_code[1], eye_code[2]))
-  }
-  tidyr::pivot_longer(x, cols = !!cols, names_to = names_to, values_to = values_to, ...)
 
+  if (missing(cols)) {
+    ls_eye <- eyecols(x)
+  }
+  if (missing(values_to)) {
+    values_to <- "value"
+  }
+
+  if (all(lengths(ls_eye) < 1)) {
+    stop("No columns found for gathering", call. = FALSE)
+  }
+
+  va_cols <- va_cols(ls_eye)
+  iop_cols <- iop_cols(ls_eye)
+  leng_va <- lengths(va_cols)
+  leng_iop <- lengths(iop_cols)
+
+  message(paste0("Selected \"", paste(ls_eye[[1]], collapse = ","), "\" and \"", paste(ls_eye[[2]], collapse = ","), "\" for right and left eyes"))
+
+  if (any(leng_va > 1) | any(leng_iop > 1)) {
+    stop("Too many VA and/or IOP columns - don't know how to gather", call. = FALSE)
+  }
+  if (all(leng_va < 1) & all(leng_iop < 1)) {
+    if (any(lengths(ls_eye) > 1)) {
+      stop("Too many eye columns - don't know how to gather", call. = FALSE)
+    }
+    message("Neither VA nor IOP column(s) found. Gathering eye columns")
+    eye_cols <- unlist(ls_eye)
+    names(x)[names(x) %in% eye_cols] <- eye_code
+    cols <- rlang::expr(c(eye_code[1], eye_code[2]))
+    return(tidyr::pivot_longer(x, cols = !!cols, names_to = names_to, values_to = values_to, ...))
+  } else if (all(leng_va == 1) & all(leng_iop == 1)) {
+    message("Gathering both VA and IOP columns")
+    if (missing(id)) {
+      id <- partial(c("pat", "id"))(x)
+    }
+    if (length(id) != 1) {
+      stop("Patient column missing. Don't know how to gather. Fix with \"id\" argument", call. = FALSE)
+    }
+    eye_cols_iop <- unlist(iop_cols)
+    eye_cols_va <- unlist(va_cols)
+    x_iop <- x[which(!names(x) %in% eye_cols_va)]
+    names(x_iop)[names(x_iop) %in% eye_cols_iop] <- eye_code
+    cols <- rlang::expr(c(eye_code[1], eye_code[2]))
+    iop_long <- tidyr::pivot_longer(x_iop, cols = !!cols, names_to = names_to, values_to = "IOP", ...)
+
+    x_va <- x[which(!names(x) %in% eye_cols_iop)]
+    names(x_va)[names(x_va) %in% eye_cols_va] <- eye_code
+    cols <- rlang::expr(c(eye_code[1], eye_code[2]))
+    va_long <- tidyr::pivot_longer(x_va, cols = !!cols, names_to = names_to, values_to = "VA", ...)
+    return(dplyr::full_join(iop_long, va_long, by = c(id, "eye")))
+  } else if (any(leng_va < 1) & all(leng_iop == 1)) {
+    message("Gathering IOP columns")
+    eye_cols <- unlist(iop_cols)
+    names(x)[names(x) %in% eye_cols] <- eye_code
+    cols <- rlang::expr(c(eye_code[1], eye_code[2]))
+    return(tidyr::pivot_longer(x, cols = !!cols, names_to = names_to, values_to = "IOP"))
+  } else if (all(leng_va == 1) & any(leng_iop < 1)) {
+    message("Gathering VA columns")
+    eye_cols <- unlist(va_cols)
+    names(x)[names(x) %in% eye_cols] <- eye_code
+    cols <- rlang::expr(c(eye_code[1], eye_code[2]))
+    return(tidyr::pivot_longer(x, cols = !!cols, names_to = names_to, values_to = "VA", ...))
+  }
 }
 
 #' myope
