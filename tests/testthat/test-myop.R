@@ -12,6 +12,8 @@ iop_va <- data.frame(id = letters[1:11],
                      IOP_r = sample(10:20), iop_l = sample(10:20),
                      Va_r = sample(40:50), va_l = sample(40:50))
 
+iop_wide <- data.frame(id = letters[1:3], r = sample(11:13), l = sample(14:16))
+
 ls_eye <- combn(eye, 2L, function(x) cbind(id, df_sample[, x]), simplify = FALSE)
 ls_eye3 <- combn(eye, 3L, function(x) cbind(id, df_sample[, x]), simplify = FALSE)[1:5]
 
@@ -22,6 +24,7 @@ test_that("No warning",{
   plyr::l_ply(list_works, function(i) expect_warning(myop(ls_eye[[i]]), regexp = NA))
   expect_warning(myop(ls_eye[[1]], eye_code = c("re","le")), regexp = NA)
   expect_warning(myop(iop_va), regexp = NA)
+  expect_warning(myop(iop_wide), regexp = NA)
 })
 
 test_that("Warning", {
@@ -44,6 +47,8 @@ test_that("Error",{
 test_that("Message", {
   expect_message(myop(ls_eye[[1]], eye_code = c(0:1)), "Consider characters")
   expect_message(myop(ls_eye[[1]], eye_code = c(1:2)), "Consider characters")
+  expect_message(myop(iop_va))
+  expect_message(myop(iop_wide))
 })
 
 
