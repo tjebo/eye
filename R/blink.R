@@ -8,4 +8,14 @@
 #' @examples
 #' @export
 
-blink <- function(x) {  }
+blink <- function(x) {  
+
+if(!inherits(x, "myop"){
+  x <- myop(x)
+}
+   count <- eyes(x)
+   
+   names(x)[names(x) %in% c("VA", "IOP", "age")]
+   insight(x
+
+}
