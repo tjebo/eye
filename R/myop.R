@@ -114,7 +114,7 @@ myop <- function(x, cols, id, values_to, names_to = "eye", eye_code = c("r", "l"
     cols <- rlang::expr(c(eye_code[1], eye_code[2]))
     res_df <- tidyr::pivot_longer(x, cols = !!cols, names_to = names_to, values_to = "VA", ...)
   }
-  class(res_df) <- c("myop", "tbl", , "tbl_df", "data.frame")
+  class(res_df) <- c("myop", "tbl", "tbl_df", "data.frame")
   res_df
 }
 

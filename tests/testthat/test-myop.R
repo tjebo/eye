@@ -33,14 +33,13 @@ test_that("Warning", {
 })
 
 test_that("Error",{
-  plyr::l_ply(list_err, function(i) expect_error(myop(ls_eye[[i]]), "Eye columns ambiguous."))
-  plyr::l_ply(ls_eye3, function(i) expect_error(myop(i), "Eye columns ambiguous."))
+  plyr::l_ply(list_err, function(i) expect_error(myop(ls_eye[[i]]), "Too many eye columns - don't know how to gather"))
+  plyr::l_ply(ls_eye3, function(i) expect_error(myop(i), "Too many eye columns - don't know how to gather"))
   expect_error(myop(ls_eye[[1]], eye_code = c("le","le")))
   expect_error(myop(ls_eye[[1]], eye_code = c("os","le")))
   expect_error(myop(ls_eye[[1]], eye_code = c("od","re")))
   expect_error(myop(ls_eye[[1]], eye_code = c(4:5)))
-  expect_error(myop(ls_eye[[1]], value = letters[1:2]), "Only one")
-  expect_error(myop(ls_eye[[1]], cols = c("r","l","re")), "Two variables")
+  expect_error(myop(ls_eye[[1]], cols = c("r","l","re")))
 
 })
 

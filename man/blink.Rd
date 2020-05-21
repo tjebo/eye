@@ -14,3 +14,9 @@ High level function, wrapping \link{myop}, \link{eyes} and \link{insight}.
 Checks if data is in long format. If not, myop will be applied.
 eyes and insight will be applied on the result.
 }
+\details{
+TBC
+}
+\examples{
+TBC
+}
