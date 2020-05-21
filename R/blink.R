@@ -10,12 +10,12 @@
 
 blink <- function(x) {  
 
-if(!inherits(x, "myop"){
+if(!inherits(x, "myop")){
   x <- myop(x)
 }
    count <- eyes(x)
    
    names(x)[names(x) %in% c("VA", "IOP", "age")]
-   insight(x
+   #insight(x)
 
 }
