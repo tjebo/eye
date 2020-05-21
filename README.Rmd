@@ -16,12 +16,22 @@ knitr::opts_chunk$set(
 library(eye)
 ```
 
-See more with eye. 
+See more with *eye*. 
 
-eye is a package dedicated to facilitate ophthalmic research. Its two core functions [`eyes()`](#eyes) and [`va()`](#va) help with very common tasks (counting patients and eyes, visual acuity notation conversions). It contains a well curated [real life data set](#amd-data) and some functions beyond ophtalmology, which could make your data analysis a tiny bit more convenient. Finally, there are also a few ggplot2 extensions to make some nice graphs. 
+*eye* is dedicated to facilitate ophthalmic research.</br>
+Its core functions [`blink()`](#blink), [`eyes()`](#eyes), [`myop()`](#myop), and [`va()`](#va) help with very common tasks:
+
+- Counting patients and eyes
+- Visual acuity and intraocular pressure: Shape data and analyze!
+- Conversion of visual acuity notations.
+
+*eye* contains a well curated [real life data set](#amd-data) and some functions beyond ophtalmology, which could make your data analysis a tiny bit more convenient.
+
+Finally, eye comes with [`geom_trail()`](#geom_trail) for some nice trail graphs. 
 
 # Features
 ## Pure ophthalmology
+- [Perceive your data in a blink of an eye](#blink)
 - [Easy count of patients and eyes](#eyes)
 - [Conversion of visual acuity notations](#va)
 - [Make your eye data long](#myop)
@@ -33,7 +43,7 @@ eye is a package dedicated to facilitate ophthalmic research. Its two core funct
 ## Beyond the eye
 
 ### Convenience functions: 
-- [See common summary statistics](#see)
+- [Insight: get common summary statistics](#insight)
 - [Calculate age](#age)
 - [Conveniently save a data frame to csv](#csv)
 
@@ -49,6 +59,7 @@ devtools::install_github("tjebo/eye")
 
 # Examples
 ## Pure eye stuff - core eye functions 
+### blink
 ### eyes
 Count patient and eyes [source](https://github.com/tjebo/eye/blob/master/R/eyes.R)
 ```{r eyes}
@@ -62,11 +73,12 @@ Visual acuity notation conversion ([source](https://github.com/tjebo/eye/blob/ma
 ```
 
 ### myop
-Make your data long ("myopic"). Convenience wrapper around `tidyr::pivot_longer`
-```{r myop}
+Make your data long ("myopic"). [source](https://github.com/tjebo/eye/blob/master/R/myop.R)
+```{r myop, echo=FALSE}
 set.seed(42)
 iop_wide <- data.frame(id = letters[1:3], r = sample(11:13), l = sample(14:16))
-
+```
+```{r myop2}
 #wide data
 iop_wide
 
@@ -75,22 +87,25 @@ iop_long <- myop(iop_wide)
 iop_long
 ```
 Often enough, there are right eye / left eye columns for more than one variable, e.g., for both IOP and VA. `myop` helps you clean this mess. 
-```{r myop two vars, message=FALSE}
+```{r, echo=FALSE}
 messy_df <- data.frame(id = letters[1:3], iop_r = sample(11:13), iop_l = sample(11:13), va_r = sample(41:43), va_l = sample(41:43))
+```
+```{r myop two vars}
 messy_df
 
-#myop will try to detect IOP and VA columns automatically
+#myop will detect IOP and VA columns automatically
+
 clean_df <- myop(messy_df)
 clean_df
 ```
 
 ## Beyond the eye
-### see
+### insight
 Show common statistics
 ```{r stats, warning=FALSE, message=FALSE}
 amd_unq <- amd[!duplicated(amd$Id),]
 
-see(amd_unq[c("BaselineAge", "VA_ETDRS_Letters", "FollowupDays")])
+insight(amd_unq[c("BaselineAge", "VA_ETDRS_Letters", "FollowupDays")])
 ```
 
 ### age

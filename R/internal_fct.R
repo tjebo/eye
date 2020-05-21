@@ -44,7 +44,7 @@ partial <- function(string){
 #' @description internal function gets the eye columns
 #' @family string matching functions
 #'
-eyecols <- function(x) {
+get_eyecols <- function(x) {
   eye_r <- c("r", "re", "od", "right")
   eye_l <- c("l", "le", "os", "left")
   col_r <- whole(eye_r)(x)
@@ -56,7 +56,7 @@ eyecols <- function(x) {
 #' @rdname internals
 #' @description internal function gets the va columns
 #' @family string matching functions
-va_cols <- function(eyecols) {
+get_va_cols <- function(eyecols) {
   va_cols <- lapply(eyecols, function(x) {
     paste0(whole(c("va", "bcva"))(x), partial("acuit")(x))
   })
@@ -68,7 +68,7 @@ va_cols <- function(eyecols) {
 #' @description internal function gets the va columns
 #' @family string matching functions
 #'
-iop_cols <- function(eyecols) {
+get_iop_cols <- function(eyecols) {
   iop_cols <- lapply(eyecols, function(x) {
     paste0(whole("iop")(x), partial("pressure")(x))
   })

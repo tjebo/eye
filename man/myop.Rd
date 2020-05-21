@@ -8,20 +8,67 @@
 \alias{myopic}
 \title{long eye data}
 \usage{
-myop(x, cols, id, values_to, names_to = "eye", eye_code = c("r", "l"), ...)
+myop(
+  x,
+  va_cols,
+  iop_cols,
+  id,
+  values_to,
+  names_to = "eye",
+  eye_code = c("r", "l"),
+  ...
+)
 
-myope(x, cols, id, values_to, names_to = "eye", eye_code = c("r", "l"), ...)
+myope(
+  x,
+  va_cols,
+  iop_cols,
+  id,
+  values_to,
+  names_to = "eye",
+  eye_code = c("r", "l"),
+  ...
+)
 
-myopise(x, cols, id, values_to, names_to = "eye", eye_code = c("r", "l"), ...)
+myopise(
+  x,
+  va_cols,
+  iop_cols,
+  id,
+  values_to,
+  names_to = "eye",
+  eye_code = c("r", "l"),
+  ...
+)
 
-myopize(x, cols, id, values_to, names_to = "eye", eye_code = c("r", "l"), ...)
+myopize(
+  x,
+  va_cols,
+  iop_cols,
+  id,
+  values_to,
+  names_to = "eye",
+  eye_code = c("r", "l"),
+  ...
+)
 
-myopic(x, cols, id, values_to, names_to = "eye", eye_code = c("r", "l"), ...)
+myopic(
+  x,
+  va_cols,
+  iop_cols,
+  id,
+  values_to,
+  names_to = "eye",
+  eye_code = c("r", "l"),
+  ...
+)
 }
 \arguments{
 \item{x}{data frame}
 
-\item{cols}{Eye columns either automatic or with vector of two - see details}
+\item{va_cols}{Character vector to define VA columns - see details}
+
+\item{iop_cols}{Character vector to define IOP columns - see details}
 
 \item{id}{id column to gather by - relevant if gathering multiple variables}
 

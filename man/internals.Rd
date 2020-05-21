@@ -3,20 +3,20 @@
 \name{whole}
 \alias{whole}
 \alias{partial}
-\alias{eyecols}
-\alias{va_cols}
-\alias{iop_cols}
+\alias{get_eyecols}
+\alias{get_va_cols}
+\alias{get_iop_cols}
 \title{whole}
 \usage{
 whole(string)
 
 partial(string)
 
-eyecols(x)
+get_eyecols(x)
 
-va_cols(eyecols)
+get_va_cols(eyecols)
 
-iop_cols(eyecols)
+get_iop_cols(eyecols)
 }
 \description{
 internal unction factory for function

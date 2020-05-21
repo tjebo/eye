@@ -3,20 +3,28 @@ eye
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-See more with eye.
+See more with *eye*.
 
-eye is a package dedicated to facilitate ophthalmic research. Its two
-core functions [`eyes()`](#eyes) and [`va()`](#va) help with very common
-tasks (counting patients and eyes, visual acuity notation conversions).
-It contains a well curated [real life data set](#amd-data) and some
+*eye* is dedicated to facilitate ophthalmic research.</br> Its core
+functions [`blink()`](#blink), [`eyes()`](#eyes), [`myop()`](#myop), and
+[`va()`](#va) help with very common tasks:
+
+  - Counting patients and eyes
+  - Visual acuity and intraocular pressure: Shape data and analyze\!
+  - Conversion of visual acuity notations.
+
+*eye* contains a well curated [real life data set](#amd-data) and some
 functions beyond ophtalmology, which could make your data analysis a
-tiny bit more convenient. Finally, there are also a few ggplot2
-extensions to make some nice graphs.
+tiny bit more convenient.
+
+Finally, eye comes with [`geom_trail()`](#geom_trail) for some nice
+trail graphs.
 
 # Features
 
 ## Pure ophthalmology
 
+  - [Perceive your data in a blink of an eye](#blink)
   - [Easy count of patients and eyes](#eyes)
   - [Conversion of visual acuity notations](#va)
   - [Make your eye data long](#myop)
@@ -35,7 +43,7 @@ extensions to make some nice graphs.
 
 ### Convenience functions:
 
-  - [See common summary statistics](#see)
+  - [Insight: get common summary statistics](#insight)
   - [Calculate age](#age)
   - [Conveniently save a data frame to csv](#csv)
 
@@ -56,6 +64,8 @@ devtools::install_github("tjebo/eye")
 # Examples
 
 ## Pure eye stuff - core eye functions
+
+### blink
 
 ### eyes
 
@@ -83,13 +93,10 @@ conversion tables, formulas and findings from (Schulze-Bonsel et al.
 
 ### myop
 
-Make your data long (“myopic”). Convenience wrapper around
-`tidyr::pivot_longer`
+Make your data long (“myopic”).
+[source](https://github.com/tjebo/eye/blob/master/R/myop.R)
 
 ``` r
-set.seed(42)
-iop_wide <- data.frame(id = letters[1:3], r = sample(11:13), l = sample(14:16))
-
 #wide data
 iop_wide
 #>   id  r  l
@@ -99,7 +106,7 @@ iop_wide
 
 # Make it long
 iop_long <- myop(iop_wide)
-#> Selected "r" and "l" for right and left eyes
+#> Picked "r" and "l" for right and left eyes
 #> Neither VA nor IOP column(s) found. Gathering eye columns
 iop_long
 #> # A tibble: 6 x 3
@@ -114,19 +121,20 @@ iop_long
 ```
 
 Often enough, there are right eye / left eye columns for more than one
-variable, e.g., for both IOP and VA. `myop` helps you clean this
-mess.
+variable, e.g., for both IOP and VA. `myop` helps you clean this mess.
 
 ``` r
-messy_df <- data.frame(id = letters[1:3], iop_r = sample(11:13), iop_l = sample(11:13), va_r = sample(41:43), va_l = sample(41:43))
 messy_df
 #>   id iop_r iop_l va_r va_l
 #> 1  a    12    13   41   42
 #> 2  b    13    12   43   43
 #> 3  c    11    11   42   41
 
-#myop will try to detect IOP and VA columns automatically
+#myop will detect IOP and VA columns automatically
+
 clean_df <- myop(messy_df)
+#> Picked "iop_r,va_r" and "iop_l,va_l" for right and left eyes
+#> Gathering both VA and IOP columns
 clean_df
 #> # A tibble: 6 x 4
 #>   id    eye     IOP    VA
@@ -141,14 +149,14 @@ clean_df
 
 ## Beyond the eye
 
-### see
+### insight
 
 Show common statistics
 
 ``` r
 amd_unq <- amd[!duplicated(amd$Id),]
 
-see(amd_unq[c("BaselineAge", "VA_ETDRS_Letters", "FollowupDays")])
+insight(amd_unq[c("BaselineAge", "VA_ETDRS_Letters", "FollowupDays")])
 #>                  mean   sd    n median min max
 #> BaselineAge      78.3  9.1 3357     79  60  99
 #> VA_ETDRS_Letters 56.3 14.7 3357     58   0  92
@@ -221,7 +229,7 @@ p1
 p2
 ```
 
-<img src="README-unnamed-chunk-4-1.png" width="45%" /><img src="README-unnamed-chunk-4-2.png" width="45%" />
+<img src="README-unnamed-chunk-5-1.png" width="45%" /><img src="README-unnamed-chunk-5-2.png" width="45%" />
 
 # Acknowledgements
 
