@@ -75,4 +75,30 @@ get_iop_cols <- function(eyecols) {
   iop_cols
 }
 
+which_va <- function(x) {
+  x <- suppressWarnings(as.numeric(as.character(x)))
+  if (all(is.na(x))) {
+    return("snellen")
+  }
+  if (!all(x == as.integer(x))) {
+    if(any(x <= 0 & any(x > 4.2))){
+    stop("This seems to be snellen decimal or logMAR notation but there are unplausible values.
+         Check your data.", call. = FALSE)
+    } else if (!all(x > 0) & !all(x <= 2)) {
+      return("logMAR")
+    } else if (any(x > 4.5)) {
+
+  }
+  if (all(x == as.integer(x))) {
+    if (all(x >= 0) & all(x <= 100)) {
+      return("ETDRS")
+    } else {
+      stop("This seems to be ETDRS notation but there are unplausible values.
+         Check your data.", call. = FALSE)
+    }
+  }}}
+
+
+
+
 

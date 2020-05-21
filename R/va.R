@@ -23,3 +23,5 @@ x <- structure(1, class = letters)
 bar <- function(x) UseMethod("bar", x)
 bar.z <- function(x) "z"
 bar(x)
+
+

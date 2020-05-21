@@ -57,7 +57,7 @@ trail graphs.
 Currently only on github.
 
 ``` r
-# for the development version 
+## for the development version 
 devtools::install_github("tjebo/eye")
 ```
 
@@ -96,19 +96,18 @@ conversion tables, formulas and findings from (Schulze-Bonsel et al.
 Make your data long (“myopic”).
 [source](https://github.com/tjebo/eye/blob/master/R/myop.R)
 
+Simple data frame with one column for right eye and left eye.
+
 ``` r
-#wide data
 iop_wide
 #>   id  r  l
 #> 1  a 11 14
 #> 2  b 13 15
 #> 3  c 12 16
 
-# Make it long
-iop_long <- myop(iop_wide)
+myop(iop_wide)
 #> Picked "r" and "l" for right and left eyes
 #> Neither VA nor IOP column(s) found. Gathering eye columns
-iop_long
 #> # A tibble: 6 x 3
 #>   id    eye   value
 #>   <chr> <chr> <int>
@@ -121,7 +120,8 @@ iop_long
 ```
 
 Often enough, there are right eye / left eye columns for more than one
-variable, e.g., for both IOP and VA. `myop` helps you clean this mess.
+variable, e.g., for both IOP and VA. `myop` helps you clean this mess
+and will detect IOP and VA columns automatically.
 
 ``` r
 messy_df
@@ -130,11 +130,10 @@ messy_df
 #> 2  b    13    12   43   43
 #> 3  c    11    11   42   41
 
-#myop will detect IOP and VA columns automatically
-
 clean_df <- myop(messy_df)
 #> Picked "iop_r,va_r" and "iop_l,va_l" for right and left eyes
 #> Gathering both VA and IOP columns
+
 clean_df
 #> # A tibble: 6 x 4
 #>   id    eye     IOP    VA
@@ -199,10 +198,14 @@ csv(amd)
 
 A base plot type = “b” equivalent for ggplot. Works also with text\!
 
+<details>
+
+<summary>Prepare AMD data for plot (click to unfold) </summary>
+
 ``` r
 library(ggplot2)
 library(dplyr)
-# data preparation
+
 amd_aggr <-
   amd %>%
   group_by(
@@ -210,26 +213,24 @@ amd_aggr <-
     days_cut90 = cut_width(FollowupDays, 90, labels = seq(0, 810, 90))
   ) %>%
   summarise(mean_va = mean(VA_ETDRS_Letters)) 
+```
 
-# plot
+</details>
+
+``` r
 p <-
   ggplot(amd_aggr, aes(days_cut90, mean_va, color = age_cut10)) +
     theme_classic() +
-    labs(x = "Follow up time [Days]", y = "Mean VA [ETDRS letters]", color = "Age strata")
-
-p1 <- p + geom_trail(aes(group = age_cut10))
-
-p2 <- p + geom_trail(aes(group = age_cut10), size = 0) +
-          geom_text(aes(label = round(mean_va, 0)), show.legend = FALSE)
+    labs(x = "Follow up time [Days]", y = "Mean VA [ETDRS letters]", 
+         color = "Age strata")
 ```
 
-``` r
-p1 
+    p + geom_trail(aes(group = age_cut10))
+    
+    p + geom_trail(aes(group = age_cut10), size = 0) +
+              geom_text(aes(label = round(mean_va, 0)), show.legend = FALSE)
 
-p2
-```
-
-<img src="README-unnamed-chunk-5-1.png" width="45%" /><img src="README-unnamed-chunk-5-2.png" width="45%" />
+<img src="README-unnamed-chunk-4-1.png" width="45%" /><img src="README-unnamed-chunk-4-2.png" width="45%" />
 
 # Acknowledgements
 
