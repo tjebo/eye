@@ -84,7 +84,8 @@ see <- function(x, dec = 1, dataframe = TRUE) {
 #' Will use the name of the data frame for the generated .csv file.
 #' @name csv
 #' @param x data frame
-#' @param name Filename. Default: Name of dataframe to save as csv. Or character string (.csv extension added automatically)
+#' @param name Filename. Default: Name of dataframe to save as csv.
+#' Or character string (.csv extension added automatically)
 #' @family convenience functions
 #' @examples
 #' \dontrun{
