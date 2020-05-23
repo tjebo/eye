@@ -23,3 +23,23 @@
 #' }
 #' @source \url{https://datadryad.org/stash/dataset/doi:10.5061/dryad.97r9289}
 "amd"
+
+
+#' Visual acuity conversion chart
+#' @docType data
+#' @name va_chart
+#' @description Conversion between snellen, logMAR and ETDRS.
+#' Snellen feet, meter and decimal supported. Three qualitative common
+#' vision measures included (light perception, hand movement and counting fingers)
+
+#' @usage data("va_chart")
+#' @format A data frame with 40764 rows and 7 variables:
+#' \describe{
+#'   \item{snellen_ft}{snellen VA in feet}
+#'   \item{snellen_m}{snellen VA in meter}
+#'   \item{snellen_dec}{decimal snellen VA}
+#'   \item{logMAR}{logMAR VA}
+#'   \item{ETDRS}{VA in ETDRS letters}
+#' }
+#'
+"va_chart"

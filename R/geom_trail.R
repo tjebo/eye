@@ -90,6 +90,7 @@ GeomTrail <- ggplot2::ggproto(
 
 #' makeContent.trail
 #' @description underlying drawing method for paths in geom_trail
+#' @rdname geom_trail
 #' @author Teun van den Brand
 #' @import grid
 #' @param x grob object passed to method

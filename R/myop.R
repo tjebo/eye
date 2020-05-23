@@ -35,7 +35,7 @@
 #' @export
 
 myop <- function(x, va_cols, iop_cols, id, values_to, names_to = "eye", eye_code = c("r", "l"), ...) {
-  x <- eval(x)
+
   eye_r <- c("r", "re", "od", "right")
   eye_l <- c("l", "le", "os", "left")
 
@@ -100,7 +100,7 @@ myop <- function(x, va_cols, iop_cols, id, values_to, names_to = "eye", eye_code
   } else if (all(leng_va == 1) & all(leng_iop == 1)) {
     message("Gathering both VA and IOP columns")
     if (missing(id)) {
-      id <- partial(c("pat", "id"))(x)
+      id <- part_str(c("pat", "id"))(colnames(x))
     }
     if (length(id) != 1) {
       stop("Patient column missing. Don't know how to gather. Fix with \"id\" argument", call. = FALSE)

@@ -67,7 +67,7 @@ eyes(amd)
 ```
 
 ### va
-Visual acuity notation conversion ([source](https://github.com/tjebo/eye/blob/master/R/va.R)). Based on conversion tables, formulas and findings from [@bach] and [@gregori].
+Visual acuity notation conversion ([source](https://github.com/tjebo/eye/blob/master/R/va.R)). Based on conversion tables, formulas and findings from [@hollday], [@beck], [@bach] and [@gregori].
 ```{r va, warning=FALSE, eval = FALSE, message=FALSE, results='hide'}
 # TBC
 ```

@@ -3,12 +3,15 @@
 \docType{data}
 \name{GeomTrail}
 \alias{GeomTrail}
+\alias{makeContent.trail}
 \alias{geom_trail}
 \title{geom_trail}
 \source{
 modified from post on https://stackoverflow.com/a/55857158/7941188
 }
 \usage{
+\method{makeContent}{trail}(x)
+
 geom_trail(
   mapping = NULL,
   data = NULL,
@@ -21,6 +24,8 @@ geom_trail(
 )
 }
 \arguments{
+\item{x}{grob object passed to method}
+
 \item{mapping}{Set of aesthetic mappings created by \code{\link[ggplot2:aes]{aes()}} or
 \code{\link[ggplot2:aes_]{aes_()}}. If specified and \code{inherit.aes = TRUE} (the
 default), it is combined with the default mapping at the top level of the
@@ -69,6 +74,8 @@ to the paired geom/stat.}
 \item{gap}{gap between points and lines}
 }
 \description{
+underlying drawing method for paths in geom_trail
+
 Mark your trail with a plot just like the good old base plot type = b
 modified from post on https://stackoverflow.com/a/55857158/7941188
 }
@@ -95,5 +102,7 @@ ggplot(pressure, aes(temperature, pressure)) +
 }
 \author{
 Teun van den Brand / Tjebo Heeren
+
+Teun van den Brand
 }
 \keyword{datasets}

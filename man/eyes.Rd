@@ -6,29 +6,43 @@
 \alias{count_eyes}
 \title{eyes}
 \usage{
-eyes(x, id = NULL, eye = NULL)
+eyes(x, id = NULL, eye = NULL, eye_str = NULL)
 
-counteyes(x, id = NULL, eye = NULL)
+counteyes(x, id = NULL, eye = NULL, eye_str = NULL)
 
-count_eyes(x, id = NULL, eye = NULL)
+count_eyes(x, id = NULL, eye = NULL, eye_str = NULL)
 }
 \arguments{
-\item{x}{dataframe where patient / eye information is included.}
+\item{id}{Use if \code{eyes} does not find an id / patient column. See details id column.}
 
-\item{id}{id column. If not specified, automatically selected. In this case, the patient ID column name needs to contain the strings "pat" OR "id" ignore.case = TRUE.}
+\item{eye}{Use if \code{eyes} does not find an eye colum. See details}
 
-\item{eye}{eye colum. If not specified, automatically selected, in which case the eye column name needs to contain the string "eye" ignore.case = TRUE}
+\item{eye_str}{Use not recommended - passed to name searching functions (details)}
 
-\item{text}{default = FALSE (TRUE will return text which can be pasted for example into a markdown document). As default a named vector will be returned}
+\item{\strong{x}}{required. (data.frame)}
 }
 \description{
 Looks for columns that identify patients and eyes and counts number of patients and eyes.
+}
+\details{
+\itemize{
+\item \strong{id} specify if \code{eyes} fails to identify the patient columns .
+\code{eyes} searches for column names that contain the string "id" or "pat"
+(any letter cases). Column names that contain both strings are prioritised.
+If more than one column is found, the function will return an error.
+This could cause potential confusion and then the argument identifies which column to pick.
+\item \strong{eye} \code{eyes} is looking for column names that contain the string "eye" (any letter cases).
+This could cause potential confusion and then the argument identifies which column to pick.
+\item \strong{eye_str}: for strings coding eyes: named list of character vectors
+coding right and left eyes. names need to be "r" and "l".
+Default \code{list(r = c("r", "re", "od", "right"),  l = c("l", "le", "os", "left"))}
+}
 }
 \examples{
 eyes(amd)
 }
 \seealso{
 Other ophthalmic functions: 
-\code{\link{va}}
+\code{\link{va}()}
 }
 \concept{ophthalmic functions}
