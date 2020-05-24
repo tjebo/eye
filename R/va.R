@@ -19,28 +19,49 @@
 #' 1/200 considered CF. From 20/800 downwards no linear relation to ETDRS.
 #' snellen 2/200 suggest to be equivalent to 2 letters,
 #' and 1/200 to 0 letters
-#'
+#' @importFrom rlang sym
 #'
 #' @export
-va <- function(x, from = NULL, to = "logmar"){
-if(is.null(from)){
-  class_va <- which_va(x)
-} else if (length(to) != 1 |
-           length(from) != 1 |
-           !tolower(from) %in% c("ETDRS", "logMAR", "snellen")){
-  stop("\"from\" or \"to\" should be only one of \"etdrs\", \"logmar\"
+va <- function(x, from = NULL, to = "logmar") {
+  to <- tolower(to)
+
+  if (length(to) != 1 | !to %in% c("etdrs", "logmar", "snellen")) {
+    stop("\"to\" should be only one of \"etdrs\", \"logmar\"
   or \"snellen\" - any case allowed.", call. = FALSE)
-  class_va <- tolower(from)
-}
-  if(class_va == to){
-    stop("VA already in the desired notation", call. = FALSE)
   }
+
+  guess_va <- which_va(x)
+  if (guess_va == "failed" & is.null(from)) {
+    stop("Failed to autodetect VA class. Fix with from argument")
+  }
+
+  if (!is.null(from)) {
+    class_va <- tolower(from)
+    if (length(class_va) != 1 | !class_va %in% c("etdrs", "logmar", "snellen")) {
+      stop("\"from\" should be only one of \"etdrs\", \"logmar\"
+  or \"snellen\" - any case allowed.", call. = FALSE)
+    }
+    if (guess_va == "failed") {
+      guess_va <- class_va
+      warning("Failed to autodetect VA class - relying on from argument.
+              Check your data for weird values.", call. = FALSE)
+    }
+    if (class_va != guess_va) {
+      stop(paste(class_va, "class not plausible. Check data"),
+        call. = FALSE
+      )
+    }
+  } else {
+    class_va <- guess_va
+  }
+  if (class_va == to) {
+    stop("VA already in the desired class", call. = FALSE)
+  }
+
   class(x) <- class_va
 
-  eval(sym(paste0("va_", to)))(x)
-
+  eval(rlang::sym(paste0("va_", to)))(x)
 }
-
 
 #' VA conversion
 #' @name va_methods
@@ -74,8 +95,10 @@ va_snellen <- function (x, snellen = "ft") {
 #' @family va conversion methods
 tologMAR.snellen <- function(x){
   x <- as.character(x)
-  snellen_frac <- with(read.table(text = x, sep = "/"), V1 / V2)
+  snellen_frac <-
+    unname(vapply(x, function(x) eval(parse(text= x)), FUN.VALUE = numeric(1)))
   logMAR <- round(-1 * log10(snellen_frac), 2)
+  class(logMAR) <- c("logmar","numeric")
   logMAR
 }
 
@@ -87,10 +110,12 @@ tologMAR.snellen <- function(x){
 #' @family va conversion methods
 toETDRS.snellen <- function(x){
   x <- as.character(x)
-  snellen_frac <- with(read.table(text = x, sep = "/"), V1 / V2)
+  snellen_frac <-
+    unname(vapply(x, function(x) eval(parse(text= x)), FUN.VALUE = numeric(1)))
   ETDRS <- round(85 + 50 * log10(snellen_frac), 0)
   ETDRS[snellen_frac <= 0.02 & snellen_frac > 0.005] <- 2
   ETDRS[snellen_frac <= 0.005] <- 0
+  class(ETDRS) <- c("etdrs", "integer")
   ETDRS
 }
 
@@ -106,6 +131,7 @@ toSnellen.logmar <- function(x, snellen = "ft"){
 x <- round(as.numeric(x), 1)
 col = paste("snellen", snellen, sep = "_")
 snellen <- va_chart[[col]][match(x, as.numeric(va_chart$logMAR))]
+class(snellen) <- c("snellen", "character")
 snellen
 }
 
@@ -116,9 +142,10 @@ snellen
 #' @details Only approximate eqivalent.
 #'   Rounding logMAR to nearest first digit and
 #'   converting to ETDRS letters using the va conversion chart
-toETDRS.logMAR <- function(x){
+toETDRS.logmar <- function(x){
   x <- round(as.numeric(x), 1)
   ETDRS <- eye::va_chart[["ETDRS"]][match(x, as.numeric(eye::va_chart[["logMAR"]]))]
+  class(ETDRS) <- c("etdrs", "integer")
   ETDRS
 }
 
@@ -129,6 +156,7 @@ toETDRS.logMAR <- function(x){
 #' @details Approximate eqivalent based on formula in Beck et al.
 tologMAR.etdrs <- function(x){
   logMAR <- (-0.02 * x) + 1.7
+  class(logMAR) <- c("logmar","numeric")
   logMAR
 }
 
@@ -144,6 +172,7 @@ toSnellen.etdrs <- function(x, snellen = "ft"){
    x <- round((-0.02 * x) + 1.7, 1)
     col = paste("snellen", snellen, sep = "_")
     snellen <- va_chart[[col]][match(x, as.numeric(va_chart$logMAR))]
+    class(snellen) <- c("snellen", "character")
     snellen
 }
 
@@ -155,7 +184,7 @@ toSnellen.etdrs <- function(x, snellen = "ft"){
 #'
 which_va <- function(x) {
   x <- suppressWarnings(as.character(x))
-  if (all(x %in% c("NLP", "LP", "HM", "CF"))) {
+  if (all(x[!is.na(x)] %in% c("NLP", "LP", "HM", "CF"))) {
     return("quali")
   }
 
@@ -165,28 +194,33 @@ which_va <- function(x) {
   }
 
   if (all(is.na(x_num))) {
-    stop("Which notation? No typical notation found.", call. = FALSE)
+    warning("Guess snellen? Needs to be in format \"x/y\" for conversion",
+            call. = FALSE)
+    return("failed")
   }
   x_numval <- x_num[!is.na(x_num)]
   if (length(x_numval) < length(x[!is.na(x)])) {
-    warning("Numeric notation containing character values (removed!)-
-            Were those Snellen? CF/HM/LP/NLP?", call. = FALSE)
+    warning("Removed characters from numeric VA class -
+            Mixed with snellen or CF/HM/LP/NLP?", call. = FALSE)
   }
 
   if (all(x_numval == as.integer(x_numval))) {
     if (all(x_numval >= 0) & all(x_numval <= 100)) {
-      warning("Guessing ETDRS", call. = FALSE)
+      message("Guessing ETDRS")
       return("etdrs")
     } else {
-      stop("This seems to be ETDRS notation but there are unplausible values.
-         Check your data.", call. = FALSE)
+      warning("Guess ETDRS? Values out of range. Check your data.",
+              call. = FALSE)
+      return("failed")
     }
   }
   if (all(x_num %in% suppressWarnings(as.numeric(va_chart$snellen_dec)))) {
-    warning("Guessing snellen decimal", call. = FALSE)
+    message("Guessing snellen decimal")
     return("snellen")
   } else if (any(x_numval < -0.3 | any(x_numval > 4.2))) {
-    stop("VA notation not clear (Unplausible values). Check your data.", call. = FALSE)
+    warning("Guess logMAR? Values out of range. Check your data.",
+            call. = FALSE)
+    return("failed")
   } else {
     return("logmar")
   }

@@ -8,7 +8,7 @@
 \alias{tologMAR.snellen}
 \alias{toETDRS.snellen}
 \alias{toSnellen.logmar}
-\alias{toETDRS.logMAR}
+\alias{toETDRS.logmar}
 \alias{tologMAR.etdrs}
 \alias{toSnellen.etdrs}
 \title{VA conversion}
@@ -25,7 +25,7 @@ toETDRS.snellen(x)
 
 toSnellen.logmar(x, snellen = "ft")
 
-toETDRS.logMAR(x)
+toETDRS.logmar(x)
 
 tologMAR.etdrs(x)
 

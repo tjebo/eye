@@ -24,11 +24,11 @@ va_chart <- data.frame(snellen_ft,
                              snellen_m,
                             snellen_dec = formatC(round(dec_sn, 3)),
                             logMAR = formatC(logMAR),
-                            ETDRS,
+                            ETDRS = as.integer(ETDRS),
                             quali)
 va_chart$ETDRS[c(2:4, 28)] <- c(NA, 0L, 2L, 95L)
 va_chart$logMAR[c(12, 25, 28)] <- c("1.0", "0.0", "-0.2")
-va_chart$snellen_dec[c(17:19, 23, 25, 27:29)] <- c('0.29', '0.32', '0.33', '0.66', '1.0', '1.33', '1.5', '2.0')
+va_chart$snellen_dec[c(1, 17:19, 23, 25, 27:29)] <- c(NA, '0.29', '0.32', '0.33', '0.66', '1.0', '1.33', '1.5', '2.0')
 
 usethis::use_data(va_chart, overwrite = TRUE)
 
