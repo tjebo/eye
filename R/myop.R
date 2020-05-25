@@ -3,13 +3,7 @@
 #' long ("myopic")
 #' @name myop
 #' @param x data frame
-#' @param va_cols Character vector to define VA columns - see details
-#' @param iop_cols Character vector to define IOP columns - see details
-#' @param id id column to gather by - relevant if gathering multiple variables
-#' @param eye_code Vector of two with right eye coded first.
-#' @param values_to passed to [tidyr::pivot_longer()]
-#' @param names_to passed to [tidyr::pivot_longer()]
-#' @param ... other arguments passed to [tidyr::pivot_longer()]
+#' @param ... arguments passed to [tidyr::pivot_longer()]
 #' @details
 #' - **cols**: if not specified, `myop()` will look for columns that have
 #' typical eye codes, i.e. c("r", "re" and "od") for right eyes and
@@ -34,53 +28,20 @@
 #'
 #' @export
 
-myop <- function(x, va_cols, iop_cols, id, values_to, names_to = "eye", eye_code = c("r", "l"), ...) {
+myop <- function(x, ...) {
 
-  eye_r <- c("r", "re", "od", "right")
-  eye_l <- c("l", "le", "os", "left")
-
-  if (eye_code[1] %in% eye_l | eye_code[2] %in% eye_r) {
-    stop("right eyes need to be coded first", call. = FALSE)
-  }
-  if (identical(eye_code, 0:1) | identical(eye_code, 1:2)) {
-    message("Consider characters instead of numeric eye coding.")
-    eye_code <- as.character(eye_code)
-  } else if (!eye_code[1] %in% eye_r | !eye_code[2] %in% eye_l) {
-    if (sum(!is.na(as.integer(eye_code))) > 0) {
-      stop("Numeric coding apart from 0:1 or 1:2 not supported", call. = FALSE)
-    }
-    warning("Very unusual way of coding for eyes", call. = FALSE)
-  }
-
-  if (missing(values_to)) {
-    values_to <- "value"
-  }
+  eye_r <- set_eye()$r
+  eye_l <- set_eye()$l
+  eye_code <- c("r", "l")
 
   ls_eye <- get_eyecols(x)
+  va_cols <- get_va_cols(ls_eye)
+  leng_va <- lengths(va_cols)
+  iop_cols <- get_iop_cols(ls_eye)
+  leng_iop <- lengths(iop_cols)
 
   if (all(lengths(ls_eye) < 1)) {
     stop("No columns found for gathering", call. = FALSE)
-  }
-
-  if (missing(va_cols)) {
-    va_cols <- get_va_cols(ls_eye)
-    leng_va <- lengths(va_cols)
-  } else {
-    va_cols <- va_cols
-    leng_va <- lengths(va_cols)
-    if(!all(va_cols %in% names(x))){
-      warning("va_cols provided that do not match column names", call. = FALSE)
-    }
-  }
-  if (missing(iop_cols)) {
-    iop_cols <- get_iop_cols(ls_eye)
-    leng_iop <- lengths(iop_cols)
-  } else {
-    iop_cols <- iop_cols
-    leng_iop <- lengths(iop_cols)
-    if(!all(iop_cols %in% names(x))){
-      warning("iop_cols provided that do not match column names", call. = FALSE)
-    }
   }
 
   message(paste0("Picked \"", paste(ls_eye[[1]], collapse = ","), "\" and \"", paste(ls_eye[[2]], collapse = ","), "\" for right and left eyes"))

@@ -4,13 +4,16 @@
 \alias{whole}
 \alias{part_str}
 \alias{set_eye}
+\alias{set_quali}
 \alias{set_iop}
 \alias{set_va}
 \alias{get_idcols}
 \alias{get_eyecols}
 \alias{get_iop_cols}
 \alias{get_va_cols}
+\alias{isNAstring}
 \alias{which_va}
+\alias{convert_na_va}
 \title{whole}
 \usage{
 whole(string)
@@ -18,6 +21,8 @@ whole(string)
 part_str(string)
 
 set_eye(r = c("r", "re", "od", "right"), l = c("l", "le", "os", "left"))
+
+set_quali(quali = c("NLP", "LP", "HM", "CF"))
 
 set_iop(whole = c("iop", "gat", "nct"), partial = "pressure")
 
@@ -31,7 +36,11 @@ get_iop_cols(obj, iop_chr)
 
 get_va_cols(obj, va_chr)
 
+isNAstring(x, full = c("\\\\.+", "", "\\\\s+", "n/a"), partial = c("not"))
+
 which_va(x)
+
+convert_na_va(x)
 }
 \arguments{
 \item{obj}{can be vector, data frame or list}
@@ -82,5 +91,6 @@ whole("eye")(amd)
 
 part_str("pat|Id")(amd)
 }
+\concept{internals}
 \concept{string matching functions}
 \concept{va conversion functions}

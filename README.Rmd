@@ -68,6 +68,7 @@ eyes(amd)
 
 ### va
 Visual acuity notation conversion ([source](https://github.com/tjebo/eye/blob/master/R/va.R)). Based on conversion tables, formulas and findings from [@hollday], [@beck], [@bach] and [@gregori].
+Categories "no light perception", "light perception", "count fingers" and "hand movement" are converted [following the suggestions by Michael Bach](https://michaelbach.de/sci/pubs/Bach2007IOVS%20eLetter%20FrACT.pdf). Further interesting information can be found on [his homepage](https://michaelbach.de/sci/acuity.html)
 ```{r va, warning=FALSE, eval = FALSE, message=FALSE, results='hide'}
 # TBC
 ```

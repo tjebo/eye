@@ -8,77 +8,20 @@
 \alias{myopic}
 \title{long eye data}
 \usage{
-myop(
-  x,
-  va_cols,
-  iop_cols,
-  id,
-  values_to,
-  names_to = "eye",
-  eye_code = c("r", "l"),
-  ...
-)
+myop(x, ...)
 
-myope(
-  x,
-  va_cols,
-  iop_cols,
-  id,
-  values_to,
-  names_to = "eye",
-  eye_code = c("r", "l"),
-  ...
-)
+myope(x, ...)
 
-myopise(
-  x,
-  va_cols,
-  iop_cols,
-  id,
-  values_to,
-  names_to = "eye",
-  eye_code = c("r", "l"),
-  ...
-)
+myopise(x, ...)
 
-myopize(
-  x,
-  va_cols,
-  iop_cols,
-  id,
-  values_to,
-  names_to = "eye",
-  eye_code = c("r", "l"),
-  ...
-)
+myopize(x, ...)
 
-myopic(
-  x,
-  va_cols,
-  iop_cols,
-  id,
-  values_to,
-  names_to = "eye",
-  eye_code = c("r", "l"),
-  ...
-)
+myopic(x, ...)
 }
 \arguments{
 \item{x}{data frame}
 
-\item{va_cols}{Character vector to define VA columns - see details}
-
-\item{iop_cols}{Character vector to define IOP columns - see details}
-
-\item{id}{id column to gather by - relevant if gathering multiple variables}
-
-\item{values_to}{passed to \code{\link[tidyr:pivot_longer]{tidyr::pivot_longer()}}}
-
-\item{names_to}{passed to \code{\link[tidyr:pivot_longer]{tidyr::pivot_longer()}}}
-
-\item{eye_code}{Vector of two with right eye coded first.}
-
-\item{...}{other arguments passed to \code{\link[tidyr:pivot_longer]{tidyr::pivot_longer()}}}
+\item{...}{arguments passed to \code{\link[tidyr:pivot_longer]{tidyr::pivot_longer()}}}
 }
 \description{
 Wrapper around \code{\link[tidyr:pivot_longer]{tidyr::pivot_longer()}} to make your data

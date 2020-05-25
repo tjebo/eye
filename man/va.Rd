@@ -23,12 +23,9 @@ to enter and save data. For more control, provide string:
 Either "ETDRS", "logMAR" or "snellen" (any case allowed).
 \strong{to} Supported: "ETDRS", "logMAR" or "snellen" (any case allowed).
 
-Although a mean value
-expressed as logMAR units is sensibly back-converted to
-the Snellen fraction, the SD cannot be easily backconverted
-1/200 considered CF. From 20/800 downwards no linear relation to ETDRS.
-snellen 2/200 suggest to be equivalent to 2 letters,
-and 1/200 to 0 letters
+Qualitative vision measures "Light perception", "hand movements" and "counting fingers"
+have to be coded "LP", "HM" and "CF", otherwise they will be replaced with NA.
+"No light perception" is not converted into visual acuity values and will be replaced with NA.
 }
 \examples{
 TBC

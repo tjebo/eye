@@ -13,12 +13,9 @@
 #' @examples
 #' TBC
 #' @details
-#' Although a mean value
-#' expressed as logMAR units is sensibly back-converted to
-#' the Snellen fraction, the SD cannot be easily backconverted
-#' 1/200 considered CF. From 20/800 downwards no linear relation to ETDRS.
-#' snellen 2/200 suggest to be equivalent to 2 letters,
-#' and 1/200 to 0 letters
+#' Qualitative vision measures "Light perception", "hand movements" and "counting fingers"
+#' have to be coded "LP", "HM" and "CF", otherwise they will be replaced with NA.
+#' "No light perception" is not converted into visual acuity values and will be replaced with NA.
 #' @importFrom rlang sym
 #'
 #' @export
@@ -29,7 +26,9 @@ va <- function(x, from = NULL, to = "logmar") {
     stop("\"to\" should be only one of \"etdrs\", \"logmar\"
   or \"snellen\" - any case allowed.", call. = FALSE)
   }
-
+  if(is.character(x)|is.factor(x)){
+  x <- convert_na_va(x)
+  }
   guess_va <- which_va(x)
   if (guess_va == "failed" & is.null(from)) {
     stop("Failed to autodetect VA class. Fix with from argument")
@@ -96,12 +95,16 @@ va_snellen <- function (x, snellen = "ft") {
 tologMAR.snellen <- function(x){
   x <- as.character(x)
   snellen_frac <-
-    unname(vapply(x, function(x) eval(parse(text= x)), FUN.VALUE = numeric(1)))
+    sapply(strsplit(x, "/"),
+           function(x) { x <- suppressWarnings(as.numeric(x)); x[1] / x[2]})
   logMAR <- round(-1 * log10(snellen_frac), 2)
+  if(any(x %in% set_quali())){
+    x_quali <- va_quali$logMAR[match(x, va_quali$quali)]
+    logMAR <- ifelse(is.na(logMAR), x_quali, logMAR)
+  }
   class(logMAR) <- c("logmar","numeric")
   logMAR
 }
-
 #' toETDRS.snellen
 #' @rdname va_methods
 #' @param x vector of class snellen
@@ -111,10 +114,15 @@ tologMAR.snellen <- function(x){
 toETDRS.snellen <- function(x){
   x <- as.character(x)
   snellen_frac <-
-    unname(vapply(x, function(x) eval(parse(text= x)), FUN.VALUE = numeric(1)))
+    sapply(strsplit(x, "/"),
+           function(x) { x <- suppressWarnings(as.numeric(x)); x[1] / x[2]})
   ETDRS <- round(85 + 50 * log10(snellen_frac), 0)
   ETDRS[snellen_frac <= 0.02 & snellen_frac > 0.005] <- 2
   ETDRS[snellen_frac <= 0.005] <- 0
+  if(any(x %in% set_quali())){
+    x_quali <- va_quali$ETDRS[match(x, va_quali$quali)]
+    ETDRS <- ifelse(is.na(ETDRS), x_quali, ETDRS)
+  }
   class(ETDRS) <- c("etdrs", "integer")
   ETDRS
 }
@@ -128,9 +136,13 @@ toETDRS.snellen <- function(x){
 #'   to snellen using the va conversion chart
 #' @family va conversion methods
 toSnellen.logmar <- function(x, snellen = "ft"){
-x <- round(as.numeric(x), 1)
+x_num <- suppressWarnings(round(as.numeric(x), 1))
+if(any(x %in% set_quali())){
+  x_quali <- as.numeric(va_quali$logMAR[match(x, va_quali$quali)])
+  x_num <- ifelse(is.na(x_num), x_quali, x_num)
+}
 col = paste("snellen", snellen, sep = "_")
-snellen <- va_chart[[col]][match(x, as.numeric(va_chart$logMAR))]
+snellen <- va_chart[[col]][match(x_num, as.numeric(va_chart$logMAR))]
 class(snellen) <- c("snellen", "character")
 snellen
 }
@@ -143,8 +155,12 @@ snellen
 #'   Rounding logMAR to nearest first digit and
 #'   converting to ETDRS letters using the va conversion chart
 toETDRS.logmar <- function(x){
-  x <- round(as.numeric(x), 1)
-  ETDRS <- eye::va_chart[["ETDRS"]][match(x, as.numeric(eye::va_chart[["logMAR"]]))]
+  x_num <- suppressWarnings(round(as.numeric(x), 1))
+  if(any(x %in% set_quali())){
+    x_quali <- as.numeric(va_quali$logMAR[match(x, va_quali$quali)])
+    x_num <- ifelse(is.na(x_num), x_quali, x_num)
+  }
+  ETDRS <- eye::va_chart[["ETDRS"]][match(x_num, as.numeric(eye::va_chart[["logMAR"]]))]
   class(ETDRS) <- c("etdrs", "integer")
   ETDRS
 }
@@ -155,6 +171,10 @@ toETDRS.logmar <- function(x){
 #' @family va conversion methods
 #' @details Approximate eqivalent based on formula in Beck et al.
 tologMAR.etdrs <- function(x){
+  if(any(x %in% set_quali())){
+    x_quali <- va_quali$ETDRS[match(x, va_quali$quali)]
+    x <- ifelse(is.na(x), x_quali, x)
+  }
   logMAR <- (-0.02 * x) + 1.7
   class(logMAR) <- c("logmar","numeric")
   logMAR
@@ -169,6 +189,10 @@ tologMAR.etdrs <- function(x){
 #'   First coverting to logMAR, rounding this to the closest first digit,
 #'   converting this to snellen using the chart.
 toSnellen.etdrs <- function(x, snellen = "ft"){
+  if(any(x %in% set_quali())){
+    x_quali <- va_quali$ETDRS[match(x, va_quali$quali)]
+    x <- ifelse(is.na(x), x_quali, x)
+  }
    x <- round((-0.02 * x) + 1.7, 1)
     col = paste("snellen", snellen, sep = "_")
     snellen <- va_chart[[col]][match(x, as.numeric(va_chart$logMAR))]
@@ -184,12 +208,13 @@ toSnellen.etdrs <- function(x, snellen = "ft"){
 #'
 which_va <- function(x) {
   x <- suppressWarnings(as.character(x))
-  if (all(x[!is.na(x)] %in% c("NLP", "LP", "HM", "CF"))) {
+
+  if (all(x[!is.na(x)] %in% set_quali())) {
     return("quali")
   }
-
-  x_num <- suppressWarnings(as.numeric(x))
-  if (all(grepl("/", x[!is.na(x)]))) {
+  x_noquali <- x[!x %in% set_quali()]
+  x_num <- suppressWarnings(as.numeric(x_noquali))
+  if (all(grepl("/", x_noquali[!is.na(x_noquali)]))) {
     return("snellen")
   }
 
@@ -199,7 +224,7 @@ which_va <- function(x) {
     return("failed")
   }
   x_numval <- x_num[!is.na(x_num)]
-  if (length(x_numval) < length(x[!is.na(x)])) {
+  if (length(x_numval) < length(x_noquali[!is.na(x_noquali)])) {
     warning("Removed characters from numeric VA class -
             Mixed with snellen or CF/HM/LP/NLP?", call. = FALSE)
   }
@@ -226,3 +251,12 @@ which_va <- function(x) {
   }
 }
 
+#' convert_na_va
+#' @rdname internals
+#' @param x vector
+#' @family va conversion functions
+#'
+convert_na_va <- function(x){
+  x[isNAstring(x)] <- NA_character_
+  x
+}

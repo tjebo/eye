@@ -31,7 +31,6 @@
 #' @description Conversion between snellen, logMAR and ETDRS.
 #' Snellen feet, meter and decimal supported. Three qualitative common
 #' vision measures included (light perception, hand movement and counting fingers)
-
 #' @usage data("va_chart")
 #' @format A data frame with 40764 rows and 7 variables:
 #' \describe{
