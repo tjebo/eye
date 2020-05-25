@@ -36,6 +36,13 @@ set_eye <- function(r = c("r", "re", "od", "right"), l = c("l", "le", "os", "lef
   list(r = r, l = l)
 }
 
+#' set quali terms
+#' @rdname internals
+#' @family string matching functions
+set_quali <- function(quali = c("NLP", "LP", "HM", "CF")) quali
+
+
+
 #' set iop terms
 #' @rdname internals
 #' @description set the iop strings looked for in the data
@@ -147,3 +154,21 @@ get_va_cols <- function(obj, va_chr) {
   va_cols
 }
 
+
+#' isNAstring
+#' @rdname internals
+#' @param x vector
+#' @family internals
+#'
+isNAstring <- function(x, full = c("\\.+", "", "\\s+", "n/a"), partial = c("not")) {
+  if (is.numeric(x) | is.integer(x)) {
+    stop("x is numeric/integer. No NA strings expected", call. = FALSE)
+  }
+  x <- tolower(x)
+  partial <- paste(partial, collapse = "|")
+  full <- paste0("^", paste(full, collapse = "$|^"), "$")
+
+  full_partial <- paste(c(partial, full), collapse = "|")
+  ismissing <- grepl(full_partial, x)
+  ismissing
+}

@@ -29,6 +29,13 @@ va_chart <- data.frame(snellen_ft,
 va_chart$ETDRS[c(2:4, 28)] <- c(NA, 0L, 2L, 95L)
 va_chart$logMAR[c(12, 25, 28)] <- c("1.0", "0.0", "-0.2")
 va_chart$snellen_dec[c(1, 17:19, 23, 25, 27:29)] <- c(NA, '0.29', '0.32', '0.33', '0.66', '1.0', '1.33', '1.5', '2.0')
-
+va_chart <- rbind(data.frame(snellen_ft = NA,
+                                snellen_m = NA,
+                                snellen_dec = NA,
+                                logMAR = NA,
+                                ETDRS = NA,
+                               quali = "NLP"), va_chart)
 usethis::use_data(va_chart, overwrite = TRUE)
 
+va_quali <- va_chart[!is.na(va_chart$quali),]
+usethis::use_data(va_quali, internal = TRUE)
