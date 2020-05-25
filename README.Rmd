@@ -60,7 +60,7 @@ devtools::install_github("tjebo/eye")
 
 ## Examples
 Required packages
-```{r}
+```{r, message=FALSE}
 library(tidyverse)
 ```
 
@@ -184,10 +184,8 @@ p + geom_trail(aes(group = age_cut10), size = 0) +
 - Thanks to Tim Yap for helping find typos. All remaining typos are entirely his fault.
 - Thanks to Hadley Wickham! Many of the functions in my package rely on the `tidyverse` package, but I would never have been able to make this package without his development tools `roxygen2`, `usethis`, `testthis` and `devtools`.
 
-The va conversion chart, as a table
-
 ## VA conversion chart
-<div style = "font-size:8pt;">
+<div style = "font-size:6pt;">
 |snellen_ft |snellen_m |snellen_dec |logMAR | ETDRS|quali |
 |----------|---------|-----------|------|-----|-----|
 |20/20000   |6/6000    |0.001       |3      |     0|NLP   |
@@ -224,6 +222,7 @@ The va conversion chart, as a table
 ## Resources
 [Michael Bach's homepage](https://michaelbach.de/sci/acuity.html)
 [Michael Bach on NLP and LP](https://michaelbach.de/sci/pubs/Bach2007IOVS%20eLetter%20FrACT.pdf)
+
 ## References and resources
 
 
