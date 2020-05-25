@@ -20,16 +20,17 @@ tiny bit more convenient.
 Finally, eye comes with [`geom_trail()`](#geom_trail) for some nice
 trail graphs.
 
-# Features
+## Features
 
-## Pure ophthalmology
+### Pure ophthalmology
 
   - [Perceive your data in a blink of an eye](#blink)
   - [Easy count of patients and eyes](#eyes)
   - [Conversion of visual acuity notations](#va)
+  - Conversion chart and conversion functions
   - [Make your eye data long](#myop)
 
-### AMD data
+#### AMD data
 
   - Anonymised [real life data from a large
     cohort](https://datadryad.org/stash/dataset/doi:10.5061/dryad.97r9289)
@@ -39,20 +40,20 @@ trail graphs.
   - To reference this data in your publication, please kindly cite the
     corresponding publication.(Fasler et al. [2019](#ref-fasler))
 
-## Beyond the eye
+### Beyond the eye
 
-### Convenience functions:
+#### Convenience functions:
 
   - [Insight: get common summary statistics](#insight)
   - [Calculate age](#age)
   - [Conveniently save a data frame to csv](#csv)
 
-### Catch eyes - ggplot2 extensions
+#### Catch eyes - ggplot2 extensions
 
   - [geom\_trail: A base plot type = “b” equivalent for
     ggplot2](#geom_trail)
 
-# Install eye
+## Install eye
 
 Currently only on github.
 
@@ -61,16 +62,29 @@ Currently only on github.
 devtools::install_github("tjebo/eye")
 ```
 
-# Examples
+## Examples
 
-## Pure eye stuff - core eye functions
+Required packages
 
-### blink
+``` r
+library(tidyverse)
+#> ── Attaching packages ───────────────────────────────────────────────── tidyverse 1.3.0 ──
+#> ✓ ggplot2 3.3.0.9000     ✓ purrr   0.3.4     
+#> ✓ tibble  3.0.1          ✓ dplyr   0.8.5     
+#> ✓ tidyr   1.0.3          ✓ stringr 1.4.0     
+#> ✓ readr   1.3.1          ✓ forcats 0.5.0
+#> ── Conflicts ──────────────────────────────────────────────────── tidyverse_conflicts() ──
+#> x dplyr::filter() masks stats::filter()
+#> x dplyr::lag()    masks stats::lag()
+```
 
-### eyes
+### Pure eye stuff - core eye functions
+
+#### blink
+
+#### eyes
 
 Count patient and eyes
-[source](https://github.com/tjebo/eye/blob/master/R/eyes.R)
 
 ``` r
 eyes(amd)
@@ -79,22 +93,44 @@ eyes(amd)
 #>     3357     3357     1681     1676
 ```
 
-### va
+#### va
 
-Visual acuity notation conversion
-([source](https://github.com/tjebo/eye/blob/master/R/va.R)). Based on
-conversion tables, formulas and findings from (Schulze-Bonsel et al.
-[2006](#ref-bach)) and (Gregori, Feuer, and Rosenfeld
-[2010](#ref-gregori)).
+  - *eye* includes a [visual acuity conversion chart:
+    `va_chart`](#va-conversion-chart)
+  - This chart and VA conversion formulas are based on (Holladay
+    [2004](#ref-holladay)), (Beck et al. [2003](#ref-beck)) and
+    (Gregori, Feuer, and Rosenfeld [2010](#ref-gregori))
+  - Categories **counting fingers** and **hand movements** are converted
+    following (Schulze-Bonsel et al. [2006](#ref-bach))
+  - Categories **no light perception** and **light perception** are
+    converted following the suggestions by Michael Bach
+
+<!-- end list -->
 
 ``` r
-# TBC
+## will automatically detect VA class and convert to logMAR as default
+## ETDRS letters
+va(c(23, 56, 74, 58)) 
+#> [1] 1.24 0.58 0.22 0.54
+#> attr(,"class")
+#> [1] "logmar"  "numeric"
+
+## ... or convert to snellen
+va(c(23, 56, 74, 58), to = "snellen") 
+#> [1] "20/320" "20/80"  "20/32"  "20/63" 
+#> attr(,"class")
+#> [1] "snellen"   "character"
+
+## snellen, mixed with categories
+va(c("NLP", "LP", "HM", "CF", "6/60", "20/200", "6/9", "20/40"))
+#> [1] 3.00 2.70 2.30 1.90 1.00 1.00 0.18 0.30
+#> attr(,"class")
+#> [1] "logmar"  "numeric"
 ```
 
-### myop
+#### myop
 
-Make your data long (“myopic”).
-[source](https://github.com/tjebo/eye/blob/master/R/myop.R)
+Make your data long (“myopic”)
 
 Simple data frame with one column for right eye and left eye.
 
@@ -105,18 +141,7 @@ iop_wide
 #> 2  b 13 15
 #> 3  c 12 16
 
-myop(iop_wide)
-#> Picked "r" and "l" for right and left eyes
-#> Neither VA nor IOP column(s) found. Gathering eye columns
-#> # A tibble: 6 x 3
-#>   id    eye   value
-#>   <chr> <chr> <int>
-#> 1 a     r        11
-#> 2 a     l        14
-#> 3 b     r        13
-#> 4 b     l        15
-#> 5 c     r        12
-#> 6 c     l        16
+#myop(iop_wide)
 ```
 
 Often enough, there are right eye / left eye columns for more than one
@@ -130,25 +155,14 @@ messy_df
 #> 2  b    13    12   43   43
 #> 3  c    11    11   42   41
 
-clean_df <- myop(messy_df)
-#> Picked "iop_r,va_r" and "iop_l,va_l" for right and left eyes
-#> Gathering both VA and IOP columns
+#clean_df <- myop(messy_df)
 
-clean_df
-#> # A tibble: 6 x 4
-#>   id    eye     IOP    VA
-#>   <chr> <chr> <int> <int>
-#> 1 a     r        12    41
-#> 2 a     l        13    42
-#> 3 b     r        13    43
-#> 4 b     l        12    43
-#> 5 c     r        11    42
-#> 6 c     l        11    41
+#clean_df
 ```
 
-## Beyond the eye
+### Beyond the eye
 
-### insight
+#### insight
 
 Show common statistics
 
@@ -162,7 +176,7 @@ insight(amd_unq[c("BaselineAge", "VA_ETDRS_Letters", "FollowupDays")])
 #> FollowupDays      0.1  3.1 3357      0   0 168
 ```
 
-### age
+#### age
 
   - Calculate age in years, as [periods or
     durations](https://lubridate.tidyverse.org/articles/lubridate.html#time-intervals)
@@ -181,7 +195,7 @@ age(dob, test_date)
 #> [1] 41.1 54.8
 ```
 
-### csv
+#### csv
 
   - A convenience wrapper around `write.csv`. Saves a .csv file with the
     name of the data frame, or with a different name.
@@ -192,9 +206,9 @@ age(dob, test_date)
 csv(amd)
 ```
 
-## ggplot2 extensions
+### ggplot2 extensions
 
-### geom\_trail
+#### geom\_trail
 
 A base plot type = “b” equivalent for ggplot. Works also with text\!
 
@@ -203,9 +217,6 @@ A base plot type = “b” equivalent for ggplot. Works also with text\!
 <summary>Prepare AMD data for plot (click to unfold) </summary>
 
 ``` r
-library(ggplot2)
-library(dplyr)
-
 amd_aggr <-
   amd %>%
   group_by(
@@ -230,9 +241,9 @@ p <-
     p + geom_trail(aes(group = age_cut10), size = 0) +
               geom_text(aes(label = round(mean_va, 0)), show.legend = FALSE)
 
-<img src="README-unnamed-chunk-4-1.png" width="45%" /><img src="README-unnamed-chunk-4-2.png" width="45%" />
+<img src="README-unnamed-chunk-5-1.png" width="45%" /><img src="README-unnamed-chunk-5-2.png" width="45%" />
 
-# Acknowledgements
+## Acknowledgements
 
   - Thanks to Siegfried Wagner and Abraham Olvera, for their help with
     VA conversion
@@ -243,9 +254,64 @@ p <-
     this package without his development tools `roxygen2`, `usethis`,
     `testthis` and `devtools`.
 
-# References
+The va conversion chart, as a table
+
+## VA conversion chart
+
+<div style="font-size:8pt;">
+
+| snellen\_ft | snellen\_m | snellen\_dec | logMAR | ETDRS | quali |
+| ----------- | ---------- | ------------ | ------ | ----- | ----- |
+| 20/20000    | 6/6000     | 0.001        | 3      | 0     | NLP   |
+| 20/10000    | 6/3000     | 0.002        | 2.7    | 0     | LP    |
+| 20/4000     | 6/1200     | 0.005        | 2.3    | 0     | HM    |
+| 20/2000     | 6/600      | 0.01         | 1.9    | 2     | CF    |
+| 20/800      | 6/240      | 0.025        | 1.6    | 5     | NA    |
+| 20/630      | 6/190      | 0.032        | 1.5    | 10    | NA    |
+| 20/500      | 6/150      | 0.04         | 1.4    | 15    | NA    |
+| 20/400      | 6/120      | 0.05         | 1.3    | 20    | NA    |
+| 20/320      | 6/96       | 0.062        | 1.2    | 25    | NA    |
+| 20/300      | 6/90       | 0.067        | 1.18   | 26    | NA    |
+| 20/250      | 6/75       | 0.08         | 1.1    | 30    | NA    |
+| 20/200      | 6/60       | 0.1          | 1.0    | 35    | NA    |
+| 20/160      | 6/48       | 0.125        | 0.9    | 40    | NA    |
+| 20/125      | 6/38       | 0.16         | 0.8    | 45    | NA    |
+| 20/100      | 6/30       | 0.2          | 0.7    | 50    | NA    |
+| 20/80       | 6/24       | 0.25         | 0.6    | 55    | NA    |
+| 20/70       | 6/21       | 0.29         | 0.54   | 58    | NA    |
+| 20/63       | 6/19       | 0.32         | 0.5    | 60    | NA    |
+| 20/60       | 6/18       | 0.33         | 0.48   | 61    | NA    |
+| 20/50       | 6/15       | 0.4          | 0.4    | 65    | NA    |
+| 20/40       | 6/12       | 0.5          | 0.3    | 70    | NA    |
+| 20/32       | 6/9.6      | 0.625        | 0.2    | 75    | NA    |
+| 20/30       | 6/9        | 0.66         | 0.18   | 76    | NA    |
+| 20/25       | 6/7.5      | 0.8          | 0.1    | 80    | NA    |
+| 20/20       | 6/6        | 1.0          | 0.0    | 85    | NA    |
+| 20/16       | 6/5        | 1.25         | \-0.1  | 90    | NA    |
+| 20/15       | 6/4.5      | 1.33         | \-0.12 | 91    | NA    |
+| 20/13       | 6/4        | 1.5          | \-0.2  | 95    | NA    |
+| 20/10       | 6/3        | 2.0          | \-0.3  | 100   | NA    |
+
+</div>
+
+## Resources
+
+[Michael Bach’s homepage](https://michaelbach.de/sci/acuity.html)
+[Michael Bach on NLP and
+LP](https://michaelbach.de/sci/pubs/Bach2007IOVS%20eLetter%20FrACT.pdf)
+\#\# References and resources
 
 <div id="refs" class="references">
+
+<div id="ref-beck">
+
+Beck, Roy W, Pamela S Moke, Andrew H Turpin, Frederick L Ferris, John
+Paul SanGiovanni, Chris A Johnson, Eileen E Birch, et al. 2003. “A
+Computerized Method of Visual Acuity Testing.” *American Journal of
+Ophthalmology* 135 (2). Elsevier BV: 194–205.
+<https://doi.org/10.1016/s0002-9394(02)01825-1>.
+
+</div>
 
 <div id="ref-fasler">
 
@@ -264,6 +330,14 @@ Gregori, Ninel Z, William Feuer, and Philip J Rosenfeld. 2010. “Novel
 Method for Analyzing Snellen Visual Acuity Measurements.” *Retina* 30
 (7). Ovid Technologies (Wolters Kluwer Health): 1046–50.
 <https://doi.org/10.1097/iae.0b013e3181d87e04>.
+
+</div>
+
+<div id="ref-holladay">
+
+Holladay, Jack T. 2004. “Visual Acuity Measurements.” *Journal of
+Cataract and Refractive Surgery* 30 (2): 287–90.
+<https://doi.org/10.1016/j.jcrs.2004.01.014>.
 
 </div>
 

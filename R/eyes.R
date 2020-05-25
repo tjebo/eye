@@ -34,7 +34,7 @@ eyes <- function(x, id  = NULL, eye  = NULL, eye_str = NULL) {
   }
 
   if (is.null(eye)) {
-    eye <- partial("eye")(colnames(x))
+    eye <- part_str("eye")(colnames(x))
   }
 
   if (length(eye) > 1 | length(pat_col) > 1) {

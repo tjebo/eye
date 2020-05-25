@@ -102,6 +102,7 @@ tologMAR.snellen <- function(x){
     x_quali <- va_quali$logMAR[match(x, va_quali$quali)]
     logMAR <- ifelse(is.na(logMAR), x_quali, logMAR)
   }
+  logMAR <- as.numeric(logMAR)
   class(logMAR) <- c("logmar","numeric")
   logMAR
 }
@@ -176,6 +177,7 @@ tologMAR.etdrs <- function(x){
     x <- ifelse(is.na(x), x_quali, x)
   }
   logMAR <- (-0.02 * x) + 1.7
+  logMAR <- as.numeric(logMAR)
   class(logMAR) <- c("logmar","numeric")
   logMAR
 }

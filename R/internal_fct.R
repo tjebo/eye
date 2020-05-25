@@ -172,3 +172,4 @@ isNAstring <- function(x, full = c("\\.+", "", "\\s+", "n/a"), partial = c("not"
   ismissing <- grepl(full_partial, x)
   ismissing
 }
+
