@@ -79,8 +79,8 @@ eyes(amd)
 - Categories **counting fingers** and **hand movements** are converted following [@bach]
 - Categories **no light perception** and **light perception** are converted following the suggestions by Michael Bach
 
-```{r va, warning=FALSE, message=FALSE}
-## will automatically detect VA class and convert to logMAR as default
+```{r va, message=FALSE}
+## will automatically detect VA class and convert to logMAR by default
 ## ETDRS letters
 va(c(23, 56, 74, 58)) 
 
@@ -89,6 +89,20 @@ va(c(23, 56, 74, 58), to = "snellen")
 
 ## snellen, mixed with categories
 va(c("NLP", "LP", "HM", "CF", "6/60", "20/200", "6/9", "20/40"))
+
+## on the inbuilt data set:
+amd$logmar <- va(amd$VA_ETDRS_Letters)
+
+## (indeed, there are unplausible ETDRS values in this data set!!)
+## let's see where they are
+
+amd %>% 
+  select(-(1:5)) %>% 
+  arrange(VA_ETDRS_Letters) %>%
+  slice(c(head(row_number(),3), tail(row_number(), 3)))
+
+## Unplausible values! Need to contact the data curator:)
+## The logMAR conversion worked nevertheless
 ```
 
 
@@ -185,7 +199,7 @@ p + geom_trail(aes(group = age_cut10), size = 0) +
 - Thanks to Hadley Wickham! Many of the functions in my package rely on the `tidyverse` package, but I would never have been able to make this package without his development tools `roxygen2`, `usethis`, `testthis` and `devtools`.
 
 ## VA conversion chart
-<div style = "font-size:6pt;">
+<div style = "font-size:8 pt;">
 |snellen_ft |snellen_m |snellen_dec |logMAR | ETDRS|quali |
 |----------|---------|-----------|------|-----|-----|
 |20/20000   |6/6000    |0.001       |3      |     0|NLP   |
@@ -223,6 +237,6 @@ p + geom_trail(aes(group = age_cut10), size = 0) +
 [Michael Bach's homepage](https://michaelbach.de/sci/acuity.html)
 [Michael Bach on NLP and LP](https://michaelbach.de/sci/pubs/Bach2007IOVS%20eLetter%20FrACT.pdf)
 
-## References and resources
+## References
 
 

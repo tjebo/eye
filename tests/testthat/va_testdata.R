@@ -11,4 +11,11 @@ quali_logmar <- c(logmar, quali)
 quali_snellen_ft <- c(snellen_ft, quali)
 quali_snellen_m <- c(snellen_m, quali)
 
+va_vec <- c("NLP", "LP", "HM", "CF", "6/60", "20/200", "6/9", "20/40")
+va_vec2 <- structure(c(3, 2.7, 2.3, 1.9, 1, 1, 0.18, 0.3), class = c("logmar",
+                                                                     "va", "numeric"))
+va_vec3 <- structure(c(0L, 0L, 0L, 2L, 35L, 35L, 75L, 70L), class = c("etdrs",
+                                                                      "va", "integer"))
+
 abraham <- read.csv("./data-raw/share_vision_df.csv")
+

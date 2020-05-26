@@ -100,24 +100,48 @@ eyes(amd)
 <!-- end list -->
 
 ``` r
-## will automatically detect VA class and convert to logMAR as default
+## will automatically detect VA class and convert to logMAR by default
 ## ETDRS letters
 va(c(23, 56, 74, 58)) 
 #> [1] 1.24 0.58 0.22 0.54
 #> attr(,"class")
-#> [1] "logmar"  "numeric"
+#> [1] "logmar"  "va"      "numeric"
 
 ## ... or convert to snellen
 va(c(23, 56, 74, 58), to = "snellen") 
 #> [1] "20/320" "20/80"  "20/32"  "20/63" 
 #> attr(,"class")
-#> [1] "snellen"   "character"
+#> [1] "snellen"   "va"        "character"
 
 ## snellen, mixed with categories
 va(c("NLP", "LP", "HM", "CF", "6/60", "20/200", "6/9", "20/40"))
 #> [1] 3.00 2.70 2.30 1.90 1.00 1.00 0.18 0.30
 #> attr(,"class")
-#> [1] "logmar"  "numeric"
+#> [1] "logmar"  "va"      "numeric"
+
+## on the inbuilt data set:
+amd$logmar <- va(amd$VA_ETDRS_Letters)
+#> Warning: Guess ETDRS? Values out of range. Check your data.
+
+## (indeed, there are unplausible ETDRS values in this data set!!)
+## let's see where they are
+
+amd %>% 
+  select(-(1:5)) %>% 
+  arrange(VA_ETDRS_Letters) %>%
+  slice(c(head(row_number(),3), tail(row_number(), 3)))
+#> # A tibble: 6 x 3
+#>   VA_ETDRS_Letters InjectionNumber logmar
+#>              <dbl>           <dbl>  <dbl>
+#> 1                0              20   1.7 
+#> 2                0               9   1.7 
+#> 3                0               3   1.7 
+#> 4              100              13  -0.3 
+#> 5              102               7  -0.34
+#> 6              105              15  -0.4
+
+## Unplausible values! Need to contact the data curator:)
+## The logMAR conversion worked nevertheless
 ```
 
 #### myop
@@ -248,7 +272,7 @@ p <-
 
 ## VA conversion chart
 
-<div style="font-size:6pt;">
+<div style="font-size:8 pt;">
 
 | snellen\_ft | snellen\_m | snellen\_dec | logMAR | ETDRS | quali |
 | ----------- | ---------- | ------------ | ------ | ----- | ----- |
@@ -290,7 +314,7 @@ p <-
 [Michael Bach on NLP and
 LP](https://michaelbach.de/sci/pubs/Bach2007IOVS%20eLetter%20FrACT.pdf)
 
-## References and resources
+## References
 
 <div id="refs" class="references">
 

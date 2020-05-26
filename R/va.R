@@ -21,40 +21,56 @@
 #' @export
 va <- function(x, from = NULL, to = "logmar") {
   to <- tolower(to)
-
   if (length(to) != 1 | !to %in% c("etdrs", "logmar", "snellen")) {
     stop("\"to\" should be only one of \"etdrs\", \"logmar\"
   or \"snellen\" - any case allowed.", call. = FALSE)
   }
-  if(is.character(x)|is.factor(x)){
-  x <- convert_na_va(x)
-  }
-  guess_va <- which_va(x)
-  if (guess_va == "failed" & is.null(from)) {
-    stop("Failed to autodetect VA class. Fix with from argument")
-  }
+  if (inherits(x, "va")) {
+    set_va <- class(x)[class(x) %in% c("logmar", "snellen", "etdrs", "quali")]
 
-  if (!is.null(from)) {
-    class_va <- tolower(from)
-    if (length(class_va) != 1 | !class_va %in% c("etdrs", "logmar", "snellen")) {
-      stop("\"from\" should be only one of \"etdrs\", \"logmar\"
-  or \"snellen\" - any case allowed.", call. = FALSE)
+    if (!is.null(from)) {
+      warning("from argument overriden by VA class.", call. = FALSE)
     }
-    if (guess_va == "failed") {
-      guess_va <- class_va
-      warning("Failed to autodetect VA class - relying on from argument.
-              Check your data for weird values.", call. = FALSE)
-    }
-    if (class_va != guess_va) {
-      stop(paste(class_va, "class not plausible. Check data"),
-        call. = FALSE
-      )
+    if (to == set_va) {
+      message("VA is already in desired class. No conversion made")
+      return(x)
+    } else {
+      class_va <- set_va
     }
   } else {
-    class_va <- guess_va
-  }
-  if (class_va == to) {
-    stop("VA already in the desired class", call. = FALSE)
+
+    if (is.character(x) | is.factor(x)) {
+      x <- convert_na_va(x)
+    }
+    guess_va <- which_va(x)
+
+    if (guess_va == "failed" & is.null(from)) {
+      stop("Failed to detect VA class. Clean your data")
+    }
+
+    if (!is.null(from)) {
+      class_va <- tolower(from)
+      if (length(class_va) != 1 | !class_va %in% c("etdrs", "logmar", "snellen")) {
+        stop("\"from\" should be only one of \"etdrs\", \"logmar\"
+  or \"snellen\" - any case allowed.", call. = FALSE)
+      }
+      if (guess_va == "failed") {
+        guess_va <- class_va
+        warning("Failed to autodetect VA class - relying on from argument.
+              Check your data for weird values.", call. = FALSE)
+      }
+      if (class_va != guess_va) {
+        stop(paste(class_va, "class not plausible. Check data"),
+          call. = FALSE
+        )
+      }
+    } else {
+      class_va <- guess_va
+    }
+    if (class_va == to) {
+      message(paste("VA was already in the desired notation.
+                  Updated x to", class_va, "class"))
+    }
   }
 
   class(x) <- class_va
@@ -103,7 +119,7 @@ tologMAR.snellen <- function(x){
     logMAR <- ifelse(is.na(logMAR), x_quali, logMAR)
   }
   logMAR <- as.numeric(logMAR)
-  class(logMAR) <- c("logmar","numeric")
+  class(logMAR) <- c("logmar","va",class(logMAR))
   logMAR
 }
 #' toETDRS.snellen
@@ -124,7 +140,8 @@ toETDRS.snellen <- function(x){
     x_quali <- va_quali$ETDRS[match(x, va_quali$quali)]
     ETDRS <- ifelse(is.na(ETDRS), x_quali, ETDRS)
   }
-  class(ETDRS) <- c("etdrs", "integer")
+  ETDRS <- as.integer(ETDRS)
+  class(ETDRS) <- c("etdrs","va", class(ETDRS))
   ETDRS
 }
 
@@ -144,13 +161,13 @@ if(any(x %in% set_quali())){
 }
 col = paste("snellen", snellen, sep = "_")
 snellen <- va_chart[[col]][match(x_num, as.numeric(va_chart$logMAR))]
-class(snellen) <- c("snellen", "character")
+class(snellen) <- c("snellen", "va", class(snellen) )
 snellen
 }
 
 #' toETDRS.logmar
 #' @rdname va_methods
-#' @param x vector of class logMAR
+#' @param x vector of class logmar
 #' @family va conversion methods
 #' @details Only approximate eqivalent.
 #'   Rounding logMAR to nearest first digit and
@@ -162,8 +179,54 @@ toETDRS.logmar <- function(x){
     x_num <- ifelse(is.na(x_num), x_quali, x_num)
   }
   ETDRS <- eye::va_chart[["ETDRS"]][match(x_num, as.numeric(eye::va_chart[["logMAR"]]))]
-  class(ETDRS) <- c("etdrs", "integer")
+  ETDRS <- as.integer(ETDRS)
+  class(ETDRS) <- c("etdrs", "va", class(ETDRS))
   ETDRS
+}
+#' toETDRS.etdrs
+#' @rdname va_methods
+#' @param x vector of class etdrs
+#' @family va conversion methods
+
+toETDRS.etdrs <- function(x){
+  x_int <- suppressWarnings(as.integer(x))
+  if(any(x %in% set_quali())){
+    x_quali <- va_quali$ETDRS[match(x, va_quali$quali)]
+    x_int <- ifelse(is.na(x_int), x_quali, x_int)
+  }
+  ETDRS <- as.integer(ETDRS)
+  class(ETDRS) <- c("etdrs", "va", class(ETDRS))
+  ETDRS
+}
+#' toSnellen.snellen
+#' @rdname va_methods
+#' @param x vector of class snellen
+#' @family va conversion methods
+
+toSnellen.snellen <- function(x){
+  col = paste("snellen", snellen, sep = "_")
+  if(any(x %in% set_quali())){
+      x_quali <- va_quali[[col]][match(x, va_quali$quali)]
+      x <- ifelse(is.na(x), x_quali, x)
+    }
+  snellen <- x
+  class(snellen) <- c("etdrs", "va", class(snellen))
+  snellen
+}
+#' tologMAR.logmar
+#' @rdname va_methods
+#' @param x vector of class logMAR
+#' @family va conversion methods
+#' @details will transform categories to logMAR
+tologMAR.logmar <- function(x){
+  x_num <- suppressWarnings(round(as.numeric(x), 2))
+  if(any(x %in% set_quali())){
+    x_quali <- as.numeric(va_quali$logMAR)[match(x, va_quali$quali)]
+    x_num <- ifelse(is.na(x_num), x_quali, x_num)
+  }
+  logMAR <- as.numeric(x_num)
+  class(logMAR) <- c("logmar", "va", class(logMAR))
+  logMAR
 }
 
 #' tologMAR.etdrs
@@ -178,7 +241,7 @@ tologMAR.etdrs <- function(x){
   }
   logMAR <- (-0.02 * x) + 1.7
   logMAR <- as.numeric(logMAR)
-  class(logMAR) <- c("logmar","numeric")
+  class(logMAR) <- c("logmar", "va", class(logMAR))
   logMAR
 }
 
@@ -198,7 +261,7 @@ toSnellen.etdrs <- function(x, snellen = "ft"){
    x <- round((-0.02 * x) + 1.7, 1)
     col = paste("snellen", snellen, sep = "_")
     snellen <- va_chart[[col]][match(x, as.numeric(va_chart$logMAR))]
-    class(snellen) <- c("snellen", "character")
+    class(snellen) <- c("snellen", "va", class(snellen))
     snellen
 }
 
@@ -238,7 +301,7 @@ which_va <- function(x) {
     } else {
       warning("Guess ETDRS? Values out of range. Check your data.",
               call. = FALSE)
-      return("failed")
+      return("etdrs")
     }
   }
   if (all(x_num %in% suppressWarnings(as.numeric(va_chart$snellen_dec)))) {
@@ -247,7 +310,7 @@ which_va <- function(x) {
   } else if (any(x_numval < -0.3 | any(x_numval > 4.2))) {
     warning("Guess logMAR? Values out of range. Check your data.",
             call. = FALSE)
-    return("failed")
+    return("logmar")
   } else {
     return("logmar")
   }
@@ -262,3 +325,4 @@ convert_na_va <- function(x){
   x[isNAstring(x)] <- NA_character_
   x
 }
+

@@ -9,6 +9,9 @@
 \alias{toETDRS.snellen}
 \alias{toSnellen.logmar}
 \alias{toETDRS.logmar}
+\alias{toETDRS.etdrs}
+\alias{toSnellen.snellen}
+\alias{tologMAR.logmar}
 \alias{tologMAR.etdrs}
 \alias{toSnellen.etdrs}
 \title{VA conversion}
@@ -26,6 +29,12 @@ toETDRS.snellen(x)
 toSnellen.logmar(x, snellen = "ft")
 
 toETDRS.logmar(x)
+
+toETDRS.etdrs(x)
+
+toSnellen.snellen(x)
+
+tologMAR.logmar(x)
 
 tologMAR.etdrs(x)
 
@@ -50,6 +59,8 @@ to snellen using the va conversion chart
 Only approximate eqivalent.
 Rounding logMAR to nearest first digit and
 converting to ETDRS letters using the va conversion chart
+
+will transform categories to logMAR
 
 Approximate eqivalent based on formula in Beck et al.
 

@@ -154,7 +154,6 @@ get_va_cols <- function(obj, va_chr) {
   va_cols
 }
 
-
 #' isNAstring
 #' @rdname internals
 #' @param x vector
