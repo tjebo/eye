@@ -29,29 +29,22 @@ Its core functions [`blink()`](#blink), [`eyes()`](#eyes), [`myop()`](#myop), an
 
 Finally, eye comes with [`geom_trail()`](#geom_trail) for some nice trail graphs. 
 
-## Features
-### Pure ophthalmology
-- [Perceive your data in a blink of an eye](#blink)
-- [Easy count of patients and eyes](#eyes)
-- [Conversion of visual acuity notations](#va)
-- Conversion chart and conversion functions
-- [Make your eye data long](#myop)
+## Features 
+### Only eye
+- blink: [Perceive your data in a blink of an eye](#blink)
+- eyes: [Easy count of patients and eyes](#eyes)
+- va: [Conversion of visual acuity notations](#va) - includes conversion chart
+- myop: [Make your eye data long](#myop)
+- **AMD data**: Anonymised [real life data from a large cohort](https://datadryad.org/stash/dataset/doi:10.5061/dryad.97r9289) of patients with treatment-naive neovascular age-related macular degeneration (AMD) who received intravitreal anti-VEGF therapy in Moorfields Eye Hospital, London, UK. </br>
+**To reference this data, please kindly cite the corresponding publication**.[@fasler] 
 
-#### AMD data 
-- Anonymised [real life data from a large cohort](https://datadryad.org/stash/dataset/doi:10.5061/dryad.97r9289) of patients with treatment-naive neovascular age-related macular degeneration (AMD) who received intravitreal anti-VEGF therapy in Moorfields Eye Hospital, London, UK. 
-- To reference this data in your publication, please kindly cite the corresponding publication.[@fasler] 
+### Beyond eyes
+- reveal: [Get common summary statistics](#reveal)
+- age: [Calculate age](#age)
+- csv: [Conveniently save a data frame to csv](#csv)
+- geom_trail: [A base plot type = "b" equivalent for ggplot2](#geom_trail)
 
-### Beyond the eye
-
-#### Convenience functions: 
-- [Insight: get common summary statistics](#insight)
-- [Calculate age](#age)
-- [Conveniently save a data frame to csv](#csv)
-
-#### Catch eyes - ggplot2 extensions 
-- [geom_trail: A base plot type = "b" equivalent for ggplot2](#geom_trail)
-
-## Install eye
+## Install *eye*
 Currently only on github. 
 ```{r, eval=FALSE}
 ## for the development version 
@@ -64,7 +57,7 @@ Required packages
 library(tidyverse)
 ```
 
-### Pure eye stuff - core eye functions 
+### Only eye - core *eye* functions 
 #### blink
 #### eyes
 Count patient and eyes
@@ -73,7 +66,6 @@ eyes(amd)
 ```
 
 #### va
-
 - *eye* includes a [visual acuity conversion chart: `va_chart`](#va-conversion-chart) 
 - This chart and VA conversion formulas are based on [@holladay], [@beck] and [@gregori]
 - Categories **counting fingers** and **hand movements** are converted following [@bach]
@@ -112,8 +104,8 @@ Make your data long ("myopic")
 set.seed(42)
 iop_wide <- data.frame(id = letters[1:3], r = sample(11:13), l = sample(14:16))
 ```
-Simple data frame with one column for right eye and left eye.
 ```{r myop2}
+## Simple data frame with one column for right eye and left eye.
 iop_wide
 
 myop(iop_wide)
@@ -131,12 +123,12 @@ clean_df
 ```
 
 ### Beyond the eye
-#### insight
+#### reveal
 Show common statistics
 ```{r stats, warning=FALSE, message=FALSE}
 amd_unq <- amd[!duplicated(amd$Id),]
 
-insight(amd_unq[c("BaselineAge", "VA_ETDRS_Letters", "FollowupDays")])
+reveal(amd_unq[c("BaselineAge", "VA_ETDRS_Letters", "FollowupDays")])
 ```
 
 #### age

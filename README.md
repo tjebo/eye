@@ -22,38 +22,30 @@ trail graphs.
 
 ## Features
 
-### Pure ophthalmology
+### Only eye
 
-  - [Perceive your data in a blink of an eye](#blink)
-  - [Easy count of patients and eyes](#eyes)
-  - [Conversion of visual acuity notations](#va)
-  - Conversion chart and conversion functions
-  - [Make your eye data long](#myop)
-
-#### AMD data
-
-  - Anonymised [real life data from a large
+  - blink: [Perceive your data in a blink of an eye](#blink)
+  - eyes: [Easy count of patients and eyes](#eyes)
+  - va: [Conversion of visual acuity notations](#va) - includes
+    conversion chart
+  - myop: [Make your eye data long](#myop)
+  - **AMD data**: Anonymised [real life data from a large
     cohort](https://datadryad.org/stash/dataset/doi:10.5061/dryad.97r9289)
     of patients with treatment-naive neovascular age-related macular
     degeneration (AMD) who received intravitreal anti-VEGF therapy in
-    Moorfields Eye Hospital, London, UK.
-  - To reference this data in your publication, please kindly cite the
-    corresponding publication.(Fasler et al. [2019](#ref-fasler))
+    Moorfields Eye Hospital, London, UK. </br> **To reference this data,
+    please kindly cite the corresponding publication**.(Fasler et al.
+    [2019](#ref-fasler))
 
-### Beyond the eye
+### Beyond eyes
 
-#### Convenience functions:
-
-  - [Insight: get common summary statistics](#insight)
-  - [Calculate age](#age)
-  - [Conveniently save a data frame to csv](#csv)
-
-#### Catch eyes - ggplot2 extensions
-
-  - [geom\_trail: A base plot type = “b” equivalent for
+  - reveal: [Get common summary statistics](#reveal)
+  - age: [Calculate age](#age)
+  - csv: [Conveniently save a data frame to csv](#csv)
+  - geom\_trail: [A base plot type = “b” equivalent for
     ggplot2](#geom_trail)
 
-## Install eye
+## Install *eye*
 
 Currently only on github.
 
@@ -70,7 +62,7 @@ Required packages
 library(tidyverse)
 ```
 
-### Pure eye stuff - core eye functions
+### Only eye - core *eye* functions
 
 #### blink
 
@@ -148,9 +140,8 @@ amd %>%
 
 Make your data long (“myopic”)
 
-Simple data frame with one column for right eye and left eye.
-
 ``` r
+## Simple data frame with one column for right eye and left eye.
 iop_wide
 #>   id  r  l
 #> 1  a 11 14
@@ -200,14 +191,14 @@ clean_df
 
 ### Beyond the eye
 
-#### insight
+#### reveal
 
 Show common statistics
 
 ``` r
 amd_unq <- amd[!duplicated(amd$Id),]
 
-insight(amd_unq[c("BaselineAge", "VA_ETDRS_Letters", "FollowupDays")])
+reveal(amd_unq[c("BaselineAge", "VA_ETDRS_Letters", "FollowupDays")])
 #>                  mean   sd    n median min max
 #> BaselineAge      78.3  9.1 3357     79  60  99
 #> VA_ETDRS_Letters 56.3 14.7 3357     58   0  92

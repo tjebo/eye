@@ -29,8 +29,8 @@ age <- function(from_date, to_date = lubridate::now(), period = FALSE, dec = 1){
 }
 
 
-#' insight
-#' @name insight
+#' reveal
+#' @name reveal
 #' @description Shows commonly used summary statistics
 #' @param x either vector or list of vectors. Data frames supported.
 #' Character vectors (or character columns) will be removed.
@@ -44,16 +44,16 @@ age <- function(from_date, to_date = lubridate::now(), period = FALSE, dec = 1){
 #'
 #' # named or unnamed list
 #' mylist <- list(x = x, y = y, z = z)
-#' insight(mylist)
+#' reveal(mylist)
 #' # with a data frame
 #' mydf <- data.frame(x, y, z)
-#' insight(mydf)
+#' reveal(mydf)
 #' #If aggregation by group, split the data frame first
 #' mydf2 <- data.frame(group = rep(letters[1:2], each = 42), x, y, z)
 #' lapply(split(mydf2, mydf2$group), see, rownames = FALSE)
 #' @export
 
-insight <- function(x, dec = 1, dataframe = TRUE) {
+reveal <- function(x, dec = 1, dataframe = TRUE) {
   funs <- list(
     mean = function(x) mean(x, na.rm = TRUE),
     sd = function(x) sd(x, na.rm = TRUE),
