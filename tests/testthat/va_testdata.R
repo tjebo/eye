@@ -12,10 +12,12 @@ quali_snellen_ft <- c(snellen_ft, quali)
 quali_snellen_m <- c(snellen_m, quali)
 
 va_vec <- c("NLP", "LP", "HM", "CF", "6/60", "20/200", "6/9", "20/40")
+va_vec1 <- c("NPL", "NLP", "LP", "PL", "HM", "CF", "6/60", "20/200", "6/9", "20/40")
 va_vec2 <- structure(c(3, 2.7, 2.3, 1.9, 1, 1, 0.18, 0.3), class = c("logmar",
                                                                      "va", "numeric"))
 va_vec3 <- structure(c(0L, 0L, 0L, 2L, 35L, 35L, 75L, 70L), class = c("etdrs",
                                                                       "va", "integer"))
+test_plus <- c("20/200","20/200 + 3", "20/200+3", "20/200-4","20/200 -4")
 
 abraham <- read.csv("./data-raw/share_vision_df.csv")
 

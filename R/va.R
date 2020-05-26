@@ -40,7 +40,7 @@ va <- function(x, from = NULL, to = "logmar") {
   } else {
 
     if (is.character(x) | is.factor(x)) {
-      x <- convert_na_va(x)
+      x <- clean_va(x)
     }
     guess_va <- which_va(x)
 
@@ -324,5 +324,38 @@ which_va <- function(x) {
 convert_na_va <- function(x){
   x[isNAstring(x)] <- NA_character_
   x
+}
+
+#' convert_NLP
+#' @rdname internals
+#' @param x vector
+#' @family va conversion functions
+#'
+
+convert_NLP <- function(x, replace = c(PL = "LP", NPL = "NLP")) {
+  new_vec <- replace[x]
+  unname(ifelse(is.na(new_vec), x, new_vec))
+}
+#' remove_plus
+#' @rdname internals
+#' @param x vector
+#' @family va conversion functions
+#'
+
+remove_plus <- function(x, partial = c("\\+.*$", "\\-[0-9].*")) {
+  partial <- paste(partial, collapse = "|")
+  x <- gsub(partial, "", x)
+  x
+}
+
+#' clean_va
+#' @rdname internals
+#' @param x vector
+#' @family va conversion functions
+clean_va <- function(x){
+x <- convert_na_va(x)
+x <- convert_NLP(x)
+x <- remove_plus(x)
+x
 }
 

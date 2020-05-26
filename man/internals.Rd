@@ -14,6 +14,9 @@
 \alias{isNAstring}
 \alias{which_va}
 \alias{convert_na_va}
+\alias{convert_NLP}
+\alias{remove_plus}
+\alias{clean_va}
 \title{whole}
 \usage{
 whole(string)
@@ -41,6 +44,12 @@ isNAstring(x, full = c("\\\\.+", "", "\\\\s+", "n/a"), partial = c("not"))
 which_va(x)
 
 convert_na_va(x)
+
+convert_NLP(x, replace = c(PL = "LP", NPL = "NLP"))
+
+remove_plus(x, partial = c("\\\\+.*$", "\\\\-[0-9].*"))
+
+clean_va(x)
 }
 \arguments{
 \item{obj}{can be vector, data frame or list}

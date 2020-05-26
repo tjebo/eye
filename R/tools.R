@@ -57,7 +57,7 @@ reveal <- function(x, dec = 1, dataframe = TRUE) {
   funs <- list(
     mean = function(x) mean(x, na.rm = TRUE),
     sd = function(x) sd(x, na.rm = TRUE),
-    n = length,
+    n = function(x) length(x[!is.na(x)]),
     median = function(x) median(x, na.rm = TRUE),
     min = function(x) min(x, na.rm = TRUE),
     max = function(x) max(x, na.rm = TRUE)

@@ -79,8 +79,8 @@ va(c(23, 56, 74, 58))
 ## ... or convert to snellen
 va(c(23, 56, 74, 58), to = "snellen") 
 
-## snellen, mixed with categories
-va(c("NLP", "LP", "HM", "CF", "6/60", "20/200", "6/9", "20/40"))
+## snellen, mixed with categories. Also dealing with those "plus/minus" entries
+va(c("NLP", "NPL", "PL", "LP", "HM", "CF", "6/60", "20/200", "6/9", "20/40", "20/40+3", "20/50-2"))
 
 ## on the inbuilt data set:
 amd$logmar <- va(amd$VA_ETDRS_Letters)

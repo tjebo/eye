@@ -105,9 +105,9 @@ va(c(23, 56, 74, 58), to = "snellen")
 #> attr(,"class")
 #> [1] "snellen"   "va"        "character"
 
-## snellen, mixed with categories
-va(c("NLP", "LP", "HM", "CF", "6/60", "20/200", "6/9", "20/40"))
-#> [1] 3.00 2.70 2.30 1.90 1.00 1.00 0.18 0.30
+## snellen, mixed with categories. Also dealing with those "plus/minus" entries
+va(c("NLP", "NPL", "PL", "LP", "HM", "CF", "6/60", "20/200", "6/9", "20/40", "20/40+3", "20/50-2"))
+#>  [1] 3.00 3.00 2.70 2.70 2.30 1.90 1.00 1.00 0.18 0.30 0.30 0.40
 #> attr(,"class")
 #> [1] "logmar"  "va"      "numeric"
 
