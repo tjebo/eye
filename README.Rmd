@@ -116,7 +116,7 @@ Simple data frame with one column for right eye and left eye.
 ```{r myop2}
 iop_wide
 
-#myop(iop_wide)
+myop(iop_wide)
 ```
 Often enough, there are right eye / left eye columns for more than one variable, e.g., for both IOP and VA. `myop` helps you clean this mess and will detect IOP and VA columns automatically.
 ```{r, echo=FALSE}
@@ -125,9 +125,9 @@ messy_df <- data.frame(id = letters[1:3], iop_r = sample(11:13), iop_l = sample(
 ```{r myop two vars}
 messy_df
 
-#clean_df <- myop(messy_df)
+clean_df <- myop(messy_df)
 
-#clean_df
+clean_df
 ```
 
 ### Beyond the eye

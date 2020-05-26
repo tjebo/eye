@@ -3,14 +3,13 @@
 #' long ("myopic")
 #' @name myop
 #' @param x data frame
+#' @param id if there are both IOP and VA columns, one needs to
+#'   specify if there is more than one ID column.
 #' @param ... arguments passed to [tidyr::pivot_longer()]
 #' @details
-#' - **cols**: if not specified, `myop()` will look for columns that have
-#' typical eye codes, i.e. c("r", "re" and "od") for right eyes and
-#' c("l", "le" and "os") for left eyes.
-#' - if argument specified, right eye has to be given first!
-#' - **eye_code**: numeric codes of 0:1 or 1:2 are allowed, other
-#' numeric codes are not supported.
+#' `myop()` will look for columns that have
+#' typical eye codes, i.e. c("r", "re", "od", "right") for right eyes and
+#' c("l", "le", "os", "left") for left eyes.
 #' @import tidyr
 #' @importFrom rlang expr
 #' @importFrom dplyr full_join
@@ -28,8 +27,7 @@
 #'
 #' @export
 
-myop <- function(x, ...) {
-
+myop <- function(x, id = NULL, ...) {
   eye_r <- set_eye()$r
   eye_l <- set_eye()$l
   eye_code <- c("r", "l")
@@ -44,52 +42,53 @@ myop <- function(x, ...) {
     stop("No columns found for gathering", call. = FALSE)
   }
 
-  message(paste0("Picked \"", paste(ls_eye[[1]], collapse = ","), "\" and \"", paste(ls_eye[[2]], collapse = ","), "\" for right and left eyes"))
+  message(paste0(
+    "Picked \"", paste(ls_eye[[1]], collapse = ","),
+    "\" and \"", paste(ls_eye[[2]], collapse = ","),
+    "\" for right and left eyes"
+  ))
 
   if (any(leng_va > 1) | any(leng_iop > 1)) {
-    stop("Too many VA and/or IOP columns - don't know how to gather", call. = FALSE)
+    stop("cannot do this yet") # gather VA and IOP separately and rejoin data frames,
+    # create column with "variable spec"
   }
   if (all(leng_va < 1) & all(leng_iop < 1)) {
     if (any(lengths(ls_eye) > 1)) {
-      stop("Too many eye columns - don't know how to gather", call. = FALSE)
+      stop("Many eye columns and no VA/IOP column -
+           gather failed. If you want to make your data longer,
+           clean your data and/or use tidyr::pivot_longer", call. = FALSE)
     }
     message("Neither VA nor IOP column(s) found. Gathering eye columns")
-    eye_cols <- unlist(ls_eye)
-    names(x)[names(x) %in% eye_cols] <- eye_code
-    cols <- rlang::expr(c(eye_code[1], eye_code[2]))
-    res_df <- tidyr::pivot_longer(x, cols = !!cols, names_to = names_to, values_to = values_to, ...)
+    res_df <- pivot_myop(x, ls_eye, values_to = "value")
   } else if (all(leng_va == 1) & all(leng_iop == 1)) {
     message("Gathering both VA and IOP columns")
     if (missing(id)) {
       id <- part_str(c("pat", "id"))(colnames(x))
     }
     if (length(id) != 1) {
-      stop("Patient column missing. Don't know how to gather. Fix with \"id\" argument", call. = FALSE)
+      stop("Patient column missing. How to gather?
+           Fix with \"id\" argument, or clean your data
+           and/or use tidyr::pivot_longer", call. = FALSE)
     }
-    eye_cols_iop <- unlist(iop_cols)
-    eye_cols_va <- unlist(va_cols)
-    x_iop <- x[which(!names(x) %in% eye_cols_va)]
-    names(x_iop)[names(x_iop) %in% eye_cols_iop] <- eye_code
-    cols <- rlang::expr(c(eye_code[1], eye_code[2]))
-    iop_long <- tidyr::pivot_longer(x_iop, cols = !!cols, names_to = names_to, values_to = "IOP", ...)
 
-    x_va <- x[which(!names(x) %in% eye_cols_iop)]
-    names(x_va)[names(x_va) %in% eye_cols_va] <- eye_code
-    cols <- rlang::expr(c(eye_code[1], eye_code[2]))
-    va_long <- tidyr::pivot_longer(x_va, cols = !!cols, names_to = names_to, values_to = "VA", ...)
+    x_iop <- x[which(!names(x) %in% unlist(va_cols))]
+    x_va <- x[which(!names(x) %in% unlist(iop_cols))]
+
+    iop_long <- pivot_myop(
+      x = x_iop, old_cols = iop_cols,
+      names_to = "eye", values_to = "IOP"
+    )
+    va_long <- pivot_myop(
+      x = x_va, old_cols = va_cols,
+      names_to = "eye", values_to = "VA"
+    )
     res_df <- dplyr::full_join(iop_long, va_long, by = c(id, "eye"))
   } else if (any(leng_va < 1) & all(leng_iop == 1)) {
     message("Gathering IOP columns")
-    eye_cols <- unlist(iop_cols)
-    names(x)[names(x) %in% eye_cols] <- eye_code
-    cols <- rlang::expr(c(eye_code[1], eye_code[2]))
-    res_df <- tidyr::pivot_longer(x, cols = !!cols, names_to = names_to, values_to = "IOP")
+    res_df <- pivot_myop(x = x, old_cols = iop_cols, values_to = "IOP")
   } else if (all(leng_va == 1) & any(leng_iop < 1)) {
     message("Gathering VA columns")
-    eye_cols <- unlist(va_cols)
-    names(x)[names(x) %in% eye_cols] <- eye_code
-    cols <- rlang::expr(c(eye_code[1], eye_code[2]))
-    res_df <- tidyr::pivot_longer(x, cols = !!cols, names_to = names_to, values_to = "VA", ...)
+    res_df <- pivot_myop(x = x, old_cols = va_cols, values_to = "VA")
   }
   class(res_df) <- c("myop", "tbl", "tbl_df", "data.frame")
   res_df
@@ -114,3 +113,19 @@ myopize <- myop
 #' @rdname myop
 #' @export
 myopic <- myop
+
+#' pivot_myop#'
+#' @rdname myop
+#' @param x vector
+#' @family myopizing functions
+#'
+
+pivot_myop <- function(x, old_cols, eye_code = c("r","l"), ...){
+  eye_cols <- unlist(old_cols)
+  names(x)[names(x) %in% eye_cols] <- eye_code
+  cols <- rlang::expr(c(eye_code[1], eye_code[2]))
+  res_df <- tidyr::pivot_longer(x, cols = !!cols, ...)
+  res_df
+}
+
+

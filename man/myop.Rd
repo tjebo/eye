@@ -6,20 +6,26 @@
 \alias{myopise}
 \alias{myopize}
 \alias{myopic}
+\alias{pivot_myop}
 \title{long eye data}
 \usage{
-myop(x, ...)
+myop(x, id = NULL, ...)
 
-myope(x, ...)
+myope(x, id = NULL, ...)
 
-myopise(x, ...)
+myopise(x, id = NULL, ...)
 
-myopize(x, ...)
+myopize(x, id = NULL, ...)
 
-myopic(x, ...)
+myopic(x, id = NULL, ...)
+
+pivot_myop(x, old_cols, eye_code = c("r", "l"), ...)
 }
 \arguments{
-\item{x}{data frame}
+\item{x}{vector}
+
+\item{id}{if there are both IOP and VA columns, one needs to
+specify if there is more than one ID column.}
 
 \item{...}{arguments passed to \code{\link[tidyr:pivot_longer]{tidyr::pivot_longer()}}}
 }
@@ -28,14 +34,9 @@ Wrapper around \code{\link[tidyr:pivot_longer]{tidyr::pivot_longer()}} to make y
 long ("myopic")
 }
 \details{
-\itemize{
-\item \strong{cols}: if not specified, \code{myop()} will look for columns that have
-typical eye codes, i.e. c("r", "re" and "od") for right eyes and
-c("l", "le" and "os") for left eyes.
-\item if argument specified, right eye has to be given first!
-\item \strong{eye_code}: numeric codes of 0:1 or 1:2 are allowed, other
-numeric codes are not supported.
-}
+\code{myop()} will look for columns that have
+typical eye codes, i.e. c("r", "re", "od", "right") for right eyes and
+c("l", "le", "os", "left") for left eyes.
 }
 \examples{
 set.seed(42)
@@ -50,3 +51,4 @@ iop_va <- data.frame(id = letters[1:11],
 myop(iop_va)
 
 }
+\concept{myopizing functions}

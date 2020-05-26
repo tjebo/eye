@@ -1,3 +1,5 @@
+abraham <- read.csv("./data-raw/share_vision_df.csv")
+
 set.seed(42)
 id <- sample(letters[1:20])
 df_sample <- as.data.frame(replicate(6, sample(30:40, size = 20, replace = T)))

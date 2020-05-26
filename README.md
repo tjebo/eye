@@ -157,7 +157,18 @@ iop_wide
 #> 2  b 13 15
 #> 3  c 12 16
 
-#myop(iop_wide)
+myop(iop_wide)
+#> Picked "r" and "l" for right and left eyes
+#> Neither VA nor IOP column(s) found. Gathering eye columns
+#> # A tibble: 6 x 3
+#>   id    name  value
+#>   <chr> <chr> <int>
+#> 1 a     r        11
+#> 2 a     l        14
+#> 3 b     r        13
+#> 4 b     l        15
+#> 5 c     r        12
+#> 6 c     l        16
 ```
 
 Often enough, there are right eye / left eye columns for more than one
@@ -171,9 +182,20 @@ messy_df
 #> 2  b    13    12   43   43
 #> 3  c    11    11   42   41
 
-#clean_df <- myop(messy_df)
+clean_df <- myop(messy_df)
+#> Picked "iop_r,va_r" and "iop_l,va_l" for right and left eyes
+#> Gathering both VA and IOP columns
 
-#clean_df
+clean_df
+#> # A tibble: 6 x 4
+#>   id    eye     IOP    VA
+#>   <chr> <chr> <int> <int>
+#> 1 a     r        12    41
+#> 2 a     l        13    42
+#> 3 b     r        13    43
+#> 4 b     l        12    43
+#> 5 c     r        11    42
+#> 6 c     l        11    41
 ```
 
 ### Beyond the eye
