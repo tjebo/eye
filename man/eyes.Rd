@@ -43,6 +43,7 @@ eyes(amd)
 }
 \seealso{
 Other ophthalmic functions: 
+\code{\link{insight}()},
 \code{\link{va}()}
 }
 \concept{ophthalmic functions}

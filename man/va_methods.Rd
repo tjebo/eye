@@ -16,9 +16,9 @@
 \alias{toSnellen.etdrs}
 \title{VA conversion}
 \usage{
-va_logmar(x)
+va_logmar(x, ...)
 
-va_etdrs(x)
+va_etdrs(x, ...)
 
 va_snellen(x, snellen = "ft")
 
@@ -32,7 +32,7 @@ toETDRS.logmar(x)
 
 toETDRS.etdrs(x)
 
-toSnellen.snellen(x)
+toSnellen.snellen(x, snellen = "ft")
 
 tologMAR.logmar(x)
 

@@ -18,16 +18,16 @@ library(eye)
 
 See more with *eye*. 
 
-*eye* is dedicated to facilitate ophthalmic research.</br>
-Its core functions [`blink()`](#blink), [`eyes()`](#eyes), [`myop()`](#myop), and [`va()`](#va) help with very common tasks:
+## Purpose
+*eye* is dedicated to facilitate ophthalmic research. Its core functions [`blink()`](#blink), [`eyes()`](#eyes), [`myop()`](#myop), and [`va()`](#va) help with very common tasks:
 
-- Counting patients and eyes
-- Visual acuity and intraocular pressure: Shape data and analyze!
-- Conversion of visual acuity notations.
+- Visual acuity conversion
+- Count eyes and patients 
+- Shape data for analysis of visual acuity and intraocular pressure 
 
-*eye* contains a well curated [real life data set](#amd-data) and some functions beyond ophtalmology, which could make your data analysis a tiny bit more convenient.
+*eye* contains a [real life data set](#amd-data) and some functions beyond ophtalmology, which could make your data analysis a tiny bit more convenient.
 
-Finally, eye comes with [`geom_trail()`](#geom_trail) for some nice trail graphs. 
+*eye* includes [`geom_trail()`](#geom_trail) for some nice trail graphs. 
 
 ## Features 
 ### Only eye

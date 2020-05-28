@@ -4,7 +4,7 @@
 \alias{va}
 \title{va}
 \usage{
-va(x, from = NULL, to = "logmar")
+va(x, from = NULL, to = "logmar", snellen_type = "ft")
 }
 \arguments{
 \item{x}{vector with VA values}
@@ -12,6 +12,9 @@ va(x, from = NULL, to = "logmar")
 \item{from}{String, from which notation to convert (See details)}
 
 \item{to}{String, to which notation to convert. Default logMAR (See details)}
+
+\item{snellen_type}{which snellen method to use when \emph{to = "snellen"}.
+Either "m", "dec" or "ft"}
 }
 \description{
 VA notation conversion
@@ -32,6 +35,7 @@ TBC
 }
 \seealso{
 Other ophthalmic functions: 
-\code{\link{eyes}()}
+\code{\link{eyes}()},
+\code{\link{insight}()}
 }
 \concept{ophthalmic functions}

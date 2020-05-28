@@ -159,14 +159,13 @@ get_va_cols <- function(obj, va_chr) {
 #' @param x vector
 #' @family internals
 #'
-isNAstring <- function(x, full = c("\\.+", "", "\\s+", "n/a"), partial = c("not")) {
+isNAstring <- function(x, full = c("\\.+", "", "\\s+", "n/a", "na", "null"), partial = c("not")) {
   if (is.numeric(x) | is.integer(x)) {
     stop("x is numeric/integer. No NA strings expected", call. = FALSE)
   }
   x <- tolower(x)
   partial <- paste(partial, collapse = "|")
   full <- paste0("^", paste(full, collapse = "$|^"), "$")
-
   full_partial <- paste(c(partial, full), collapse = "|")
   ismissing <- grepl(full_partial, x)
   ismissing

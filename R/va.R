@@ -4,6 +4,8 @@
 #' @param x vector with VA values
 #' @param from String, from which notation to convert (See details)
 #' @param to String, to which notation to convert. Default logMAR (See details)
+#' @param snellen_type which snellen method to use when *to = "snellen"*.
+#'   Either "m", "dec" or "ft"
 #' @family ophthalmic functions
 #' @details **from** if not provided (default), `va` will try to guess.
 #'   This will work in most cases, but can fail due to weird, unpredicted ways
@@ -19,13 +21,13 @@
 #' @importFrom rlang sym
 #'
 #' @export
-va <- function(x, from = NULL, to = "logmar") {
+va <- function(x, from = NULL, to = "logmar", snellen_type = "ft") {
   to <- tolower(to)
   if (length(to) != 1 | !to %in% c("etdrs", "logmar", "snellen")) {
     stop("\"to\" should be only one of \"etdrs\", \"logmar\"
   or \"snellen\" - any case allowed.", call. = FALSE)
   }
-  if (inherits(x, "va")) {
+  if (inherits(x = x, what = "va")) {
     set_va <- class(x)[class(x) %in% c("logmar", "snellen", "etdrs", "quali")]
 
     if (!is.null(from)) {
@@ -68,14 +70,17 @@ va <- function(x, from = NULL, to = "logmar") {
       class_va <- guess_va
     }
     if (class_va == to) {
-      message(paste("VA was already in the desired notation.
-                  Updated x to", class_va, "class"))
+      message(paste("VA was already in the desired notation. Updated x to",
+                    class_va, "class"))
     }
   }
-
   class(x) <- class_va
 
+  if(to == "snellen"){
+  eval(rlang::sym(paste0("va_", to)))(x, snellen = snellen_type)
+  } else {
   eval(rlang::sym(paste0("va_", to)))(x)
+  }
 }
 
 #' VA conversion
@@ -83,7 +88,7 @@ va <- function(x, from = NULL, to = "logmar") {
 #' @description S3 methods for VA conversion
 #' @param x vector of visual acuities
 #' @family va conversion methods
-va_logmar <- function (x) {
+va_logmar <- function (x, ...) {
   UseMethod("tologMAR", x)
 }
 
@@ -91,7 +96,7 @@ va_logmar <- function (x) {
 #' @rdname va_methods
 #' @param x vector of visual acuities
 #' @family va conversion methods
-va_etdrs <- function (x) {
+va_etdrs <- function (x, ...) {
   UseMethod("toETDRS", x)
 }
 
@@ -160,9 +165,9 @@ if(any(x %in% set_quali())){
   x_num <- ifelse(is.na(x_num), x_quali, x_num)
 }
 col = paste("snellen", snellen, sep = "_")
-snellen <- va_chart[[col]][match(x_num, as.numeric(va_chart$logMAR))]
-class(snellen) <- c("snellen", "va", class(snellen) )
-snellen
+Snellen <- va_chart[[col]][match(x_num, as.numeric(va_chart$logMAR))]
+class(Snellen) <- c("snellen", "va", class(Snellen) )
+Snellen
 }
 
 #' toETDRS.logmar
@@ -173,12 +178,12 @@ snellen
 #'   Rounding logMAR to nearest first digit and
 #'   converting to ETDRS letters using the va conversion chart
 toETDRS.logmar <- function(x){
-  x_num <- suppressWarnings(round(as.numeric(x), 1))
+  x_num <- suppressWarnings(as.numeric(x))
   if(any(x %in% set_quali())){
-    x_quali <- as.numeric(va_quali$logMAR[match(x, va_quali$quali)])
+    x_quali <- va_quali$logMAR[match(x, va_quali$quali)]
     x_num <- ifelse(is.na(x_num), x_quali, x_num)
   }
-  ETDRS <- eye::va_chart[["ETDRS"]][match(x_num, as.numeric(eye::va_chart[["logMAR"]]))]
+  ETDRS <- eye::va_chart[["ETDRS"]][match(x_num , as.numeric(eye::va_chart[["logMAR"]]))]
   ETDRS <- as.integer(ETDRS)
   class(ETDRS) <- c("etdrs", "va", class(ETDRS))
   ETDRS
@@ -203,15 +208,15 @@ toETDRS.etdrs <- function(x){
 #' @param x vector of class snellen
 #' @family va conversion methods
 
-toSnellen.snellen <- function(x){
+toSnellen.snellen <- function(x, snellen = "ft"){
   col = paste("snellen", snellen, sep = "_")
   if(any(x %in% set_quali())){
       x_quali <- va_quali[[col]][match(x, va_quali$quali)]
       x <- ifelse(is.na(x), x_quali, x)
     }
-  snellen <- x
-  class(snellen) <- c("etdrs", "va", class(snellen))
-  snellen
+  Snellen <- x
+  class(Snellen) <- c("etdrs", "va", class(Snellen))
+  Snellen
 }
 #' tologMAR.logmar
 #' @rdname va_methods
@@ -260,9 +265,9 @@ toSnellen.etdrs <- function(x, snellen = "ft"){
   }
    x <- round((-0.02 * x) + 1.7, 1)
     col = paste("snellen", snellen, sep = "_")
-    snellen <- va_chart[[col]][match(x, as.numeric(va_chart$logMAR))]
-    class(snellen) <- c("snellen", "va", class(snellen))
-    snellen
+    Snellen <- va_chart[[col]][match(x, as.numeric(va_chart$logMAR))]
+    class(Snellen) <- c("snellen", "va", class(Snellen))
+    Snellen
 }
 
 #' which_va
@@ -331,20 +336,19 @@ convert_na_va <- function(x){
 #' @param x vector
 #' @family va conversion functions
 #'
-
-convert_NLP <- function(x, replace = c(PL = "LP", NPL = "NLP")) {
-  new_vec <- replace[x]
+convert_NLP <- function(x, replace_PL = c(PL = "LP", NPL = "NLP")) {
+  new_vec <- replace_PL[as.character(x)]
   unname(ifelse(is.na(new_vec), x, new_vec))
 }
+
 #' remove_plus
 #' @rdname internals
 #' @param x vector
+#' @importFrom stringr str_extract
 #' @family va conversion functions
 #'
-
-remove_plus <- function(x, partial = c("\\+.*$", "\\-[0-9].*")) {
-  partial <- paste(partial, collapse = "|")
-  x <- gsub(partial, "", x)
+remove_plus <- function(x) {
+  x <- stringr::str_extract(x, "(-)?\\w+[.\\w/]*(?=-?)")
   x
 }
 
@@ -353,9 +357,10 @@ remove_plus <- function(x, partial = c("\\+.*$", "\\-[0-9].*")) {
 #' @param x vector
 #' @family va conversion functions
 clean_va <- function(x){
+x <- remove_plus(x)
 x <- convert_na_va(x)
 x <- convert_NLP(x)
-x <- remove_plus(x)
 x
 }
+
 

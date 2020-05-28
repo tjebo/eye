@@ -113,3 +113,32 @@ counteyes <- eyes
 #' @rdname eyes
 #' @export
 count_eyes <- eyes
+
+#' insight
+#' @name insight
+#' @description wrapper around eyes, returning text for document
+#' @param x data frame
+#' @param ... passed to [eyes]
+#' @family ophthalmic functions
+#' @examples
+#' insight(amd)
+#' @export
+
+insight <- function(x, ...) {
+  counts <- eye::eyes(x, ...)
+  if (counts[1] <= 1) {
+    patient <- "patient"
+  } else {
+    patient <- "patients"
+  }
+  if (length(counts) == 1) {
+    return(paste(counts[1], patient))
+  } else {
+    if (counts[2] <= 1) {
+      eye <- "eye"
+    } else {
+      eye <- "eyes"
+    }
+    return(paste(counts[2], eye, "of", counts[1], patient))
+  }
+}

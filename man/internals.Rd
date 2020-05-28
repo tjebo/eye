@@ -39,15 +39,19 @@ get_iop_cols(obj, iop_chr)
 
 get_va_cols(obj, va_chr)
 
-isNAstring(x, full = c("\\\\.+", "", "\\\\s+", "n/a"), partial = c("not"))
+isNAstring(
+  x,
+  full = c("\\\\.+", "", "\\\\s+", "n/a", "na", "null"),
+  partial = c("not")
+)
 
 which_va(x)
 
 convert_na_va(x)
 
-convert_NLP(x, replace = c(PL = "LP", NPL = "NLP"))
+convert_NLP(x, replace_PL = c(PL = "LP", NPL = "NLP"))
 
-remove_plus(x, partial = c("\\\\+.*$", "\\\\-[0-9].*"))
+remove_plus(x)
 
 clean_va(x)
 }
