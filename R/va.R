@@ -168,7 +168,7 @@ which_va <- function(x) {
     return(c("logmar", "snellen"))
   } else if (all(round(x_num, 3) %in% as.numeric(va_chart$snellen_dec))) {
     return("snellen")
-  } else if (any(x_numval < -0.3 | any(x_numval > 4.2))) {
+  } else if (any(x_numval < -0.3 | any(x_numval > 3))) {
     warning("Unplausible values! Check your data",
       call. = FALSE
     )

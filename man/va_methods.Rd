@@ -5,16 +5,16 @@
 \alias{va_logmar}
 \alias{va_etdrs}
 \alias{va_snellen}
-\alias{tologMAR.snellen}
 \alias{tologMAR.quali}
 \alias{toSnellen.quali}
 \alias{toETDRS.quali}
+\alias{tologMAR.snellen}
 \alias{toETDRS.snellen}
+\alias{toSnellen.snellen}
 \alias{toSnellen.logmar}
 \alias{toETDRS.logmar}
-\alias{toETDRS.etdrs}
-\alias{toSnellen.snellen}
 \alias{tologMAR.logmar}
+\alias{toETDRS.etdrs}
 \alias{tologMAR.etdrs}
 \alias{toSnellen.etdrs}
 \title{VA conversion}
@@ -25,25 +25,25 @@ va_etdrs(x, ...)
 
 va_snellen(x, snellen = "ft")
 
-tologMAR.snellen(x)
-
 tologMAR.quali(x)
 
 toSnellen.quali(x, snellen = "ft")
 
 toETDRS.quali(x)
 
+tologMAR.snellen(x)
+
 toETDRS.snellen(x)
+
+toSnellen.snellen(x, snellen = "ft")
 
 toSnellen.logmar(x, snellen = "ft")
 
 toETDRS.logmar(x)
 
-toETDRS.etdrs(x)
-
-toSnellen.snellen(x, snellen = "ft")
-
 tologMAR.logmar(x)
+
+toETDRS.etdrs(x)
 
 tologMAR.etdrs(x)
 
