@@ -40,5 +40,9 @@ va_chart$snellen_dec[c( 17:19, 23, 25, 27:29)] <- c( '0.29', '0.32', '0.33', '0.
 
 usethis::use_data(va_chart, overwrite = TRUE)
 
-va_quali <- va_chart[!is.na(va_chart$quali),]
-usethis::use_data(va_quali, internal = TRUE, overwrite = TRUE)
+chart_logmar <- round(as.numeric(va_chart$logMAR), 2)
+chart_snellen <- round(as.numeric(va_chart$snellen_dec), 2)
+inter_snelllog <- round(intersect(chart_logmar, chart_snellen), 1)
+
+va_quali <- va_chart[!is.na(va_chart$quali), ]
+usethis::use_data(va_quali, inter_snelllog, internal = TRUE, overwrite = TRUE)

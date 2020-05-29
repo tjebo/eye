@@ -5,20 +5,21 @@ eye
 
 See more with *eye*.
 
-*eye* is dedicated to facilitate ophthalmic research.</br> Its core
-functions [`blink()`](#blink), [`eyes()`](#eyes), [`myop()`](#myop), and
+## Purpose
+
+*eye* is dedicated to facilitate ophthalmic research. Its core functions
+[`blink()`](#blink), [`eyes()`](#eyes), [`myop()`](#myop), and
 [`va()`](#va) help with very common tasks:
 
-  - Counting patients and eyes
-  - Visual acuity and intraocular pressure: Shape data and analyze\!
-  - Conversion of visual acuity notations.
+  - Visual acuity conversion
+  - Count eyes and patients
+  - Shape data for analysis of visual acuity and intraocular pressure
 
-*eye* contains a well curated [real life data set](#amd-data) and some
-functions beyond ophtalmology, which could make your data analysis a
-tiny bit more convenient.
+*eye* contains a [real life data set](#amd-data) and some functions
+beyond ophtalmology, which could make your data analysis a tiny bit more
+convenient.
 
-Finally, eye comes with [`geom_trail()`](#geom_trail) for some nice
-trail graphs.
+*eye* includes [`geom_trail()`](#geom_trail) for some nice trail graphs.
 
 ## Features
 
@@ -95,45 +96,26 @@ eyes(amd)
 ## will automatically detect VA class and convert to logMAR by default
 ## ETDRS letters
 va(c(23, 56, 74, 58)) 
+#> From etdrs
 #> [1] 1.24 0.58 0.22 0.54
-#> attr(,"class")
-#> [1] "logmar"  "va"      "numeric"
 
 ## ... or convert to snellen
 va(c(23, 56, 74, 58), to = "snellen") 
-#> [1] "20/320" "20/80"  "20/32"  "20/63" 
-#> attr(,"class")
-#> [1] "snellen"   "va"        "character"
+#> From etdrs
+#> [1] "20/320" "20/80"  "20/32"  "20/63"
 
 ## snellen, mixed with categories. Also dealing with those "plus/minus" entries
 va(c("NLP", "NPL", "PL", "LP", "HM", "CF", "6/60", "20/200", "6/9", "20/40", "20/40+3", "20/50-2"))
+#> From snellen
 #>  [1] 3.00 3.00 2.70 2.70 2.30 1.90 1.00 1.00 0.18 0.30 0.30 0.40
-#> attr(,"class")
-#> [1] "logmar"  "va"      "numeric"
 
 ## on the inbuilt data set:
-amd$logmar <- va(amd$VA_ETDRS_Letters)
-#> Warning: Guess ETDRS? Values out of range. Check your data.
+head(va(amd$VA_ETDRS_Letters), 10)
+#> Warning: Unplausible values! Check your data
+#> From etdrs
+#>  [1] 0.82 0.08 0.70 0.90 1.06 1.02 0.96 1.06 0.40 0.46
 
-## (indeed, there are unplausible ETDRS values in this data set!!)
-## let's see where they are
-
-amd %>% 
-  select(-(1:5)) %>% 
-  arrange(VA_ETDRS_Letters) %>%
-  slice(c(head(row_number(),3), tail(row_number(), 3)))
-#> # A tibble: 6 x 3
-#>   VA_ETDRS_Letters InjectionNumber logmar
-#>              <dbl>           <dbl>  <dbl>
-#> 1                0              20   1.7 
-#> 2                0               9   1.7 
-#> 3                0               3   1.7 
-#> 4              100              13  -0.3 
-#> 5              102               7  -0.34
-#> 6              105              15  -0.4
-
-## Unplausible values! Need to contact the data curator:)
-## The logMAR conversion worked nevertheless
+## (and indeed, there are unplausible ETDRS values in this data set!)
 ```
 
 #### myop

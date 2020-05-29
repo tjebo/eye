@@ -11,12 +11,7 @@
 \alias{get_eyecols}
 \alias{get_iop_cols}
 \alias{get_va_cols}
-\alias{isNAstring}
 \alias{which_va}
-\alias{convert_na_va}
-\alias{convert_NLP}
-\alias{remove_plus}
-\alias{clean_va}
 \title{whole}
 \usage{
 whole(string)
@@ -39,21 +34,7 @@ get_iop_cols(obj, iop_chr)
 
 get_va_cols(obj, va_chr)
 
-isNAstring(
-  x,
-  full = c("\\\\.+", "", "\\\\s+", "n/a", "na", "null"),
-  partial = c("not")
-)
-
 which_va(x)
-
-convert_na_va(x)
-
-convert_NLP(x, replace_PL = c(PL = "LP", NPL = "NLP"))
-
-remove_plus(x)
-
-clean_va(x)
 }
 \arguments{
 \item{obj}{can be vector, data frame or list}
@@ -104,6 +85,5 @@ whole("eye")(amd)
 
 part_str("pat|Id")(amd)
 }
-\concept{internals}
 \concept{string matching functions}
 \concept{va conversion functions}

@@ -71,7 +71,7 @@ eyes(amd)
 - Categories **counting fingers** and **hand movements** are converted following [@bach]
 - Categories **no light perception** and **light perception** are converted following the suggestions by Michael Bach
 
-```{r va, message=FALSE}
+```{r va}
 ## will automatically detect VA class and convert to logMAR by default
 ## ETDRS letters
 va(c(23, 56, 74, 58)) 
@@ -83,18 +83,9 @@ va(c(23, 56, 74, 58), to = "snellen")
 va(c("NLP", "NPL", "PL", "LP", "HM", "CF", "6/60", "20/200", "6/9", "20/40", "20/40+3", "20/50-2"))
 
 ## on the inbuilt data set:
-amd$logmar <- va(amd$VA_ETDRS_Letters)
+head(va(amd$VA_ETDRS_Letters), 10)
 
-## (indeed, there are unplausible ETDRS values in this data set!!)
-## let's see where they are
-
-amd %>% 
-  select(-(1:5)) %>% 
-  arrange(VA_ETDRS_Letters) %>%
-  slice(c(head(row_number(),3), tail(row_number(), 3)))
-
-## Unplausible values! Need to contact the data curator:)
-## The logMAR conversion worked nevertheless
+## (and indeed, there are unplausible ETDRS values in this data set!)
 ```
 
 
