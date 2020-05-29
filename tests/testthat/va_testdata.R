@@ -10,7 +10,9 @@ quali <- va_chart$quali
 quali_logmar <- c(logmar, quali)
 quali_snellen_ft <- c(snellen_ft, quali)
 quali_snellen_m <- c(snellen_m, quali)
-mixed_VA <- c(32, "20/40")
+mixed_VA <- c(32, "20/40",3, NA, "1.1", 0.2, -0.3, "NA", "eye", -0.4, "NLP", "PL")
+mixed_VA1 <- c(32, "20/40",3, NA, "1.1", 0.2, -0.3, "NA",  -0.4, "NLP", "PL")
+mixed_VA2 <- c(32, "20/40",3, NA, "1.1", 0.2, -0.3, "NA",   "NLP", "PL")
 etdrs_logmar <- 0:1
 etdrs_logmar_na <- c(0:1, NA)
 snellen_logmar <- eye:::inter_snelllog[c(2,4,5)]

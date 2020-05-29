@@ -5,7 +5,7 @@
 \alias{va_chart}
 \title{Visual acuity conversion chart}
 \format{
-A data frame with 40764 rows and 7 variables:
+A data frame with 29 rows and 5 variables:
 \describe{
 \item{snellen_ft}{snellen VA in feet}
 \item{snellen_m}{snellen VA in meter}
@@ -21,5 +21,12 @@ data("va_chart")
 Conversion between snellen, logMAR and ETDRS.
 Snellen feet, meter and decimal supported. Three qualitative common
 vision measures included (light perception, hand movement and counting fingers)
+}
+\details{
+\itemize{
+\item This chart and VA conversion formulas are based on \link{holladay},
+\link{beck} and \link{gregori}. Categories \strong{(no) light perception},
+\strong{counting fingers} and \strong{hand movements} are converted following \link{bach}
+}
 }
 \keyword{datasets}

@@ -19,7 +19,6 @@ insight(amd)
 }
 \seealso{
 Other ophthalmic functions: 
-\code{\link{eyes}()},
-\code{\link{va}()}
+\code{\link{eyes}()}
 }
 \concept{ophthalmic functions}

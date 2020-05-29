@@ -2,20 +2,20 @@
 % Please edit documentation in R/va_cleaner.R
 \name{va_cleaner}
 \alias{va_cleaner}
+\alias{clean_va}
 \alias{convert_na_va}
 \alias{convert_NLP}
 \alias{remove_plus}
-\alias{clean_va}
 \alias{isNAstring}
-\title{convert_na_va}
+\title{Visual acuity entry cleaner}
 \usage{
+clean_va(x)
+
 convert_na_va(x)
 
 convert_NLP(x, replace_PL = c(PL = "LP", NPL = "NLP"))
 
 remove_plus(x)
-
-clean_va(x)
 
 isNAstring(
   x,
@@ -24,17 +24,19 @@ isNAstring(
 )
 }
 \arguments{
-\item{x}{vector}
+\item{x}{Vector with VA entries}
 }
 \description{
-convert_na_va
+Internal functions for VA cleaning.
 
-convert_NLP
+\code{va_cleaner}: wrapper around \link{convert_na_va}, \link{remove_plus}, and
+\link{convert_NLP}. Assigns \code{NA} to missing entries, removes "plus" and "minus"
+from snellen notation  and simplifies the notation for qualitative VA notation.
 
-remove_plus
-
-clean_va
-
-isNAstring
+\code{convert_na_va}: wrapper around \link{isNAstring}
 }
-\concept{va cleaner functions}
+\seealso{
+Other VA cleaner: 
+\code{\link{va}()}
+}
+\concept{VA cleaner}

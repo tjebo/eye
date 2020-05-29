@@ -2,40 +2,98 @@
 % Please edit documentation in R/va.R
 \name{va}
 \alias{va}
-\title{va}
+\alias{convert_va}
+\alias{va_dissect}
+\title{Visual acuity conversion}
 \usage{
 va(x, from = NULL, to = "logmar", snellen_type = "ft")
+
+convert_va(x, from = NULL, to = "logmar", snellen_type = "ft")
+
+va_dissect(x)
 }
 \arguments{
-\item{x}{vector with VA values}
+\item{x}{Vector with visual acuity entries. Must be atomic.}
 
-\item{from}{String, from which notation to convert (See details)}
+\item{from}{from which class to convert. "etdrs", "logmar" or "snellen" -
+any case allowed. Ignored if it does not make sense}
 
-\item{to}{String, to which notation to convert. Default logMAR (See details)}
+\item{to}{to which class to convert. "etdrs", "logmar" or "snellen" -
+any case allowed}
 
-\item{snellen_type}{which snellen method to use when \emph{to = "snellen"}.
-Either "m", "dec" or "ft"}
+\item{snellen_type}{if to = "snellen", which snellen notation.
+"m", "dec" or "ft"}
+}
+\value{
+\itemize{
+\item \strong{va}: vector of class set with \code{to} argument
+\item \strong{va_dissect}: Named vector of class \code{logmar}
+}
 }
 \description{
-VA notation conversion
+Cleans VA and converts VA notations (classes) into one another.
+\itemize{
+\item \code{va} will guess the VA class based on specific rules (see details)
+\item \code{va_dissect}: wrapper around \link{va_dissect_apply}, converting each element
+individually
+}
 }
 \details{
-\strong{from} if not provided (default), \code{va} will try to guess.
-This will work in most cases, but can fail due to weird, unpredicted ways
-to enter and save data. For more control, provide string:
-Either "ETDRS", "logMAR" or "snellen" (any case allowed).
-\strong{to} Supported: "ETDRS", "logMAR" or "snellen" (any case allowed).
+\strong{\code{va}} cleans visual acuity entries with \link{clean_va}: it assigns \code{NA}
+to missing entries, removes "plus" and "minus" from snellen entries
+and unifies the notation for qualitative entries.
 
-Qualitative vision measures "Light perception", "hand movements" and "counting fingers"
-have to be coded "LP", "HM" and "CF", otherwise they will be replaced with NA.
-"No light perception" is not converted into visual acuity values and will be replaced with NA.
+\strong{\code{va_dissect}} is very similar to \code{va}. However, it is less flexible
+and will always convert to logmar. It also does not support
+snellen decimals!
+
+Distinction between logMAR and snellen decimals, or between ETDRS and
+logMAR can be ambiguous in some special cases and \strong{logmar} is picked -
+provide \emph{from} if you want something else.
+
+\strong{snellen decimals} are a particular challenge and \code{va} may wrongly
+assign  logMAR - this could happen if you have weird snellen decimal
+values that are not found in \link{va_chart}. E.g., check with \code{unique(x)}.
+
+\emph{quali} class represents "(No) light perception", "hand movements"
+and "counting fingers" and are converted to logmar following the
+suggestions by \href{https://michaelbach.de/sci/acuity.html}{Michael Bach}
+
+\strong{Conversion rules}:
+\itemize{
+\item if x integer and 3 < x <= 100: \code{etdrs}
+\item if x numeric and -0.3 <= x <= 3: \code{logmar}
+\item \emph{va only} if \code{all(x \%in\% va_chart$snellen_dec)}: \code{snellen}
+\item if x those ranges: \code{NA}
+\item if character and format x/y: \code{snellen} (fraction)
+\item if one of "CF", "HM", "LP", "PL", "NLP", or "NPL": \code{quali}
+\item \emph{va_dissect only}: No snellen decimal supported!
+\item \emph{va_dissect only}: if NA: quali (but that's rather irrelevant)
+\item Any other string: \code{NA}
+}
 }
 \examples{
-TBC
+## will automatically detect VA class and convert to logMAR by default
+## ETDRS letters
+va(c(23, 56, 74, 58))
+
+## ... or convert to snellen
+va(c(23, 56, 74, 58), to = "snellen")
+
+## snellen, mixed with categories. Also dealing with those "plus/minus" entries
+va(c("NLP", "NPL", "PL", "LP", "HM", "CF", "6/60", "20/200", "6/9", "20/40", "20/40+3", "20/50-2"))
+
+## on the inbuilt data set:
+head(va(amd$VA_ETDRS_Letters), 10)
+
 }
 \seealso{
-Other ophthalmic functions: 
-\code{\link{eyes}()},
-\code{\link{insight}()}
+Other VA converter: 
+\code{\link{va_helper}}
+
+Other VA cleaner: 
+\code{\link{va_cleaner}}
 }
-\concept{ophthalmic functions}
+\concept{Ophthalmic functions}
+\concept{VA cleaner}
+\concept{VA converter}

@@ -32,7 +32,7 @@
 #' Snellen feet, meter and decimal supported. Three qualitative common
 #' vision measures included (light perception, hand movement and counting fingers)
 #' @usage data("va_chart")
-#' @format A data frame with 40764 rows and 7 variables:
+#' @format A data frame with 29 rows and 5 variables:
 #' \describe{
 #'   \item{snellen_ft}{snellen VA in feet}
 #'   \item{snellen_m}{snellen VA in meter}
@@ -40,5 +40,8 @@
 #'   \item{logMAR}{logMAR VA}
 #'   \item{ETDRS}{VA in ETDRS letters}
 #' }
-#'
+#' @details
+#' - This chart and VA conversion formulas are based on [holladay],
+#'  [beck] and [gregori]. Categories **(no) light perception**,
+#'  **counting fingers** and **hand movements** are converted following [bach]
 "va_chart"

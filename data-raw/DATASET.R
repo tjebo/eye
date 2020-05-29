@@ -1,7 +1,6 @@
 
 ## code to prepare `DATASET` dataset goes here
 amd <- readr::read_delim("data-raw/Moorfields_AMD_Database_1.csv", delim = ";")
-
 usethis::use_data(amd, overwrite = TRUE)
 
 ###  va conversion chart
@@ -20,7 +19,7 @@ logMAR <- round(-1 * log10(dec_sn[!is.na(dec_sn)]), 2)
 ETDRS <- round(85 + 50 * log10(dec_sn), 0)
 
 
-va_chart <- data.frame(snellen_ft,
+va_chart1 <- data.frame(snellen_ft,
                              snellen_m,
                             snellen_dec = formatC(round(dec_sn, 3)),
                             logMAR = formatC(logMAR),
@@ -33,10 +32,13 @@ quali <- data.frame(snellen_ft = c("20/20000", "20/10000", "20/4000", "20/2000")
                     ETDRS = c(0, 0, 0, 2),
                     quali = c("NLP", "LP", "HM", "CF"))
 
-va_chart <- rbind(quali, va_chart)
-va_chart$ETDRS[28] <- 95L
-va_chart$logMAR[c(12, 25, 28)] <- c("1.0", "0.0", "-0.2")
-va_chart$snellen_dec[c( 17:19, 23, 25, 27:29)] <- c( '0.29', '0.32', '0.33', '0.66', '1.0', '1.33', '1.5', '2.0')
+va_chart <- rbind(quali, va_chart1)
+va_chart$ETDRS[va_chart$ETDRS %in% 94] <- 95L
+logmar_replace <- c("1", "-0", "-0.19")
+va_chart$logMAR[va_chart$logMAR %in% logmar_replace] <- c("1.0", "0.0", "-0.2")
+snell_dec_replace <- c("0.286", "0.317", "0.333", "0.667", "1", "1.333", "1.538", "2")
+va_chart$snellen_dec[va_chart$snellen_dec %in% snell_dec_replace] <-
+  c("0.3", '0.32', '0.33', '0.66', '1.0', '1.33', '1.5', '2.0')
 
 usethis::use_data(va_chart, overwrite = TRUE)
 

@@ -19,7 +19,7 @@ source("./tests/testthat/va_testdata.R")
 test_that("error", {
   expect_error(va(logmar, to = c("logmar, etdrs")), "\"to\": Pick one of")
   expect_error(va(snellen_unplaus), "Failed to detect")
-  expect_error(va(mixed_VA), "Mixed object - currently not supported")
+  expect_error(va(mixed_VA), "Mixed object - not supported. Try with va_dissect")
 })
 
 test_that("no error / no warning", {
@@ -56,22 +56,18 @@ test_that("message", {
   expect_message(va(logmar, to = "logmar"), "VA already")
   expect_message(va(logmar, from = "ETDRS"), "VA already")
   expect_message(va(logmar_unplaus), "VA already")
-  expect_message(va(logmar_unplaus), "From logmar")
   expect_message(va(logmar), "From logmar")
 })
 
 test_that("warning", {
-  expect_warning(va(logmar, from = c("logmar, etdrs")), "Ignoring \"from\": logmar, etdrs not plausible")
-  expect_warning(va(logmar, from = "try"), "Ignoring \"from\": try not plausible")
-  expect_warning(va(logmar, from = "ETDRS"), "Ignoring \"from\": ETDRS not plausible")
-  expect_warning(va(quali_snellen_ft, from = "ETDRS"),"Ignoring \"from\": ETDRS not plausible")
-  expect_warning(eye:::which_va(etdrs_unplaus), "Unplausible values")
-  expect_warning(eye:::which_va(logmar_unplaus), "Unplausible values")
-  expect_warning(eye:::which_va(snellen_unplaus), "Snellen?")
+  expect_warning(va(logmar, from = c("logmar, etdrs")), "Ignoring \"from\": logmar, etdrs implausible")
+  expect_warning(va(logmar, from = "try"), "Ignoring \"from\": try implausible")
+  expect_warning(va(logmar, from = "ETDRS"), "Ignoring \"from\": ETDRS implausible")
+  expect_warning(va(quali_snellen_ft, from = "ETDRS"),"Ignoring \"from\": ETDRS implausible")
   expect_warning(va(va_vec2, to = "snellen", from = "etdrs"), "Ignoring \"from\": overriden by VA class")
-  expect_warning(va(amd$VA_ETDRS_Letters, from = 'etdrs'), "Unplausible values")
-  expect_warning(va(etdrs_unplaus), "Unplausible values")
-  expect_warning(va(logmar_unplaus), "Unplausible values")
+  expect_warning(va(amd$VA_ETDRS_Letters, from = 'etdrs'), "Implausible values")
+  expect_warning(va(etdrs_unplaus), "Implausible values")
+  expect_warning(va(logmar_unplaus), "Implausible values")
   expect_warning(va(etdrs_logmar, from = "snellen"), "Ignoring \"from\"")
   expect_warning(va(logmar, to = "snellen", snellen_type = "random"), "Ignoring snellen_type")
 
@@ -84,8 +80,8 @@ test_that("return", {
   expect_identical(eye:::which_va(snellen_ft), "snellen")
   expect_identical(eye:::which_va(logmar), "logmar")
   expect_identical(eye:::which_va(quali), "quali")
-  expect_identical(eye:::which_va(etdrs_unplaus), "etdrs")
-  expect_identical(eye:::which_va(logmar_unplaus), "logmar")
+  expect_identical(eye:::which_va(etdrs_unplaus), c("etdrs", "implaus"))
+  expect_identical(eye:::which_va(logmar_unplaus), c("logmar", "implaus"))
   expect_identical(eye:::which_va(snellen_unplaus), "failed")
   expect_identical(eye:::which_va(quali_logmar), "logmar")
   expect_identical(eye:::which_va(quali_snellen_ft), "snellen")
@@ -106,3 +102,27 @@ test_that("return", {
   expect_true(all(va(logmar, to = "snellen", snellen_type = "dec") %in% va_chart$snellen_dec))
 })
 
+
+test_that("No error / no warning: va_dissect", {
+  expect_warning(va_dissect(va_vec), regexp = NA)
+  expect_warning(va_dissect(va_vec1), regexp = NA)
+  expect_warning(va_dissect(va_vec2), regexp = NA)
+  expect_warning(va_dissect(va_vec3), regexp = NA)
+  expect_warning(va_dissect(va_vec4), regexp = NA)
+  expect_warning(va_dissect(va_vec5), regexp = NA)
+  expect_error(va_dissect(va_vec), regexp = NA)
+  expect_error(va_dissect(va_vec1), regexp = NA)
+  expect_error(va_dissect(va_vec2), regexp = NA)
+  expect_error(va_dissect(va_vec3), regexp = NA)
+  expect_error(va_dissect(va_vec4), regexp = NA)
+  expect_error(va_dissect(va_vec5), regexp = NA)
+  expect_warning(va_dissect(mixed_VA2), regexp = NA)
+}
+)
+
+test_that("Warning: va_dissect", {
+  expect_warning(va_dissect(mixed_VA), "Implausible")
+  expect_warning(va_dissect(mixed_VA), "Snellen?")
+  expect_warning(va_dissect(mixed_VA1), "Implausible")
+}
+)

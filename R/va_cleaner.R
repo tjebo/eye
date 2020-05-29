@@ -1,38 +1,12 @@
-#' convert_na_va
+#' Visual acuity entry cleaner
 #' @name va_cleaner
-#' @param x vector
-#' @family va cleaner functions
+#' @param x Vector with VA entries
+#' @description Internal functions for VA cleaning.
 #'
-convert_na_va <- function(x){
-  x[isNAstring(x)] <- NA_character_
-  x
-}
-
-#' convert_NLP
-#' @rdname va_cleaner
-#' @param x vector
-#' @family va cleaner functions
-#'
-convert_NLP <- function(x, replace_PL = c(PL = "LP", NPL = "NLP")) {
-  new_vec <- replace_PL[as.character(x)]
-  unname(ifelse(is.na(new_vec), x, new_vec))
-}
-
-#' remove_plus
-#' @rdname va_cleaner
-#' @param x vector
-#' @importFrom stringr str_extract
-#' @family va cleaner functions
-#'
-remove_plus <- function(x) {
-  x <- stringr::str_extract(x, "(-)?\\w+[.\\w/]*(?=-?)")
-  x
-}
-
-#' clean_va
-#' @rdname va_cleaner
-#' @param x vector
-#' @family va cleaner functions
+#' `va_cleaner`: wrapper around [convert_na_va], [remove_plus], and
+#' [convert_NLP]. Assigns `NA` to missing entries, removes "plus" and "minus"
+#'  from snellen notation  and simplifies the notation for qualitative VA notation.
+#' @family VA cleaner
 clean_va <- function(x){
   x_nona <- convert_na_va(x)
   x_noplus <- remove_plus(x_nona)
@@ -40,11 +14,38 @@ clean_va <- function(x){
   x_noNLP
 }
 
+
+#' convert_na_va
+#' @rdname va_cleaner
+#' @description `convert_na_va`: wrapper around [isNAstring]
+
+convert_na_va <- function(x){
+  x[isNAstring(x)] <- NA_character_
+  x
+}
+
+#' convert_NLP
+#' @rdname va_cleaner
+
+convert_NLP <- function(x, replace_PL = c(PL = "LP", NPL = "NLP")) {
+  new_vec <- replace_PL[as.character(x)]
+  unname(ifelse(is.na(new_vec), x, new_vec))
+}
+
+#' remove_plus
+#' @rdname va_cleaner
+#' @importFrom stringr str_extract
+
+remove_plus <- function(x) {
+  x <- stringr::str_extract(x, "(-)?\\w+[.\\w/]*(?=-?)")
+  x
+}
+
+
+
 #' isNAstring
 #' @rdname va_cleaner
-#' @param x vector
-#' @family va cleaner functions
-#'
+
 isNAstring <- function(x, full = c("\\.+", "", "\\s+", "n/a", "na", "null"), partial = c("not")) {
   if (is.numeric(x) | is.integer(x)) {
     stop("x is numeric/integer. No NA strings expected", call. = FALSE)
