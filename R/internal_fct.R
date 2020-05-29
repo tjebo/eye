@@ -155,4 +155,3 @@ get_va_cols <- function(obj, va_chr) {
 }
 
 
-

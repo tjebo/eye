@@ -1,27 +1,37 @@
-#' eyes
+#' Count patients and eyes
 #' @name eyes
-#' @description Looks for columns that identify patients and eyes and counts number of patients and eyes.
-#' @param \strong{x} required. (data.frame)
-#' @param id Use if `eyes` does not find an id / patient column. See details id column.
-#' @param eye Use if `eyes` does not find an eye colum. See details
-#' @param eye_str Use not recommended - passed to name searching functions (details)
+#' @description Counts number of patients and eyes (right and left).
+#' @param \strong{x} required. (data frame)
+#' @param id Patient identifying column
+#' @param eye Eye identifying colum.
+#' @param report if TRUE, string returned to paste into report
+#' @param ... passed to [eyes_to_string]
 #' @details
-#' - **id** specify if `eyes` fails to identify the patient columns .
-#'   `eyes` searches for column names that contain the string "id" or "pat"
-#'   (any letter cases). Column names that contain both strings are prioritised.
+#' `eyes` guesses columns that identify patients and eyes.
+#' - use *id* if `eyes` fails to identify the patient variable.
+#'   `eyes` searches for column names containing the strings "id" and/or "pat"
+#'   (any cases). Column names that contain both strings are prioritised.
 #'   If more than one column is found, the function will return an error.
-#'   This could cause potential confusion and then the argument identifies which column to pick.
-#' - **eye** `eyes` is looking for column names that contain the string "eye" (any letter cases).
-#'   This could cause potential confusion and then the argument identifies which column to pick.
-#' - **eye_str**: for strings coding eyes: named list of character vectors
-#'    coding right and left eyes. names need to be "r" and "l".
-#'    Default `list(r = c("r", "re", "od", "right"),  l = c("l", "le", "os", "left"))`
-#' @family ophthalmic functions
+#' - use *eye* if `eyes` fails to identify the eye column.
+#'   `eyes` searches for column names containing the string "eye" (any cases).
+#' - `eyes` recognizes integer coding 0:1 and 1:2, with right being
+#'    the lower number. For strings coding it recognizes
+#'    right eyes: c("r", "re", "od", "right") and
+#'    left eyes: c("l", "le", "os", "left")
+#' - *report* and **...** : [eyes_to_string] understands the following params:
+#'     - **english** If TRUE: writing numbers <= 12 as words
+#'     - **para** If TRUE: Adding "A total of" to comply with most
+#'     journal standards and to avoid awkward long numnbers.
+#'     - **UK** Logical, Use UK (English) style (TRUE) or
+#'     USA (American) style (FALSE).
+#' @return Vector with count of patients and eyes
+#' @family eye core functions
+#' @family Eye count functions
 #' @examples
 #' eyes(amd)
 #' @export
 #'
-eyes <- function(x, id  = NULL, eye  = NULL, eye_str = NULL) {
+eyes <- function(x, id  = NULL, eye  = NULL, report = FALSE, ...) {
 
   if (is.null(id)) {
     pat_col <- get_idcols(x)
@@ -45,14 +55,15 @@ eyes <- function(x, id  = NULL, eye  = NULL, eye_str = NULL) {
 
   if (length(eye) < 1 | identical(eye, character(0))) {
     message("No eye column found: Only patients counted.")
+    if(isTRUE(report)){
+      eyes_to_string(n_pat, ...)
+    } else {
     return(c(patients = n_pat))
-
+}
   } else if (length(eye) == 1) {
-    if(is.null(eye_str)){
-      eye_str <- set_eye()
-    } else if(!inherits(eye_str, "list") | !identical(names(eye_str), c("r", "l"))) {
-      stop("eye_str needs to be list with c(\"r\",\"l\") as names", call. = FALSE)
-    }
+
+    eye_str <- set_eye()
+
     eye_int <- suppressWarnings(unique(as.integer(x[[eye]])))
     eye_integ <- eye_int[!is.na(eye_int)]
     eye_char <- as.logical(sum(is.na(eye_int)))
@@ -100,7 +111,11 @@ eyes <- function(x, id  = NULL, eye  = NULL, eye_str = NULL) {
       n_l <- sum(colSums(tab_l))
     }
     n_eyes <- n_r + n_l
+    if(isTRUE(report)){
+      eyes_to_string(c(n_pat, n_eyes), ...)
+    } else {
     return(c(patients = n_pat, eyes = n_eyes, right = n_r, left = n_l))
+    }
   }
 }
 
@@ -114,31 +129,54 @@ counteyes <- eyes
 #' @export
 count_eyes <- eyes
 
-#' insight
-#' @name insight
-#' @description wrapper around eyes, returning text for document
-#' @param x data frame
-#' @param ... passed to [eyes]
-#' @family ophthalmic functions
+#' Eye count to string
+#' @rdname eyes
+#' @description `eyestr`: identical to `eyes(x, report = TRUE, ...)`
+#' @return `eyestr`: String to paste into reports
+#' @family Eye count functions
 #' @examples
-#' insight(amd)
+#' eyestr(amd, para = TRUE)
 #' @export
+eyestr <- function(x, id = NULL, eye = NULL, english = TRUE, para = FALSE, UK = FALSE){
+suppressMessages(eyes(x = x, id = id, report = TRUE, eye = eye, english = english, para = para, UK = UK))
+}
 
-insight <- function(x, ...) {
-  counts <- eye::eyes(x, ...)
-  if (counts[1] <= 1) {
+#' Eye count to strings
+#' @name eyes_to_string
+#' @param x vector of one or two
+#' @param english If TRUE: writing numbers <= 12 as words
+#' @param para If TRUE: Adding "A total of" to comply with most
+#' journal standards and to avoid awkward long numnbers.
+#' @param UK Logical, Use UK (English) style (TRUE) or
+#'   USA (American) style (FALSE).
+#' @return String to paste into text
+#' @family Eye count functions
+#' @importFrom english english
+
+eyes_to_string <- function(x, english = TRUE, para = FALSE, UK = FALSE) {
+  if (para) {
+    para <- "A total of "
+  } else {
+    para <- NULL
+  }
+  if (isTRUE(english)) {
+    engl <- as.character(english::english(x[x <= 12], UK = UK))
+    x[x <= 12] <- engl
+  }
+  if (x[1] <= 1) {
     patient <- "patient"
   } else {
     patient <- "patients"
   }
-  if (length(counts) == 1) {
-    return(paste(counts[1], patient))
+  if (length(x) == 1) {
+    return(paste0(para, paste(tocapital(x[1]), patient)))
   } else {
-    if (counts[2] <= 1) {
+    if (x[2] <= 1) {
       eye <- "eye"
     } else {
       eye <- "eyes"
     }
-    return(paste(counts[2], eye, "of", counts[1], patient))
+    return(paste0(para, paste(tocapital(x[2]),
+                              eye, "of", x[1], patient)))
   }
 }

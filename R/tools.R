@@ -99,3 +99,14 @@ csv <- function(x, name = deparse(substitute(x))) {
   write.csv(x, file, row.names = F)
 }
 
+
+#' Capitalize words
+#' @name tocapital
+#' @description capitalises single words
+#' @param x string vector
+#' @return Character vector
+#'
+tocapital <- function(x) {
+  paste(toupper(substring(x, 1,1)), substring(x, 2),
+        sep="", collapse=" ")
+}

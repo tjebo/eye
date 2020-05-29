@@ -69,13 +69,21 @@ library(tidyverse)
 
 #### eyes
 
-Count patient and eyes
+Count patient and eyes (**eyes** or **eyestr**)
 
 ``` r
 eyes(amd)
 #> Eyes coded 0:1. Interpreting as r = 0
 #> patients     eyes    right     left 
 #>     3357     3357     1681     1676
+
+## Or get the text for reports
+eyestr(amd)
+#> [1] "3357 eyes of 3357 patients"
+
+## This will format numbers <=12 to english words
+eyestr(head(amd, 100))
+#> [1] "Eleven eyes of eleven patients"
 ```
 
 #### va
@@ -111,8 +119,7 @@ va(c("NLP", "NPL", "PL", "LP", "HM", "CF", "6/60", "20/200", "6/9", "20/40", "20
 
 ## on the inbuilt data set:
 head(va(amd$VA_ETDRS_Letters), 10)
-#> Warning: Unplausible values! Check your data
-#> From etdrs
+#> Warning: Implausible values replaced with NA! Check your data
 #>  [1] 0.82 0.08 0.70 0.90 1.06 1.02 0.96 1.06 0.40 0.46
 
 ## (and indeed, there are unplausible ETDRS values in this data set!)

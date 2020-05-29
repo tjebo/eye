@@ -4,45 +4,71 @@
 \alias{eyes}
 \alias{counteyes}
 \alias{count_eyes}
-\title{eyes}
+\alias{eyestr}
+\title{Count patients and eyes}
 \usage{
-eyes(x, id = NULL, eye = NULL, eye_str = NULL)
+eyes(x, id = NULL, eye = NULL, report = FALSE, ...)
 
-counteyes(x, id = NULL, eye = NULL, eye_str = NULL)
+counteyes(x, id = NULL, eye = NULL, report = FALSE, ...)
 
-count_eyes(x, id = NULL, eye = NULL, eye_str = NULL)
+count_eyes(x, id = NULL, eye = NULL, report = FALSE, ...)
+
+eyestr(x, id = NULL, eye = NULL, english = TRUE, para = FALSE, UK = FALSE)
 }
 \arguments{
-\item{id}{Use if \code{eyes} does not find an id / patient column. See details id column.}
+\item{id}{Patient identifying column}
 
-\item{eye}{Use if \code{eyes} does not find an eye colum. See details}
+\item{eye}{Eye identifying colum.}
 
-\item{eye_str}{Use not recommended - passed to name searching functions (details)}
+\item{report}{if TRUE, string returned to paste into report}
 
-\item{\strong{x}}{required. (data.frame)}
+\item{...}{passed to \link{eyes_to_string}}
+
+\item{\strong{x}}{required. (data frame)}
+}
+\value{
+Vector with count of patients and eyes
+
+\code{eyestr}: String to paste into reports
 }
 \description{
-Looks for columns that identify patients and eyes and counts number of patients and eyes.
+Counts number of patients and eyes (right and left).
+
+\code{eyestr}: identical to \code{eyes(x, report = TRUE, ...)}
 }
 \details{
+\code{eyes} guesses columns that identify patients and eyes.
 \itemize{
-\item \strong{id} specify if \code{eyes} fails to identify the patient columns .
-\code{eyes} searches for column names that contain the string "id" or "pat"
-(any letter cases). Column names that contain both strings are prioritised.
+\item use \emph{id} if \code{eyes} fails to identify the patient variable.
+\code{eyes} searches for column names containing the strings "id" and/or "pat"
+(any cases). Column names that contain both strings are prioritised.
 If more than one column is found, the function will return an error.
-This could cause potential confusion and then the argument identifies which column to pick.
-\item \strong{eye} \code{eyes} is looking for column names that contain the string "eye" (any letter cases).
-This could cause potential confusion and then the argument identifies which column to pick.
-\item \strong{eye_str}: for strings coding eyes: named list of character vectors
-coding right and left eyes. names need to be "r" and "l".
-Default \code{list(r = c("r", "re", "od", "right"),  l = c("l", "le", "os", "left"))}
+\item use \emph{eye} if \code{eyes} fails to identify the eye column.
+\code{eyes} searches for column names containing the string "eye" (any cases).
+\item \code{eyes} recognizes integer coding 0:1 and 1:2, with right being
+the lower number. For strings coding it recognizes
+right eyes: c("r", "re", "od", "right") and
+left eyes: c("l", "le", "os", "left")
+\item \emph{report} and \strong{...} : \link{eyes_to_string} understands the following params:
+\itemize{
+\item \strong{english} If TRUE: writing numbers <= 12 as words
+\item \strong{para} If TRUE: Adding "A total of" to comply with most
+journal standards and to avoid awkward long numnbers.
+\item \strong{UK} Logical, Use UK (English) style (TRUE) or
+USA (American) style (FALSE).
+}
 }
 }
 \examples{
 eyes(amd)
+eyestr(amd, para = TRUE)
 }
 \seealso{
-Other ophthalmic functions: 
-\code{\link{insight}()}
+Other Eye count functions: 
+\code{\link{eyes_to_string}()}
+
+Other Eye count functions: 
+\code{\link{eyes_to_string}()}
 }
-\concept{ophthalmic functions}
+\concept{Eye count functions}
+\concept{eye core functions}

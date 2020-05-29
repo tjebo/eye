@@ -60,9 +60,15 @@ library(tidyverse)
 ### Only eye - core *eye* functions 
 #### blink
 #### eyes
-Count patient and eyes
+Count patient and eyes (**eyes** or **eyestr**)
 ```{r eyes}
 eyes(amd)
+
+## Or get the text for reports
+eyestr(amd)
+
+## This will format numbers <=12 to english words
+eyestr(head(amd, 100))
 ```
 
 #### va
