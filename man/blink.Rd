@@ -4,18 +4,21 @@
 \alias{blink}
 \title{Your data in a blink of an eye}
 \usage{
-blink(x)
+blink(x, id = NULL, eye = NULL, to = "logmar", ...)
 }
 \arguments{
 \item{x}{data frame}
 }
 \description{
-High level function, wrapping \link{myop}, \link{eyes} and \link{insight}.
-Checks if data is in long format. If not, myop will be applied.
-eyes and insight will be applied on the result.
+High level function, wrapping \link{myop}, \link{eyes} and \link{reveal}
 }
 \details{
-TBC
+Steps of data processing:
+\itemize{
+\item checking for duplicate rows and removing them
+\item Renaming columns to prepare for myopization and VA conversion
+\item VA will always be converted to logmar by default
+}
 }
 \examples{
 TBC

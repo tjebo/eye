@@ -17,7 +17,7 @@ etdrs_logmar <- 0:1
 etdrs_logmar_na <- c(0:1, NA)
 snellen_logmar <- eye:::inter_snelllog[c(2,4,5)]
 snellen_logmar_na <- c(eye:::inter_snelllog[c(2,4,5)], NA)
-
+na_vec <- c(NA, NA)
 va_vec <- c("NLP", "LP", "HM", "CF", "6/60", "NA", NA, "20/40")
 va_vec1 <- c("NPL", "NLP", "LP", "PL", "HM", "CF", "6/60", "20/200", "6/9", "20/40")
 va_vec2 <- structure(c(3, 2.7, 2.3, 1.9, 1, 1, 0.18, 0.3), class = c("logmar",

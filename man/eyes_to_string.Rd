@@ -4,12 +4,12 @@
 \alias{eyes_to_string}
 \title{Eye count to strings}
 \usage{
-eyes_to_string(x, english = TRUE, para = FALSE, UK = FALSE)
+eyes_to_string(x, small_num = TRUE, para = FALSE, UK = FALSE)
 }
 \arguments{
 \item{x}{vector of one or two}
 
-\item{english}{If TRUE: writing numbers <= 12 as words}
+\item{small_num}{If TRUE: writing numbers <= 12 as words}
 
 \item{para}{If TRUE: Adding "A total of" to comply with most
 journal standards and to avoid awkward long numnbers.}
@@ -23,8 +23,3 @@ String to paste into text
 \description{
 Eye count to strings
 }
-\seealso{
-Other Eye count functions: 
-\code{\link{eyes}()}
-}
-\concept{Eye count functions}

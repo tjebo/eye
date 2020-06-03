@@ -23,14 +23,16 @@ Shows commonly used summary statistics
 \examples{
 x = y = z = c(rnorm(20), NA)
 
-# named or unnamed list
+## named or unnamed list
 mylist <- list(x = x, y = y, z = z)
 reveal(mylist)
-# with a data frame
+
+## with a data frame
 mydf <- data.frame(x, y, z)
 reveal(mydf)
-#If aggregation by group, split the data frame first
+
+## If aggregation by group, split the data frame first
 mydf2 <- data.frame(group = rep(letters[1:2], each = 42), x, y, z)
-lapply(split(mydf2, mydf2$group), see, rownames = FALSE)
+lapply(split(mydf2, mydf2$group), reveal, rownames = FALSE)
 }
 \concept{stats functions}

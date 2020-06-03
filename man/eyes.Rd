@@ -2,25 +2,19 @@
 % Please edit documentation in R/eyes.R
 \name{eyes}
 \alias{eyes}
-\alias{counteyes}
-\alias{count_eyes}
 \alias{eyestr}
 \title{Count patients and eyes}
 \usage{
 eyes(x, id = NULL, eye = NULL, report = FALSE, ...)
 
-counteyes(x, id = NULL, eye = NULL, report = FALSE, ...)
-
-count_eyes(x, id = NULL, eye = NULL, report = FALSE, ...)
-
-eyestr(x, id = NULL, eye = NULL, english = TRUE, para = FALSE, UK = FALSE)
+eyestr(x, id = NULL, eye = NULL, small_num = TRUE, para = FALSE, UK = FALSE)
 }
 \arguments{
 \item{id}{Patient identifying column}
 
 \item{eye}{Eye identifying colum.}
 
-\item{report}{if TRUE, string returned to paste into report}
+\item{report}{if TRUE, text returned for report}
 
 \item{...}{passed to \link{eyes_to_string}}
 
@@ -29,7 +23,7 @@ eyestr(x, id = NULL, eye = NULL, english = TRUE, para = FALSE, UK = FALSE)
 \value{
 Vector with count of patients and eyes
 
-\code{eyestr}: String to paste into reports
+\code{eyestr}: Text which can be used for reports
 }
 \description{
 Counts number of patients and eyes (right and left).
@@ -38,37 +32,54 @@ Counts number of patients and eyes (right and left).
 }
 \details{
 \code{eyes} guesses columns that identify patients and eyes.
+}
+\section{Guessing}{
+
+For any below, all cases are always ignored (you can write in
+upper or lower case, as you please)
+
+\strong{patient ID columns}:
 \itemize{
-\item use \emph{id} if \code{eyes} fails to identify the patient variable.
-\code{eyes} searches for column names containing the strings "id" and/or "pat"
-(any cases). Column names that contain both strings are prioritised.
-If more than one column is found, the function will return an error.
-\item use \emph{eye} if \code{eyes} fails to identify the eye column.
-\code{eyes} searches for column names containing the string "eye" (any cases).
+\item First, \code{eyes} is looking for names that contain both strings
+"pat" and "id" (the order doesn't matter)
+\item Next, it will look for columns that are plainly called "ID"
+\item Last, it will search for all names that contain either "pat"
+or "id"
+}
+
+\strong{eye variable column}:
+\itemize{
+\item \code{eyes} looks for columns called either "eye" or "eyes"
+}
+
+\strong{id} and \strong{eye} arguments overrule the name guessing
+
+@section Eye coding:
+\itemize{
 \item \code{eyes} recognizes integer coding 0:1 and 1:2, with right being
 the lower number. For strings coding it recognizes
 right eyes: c("r", "re", "od", "right") and
 left eyes: c("l", "le", "os", "left")
-\item \emph{report} and \strong{...} : \link{eyes_to_string} understands the following params:
+}
+}
+
+\section{report}{
+
+Using \link{eyes_to_string} to parse the output of \code{eyes} into
+a text which you can use for reports. Arguments to \code{eyes_to_string}
+are passed via \strong{...}:
 \itemize{
-\item \strong{english} If TRUE: writing numbers <= 12 as words
-\item \strong{para} If TRUE: Adding "A total of" to comply with most
-journal standards and to avoid awkward long numnbers.
-\item \strong{UK} Logical, Use UK (English) style (TRUE) or
-USA (American) style (FALSE).
+\item \strong{small_num} If TRUE (default): numbers <= 12 as words
+\item \strong{para} If TRUE (not default): Adding "A total of" to
+comply with most journal standards and to avoid awkward
+long numbers.
+\item \strong{UK} TRUE: UK style (English) or FALSE (default):
+US style (American).
 }
 }
-}
+
 \examples{
 eyes(amd)
 eyestr(amd, para = TRUE)
 }
-\seealso{
-Other Eye count functions: 
-\code{\link{eyes_to_string}()}
-
-Other Eye count functions: 
-\code{\link{eyes_to_string}()}
-}
-\concept{Eye count functions}
 \concept{eye core functions}

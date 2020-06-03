@@ -1,8 +1,6 @@
-#' Visual acuity conversion
+#' Visual acuity notation conversion
 #' @description Cleans VA and converts VA notations (classes) into one another.
-#'   * `va` will guess the VA class based on specific rules (see details)
-#'   * `va_dissect`: wrapper around [va_dissect_apply], converting each element
-#'   individually
+#'   `va` will guess the VA class based on specific rules (see details)
 #' @param x Vector with visual acuity entries. Must be atomic.
 #' @param from from which class to convert. "etdrs", "logmar" or "snellen" -
 #' any case allowed. Ignored if it does not make sense
@@ -10,6 +8,7 @@
 #' any case allowed
 #' @param snellen_type if to = "snellen", which snellen notation.
 #'   "m", "dec" or "ft"
+#' @name va
 #' @details
 #'   **`va`** cleans visual acuity entries with [clean_va]: it assigns `NA`
 #'   to missing entries, removes "plus" and "minus" from snellen entries
@@ -17,7 +16,8 @@
 #'
 #'   **`va_dissect`** is very similar to `va`. However, it is less flexible
 #'   and will always convert to logmar. It also does not support
-#'   snellen decimals!
+#'   snellen decimals! Usually you don't need to use it -
+#'   It is internally called when [which_va] guesses "mixed" notation.
 #'
 #'   Distinction between logMAR and snellen decimals, or between ETDRS and
 #'   logMAR can be ambiguous in some special cases and **logmar** is picked -
@@ -30,17 +30,18 @@
 #'   *quali* class represents "(No) light perception", "hand movements"
 #'   and "counting fingers" and are converted to logmar following the
 #'   suggestions by [Michael Bach](https://michaelbach.de/sci/acuity.html)
-#'
-#'   **Conversion rules**:
+#' @section How the VA class guessing works:
 #'   - if x integer and 3 < x <= 100: `etdrs`
+#'   - if x integer and 0 <= x <= 3: `logmar`, but you can choose `etdrs`
 #'   - if x numeric and -0.3 <= x <= 3: `logmar`
-#'   - *va only* if `all(x %in% va_chart$snellen_dec)`: `snellen`
-#'   - if x those ranges: `NA`
-#'   - if character and format x/y: `snellen` (fraction)
+#'   - if x numeric and all x in intersection(va_chart$logMAR, va_chart$snellen_dec):
+#'     `logmar`, but you can choose `snellen`
+#'   - *non-mixed class*: if all x in va_chart$snellen_dec: `snellen`
+#'   - *mixed class* ([which_va_dissect]): snellen_dec not supported.
+#'   - if character and format x/y found: `snellen` (fraction)
 #'   - if one of "CF", "HM", "LP", "PL", "NLP", or "NPL": `quali`
-#'   - *va_dissect only*: No snellen decimal supported!
-#'   - *va_dissect only*: if NA: quali (but that's rather irrelevant)
-#'   - Any other string: `NA`
+#'   - if numeric x beyond the ranges from above: `NA`
+#'   - Any other string or NA: `NA`
 #' @return
 #' - **va**: vector of class set with `to` argument
 #' - **va_dissect**: Named vector of class `logmar`
@@ -60,8 +61,6 @@
 #'
 #' ## on the inbuilt data set:
 #' head(va(amd$VA_ETDRS_Letters), 10)
-#'
-#' @name va
 #' @importFrom rlang sym
 #' @export
 va <- function(x, from = NULL, to = "logmar", snellen_type = "ft") {
@@ -90,12 +89,18 @@ va <- function(x, from = NULL, to = "logmar", snellen_type = "ft") {
       x <- clean_va(x)
     }
     guess_va <- which_va(x)
+    if(all(guess_va == "NA")){
+    warning("No conversion - vector of NA", call. = FALSE)
+    return(x)
+    }
     if(any(guess_va %in% "mixed")){
-    stop("Mixed object - not supported. Try with va_dissect", call. = FALSE)
+    message("Mixed object - using va_dissect()")
+      new_va <- sapply(as.character(x), which_va_dissect, USE.NAMES = FALSE)
+      return(new_va)
     }
     if (length(guess_va) == 2) {
       if(any(guess_va %in% "implaus")){
-        warning("Implausible values replaced with NA! Check your data",
+        warning("NA introduced. Implausible values",
               call. = FALSE
       )
         class_va <- guess_va[1]
@@ -111,8 +116,10 @@ va <- function(x, from = NULL, to = "logmar", snellen_type = "ft") {
       }
     } else {
       if (guess_va == "failed") {
-        stop(paste("Failed to detect VA class. Clean your data -
-           your unique values:", paste(unique(x), collapse = ", ")), call. = FALSE)
+        warning(paste("No conversion - Failed to detect VA class.
+        Your unique values:", paste(unique(x), collapse = ", ")),
+             call. = FALSE)
+        return(x)
       }
       class_va <- guess_va
       if (!is.null(from)) {
@@ -157,30 +164,32 @@ va_dissect <- function(x) {
     stop("x must be atomic", call. = FALSE)
   }
   x_clean <- clean_va(as.character(x))
-  new_va <- sapply(x_clean, va_dissect_apply, USE.NAMES = FALSE)
+  new_va <- sapply(x_clean, which_va_dissect, USE.NAMES = FALSE)
   new_va
 }
 
-#' VA helper
-#' @name va_helper
+#' Guessing the VA class
+#' @name which_va
 #' @param x Vector with VA entries
-#' @description Internal functions which help with VA conversion
-#' * `which_va`: guessing which VA notation (VA class)
+#' @description Guessing the VA notation (VA class)
+#' * `which_va`: guessing VA class for entire vector
 #' @family VA helper
 #' @family VA converter
 #'
 which_va <- function(x) {
   x <- suppressWarnings(as.character(x))
-
-  if (all(x[!is.na(x)] %in% set_quali())) {
+  if(all(is.na(x))){
+    return("NA")
+  }
+  if (all(x[!is.na(x)] %in% unlist(set_codes()["quali"]))) {
     return("quali")
   }
-  x_noquali <- x[!x %in% set_quali()]
+  x_noquali <- x[!x %in% unlist(set_codes()["quali"])]
   x_num <- suppressWarnings(as.numeric(x_noquali))
   if (all(grepl("/", x_noquali[!is.na(x_noquali)]))) {
     return("snellen")
   } else if (any(grepl("/", x_noquali[!is.na(x_noquali)]))) {
-    return("mixed")
+
   }
 
   if (all(is.na(x_num))) {
@@ -188,7 +197,7 @@ which_va <- function(x) {
   }
   x_numval <- x_num[!is.na(x_num)]
   if (length(x_numval) < length(x_noquali[!is.na(x_noquali)])) {
-    warning("Introduced NAs - Mixed with snellen or other categories?", call. = FALSE)
+    return("mixed")
   }
 
   if (all(x_numval == as.integer(x_numval))) {
@@ -212,9 +221,9 @@ which_va <- function(x) {
   }
 }
 
-#' @rdname va_helper
-#' @description * `va_dissect_apply`: converts every element individually
-va_dissect_apply <- function(elem) {
+#' @rdname which_va
+#' @description * `which_va_dissect`: guessing VA class for each vector element
+which_va_dissect <- function(elem) {
   guess_va <- which_va(elem)
 
   if (length(guess_va) == 2) {

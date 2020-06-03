@@ -12,6 +12,15 @@ tologMAR.quali <- function(x){
 
 #' @rdname va_methods
 #' @export
+tologMAR.NA <- function(x){
+  logMAR <- NA_integer_
+  logMAR <- as.numeric(logMAR)
+  class(logMAR) <- c("logmar","va",class(logMAR))
+  logMAR
+}
+
+#' @rdname va_methods
+#' @export
 toSnellen.quali <- function(x, snellen = "ft"){
   col = paste("snellen", snellen, sep = "_")
   Snellen <- va_chart[[col]][match(x_num, as.numeric(va_chart$quali))]
@@ -36,7 +45,7 @@ tologMAR.snellen <- function(x){
     sapply(strsplit(x, "/"),
            function(x) { x <- suppressWarnings(as.numeric(x)); x[1] / x[2]})
   logMAR <- round(-1 * log10(snellen_frac), 2)
-  if(any(x %in% set_quali())){
+  if(any(x %in% unlist(set_codes()["quali"]))){
     x_quali <- va_quali$logMAR[match(x, va_quali$quali)]
     logMAR <- ifelse(is.na(logMAR), x_quali, logMAR)
   }
@@ -57,7 +66,7 @@ toETDRS.snellen <- function(x){
   ETDRS <- round(85 + 50 * log10(snellen_frac), 0)
   ETDRS[snellen_frac <= 0.02 & snellen_frac > 0.005] <- 2
   ETDRS[snellen_frac <= 0.005] <- 0
-  if(any(x %in% set_quali())){
+  if(any(x %in% unlist(set_codes()["quali"]))){
     x_quali <- va_quali$ETDRS[match(x, va_quali$quali)]
     ETDRS <- ifelse(is.na(ETDRS), x_quali, ETDRS)
   }
@@ -71,7 +80,7 @@ toETDRS.snellen <- function(x){
 
 toSnellen.snellen <- function(x, snellen = "ft"){
   col = paste("snellen", snellen, sep = "_")
-  if(any(x %in% set_quali())){
+  if(any(x %in% unlist(set_codes()["quali"]))){
     x_quali <- va_quali[[col]][match(x, va_quali$quali)]
     x <- ifelse(is.na(x), x_quali, x)
   }
@@ -89,7 +98,7 @@ toSnellen.logmar <- function(x, snellen = "ft"){
   x_num <- suppressWarnings(as.numeric(x))
   x_num[x_num < -0.3 | x_num > 3] <- NA
   x_num <- round(x_num, 1)
-  if(any(x %in% set_quali())){
+  if(any(x %in% unlist(set_codes()["quali"]))){
     x_quali <- as.numeric(va_quali$logMAR[match(x, va_quali$quali)])
     x_num <- ifelse(is.na(x_num), x_quali, x_num)
   }
@@ -107,7 +116,7 @@ toETDRS.logmar <- function(x){
   x_num <- suppressWarnings(as.numeric(x))
   x_num[x_num < -0.3 | x_num > 3] <- NA
   x_num <- round(x_num, 1)
-  if(any(x %in% set_quali())){
+  if(any(x %in% unlist(set_codes()["quali"]))){
     x_quali <- va_quali$logMAR[match(x, va_quali$quali)]
     x_num <- ifelse(is.na(x_num), x_quali, x_num)
   }
@@ -122,7 +131,7 @@ toETDRS.logmar <- function(x){
 tologMAR.logmar <- function(x){
   x_num <- suppressWarnings(round(as.numeric(x), 2))
   x_num[x_num < -0.3 | x_num > 3] <- NA
-  if(any(x %in% set_quali())){
+  if(any(x %in% unlist(set_codes()["quali"]))){
     x_quali <- as.numeric(va_quali$logMAR)[match(x, va_quali$quali)]
     x_num <- ifelse(is.na(x_num), x_quali, x_num)
   }
@@ -138,7 +147,7 @@ tologMAR.logmar <- function(x){
 toETDRS.etdrs <- function(x){
   x_int <- suppressWarnings(as.integer(x))
   x_int[x_int < 0 | x_int > 100] <- NA
-  if(any(x %in% set_quali())){
+  if(any(x %in% unlist(set_codes()["quali"]))){
     x_quali <- va_quali$ETDRS[match(x, va_quali$quali)]
     x_int <- ifelse(is.na(x_int), x_quali, x_int)
   }
@@ -154,7 +163,7 @@ toETDRS.etdrs <- function(x){
 tologMAR.etdrs <- function(x){
   x_int <- suppressWarnings(as.integer(x))
   x_int[x_int < 0 | x_int > 100] <- NA
-  if(any(x %in% set_quali())){
+  if(any(x %in% unlist(set_codes()["quali"]))){
     x_quali <- va_quali$ETDRS[match(x, va_quali$quali)]
     x_int <- ifelse(is.na(x_int), x_quali, x_int)
   }
@@ -173,7 +182,7 @@ tologMAR.etdrs <- function(x){
 toSnellen.etdrs <- function(x, snellen = "ft"){
   x_int <- suppressWarnings(as.integer(x))
   x_int[x_int < 0 | x_int > 100] <- NA
-  if(any(x %in% set_quali())){
+  if(any(x %in% unlist(set_codes()["quali"]))){
     x_quali <- va_quali$ETDRS[match(x, va_quali$quali)]
     x_int <- ifelse(is.na(x_int), x_quali, x_int)
   }

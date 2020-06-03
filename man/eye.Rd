@@ -7,16 +7,35 @@
 \description{
 Analysis of eye data
 }
-\section{stats functions}{
-NA
+\section{Ophthalmology functions}{
+
+\emph{eye} is dedicated to facilitate ophthalmic research with its high
+level functions
+\itemize{
+\item \code{\link{blink}}
+\item \code{\link{eyes}}: Count eyes and patients
+\item \code{\link{myop}}: Make eye data "long"
+\item \code{\link{va}}: Visual acuity conversion
+\emph{eye} contains a real life data set \link{amd} and some functions beyond ophtalmology, which could make your data analysis a tiny bit more convenient.
+}
 }
 
-\section{convenience functions}{
-NA
+\section{Beyond ophthalmology}{
+
+\itemize{
+\item \code{\link{reveal}}: Get common summary statistics
+\item \code{\link{geom_trail}}: A base plot type = "b" equivalent for \link{ggplot2}
+\item \code{\link{age}}: Calculate age
+\item \code{\link{csv}}: Conveniently save a data frame to csv
+}
 }
 
-\examples{
-data("amd")
+\seealso{
+Useful links:
+\itemize{
+\item https://github.com/tjebo/eye
+\item Report bugs at https://github.com/tjebo/eye/issues
+}
 }
 \author{
 Tjebo Heeren

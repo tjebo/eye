@@ -42,15 +42,17 @@ age <- function(from_date, to_date = lubridate::now(), period = FALSE, dec = 1){
 #' @examples
 #' x = y = z = c(rnorm(20), NA)
 #'
-#' # named or unnamed list
+#' ## named or unnamed list
 #' mylist <- list(x = x, y = y, z = z)
 #' reveal(mylist)
-#' # with a data frame
+#'
+#' ## with a data frame
 #' mydf <- data.frame(x, y, z)
 #' reveal(mydf)
-#' #If aggregation by group, split the data frame first
+#'
+#' ## If aggregation by group, split the data frame first
 #' mydf2 <- data.frame(group = rep(letters[1:2], each = 42), x, y, z)
-#' lapply(split(mydf2, mydf2$group), see, rownames = FALSE)
+#' lapply(split(mydf2, mydf2$group), reveal, rownames = FALSE)
 #' @export
 
 reveal <- function(x, dec = 1, dataframe = TRUE) {
@@ -58,7 +60,6 @@ reveal <- function(x, dec = 1, dataframe = TRUE) {
     mean = function(x) mean(x, na.rm = TRUE),
     sd = function(x) sd(x, na.rm = TRUE),
     n = function(x) length(x[!is.na(x)]),
-    median = function(x) median(x, na.rm = TRUE),
     min = function(x) min(x, na.rm = TRUE),
     max = function(x) max(x, na.rm = TRUE)
   )
@@ -85,8 +86,8 @@ reveal <- function(x, dec = 1, dataframe = TRUE) {
 #' Will use the name of the data frame for the generated .csv file.
 #' @name csv
 #' @param x data frame
-#' @param name Filename. Default: Name of dataframe to save as csv.
-#' Or character string (.csv extension added automatically)
+#' @param name Filename (Default: Name of dataframe). If provided,
+#'  character string (.csv extension added automatically)
 #' @family convenience functions
 #' @examples
 #' \dontrun{
@@ -94,7 +95,10 @@ reveal <- function(x, dec = 1, dataframe = TRUE) {
 #' }
 #' @export
 
-csv <- function(x, name = deparse(substitute(x))) {
+csv <- function(x, name = NULL) {
+  if(is.null(name)){
+    name <- deparse(substitute(x))
+  }
   file = paste0(name, '.csv')
   write.csv(x, file, row.names = F)
 }

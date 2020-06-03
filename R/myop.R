@@ -1,100 +1,96 @@
-#' long eye data
-#' @description Wrapper around [tidyr::pivot_longer()] to make your data
-#' long ("myopic")
+#' Myopic eye data
+#' @description Pivot "eye" variable to one column
 #' @name myop
 #' @param x data frame
-#' @param id if there are both IOP and VA columns, one needs to
-#'   specify if there is more than one ID column.
-#' @param ... arguments passed to [tidyr::pivot_longer()]
+#' @param var_name to be specified if there is only one column per eye with
+#'   no info on the variable
 #' @details
-#' `myop()` will look for columns that have
-#' typical eye codes, i.e. c("r", "re", "od", "right") for right eyes and
-#' c("l", "le", "os", "left") for left eyes.
-#' @import tidyr
-#' @importFrom rlang expr
-#' @importFrom dplyr full_join
+#' Out of convenience, data is often entered in a very "wide" format:
+#' there will be two columns for the same variable, one column for each eye.
+#' myop will pivot the eye variable to one column and keep all other
+#' variables wide. E.g., eight columns that store data of four variables for two eyes
+#' will be pivoted to 5 columns (one eye and four further variable columns,
+#' see also *examples*).
+#'
+#' **myop requires a specific data format**
+#'
+#' If there is a column called "eye" or "eyes", myop will not make
+#' any changes - because the data is then already assumed to be in long
+#' format. If you neverthess have columns with eye-specific values,
+#' then you have messy data. Maybe, you could remove or rename the "eye"
+#' column and then let myop do the work.
+#'
+#' myop will only recognize meaningful coding for eyes:
+#' - Right eyes: *"r", "re", "od", "right"*
+#' - Left eyes:  *"l", "le", "os", "left"*
+#' - for other codes see also [set_codes]
+#' The strings for eyes need to be **separated by period or underscores**.
+#' (Periods will be replaced by underscores). Any order is allowed.
+#'
+#' - **Will work**: "va_r", "right_morningpressure", "night_iop.le", "gat_os_postop"
+#' - **Will fail**: "VAr", "rightmorningPressure", "night_IOPle", "gatOSpostop"
+#'
+#' An exception is when there is only one column for each eye. Then
+#' the column names can consist of eye strings (see above) only.
+#' In this case, *var_name* will be used to "name" the resulting variable.
+#'
+#' If there are only eye columns in your data (should actually not happen),
+#' myop will create identifiers by row position.
+#'
+#' **Please always check the result for plausibility.**
+#' Depending a lot on how the data was entere, the results could become
+#' quite surprising. There is basically a nearly infinite amount of
+#' possible combinations of how to enter data, and it is likely that
+#' myop will not be able to deal with all of them
 #' @examples
-#' set.seed(42)
-#' iop <- data.frame(id = letters[1:11], r = sample(10:20), l = sample(10:20))
-#'
-#' myop(iop, values_to = "iop")
-#'
 #' # Example to clean a bit messy data frame
-#' iop_va <- data.frame(id = letters[1:11],
-#'                      iop_r = sample(10:20), iop_l = sample(10:20),
-#'                      va_r = sample(40:50), va_l = sample(40:50))
+#' iopva <- data.frame(
+#'   id = c("a", "e", "j", "h"),
+#'   va_r = c(37L, 36L, 33L, 38L),
+#'   iop_r = c(38L, 40L, 33L, 34L),
+#'   va_l = c(30L, 39L, 37L, 40L),
+#'   iop_l = c(31L, 34L, 33L, 31L)
+#' )
 #' myop(iop_va)
 #'
 #' @export
 
-myop <- function(x, id = NULL, ...) {
-  eye_r <- set_eye()$r
-  eye_l <- set_eye()$l
-  eye_code <- c("r", "l")
+myop <- function(x, var_name = "value") {
+  ls_eye <- getElem_eye(x)
+  eye_cols <- unlist(ls_eye)
+  eye_str <- whole_str(c("eyes", "eye"))(names(x))
 
-  ls_eye <- get_eyecols(x)
-  va_cols <- get_va_cols(ls_eye)
-  leng_va <- lengths(va_cols)
-  iop_cols <- get_iop_cols(ls_eye)
-  leng_iop <- lengths(iop_cols)
-
-  if (all(lengths(ls_eye) < 1)) {
-    stop("No columns found for gathering", call. = FALSE)
+  if (any(grepl("\\.", names(x)))) {
+    names(x) <- gsub("\\.", "_", names(x))
   }
-
-  message(paste0(
-    "Picked \"", paste(ls_eye[[1]], collapse = ","),
-    "\" and \"", paste(ls_eye[[2]], collapse = ","),
-    "\" for right and left eyes"
-  ))
-
-  if (any(leng_va > 1) | any(leng_iop > 1)) {
-    stop("cannot do this yet") # gather VA and IOP separately and rejoin data frames,
-    # create column with "variable spec"
+  if (all(lengths(ls_eye) == 1) & !all(grepl("_", eye_cols))) {
+    names(x)[names(x) %in% eye_cols] <- paste(eye_cols, var_name, sep = "_")
   }
-  if (all(leng_va < 1) & all(leng_iop < 1)) {
-    if (any(lengths(ls_eye) > 1)) {
-      stop("Many eye columns and no VA/IOP column -
-           gather failed. If you want to make your data longer,
-           clean your data and/or use tidyr::pivot_longer", call. = FALSE)
-    }
-    message("Neither VA nor IOP column(s) found. Gathering eye columns")
-    res_df <- pivot_myop(x, ls_eye, values_to = "value")
-  } else if (all(leng_va == 1) & all(leng_iop == 1)) {
-    message("Gathering both VA and IOP columns")
-    if (missing(id)) {
-      id <- part_str(c("pat", "id"))(colnames(x))
-    }
-    if (length(id) != 1) {
-      stop("Patient column missing. How to gather?
-           Fix with \"id\" argument, or clean your data
-           and/or use tidyr::pivot_longer", call. = FALSE)
-    }
-
-    x_iop <- x[which(!names(x) %in% unlist(va_cols))]
-    x_va <- x[which(!names(x) %in% unlist(iop_cols))]
-
-    iop_long <- pivot_myop(
-      x = x_iop, old_cols = iop_cols,
-      names_to = "eye", values_to = "IOP"
+  if (any(lengths(ls_eye) < 1) | length(eye_str > 0) | !any(grepl("_", names(x)))) {
+    warning("Can't make this myopic - no changes made.
+    Did you separate the eyes? Do you have a column called \"eye\"?
+    See ?myop for help how to format names",
+      call. = FALSE
     )
-    va_long <- pivot_myop(
-      x = x_va, old_cols = va_cols,
-      names_to = "eye", values_to = "VA"
-    )
-    res_df <- dplyr::full_join(iop_long, va_long, by = c(id, "eye"))
-  } else if (any(leng_va < 1) & all(leng_iop == 1)) {
-    message("Gathering IOP columns")
-    res_df <- pivot_myop(x = x, old_cols = iop_cols, values_to = "IOP")
-  } else if (all(leng_va == 1) & any(leng_iop < 1)) {
-    message("Gathering VA columns")
-    res_df <- pivot_myop(x = x, old_cols = va_cols, values_to = "VA")
+    return(x)
   }
-  class(res_df) <- c("myop", "tbl", "tbl_df", "data.frame")
-  res_df
+
+  if (length(names(x)) == length(eye_cols)) {
+    x$id <- seq_len(nrow(x))
+  }
+  if (anyDuplicated(x)) {
+    which_dupe <- paste(which(duplicated(x) | duplicated(x, fromLast = TRUE)),
+      collapse = ","
+    )
+    warning(paste0(
+      "Removed duplicate rows from data (rows ",
+      which_dupe, ")"), call. = FALSE)
+    x <- x[!duplicated(x), ]
+  }
+
+  myop_varswide(x)
 }
 
-#' myope
 #' @rdname myop
 #' @export
 myope <- myop
@@ -114,18 +110,28 @@ myopize <- myop
 #' @export
 myopic <- myop
 
-#' pivot_myop#'
-#' @rdname myop
-#' @param x vector
-#' @family myopizing functions
-#'
+#' Long eye data
+#' @description pivots longer several columns with "eye" data
+#' @name myop_varswide
+#' @import tidyr
+#' @importFrom dplyr mutate_all
 
-pivot_myop <- function(x, old_cols, eye_code = c("r","l"), ...){
-  eye_cols <- unlist(old_cols)
-  names(x)[names(x) %in% eye_cols] <- eye_code
-  cols <- rlang::expr(c(eye_code[1], eye_code[2]))
-  res_df <- tidyr::pivot_longer(x, cols = !!cols, ...)
-  res_df
+myop_varswide <- function(x) {
+  name_x <- sort_substr(
+    tolower(names(x)),
+    within(set_codes(), rm(id, quali, method))
+  )
+  names(x) <- name_x
+  x_long <- x %>%
+    dplyr::mutate_all(as.character) %>%
+    tidyr::pivot_longer(
+      cols = tidyr::matches("^(r|l)_"),
+      names_to = "eyekey",
+      values_to = "new_val_wow"
+    ) %>%
+    tidyr::extract("eyekey", regex = "^(r|l)_(.*)", into = c("eye", "eyekey")) %>%
+    tidyr::pivot_wider(names_from = "eyekey", values_from = "new_val_wow")
+
+  x_long
 }
-
 

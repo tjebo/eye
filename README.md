@@ -132,23 +132,21 @@ Make your data long (“myopic”)
 ``` r
 ## Simple data frame with one column for right eye and left eye.
 iop_wide
-#>   id  r  l
-#> 1  a 11 14
-#> 2  b 13 15
-#> 3  c 12 16
+#>   id iop_r iop_l
+#> 1  a    11    14
+#> 2  b    13    15
+#> 3  c    12    16
 
 myop(iop_wide)
-#> Picked "r" and "l" for right and left eyes
-#> Neither VA nor IOP column(s) found. Gathering eye columns
 #> # A tibble: 6 x 3
-#>   id    name  value
-#>   <chr> <chr> <int>
-#> 1 a     r        11
-#> 2 a     l        14
-#> 3 b     r        13
-#> 4 b     l        15
-#> 5 c     r        12
-#> 6 c     l        16
+#>   id    eye   iop  
+#>   <chr> <chr> <chr>
+#> 1 a     r     11   
+#> 2 a     l     14   
+#> 3 b     r     13   
+#> 4 b     l     15   
+#> 5 c     r     12   
+#> 6 c     l     16
 ```
 
 Often enough, there are right eye / left eye columns for more than one
@@ -157,25 +155,27 @@ and will detect IOP and VA columns automatically.
 
 ``` r
 messy_df
-#>   id iop_r iop_l va_r va_l
-#> 1  a    12    13   41   42
-#> 2  b    13    12   43   43
-#> 3  c    11    11   42   41
+#>   id iop_r_preop iop_r_postop iop_l_preop iop_l_postop va_r_preop va_l_preop
+#> 1  a          12           13          11           12         43         43
+#> 2  b          13           12          13           13         41         42
+#> 3  c          11           11          12           11         42         41
+#>   va_r_postop va_l_postop
+#> 1          43          42
+#> 2          41          43
+#> 3          42          41
 
 clean_df <- myop(messy_df)
-#> Picked "iop_r,va_r" and "iop_l,va_l" for right and left eyes
-#> Gathering both VA and IOP columns
 
 clean_df
-#> # A tibble: 6 x 4
-#>   id    eye     IOP    VA
-#>   <chr> <chr> <int> <int>
-#> 1 a     r        12    41
-#> 2 a     l        13    42
-#> 3 b     r        13    43
-#> 4 b     l        12    43
-#> 5 c     r        11    42
-#> 6 c     l        11    41
+#> # A tibble: 6 x 6
+#>   id    eye   iop_preop iop_postop va_preop va_postop
+#>   <chr> <chr> <chr>     <chr>      <chr>    <chr>    
+#> 1 a     r     12        13         43       43       
+#> 2 a     l     11        12         43       42       
+#> 3 b     r     13        12         41       41       
+#> 4 b     l     13        13         42       43       
+#> 5 c     r     11        11         42       42       
+#> 6 c     l     12        11         41       41
 ```
 
 ### Beyond the eye
@@ -260,6 +260,78 @@ p <-
               geom_text(aes(label = round(mean_va, 0)), show.legend = FALSE)
 
 <img src="README-unnamed-chunk-5-1.png" width="45%" /><img src="README-unnamed-chunk-5-2.png" width="45%" />
+
+## Important information
+
+**I do not assume responsability for your data or analysis**. Please
+stay always wary when working with data. If you get results that do not
+make sense, the most likely problem is that your data may not be entered
+in a way which is suitable for this package. I tried to think of many
+possible ways to deal with messy data, but I am sure there will be far
+more creative ways out there to abuse data entries.
+
+**The cleaner your data, the smoother this package will work** (any
+package, really\!)
+
+There are not many rules to follow:
+
+  - Good variable (column) names:
+  - No spaces\!
+  - Common code for your patient identifier (e.g., “pat”, “patient” or
+    “ID”, ideally both: “patientID” or “patID”)
+  - Common abbreviations for IOP (“IOP”, “GAT”, “NCT”) and VA (“VA”,
+    “BCVA”, “Acuity”, “ETDRS”, “logmar”, “snellen”)
+  - Common codes for right and left eyes (“r”, “re”, “od”, “right”).
+  - Separate eye / va/ iop strings with underscores (“iop\_l”, “VA\_r”)
+  - **Don’t be too creative with your names\!**
+
+Good names (`eye` will work nicely)
+
+``` r
+## Id and Eye are common names, there are no spaces
+## VA is separated from the rest with an underscore
+names(amd) 
+#> [1] "Id"               "Eye"              "FollowupDays"     "BaselineAge"     
+#> [5] "Gender"           "VA_ETDRS_Letters" "InjectionNumber"
+
+## right and left eyes have common codes
+## information on the tested dimension is included ("iop")
+## iop and eye strings are separated by underscore
+names(iop_wide) 
+#> [1] "id"    "iop_r" "iop_l"
+```
+
+OK names (`eye` will
+work)
+
+``` r
+## I recommend shorter names (for your own sake! Coding becomes much easier), but eye should be able to cope with that
+c("id", "right_acuity",  "left_logmar") 
+#> [1] "id"           "right_acuity" "left_logmar"
+
+## All names are commonly used (good!)
+## But which dimension of "r"/"l" are we exactly looking at? 
+c("id", "r",  "l")
+#> [1] "id" "r"  "l"
+```
+
+Bad names (`eye` will fail)
+
+``` r
+## VA/IOP not separated with underscore
+## `eye` won't be able to recognize IOP and VA columns
+c("id", "iopr",  "iopl", "VAr", "VAl") 
+#> [1] "id"   "iopr" "iopl" "VAr"  "VAl"
+
+## A human may think this is clear
+## But `eye` will fail to understand those variable names
+c("person", "goldmann", "vision") 
+#> [1] "person"   "goldmann" "vision"
+
+## Not even clear to humans 
+c("var1", "var2",  "var3")
+#> [1] "var1" "var2" "var3"
+```
 
 ## Acknowledgements
 

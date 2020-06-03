@@ -22,3 +22,6 @@ foo18 <- data.frame(eyes = c(0, 1,"l", "l"))
 foo19 <- data.frame(id, eyes = c(1,3))
 foo20 <- data.frame(id , eyes = c("e", "f"))
 foo21 <- data.frame(id , eyes = c("r", "f"))
+
+
+

@@ -3,6 +3,7 @@
 \name{va_methods}
 \alias{va_methods}
 \alias{tologMAR.quali}
+\alias{tologMAR.NA}
 \alias{toSnellen.quali}
 \alias{toETDRS.quali}
 \alias{tologMAR.snellen}
@@ -17,6 +18,8 @@
 \title{VA conversion methods}
 \usage{
 tologMAR.quali(x)
+
+tologMAR.NA(x)
 
 toSnellen.quali(x, snellen = "ft")
 

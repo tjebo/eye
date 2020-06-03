@@ -1,7 +1,7 @@
 context("test eyes")
 library(eye)
 library(testthat)
-
+library(tidyverse)
 source("./tests/testthat/eyes_testdata.R")
 
 test_that("messages",{
@@ -23,40 +23,49 @@ test_that("No warning",{
   expect_warning(eyes(foo11), regexp = NA)
 })
 
-test_that("Warnings", {
-  expect_warning(eyes(foo13), "Eye coding ambiguous")
-  expect_warning(eyes(foo14), "Eye coding ambiguous ")
-  expect_warning(eyes(foo16), "Eye coding ambiguous ")
-}
-)
-
 test_that("errors",{
-  expect_error(eyes(foo0), "Eye coding ambiguous - guessing failed! Please clean data")
-  expect_error(eyes(foo3), "Eye coding ambiguous - guessing failed! Please clean data")
-  expect_error(eyes(foo7), "Could not identify patient or eye column")
-  expect_error(eyes(foo9), "Could not identify patient or eye column")
-  expect_error(eyes(foo12), "Eye coding ambiguous - guessing failed! Please clean data")
-  expect_error(eyes(foo15), "Eye coding ambiguous - guessing failed! Please clean data")
-  expect_error(eyes(foo18), "Patient column missing. Fix with \"id\" argument")
-  expect_error(eyes(foo19), "Eye coding ambiguous - guessing failed! Please clean data")
-  expect_error(eyes(foo20), "Eye coding ambiguous - guessing failed! Please clean data")
-  expect_error(eyes(foo21), "Eye coding ambiguous - guessing failed! Please clean data")
+  expect_error(eyes(foo13), "Unclear eye coding!")
+  expect_error(eyes(foo0), "Unclear eye coding!")
+  expect_error(eyes(foo3), "Unclear eye coding!")
+  expect_error(eyes(foo7), "Which is the")
+  expect_error(eyes(foo9), "Which is the")
+  expect_error(eyes(foo12), "Unclear eye coding!")
+  expect_error(eyes(foo15), "Unclear eye coding!")
+  expect_error(eyes(foo18), "Which is the")
+  expect_error(eyes(foo19), "Unclear eye coding!")
+  expect_error(eyes(foo20), "Unclear eye coding!")
+  expect_error(eyes(foo21), "Unclear eye coding!")
+  expect_error(eyes(foo16), "Unclear eye coding!")
+  expect_error(eyes(foo14), "Unclear eye coding! ")
 })
 
-sum_eyes <- function(x) {
-  expect_equal(unname(eyes(x)["right"] + eyes(x)["left"]), unname(eyes(x)["eyes"]))
+test_count <- function(x){
+  eyes <- x %>% drop_na(eyes) %>% count(id, eyes) %>% nrow
+  pat <- length(unique(x$id))
+  return(c(pat, eyes))
+}
+test_count_pat <- function(x){
+  eyes <- x %>% drop_na(eyes) %>% count(patient, eyes) %>% nrow
+  pat <- length(unique(x$patient))
+  return(c(pat, eyes))
+}
+test_count_idonly<- function(x){
+  pat <- length(unique(x$id))
+  return(c(pat))
 }
 
-test_that("sum right and left", {
-  sum_eyes(foo1)
-  sum_eyes(foo2)
-  sum_eyes(foo4)
-  sum_eyes(foo5)
-  sum_eyes(foo6)
-  sum_eyes(foo6)
-  sum_eyes(foo10)
-  sum_eyes(foo11)
-  sum_eyes(foo13)
-  sum_eyes(foo14)
-  sum_eyes(foo16)
+test_that("return", {
+  expect_equivalent(test_count(foo1), unname(eyes(foo1))[1:2])
+  expect_equivalent(test_count(foo2), unname(eyes(foo2))[1:2])
+  expect_equivalent(test_count(foo4), unname(eyes(foo4))[1:2])
+  expect_equivalent(test_count(foo10), unname(eyes(foo10))[1:2])
+  expect_equivalent(test_count(foo11), unname(eyes(foo11))[1:2])
+  expect_equivalent(test_count_pat(foo5), unname(eyes(foo5))[1:2])
+  expect_equivalent(test_count_pat(foo6), unname(eyes(foo6))[1:2])
+  expect_equivalent(test_count_pat(foo8), unname(eyes(foo8))[1:2])
+  expect_equivalent(test_count_idonly(foo17), unname(eyes(foo17))[1])
 })
+
+
+
+

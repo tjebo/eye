@@ -6,49 +6,76 @@
 \alias{myopise}
 \alias{myopize}
 \alias{myopic}
-\alias{pivot_myop}
-\title{long eye data}
+\title{Myopic eye data}
 \usage{
-myop(x, id = NULL, ...)
+myop(x, var_name = "value")
 
-myope(x, id = NULL, ...)
+myope(x, var_name = "value")
 
-myopise(x, id = NULL, ...)
+myopise(x, var_name = "value")
 
-myopize(x, id = NULL, ...)
+myopize(x, var_name = "value")
 
-myopic(x, id = NULL, ...)
-
-pivot_myop(x, old_cols, eye_code = c("r", "l"), ...)
+myopic(x, var_name = "value")
 }
 \arguments{
-\item{x}{vector}
+\item{x}{data frame}
 
-\item{id}{if there are both IOP and VA columns, one needs to
-specify if there is more than one ID column.}
-
-\item{...}{arguments passed to \code{\link[tidyr:pivot_longer]{tidyr::pivot_longer()}}}
+\item{var_name}{to be specified if there is only one column per eye with
+no info on the variable}
 }
 \description{
-Wrapper around \code{\link[tidyr:pivot_longer]{tidyr::pivot_longer()}} to make your data
-long ("myopic")
+Pivot "eye" variable to one column
 }
 \details{
-\code{myop()} will look for columns that have
-typical eye codes, i.e. c("r", "re", "od", "right") for right eyes and
-c("l", "le", "os", "left") for left eyes.
+Out of convenience, data is often entered in a very "wide" format:
+there will be two columns for the same variable, one column for each eye.
+myop will pivot the eye variable to one column and keep all other
+variables wide. E.g., eight columns that store data of four variables for two eyes
+will be pivoted to 5 columns (one eye and four further variable columns,
+see also \emph{examples}).
+
+\strong{myop requires a specific data format}
+
+If there is a column called "eye" or "eyes", myop will not make
+any changes - because the data is then already assumed to be in long
+format. If you neverthess have columns with eye-specific values,
+then you have messy data. Maybe, you could remove or rename the "eye"
+column and then let myop do the work.
+
+myop will only recognize meaningful coding for eyes:
+\itemize{
+\item Right eyes: \emph{"r", "re", "od", "right"}
+\item Left eyes:  \emph{"l", "le", "os", "left"}
+\item for other codes see also \link{set_codes}
+The strings for eyes need to be \strong{separated by period or underscores}.
+(Periods will be replaced by underscores). Any order is allowed.
+\item \strong{Will work}: "va_r", "right_morningpressure", "night_iop.le", "gat_os_postop"
+\item \strong{Will fail}: "VAr", "rightmorningPressure", "night_IOPle", "gatOSpostop"
+}
+
+An exception is when there is only one column for each eye. Then
+the column names can consist of eye strings (see above) only.
+In this case, \emph{var_name} will be used to "name" the resulting variable.
+
+If there are only eye columns in your data (should actually not happen),
+myop will create identifiers by row position.
+
+\strong{Please always check the result for plausibility.}
+Depending a lot on how the data was entere, the results could become
+quite surprising. There is basically a nearly infinite amount of
+possible combinations of how to enter data, and it is likely that
+myop will not be able to deal with all of them
 }
 \examples{
-set.seed(42)
-iop <- data.frame(id = letters[1:11], r = sample(10:20), l = sample(10:20))
-
-myop(iop, values_to = "iop")
-
 # Example to clean a bit messy data frame
-iop_va <- data.frame(id = letters[1:11],
-                     iop_r = sample(10:20), iop_l = sample(10:20),
-                     va_r = sample(40:50), va_l = sample(40:50))
+iopva <- data.frame(
+  id = c("a", "e", "j", "h"),
+  va_r = c(37L, 36L, 33L, 38L),
+  iop_r = c(38L, 40L, 33L, 34L),
+  va_l = c(30L, 39L, 37L, 40L),
+  iop_l = c(31L, 34L, 33L, 31L)
+)
 myop(iop_va)
 
 }
-\concept{myopizing functions}

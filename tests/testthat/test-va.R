@@ -19,10 +19,10 @@ source("./tests/testthat/va_testdata.R")
 test_that("error", {
   expect_error(va(logmar, to = c("logmar, etdrs")), "\"to\": Pick one of")
   expect_error(va(snellen_unplaus), "Failed to detect")
-  expect_error(va(mixed_VA), "Mixed object - not supported. Try with va_dissect")
 })
 
 test_that("no error / no warning", {
+  expect_error(va(mixed_VA), regexp = NA)
   expect_error(va(logmar, to = "ETDRS"), regexp = NA)
   expect_error(va(etdrs), regexp = NA)
   expect_error(va(snellen_dec), regexp = NA)
@@ -46,6 +46,7 @@ test_that("no error / no warning", {
 })
 
 test_that("message", {
+  expect_message(va(mixed_VA), "Mixed object")
   expect_message(va(etdrs), regexp = "From etdrs")
   expect_message(va(etdrs, from = "etdrs"), regexp = NA)
   expect_message(va(snellen_dec), "From snellen")
@@ -126,3 +127,4 @@ test_that("Warning: va_dissect", {
   expect_warning(va_dissect(mixed_VA1), "Implausible")
 }
 )
+
