@@ -61,8 +61,10 @@ revealEye.list <- function(x, by, dec, ...) {
     by <- "group"
   }
   ls_x <- lapply(x, revealEye, dec = dec)
-  res <- dplyr::bind_rows(ls_x, .id = by)
-  res
+  new_col <- paste(by, collapse = "_")
+  res <- dplyr::bind_rows(ls_x, .id = new_col)
+  res_split <- split_mult(res, new_col, into = by)
+  res_split
 }
 
 #' @rdname reveal_methods
@@ -111,7 +113,7 @@ reveal_split <- function(x, by){
   x_sym <- deparse(substitute(x))
   group <- paste0("interaction(",
                   paste0(x_sym, "$", by, collapse = ", "),
-                  ")")
+                  ", sep = \"_\")")
   ls_x <- split(x[base::setdiff(names(x), by)], eval(parse(text = group)))
   ls_x
 }

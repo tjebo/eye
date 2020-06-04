@@ -167,31 +167,45 @@ myop(iop_wide)
 
 Often enough, there are right eye / left eye columns for more than one
 variable, e.g., for both IOP and VA. `myop` helps you clean this mess
-and will detect IOP and VA columns automatically.
+and will detect those variable columns automatically.
+
+This is an example of such a messy data frame:
+
+<details>
+
+<summary>Click to unfold code to create messy df </summary>
 
 ``` r
-messy_df
-#>   id iop_r_preop iop_r_postop iop_l_postop iop_l_preop va_r_preop va_l_preop
-#> 1  a          22           13           11          32         43         43
-#> 2  b          23           12           13          33         41         42
-#> 3  c          21           11           12          31         42         41
-#>   va_r_postop va_l_postop
-#> 1          53          46
-#> 2          51          47
-#> 3          52          45
+messy_df <- data.frame(
+  id = letters[1:4], 
+  surgery_right = c("TE", "TE", "SLT", "SLT"),
+  surgery_left = c("TE", "TE", "TE", "SLT"),
+  iop_r_preop = 21:24, iop_r_postop = 11:14,
+  iop_l_preop = 31:34, iop_l_postop = 11:14, 
+  va_r_preop = 41:44, va_r_postop = 45:48,
+  va_l_preop = 41:44, va_l_postop = 45:48
+)
+```
 
+</details>
+
+<img src="man/figures/messy.png"/>
+
+``` r
 clean_df <- myop(messy_df)
 
 clean_df
-#> # A tibble: 6 x 6
-#>   id    eye   iop_preop iop_postop va_preop va_postop
-#>   <chr> <chr> <chr>     <chr>      <chr>    <chr>    
-#> 1 a     r     22        13         43       53       
-#> 2 a     l     32        11         43       46       
-#> 3 b     r     23        12         41       51       
-#> 4 b     l     33        13         42       47       
-#> 5 c     r     21        11         42       52       
-#> 6 c     l     31        12         41       45
+#> # A tibble: 8 x 7
+#>   id    eye   surgery iop_preop iop_postop va_preop va_postop
+#>   <chr> <chr> <chr>   <chr>     <chr>      <chr>    <chr>    
+#> 1 a     r     TE      21        11         41       45       
+#> 2 a     l     TE      31        11         41       45       
+#> 3 b     r     TE      22        12         42       46       
+#> 4 b     l     TE      32        12         42       46       
+#> 5 c     r     SLT     23        13         43       47       
+#> 6 c     l     TE      33        13         43       47       
+#> 7 d     r     SLT     24        14         44       48       
+#> 8 d     l     SLT     34        14         44       48
 ```
 
 ### blink
@@ -206,43 +220,45 @@ blink(messy_df)
 #> va_preop: from etdrs
 #> va_postop: from etdrs
 #> $data
-#> # A tibble: 6 x 6
-#>   id    eye   iop_preop iop_postop va_preop va_postop
-#>   <chr> <chr> <chr>     <chr>      <logmar> <logmar> 
-#> 1 a     r     22        13         0.84     0.64     
-#> 2 a     l     32        11         0.84     0.78     
-#> 3 b     r     23        12         0.88     0.68     
-#> 4 b     l     33        13         0.86     0.76     
-#> 5 c     r     21        11         0.86     0.66     
-#> 6 c     l     31        12         0.88     0.80     
+#> # A tibble: 8 x 7
+#>   id    eye   surgery iop_preop iop_postop va_preop va_postop
+#>   <chr> <chr> <chr>   <chr>     <chr>      <logmar> <logmar> 
+#> 1 a     r     TE      21        11         0.88     0.80     
+#> 2 a     l     TE      31        11         0.88     0.80     
+#> 3 b     r     TE      22        12         0.86     0.78     
+#> 4 b     l     TE      32        12         0.86     0.78     
+#> 5 c     r     SLT     23        13         0.84     0.76     
+#> 6 c     l     TE      33        13         0.84     0.76     
+#> 7 d     r     SLT     24        14         0.82     0.74     
+#> 8 d     l     SLT     34        14         0.82     0.74     
 #> 
 #> $count
 #> patients     eyes    right     left 
-#>        3        6        3        3 
+#>        4        8        4        4 
 #> 
 #> $VA_total
-#>         var mean  sd n min max
-#> 1  va_preop  0.9 0.0 6 0.8 0.9
-#> 2 va_postop  0.7 0.1 6 0.6 0.8
+#>         var mean sd n min max
+#> 1  va_preop  0.8  0 8 0.8 0.9
+#> 2 va_postop  0.8  0 8 0.7 0.8
 #> 
 #> $VA_eyes
 #>   eye       var mean sd n min max
-#> 1   l  va_preop  0.9  0 3 0.8 0.9
-#> 2   l va_postop  0.8  0 3 0.8 0.8
-#> 3   r  va_preop  0.9  0 3 0.8 0.9
-#> 4   r va_postop  0.7  0 3 0.6 0.7
+#> 1   l  va_preop  0.8  0 4 0.8 0.9
+#> 2   l va_postop  0.8  0 4 0.7 0.8
+#> 3   r  va_preop  0.8  0 4 0.8 0.9
+#> 4   r va_postop  0.8  0 4 0.7 0.8
 #> 
 #> $IOP_total
 #>          var mean  sd n min max
-#> 1  iop_preop   27 5.5 6  21  33
-#> 2 iop_postop   12 0.9 6  11  13
+#> 1  iop_preop 27.5 5.5 8  21  34
+#> 2 iop_postop 12.5 1.2 8  11  14
 #> 
 #> $IOP_eyes
-#>   eye        var mean sd n min max
-#> 1   l  iop_preop   32  1 3  31  33
-#> 2   l iop_postop   12  1 3  11  13
-#> 3   r  iop_preop   22  1 3  21  23
-#> 4   r iop_postop   12  1 3  11  13
+#>   eye        var mean  sd n min max
+#> 1   l  iop_preop 32.5 1.3 4  31  34
+#> 2   l iop_postop 12.5 1.3 4  11  14
+#> 3   r  iop_preop 22.5 1.3 4  21  24
+#> 4   r iop_postop 12.5 1.3 4  11  14
 #> 
 #> attr(,"class")
 #> [1] "blink" "list"
@@ -250,26 +266,46 @@ blink(messy_df)
 
 ### reveal
 
-Show common statistics
+Show common statistics for all numeric columns, for the entire cohort or
+aggregated by group(s):
 
 ``` r
 reveal(clean_df)
 #>          var mean  sd n min max
-#> 1  iop_preop   27 5.5 6  21  33
-#> 2 iop_postop   12 0.9 6  11  13
-#> 3   va_preop   42 0.9 6  41  43
-#> 4  va_postop   49 3.4 6  45  53
+#> 1  iop_preop 27.5 5.5 8  21  34
+#> 2 iop_postop 12.5 1.2 8  11  14
+#> 3   va_preop 42.5 1.2 8  41  44
+#> 4  va_postop 46.5 1.2 8  45  48
 
 reveal(clean_df, by = "eye")
-#>   eye        var mean sd n min max
-#> 1   l  iop_preop   32  1 3  31  33
-#> 2   l iop_postop   12  1 3  11  13
-#> 3   l   va_preop   42  1 3  41  43
-#> 4   l  va_postop   46  1 3  45  47
-#> 5   r  iop_preop   22  1 3  21  23
-#> 6   r iop_postop   12  1 3  11  13
-#> 7   r   va_preop   42  1 3  41  43
-#> 8   r  va_postop   52  1 3  51  53
+#>   eye        var mean  sd n min max
+#> 1   l  iop_preop 32.5 1.3 4  31  34
+#> 2   l iop_postop 12.5 1.3 4  11  14
+#> 3   l   va_preop 42.5 1.3 4  41  44
+#> 4   l  va_postop 46.5 1.3 4  45  48
+#> 5   r  iop_preop 22.5 1.3 4  21  24
+#> 6   r iop_postop 12.5 1.3 4  11  14
+#> 7   r   va_preop 42.5 1.3 4  41  44
+#> 8   r  va_postop 46.5 1.3 4  45  48
+
+reveal(clean_df, by = c("eye", "surgery"))
+#>    eye surgery        var mean  sd n min max
+#> 1    l     SLT  iop_preop 34.0  NA 1  34  34
+#> 2    l     SLT iop_postop 14.0  NA 1  14  14
+#> 3    l     SLT   va_preop 44.0  NA 1  44  44
+#> 4    l     SLT  va_postop 48.0  NA 1  48  48
+#> 5    r     SLT  iop_preop 23.5 0.7 2  23  24
+#> 6    r     SLT iop_postop 13.5 0.7 2  13  14
+#> 7    r     SLT   va_preop 43.5 0.7 2  43  44
+#> 8    r     SLT  va_postop 47.5 0.7 2  47  48
+#> 9    l      TE  iop_preop 32.0 1.0 3  31  33
+#> 10   l      TE iop_postop 12.0 1.0 3  11  13
+#> 11   l      TE   va_preop 42.0 1.0 3  41  43
+#> 12   l      TE  va_postop 46.0 1.0 3  45  47
+#> 13   r      TE  iop_preop 21.5 0.7 2  21  22
+#> 14   r      TE iop_postop 11.5 0.7 2  11  12
+#> 15   r      TE   va_preop 41.5 0.7 2  41  42
+#> 16   r      TE  va_postop 45.5 0.7 2  45  46
 ```
 
 ### age
@@ -376,8 +412,9 @@ Good names (`eye` will work nicely)
 ## VA and eye strings are separated by underscores
 ## No unnecessary underscores.
 names(messy_df)
-#> [1] "id"           "iop_r_preop"  "iop_r_postop" "iop_l_postop" "iop_l_preop" 
-#> [6] "va_r_preop"   "va_l_preop"   "va_r_postop"  "va_l_postop"
+#>  [1] "id"            "surgery_right" "surgery_left"  "iop_r_preop"  
+#>  [5] "iop_r_postop"  "iop_l_preop"   "iop_l_postop"  "va_r_preop"   
+#>  [9] "va_r_postop"   "va_l_preop"    "va_l_postop"
 
 names(iop_wide) 
 #> [1] "id"    "iop_r" "iop_l"

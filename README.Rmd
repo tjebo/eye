@@ -123,23 +123,33 @@ iop_wide
 myop(iop_wide)
 ```
 
-Often enough, there are right eye / left eye columns for more than one variable, e.g., for both IOP and VA. `myop` helps you clean this mess and will detect IOP and VA columns automatically.
-```{r, echo=FALSE}
+Often enough, there are right eye / left eye columns for more than one variable, e.g., for both IOP and VA. `myop` helps you clean this mess and will detect those variable columns automatically.
+
+This is an example of such a messy data frame:
+<details>
+<summary>Click to unfold code to create messy df </summary>
+```{r messy df}
 messy_df <- data.frame(
-  id = letters[1:3],
-  iop_r_preop = sample(21:23),
-  iop_r_postop = sample(11:13),
-  iop_l_postop = sample(11:13),
-  iop_l_preop = sample(31:33),
-  va_r_preop = sample(41:43),
-  va_l_preop = sample(41:43),
-  va_r_postop = sample(51:53),
-  va_l_postop = sample(45:47)
+  id = letters[1:4], 
+  surgery_right = c("TE", "TE", "SLT", "SLT"),
+  surgery_left = c("TE", "TE", "TE", "SLT"),
+  iop_r_preop = 21:24, iop_r_postop = 11:14,
+  iop_l_preop = 31:34, iop_l_postop = 11:14, 
+  va_r_preop = 41:44, va_r_postop = 45:48,
+  va_l_preop = 41:44, va_l_postop = 45:48
 )
 ```
-```{r myop two vars}
-messy_df
+</details>
+```{r eval=FALSE, include = FALSE}
+# library(flextable)
+# messy_df %>%
+#   flextable() %>% 
+#   autofit() %>%
+#   save_as_image("messy.png", zoom = 3, expand = 10, webshot = "webshot")
+```
 
+<img src="man/figures/messy.png"/>
+```{r myop two vars}
 clean_df <- myop(messy_df)
 
 clean_df
@@ -152,11 +162,13 @@ blink(messy_df)
 ```
 
 ### reveal
-Show common statistics
+Show common statistics for all numeric columns, for the entire cohort or aggregated by group(s):
 ```{r stats, warning=FALSE, message=FALSE}
 reveal(clean_df)
 
 reveal(clean_df, by = "eye")
+
+reveal(clean_df, by = c("eye", "surgery"))
 ```
 
 ### age

@@ -70,7 +70,6 @@
 #' va(c("NLP", "NPL", "PL", "LP", "HM", "CF", "6/60", "20/200", "6/9",
 #'  "20/40", "20/40+3", "20/50-2"))
 #'
-#' @importFrom rlang sym
 #' @export
 va <- function(x, from = NULL, to = "logmar", type = "ft") {
   if (!is.atomic(x)) {
