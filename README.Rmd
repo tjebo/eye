@@ -69,26 +69,25 @@ library(eye)
                           
 ## Details and examples
 ### va
-- *eye* includes a visual acuity conversion chart: [`va_chart`](#va-conversion-chart) 
-- Chart and VA conversion formulas are based on [@holladay], [@beck] and [@gregori]
+Easy conversion from visual acuity notations in a single call to `va()`: Automatic detection of VA notation and convert to logMAR by default (but you can convert to snellen or ETDRS as well).
+
+- VA conversion between Snellen, ETDRS and logMAR is based on charts and formulas in [@holladay], [@beck] and [@gregori]
 - Categories **counting fingers** and **hand movements** are converted following [@bach]
 - Categories **no light perception** and **light perception** are converted following the suggestions by Michael Bach
-                            
+- Visual acuity conversion chart [`va_chart`](#va-conversion-chart)                             
 ```{r va}
-## will automatically detect VA class and convert to logMAR by default
-## ETDRS letters
-x <- c(23, 56, 74, 58)
+## automatic detection of VA notation and converting to logMAR by default
+x <- c(23, 56, 74, 58) ## ETDRS letters
 va(x)
-## ... or convert to snellen
-va(x, to = "snellen")
-## snellen, mixed with categories. Also dealing with those "plus/minus" entries
 
-x <- c("NLP", "NPL", "PL", "LP", "HM", "CF", "6/60", "20/200", "6/9", "20/40", "20/40+3", "20/50-2")
+va(x, to = "snellen") ## ... or convert to snellen
 
+x <- c("NPL", "LP", "HM", "CF","20/200", "6/9", "20/40+3", "20/50-2") 
+## snellen with "plus/minus" entries, mixed with categories 
 va(x)
 
 ## on the inbuilt data set:
-head(va(amd$VA_ETDRS_Letters), 10)
+head(va(amd$VA_ETDRS_Letters), 10) 
 
 ## and indeed, there are unplausible ETDRS values in this data set:
 range(amd$VA_ETDRS_Letters)

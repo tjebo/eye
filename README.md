@@ -78,38 +78,41 @@ library(eye)
 
 ### va
 
-  - *eye* includes a visual acuity conversion chart:
-    [`va_chart`](#va-conversion-chart)
-  - Chart and VA conversion formulas are based on (Holladay 2004), (Beck
-    et al. 2003) and (Gregori, Feuer, and Rosenfeld 2010)
+Easy conversion from visual acuity notations in a single call to `va()`:
+Automatic detection of VA notation and convert to logMAR by default (but
+you can convert to snellen or ETDRS as well).
+
+  - VA conversion between Snellen, ETDRS and logMAR is based on charts
+    and formulas in (Holladay 2004), (Beck et al. 2003) and (Gregori,
+    Feuer, and Rosenfeld 2010)
   - Categories **counting fingers** and **hand movements** are converted
     following (Schulze-Bonsel et al. 2006)
   - Categories **no light perception** and **light perception** are
     converted following the suggestions by Michael Bach
+  - Visual acuity conversion chart
+[`va_chart`](#va-conversion-chart)
 
 <!-- end list -->
 
 ``` r
-## will automatically detect VA class and convert to logMAR by default
-## ETDRS letters
-x <- c(23, 56, 74, 58)
+## automatic detection of VA notation and converting to logMAR by default
+x <- c(23, 56, 74, 58) ## ETDRS letters
 va(x)
 #> x: from etdrs
 #> [1] 1.24 0.58 0.22 0.54
-## ... or convert to snellen
-va(x, to = "snellen")
+
+va(x, to = "snellen") ## ... or convert to snellen
 #> x: from etdrs
 #> [1] "20/320" "20/80"  "20/32"  "20/70"
-## snellen, mixed with categories. Also dealing with those "plus/minus" entries
 
-x <- c("NLP", "NPL", "PL", "LP", "HM", "CF", "6/60", "20/200", "6/9", "20/40", "20/40+3", "20/50-2")
-
+x <- c("NPL", "LP", "HM", "CF","20/200", "6/9", "20/40+3", "20/50-2") 
+## snellen with "plus/minus" entries, mixed with categories 
 va(x)
 #> x: from snellen
-#>  [1] 3.00 3.00 2.70 2.70 2.30 2.00 1.00 1.00 0.18 0.30 0.30 0.40
+#> [1] 3.00 2.70 2.30 2.00 1.00 0.18 0.30 0.40
 
 ## on the inbuilt data set:
-head(va(amd$VA_ETDRS_Letters), 10)
+head(va(amd$VA_ETDRS_Letters), 10) 
 #> Warning: NA introduced (amd$VA_ETDRS_Letters) - implausible values
 #>  [1] 0.82 0.08 0.70 0.90 1.06 1.02 0.96 1.06 0.40 0.46
 
