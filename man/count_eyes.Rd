@@ -6,6 +6,13 @@
 \usage{
 count_eyes(x, pat_col, eye)
 }
+\arguments{
+\item{x}{object (data frame)}
+
+\item{pat_col}{patient column}
+
+\item{eye}{eye column}
+}
 \description{
 \code{count_eyes} is the internal counting function
 for \code{eyes}

@@ -6,9 +6,9 @@
 \alias{va_dissect}
 \title{Visual acuity notation conversion}
 \usage{
-va(x, from = NULL, to = "logmar", snellen_type = "ft")
+va(x, from = NULL, to = "logmar", type = "ft")
 
-convert_va(x, from = NULL, to = "logmar", snellen_type = "ft")
+convert_va(x, from = NULL, to = "logmar", type = "ft")
 
 va_dissect(x)
 }
@@ -21,7 +21,7 @@ any case allowed. Ignored if it does not make sense}
 \item{to}{to which class to convert. "etdrs", "logmar" or "snellen" -
 any case allowed}
 
-\item{snellen_type}{if to = "snellen", which snellen notation.
+\item{type}{if to = "snellen", which snellen notation.
 "m", "dec" or "ft"}
 }
 \value{
@@ -35,6 +35,16 @@ Cleans VA and converts VA notations (classes) into one another.
 \code{va} will guess the VA class based on specific rules (see details)
 }
 \details{
+VA can be snellen feet/meter/decimal, logMAR, ETDRS, or
+"qualitative" (Couting fingers, etc.), and a mix of those!
+\itemize{
+\item Snellen fractions need to be either form 6/x or 20/x
+\item ETDRS must be between 0 and 100
+\item logMAR must be between -0.3 and 3.0
+\item Qualitative must be PL, LP, NLP, NPL, HM, CF (any case allowed)
+For further conversion rules see section "VA guessing"
+}
+
 \strong{\code{va}} cleans visual acuity entries with \link{clean_va}: it assigns \code{NA}
 to missing entries, removes "plus" and "minus" from snellen entries
 and unifies the notation for qualitative entries.
@@ -56,7 +66,7 @@ values that are not found in \link{va_chart}. E.g., check with \code{unique(x)}.
 and "counting fingers" and are converted to logmar following the
 suggestions by \href{https://michaelbach.de/sci/acuity.html}{Michael Bach}
 }
-\section{How the VA class guessing works}{
+\section{VA guessing}{
 
 \itemize{
 \item if x integer and 3 < x <= 100: \code{etdrs}
@@ -66,7 +76,7 @@ suggestions by \href{https://michaelbach.de/sci/acuity.html}{Michael Bach}
 \code{logmar}, but you can choose \code{snellen}
 \item \emph{non-mixed class}: if all x in va_chart$snellen_dec: \code{snellen}
 \item \emph{mixed class} (\link{which_va_dissect}): snellen_dec not supported.
-\item if character and format x/y found: \code{snellen} (fraction)
+\item if character and format x/y: \code{snellen} (fraction)
 \item if one of "CF", "HM", "LP", "PL", "NLP", or "NPL": \code{quali}
 \item if numeric x beyond the ranges from above: \code{NA}
 \item Any other string or NA: \code{NA}
@@ -76,19 +86,20 @@ suggestions by \href{https://michaelbach.de/sci/acuity.html}{Michael Bach}
 \examples{
 ## will automatically detect VA class and convert to logMAR by default
 ## ETDRS letters
-va(c(23, 56, 74, 58))
+x <- c(23, 56, 74, 58)
+va(x)
 
 ## ... or convert to snellen
-va(c(23, 56, 74, 58), to = "snellen")
+va(x, to = "snellen")
 
 ## snellen, mixed with categories. Also dealing with those "plus/minus" entries
-va(c("NLP", "NPL", "PL", "LP", "HM", "CF", "6/60", "20/200", "6/9", "20/40", "20/40+3", "20/50-2"))
+va(c("NLP", "NPL", "PL", "LP", "HM", "CF", "6/60", "20/200", "6/9",
+ "20/40", "20/40+3", "20/50-2"))
 
-## on the inbuilt data set:
-head(va(amd$VA_ETDRS_Letters), 10)
 }
 \seealso{
 Other VA converter: 
+\code{\link{va_methods}},
 \code{\link{which_va}()}
 
 Other VA cleaner: 

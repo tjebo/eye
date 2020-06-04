@@ -26,9 +26,11 @@ convert_na_va <- function(x){
 
 #' convert_NLP
 #' @rdname va_cleaner
+#' @param replace_PL named vector how to rename qualitative VA
 
-convert_NLP <- function(x, replace_PL = c(PL = "LP", NPL = "NLP")) {
-  new_vec <- replace_PL[as.character(x)]
+convert_NLP <- function(x, replace_PL = c(pl = "lp", npl = "nlp")) {
+  x <- tolower(x)
+  new_vec <- replace_PL[x]
   unname(ifelse(is.na(new_vec), x, new_vec))
 }
 
@@ -41,10 +43,10 @@ remove_plus <- function(x) {
   x
 }
 
-
-
 #' isNAstring
 #' @rdname va_cleaner
+#' @param full vector of full strings to be replaced by NA
+#' @param partial vector of partial strings to be replaced by NA
 
 isNAstring <- function(x, full = c("\\.+", "", "\\s+", "n/a", "na", "null"), partial = c("not")) {
   if (is.numeric(x) | is.integer(x)) {

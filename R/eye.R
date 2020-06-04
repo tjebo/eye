@@ -5,10 +5,10 @@
 #' @section Ophthalmology functions:
 #' *eye* is dedicated to facilitate ophthalmic research with its high
 #' level functions
-#' - [`blink`]
+#' - [`va`]: Visual acuity conversion
 #' - [`eyes`]: Count eyes and patients
 #' - [`myop`]: Make eye data "long"
-#' - [`va`]: Visual acuity conversion
+#' - [`blink`]: wrapper around `va`, `myop` and `eyes`
 #'  *eye* contains a real life data set [amd] and some functions beyond ophtalmology, which could make your data analysis a tiny bit more convenient.
 #' @section Beyond ophthalmology:
 #' - [`reveal`]: Get common summary statistics
@@ -20,4 +20,5 @@
 #' Useful links:
 #' - https://github.com/tjebo/eye
 #' - Report bugs at https://github.com/tjebo/eye/issues
-NULL
+utils::globalVariables(c("va_chart", "funs_eyeReveal"))
+

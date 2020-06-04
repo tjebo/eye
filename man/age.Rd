@@ -12,6 +12,8 @@ age(from_date, to_date = lubridate::now(), period = FALSE, dec = 1)
 \item{to_date}{end date}
 
 \item{period}{default FALSE: output as a duration. If TRUE, output as a period}
+
+\item{dec}{How many decimals are displayed}
 }
 \description{
 calculates age in years, either as duration or as period

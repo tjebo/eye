@@ -11,6 +11,8 @@ which_va_dissect(elem)
 }
 \arguments{
 \item{x}{Vector with VA entries}
+
+\item{elem}{element of vector to convert}
 }
 \description{
 Guessing the VA notation (VA class)
@@ -24,6 +26,7 @@ Guessing the VA notation (VA class)
 }
 \seealso{
 Other VA converter: 
+\code{\link{va_methods}},
 \code{\link{va}()}
 }
 \concept{VA converter}

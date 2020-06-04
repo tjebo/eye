@@ -2,3 +2,7 @@
 ^\.Rproj\.user$
 ^data-raw$
 [.]bib$
+[.]png$
+[.]rmd$
+^README\.Rmd$
+^LICENSE\.md$

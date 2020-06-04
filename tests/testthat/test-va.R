@@ -1,7 +1,48 @@
 context("test va")
 library(eye)
 library(testthat)
-source("./tests/testthat/va_testdata.R")
+
+
+logmar <- va_chart$logmar
+snellen_ft <- va_chart$snellen_ft
+snellen_m <- va_chart$snellen_m
+snellen_dec <- va_chart$snellen_dec
+etdrs <- va_chart$etdrs
+etdrs_unplaus <- seq(-1,30,1)
+logmar_unplaus <- seq(-4.4,2.0, 0.1)
+snellen_unplaus <- letters[1:20]
+quali <- va_chart$quali
+quali_logmar <- c(logmar, quali)
+quali_etdrs<- c(etdrs, quali)
+quali_snellen_ft <- c(snellen_ft, quali)
+quali_snellen_m <- c(snellen_m, quali)
+mixed_VA <- c(32, "20/40",3, NA, "1.1", 0.2, -0.3, "NA", "eye", -0.4, "NLP", "PL")
+mixed_VA1 <- c(32, "20/40",3, NA, "1.1", 0.2, -0.3, "NA",  -0.4, "NLP", "PL")
+mixed_VA2 <- c(32, "20/40",3, NA, "1.1", 0.2, -0.3, "NA",   "NLP", "PL")
+etdrs_logmar <- 0:1
+etdrs_logmar_na <- c(0:1, NA)
+snellen_logmar <- eye:::inter_snelllog[c(2,4,5)]
+snellen_logmar_na <- c(eye:::inter_snelllog[c(2,4,5)], NA)
+va_vecNA <- c(NA, NA)
+va_vec <- c("NLP", "LP", "HM", "CF", "6/60", "NA", NA, "20/40")
+va_vec1 <- c("NPL", "NLP", "LP", "PL", "HM", "CF", "6/60", "20/200", "6/9", "20/40")
+va_vec2 <- structure(c(3, 2.7, 2.3, 1.9, 1, 1, 0.18, 0.3), class = c("logmar",
+                                                                     "va", "numeric"))
+va_vec3 <- structure(c(0L, 0L, 0L, 2L, 35L, 35L, 75L, 70L), class = c("etdrs",
+                                                                      "va", "integer"))
+va_vec4 <- c(NA, "CF", "NA", "HM", "6/9", "6/6", "6/18", "6/12", "6/5",
+             "6/24", "6/36", "6/60", "3/60")
+va_vec5 <- c("20/200","20/200 + 3", "20/200+3", "20/200-4","20/200 -4")
+
+va_vec6 <- c("6/9", "6/6", "6/5", "6/12", "6/7.5", "6/18", "PL", "6/4",
+             "6/24", "6/36", "HM", "6/60", "EYE NOT PRESENT", "CF", "N/A",
+             "6/2", "NPL", "NOT TESTED", "Not tested", "6/3", "Eye not present",
+             "6/7")
+va_vec7 <- structure(c(NA, "6/9", "6/6", "6/18", "6/12", "6/5",
+             "6/24", "6/36", "6/60", "3/60" ),class = c("snellen",
+                                                      "va", "integer"))
+va_vec8 <- structure(quali,class = c("quali", "va", "integer"))
+
 
 # $va_vec (length 8)
 # [1] "NLP" "LP"  "HM"  "CF"  "6/60""20/200" "6/9" "20/40"
@@ -18,59 +59,59 @@ source("./tests/testthat/va_testdata.R")
 
 test_that("error", {
   expect_error(va(logmar, to = c("logmar, etdrs")), "\"to\": Pick one of")
-  expect_error(va(snellen_unplaus), "Failed to detect")
 })
 
 test_that("no error / no warning", {
   expect_error(va(mixed_VA), regexp = NA)
-  expect_error(va(logmar, to = "ETDRS"), regexp = NA)
+  expect_error(va(logmar, to = "etdrs"), regexp = NA)
   expect_error(va(etdrs), regexp = NA)
   expect_error(va(snellen_dec), regexp = NA)
   expect_error(va(logmar, to = "logmar"), regexp = NA)
   expect_warning(va(logmar, to = "logmar"), regexp = NA)
   expect_error(va(snellen_m), regexp = NA)
   expect_error(va(snellen_ft), regexp = NA)
-  expect_warning(va(quali_logmar, to = "ETDRS"), regexp = NA)
-  expect_warning(va(quali_snellen_ft, to = "ETDRS"), regexp = NA)
+  expect_warning(va(quali_logmar, to = "etdrs"), regexp = NA)
+  expect_warning(va(quali_snellen_ft, to = "etdrs"), regexp = NA)
   expect_warning(va(va_vec), regexp = NA)
   expect_warning(va(va_vec2, to = "snellen"), regexp = NA)
   expect_warning(va(va_vec3), regexp = NA)
-  expect_warning(va(etdrs_logmar), "Wavering between logmar and etdrs")
-  expect_warning(va(etdrs_logmar_na), "Wavering between logmar and etdrs")
-  expect_warning(va(snellen_logmar), "Wavering between logmar and snellen")
-  expect_warning(va(snellen_logmar_na), "Wavering between logmar and snellen")
   expect_warning(va(etdrs_logmar, from = "etdrs"), regexp = NA)
-  expect_warning(va(etdrs_logmar, from = "ETDRS"), regexp = NA)
+  expect_warning(va(etdrs_logmar, from = "etdrs"), regexp = NA)
   expect_warning(va(snellen_logmar, from = "Snellen"), regexp = NA)
   expect_warning(va(snellen_logmar, from = "snellen"), regexp = NA)
 })
 
 test_that("message", {
   expect_message(va(mixed_VA), "Mixed object")
-  expect_message(va(etdrs), regexp = "From etdrs")
+  expect_message(va(etdrs), regexp = "from etdrs")
   expect_message(va(etdrs, from = "etdrs"), regexp = NA)
-  expect_message(va(snellen_dec), "From snellen")
-  expect_message(va(quali_snellen_ft, from = "etdrs"), "From snellen")
+  expect_message(va(snellen_dec), "from snellen")
+  expect_message(va(quali_snellen_ft, from = "etdrs"), "from snellen")
   expect_message(va(quali_snellen_ft, from = "snellen"),regexp = NA)
-  expect_message(va(va_vec3, to = "etdrs"), "VA already")
-  expect_message(va(va_vec2, to = "logmar"), "VA already")
-  expect_message(va(logmar, to = "logmar"), "VA already")
-  expect_message(va(logmar, from = "ETDRS"), "VA already")
-  expect_message(va(logmar_unplaus), "VA already")
-  expect_message(va(logmar), "From logmar")
+  expect_message(va(va_vec3, to = "etdrs"), "already in desired")
+  expect_message(va(va_vec2, to = "logmar"), "already in desired")
+  expect_message(va(logmar, to = "logmar"), "already in desired")
+  expect_message(va(logmar, from = "etdrs"), "already in desired")
+  expect_message(va(logmar_unplaus), "already in desired")
+  expect_message(va(logmar), "from logmar")
 })
 
 test_that("warning", {
+  expect_warning(va(etdrs_logmar), "Wavering between logmar and etdrs")
+  expect_warning(va(etdrs_logmar_na), "Wavering between logmar and etdrs")
+  expect_warning(va(snellen_logmar), "Wavering between logmar and snellen")
+  expect_warning(va(snellen_logmar_na), "Wavering between logmar and snellen")
+  expect_warning(va(snellen_unplaus), "No conversion")
   expect_warning(va(logmar, from = c("logmar, etdrs")), "Ignoring \"from\": logmar, etdrs implausible")
   expect_warning(va(logmar, from = "try"), "Ignoring \"from\": try implausible")
-  expect_warning(va(logmar, from = "ETDRS"), "Ignoring \"from\": ETDRS implausible")
-  expect_warning(va(quali_snellen_ft, from = "ETDRS"),"Ignoring \"from\": ETDRS implausible")
-  expect_warning(va(va_vec2, to = "snellen", from = "etdrs"), "Ignoring \"from\": overriden by VA class")
-  expect_warning(va(amd$VA_ETDRS_Letters, from = 'etdrs'), "Implausible values")
-  expect_warning(va(etdrs_unplaus), "Implausible values")
-  expect_warning(va(logmar_unplaus), "Implausible values")
+  expect_warning(va(logmar, from = "etdrs"), "Ignoring \"from\": etdrs implausible")
+  expect_warning(va(quali_snellen_ft, from = "etdrs"),"Ignoring \"from\": etdrs implausible")
+  expect_warning(va(va_vec2, to = "snellen", from = "etdrs"), "Ignoring \"from\": overruled by VA class")
+  expect_warning(va(amd$VA_ETDRS_Letters, from = 'etdrs'), "implausible values")
+  expect_warning(va(etdrs_unplaus), "implausible values")
+  expect_warning(va(logmar_unplaus), "implausible values")
   expect_warning(va(etdrs_logmar, from = "snellen"), "Ignoring \"from\"")
-  expect_warning(va(logmar, to = "snellen", snellen_type = "random"), "Ignoring snellen_type")
+  expect_warning(va(logmar, to = "snellen", type = "random"), "Ignoring \"type", fixed = TRUE)
 
 })
 
@@ -98,9 +139,9 @@ test_that("return", {
   expect_length(va(va_vec4), length(va_vec4))
   expect_length(va(va_vec5), length(va_vec5))
   expect_true(all(grepl("20/", va(logmar, to = "snellen"))))
-  expect_true(all(grepl("20/", va(logmar, to = "snellen", snellen_type = "random"))))
-  expect_true(all(grepl("6/", va(logmar, to = "snellen", snellen_type = "m"))))
-  expect_true(all(va(logmar, to = "snellen", snellen_type = "dec") %in% va_chart$snellen_dec))
+  expect_true(all(grepl("20/", va(logmar, to = "snellen", type = "random"))))
+  expect_true(all(grepl("6/", va(logmar, to = "snellen", type = "m"))))
+  expect_true(all(va(logmar, to = "snellen", type = "dec") %in% va_chart$snellen_dec))
 })
 
 
@@ -122,9 +163,35 @@ test_that("No error / no warning: va_dissect", {
 )
 
 test_that("Warning: va_dissect", {
-  expect_warning(va_dissect(mixed_VA), "Implausible")
-  expect_warning(va_dissect(mixed_VA), "Snellen?")
-  expect_warning(va_dissect(mixed_VA1), "Implausible")
+  expect_warning(va_dissect(mixed_VA), "implausible values")
+  expect_warning(va_dissect(mixed_VA), regexp = "NA introduced (character only).", fixed = TRUE)
+  expect_warning(va_dissect(mixed_VA1), "NA introduced")
 }
 )
+
+test_that("NA", {
+  expect_equal(sum(is.na(va(va_vec))), 2)
+  expect_equal(sum(is.na(va(va_vecNA))), 2)
+  expect_equal(sum(is.na(va(va_vec1))), 0)
+  expect_equal(sum(is.na(va(va_vec2))), 0)
+  expect_equal(sum(is.na(va(va_vec3))), 0)
+  expect_equal(sum(is.na(va(va_vec4))), 2)
+  expect_equal(sum(is.na(va(va_vec5))), 0)
+  expect_equal(sum(is.na(va(va_vec6))), 5)
+  expect_equal(sum(is.na(eye:::convertVA(va_vec2, to = "snellen", "ft"))),0) #class logmar
+  expect_equal(sum(is.na(eye:::convertVA(va_vec2, to = "etdrs", "ft"))),0) #class logmar
+  expect_equal(sum(is.na(eye:::convertVA(va_vec2, to = "logmar", "ft"))),0) #class logmar
+  expect_equal(sum(is.na(eye:::convertVA(va_vec3, to = "etdrs", "ft"))),0) #class etdrs
+  expect_equal(sum(is.na(eye:::convertVA(va_vec3, to = "snellen", "ft"))),0) #class etdrs
+  expect_equal(sum(is.na(eye:::convertVA(va_vec3, to = "logmar", "ft"))),0) #class etdrs
+  expect_equal(sum(is.na(eye:::convertVA(va_vec7, to = "snellen", "dec")))-1,1) #class snellen
+  expect_equal(sum(is.na(eye:::convertVA(va_vec7, to = "etdrs", "ft"))),1) #class snellen
+  expect_equal(sum(is.na(eye:::convertVA(va_vec7, to = "logmar", "ft"))),1) #class snellen
+  expect_equal(sum(is.na(eye:::convertVA(va_vec8, to = "snellen", "ft"))),26) #class quali
+  expect_equal(sum(is.na(eye:::convertVA(va_vec8, to = "etdrs", "ft"))),26) #class quali
+  expect_equal(sum(is.na(eye:::convertVA(va_vec8, to = "logmar", "ft"))),26) #class quali
+}
+)
+
+
 

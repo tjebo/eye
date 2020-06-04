@@ -1,8 +1,31 @@
 context("test eyes")
 library(eye)
 library(testthat)
-library(tidyverse)
-source("./tests/testthat/eyes_testdata.R")
+
+set.seed(42)
+patient <- id <- c(letters[sample(20)], letters[sample(20)])
+foo0 <- data.frame(id, eyes = c(1:4))
+foo1 <- data.frame(id, eyes = c(NA, "l"))
+foo2 <- data.frame(id, eyes = c("r", "l"))
+foo3 <- data.frame(id , eyes = c("e", "l"))
+foo4 <- data.frame(id, eyes = c("od", "le"))
+foo5 <- data.frame(patient , eyes = c("od", "le"))
+foo6 <- data.frame(patient, eyes = c("od", "le", "re", "le"))
+foo7 <- data.frame(patient, eyes = c("od", "le"), patience = "c")
+foo8 <- data.frame(patient, eyes = c("od", "le", "re", "os"))
+foo9 <- data.frame(patient, eyes = c("od", "le", "re", "os"), eye = "d")
+foo10 <- data.frame(id, eyes = c(1:0))
+foo11 <- data.frame(id, eyes = c(1:2))
+foo12 <- data.frame(id, eyes = c(1, "l"))
+foo13 <- data.frame(id, eyes = c(1, 2,"r", "r"))
+foo14 <- data.frame(id, eyes = c(1, 2,"r", "l"))
+foo15 <- data.frame(id, eyes = c(0, 2,"r", "l"))
+foo16 <- data.frame(id, eyes = c(0, 1,"l", "l"))
+foo17 <- data.frame(id)
+foo18 <- data.frame(eyes = c(0, 1,"l", "l"))
+foo19 <- data.frame(id, eyes = c(1,3))
+foo20 <- data.frame(id , eyes = c("e", "f"))
+foo21 <- data.frame(id , eyes = c("r", "f"))
 
 test_that("messages",{
   expect_message(eyes(foo1), regexp = "Not all eyes are identified \\(contains NA\\)")
@@ -23,49 +46,36 @@ test_that("No warning",{
   expect_warning(eyes(foo11), regexp = NA)
 })
 
-test_that("errors",{
-  expect_error(eyes(foo13), "Unclear eye coding!")
-  expect_error(eyes(foo0), "Unclear eye coding!")
-  expect_error(eyes(foo3), "Unclear eye coding!")
-  expect_error(eyes(foo7), "Which is the")
-  expect_error(eyes(foo9), "Which is the")
-  expect_error(eyes(foo12), "Unclear eye coding!")
-  expect_error(eyes(foo15), "Unclear eye coding!")
-  expect_error(eyes(foo18), "Which is the")
-  expect_error(eyes(foo19), "Unclear eye coding!")
-  expect_error(eyes(foo20), "Unclear eye coding!")
-  expect_error(eyes(foo21), "Unclear eye coding!")
-  expect_error(eyes(foo16), "Unclear eye coding!")
-  expect_error(eyes(foo14), "Unclear eye coding! ")
-})
-
-test_count <- function(x){
-  eyes <- x %>% drop_na(eyes) %>% count(id, eyes) %>% nrow
-  pat <- length(unique(x$id))
-  return(c(pat, eyes))
-}
-test_count_pat <- function(x){
-  eyes <- x %>% drop_na(eyes) %>% count(patient, eyes) %>% nrow
-  pat <- length(unique(x$patient))
-  return(c(pat, eyes))
-}
-test_count_idonly<- function(x){
-  pat <- length(unique(x$id))
-  return(c(pat))
-}
-
-test_that("return", {
-  expect_equivalent(test_count(foo1), unname(eyes(foo1))[1:2])
-  expect_equivalent(test_count(foo2), unname(eyes(foo2))[1:2])
-  expect_equivalent(test_count(foo4), unname(eyes(foo4))[1:2])
-  expect_equivalent(test_count(foo10), unname(eyes(foo10))[1:2])
-  expect_equivalent(test_count(foo11), unname(eyes(foo11))[1:2])
-  expect_equivalent(test_count_pat(foo5), unname(eyes(foo5))[1:2])
-  expect_equivalent(test_count_pat(foo6), unname(eyes(foo6))[1:2])
-  expect_equivalent(test_count_pat(foo8), unname(eyes(foo8))[1:2])
-  expect_equivalent(test_count_idonly(foo17), unname(eyes(foo17))[1])
+test_that("warning",{
+  expect_warning(eyes(foo13), "Unclear eye coding!")
+  expect_warning(eyes(foo0), "Unclear eye coding!")
+  expect_warning(eyes(foo3), "Unclear eye coding!")
+  expect_warning(eyes(foo7), "Did not find")
+  expect_warning(eyes(foo9), "Which is the eye column? Use argument \"eye\"", fixed = TRUE)
+  expect_warning(eyes(foo12), "Unclear eye coding!")
+  expect_warning(eyes(foo15), "Unclear eye coding!")
+  expect_warning(eyes(foo18), "Did not find")
+  expect_warning(eyes(foo19), "Unclear eye coding!")
+  expect_warning(eyes(foo20), "Unclear eye coding!")
+  expect_warning(eyes(foo21), "Unclear eye coding!")
+  expect_warning(eyes(foo16), "Unclear eye coding!")
+  expect_warning(eyes(foo14), "Unclear eye coding! ")
 })
 
 
-
-
+test_that("NULL", {
+expect_null(eyes(foo13))
+expect_null(eyes(foo0))
+expect_null(eyes(foo3))
+expect_null(eyes(foo7))
+expect_null(eyes(foo9))
+expect_null(eyes(foo12))
+expect_null(eyes(foo15))
+expect_null(eyes(foo18))
+expect_null(eyes(foo19))
+expect_null(eyes(foo20))
+expect_null(eyes(foo21))
+expect_null(eyes(foo16))
+expect_null(eyes(foo14))
+}
+)

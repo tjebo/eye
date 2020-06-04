@@ -12,10 +12,10 @@ Analysis of eye data
 \emph{eye} is dedicated to facilitate ophthalmic research with its high
 level functions
 \itemize{
-\item \code{\link{blink}}
+\item \code{\link{va}}: Visual acuity conversion
 \item \code{\link{eyes}}: Count eyes and patients
 \item \code{\link{myop}}: Make eye data "long"
-\item \code{\link{va}}: Visual acuity conversion
+\item \code{\link{blink}}: wrapper around \code{va}, \code{myop} and \code{eyes}
 \emph{eye} contains a real life data set \link{amd} and some functions beyond ophtalmology, which could make your data analysis a tiny bit more convenient.
 }
 }

@@ -6,6 +6,9 @@
 \usage{
 myop_varswide(x)
 }
+\arguments{
+\item{x}{object (data frame)}
+}
 \description{
 pivots longer several columns with "eye" data
 }

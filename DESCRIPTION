@@ -8,14 +8,21 @@ Authors@R:
            email = "tjebn@web.de",
            comment = c(ORCID = "0000-0001-5297-2301"))
 Description: What the package does (one paragraph).
-License: `use_mit_license()`
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.0
 Depends: 
-    R (>= 2.10)
+    R (>= 4.0)
 Suggests: 
     testthat
 Imports: 
-    magrittr
+    dplyr (>= 0.8.5),
+    english (>= 1.2-5),
+    lubridate (>= 1.7.8),
+    ggplot2 (>= 3.3.0),
+    magrittr (>= 1.5),
+    rlang (>= 0.4.6),
+    stringr (>= 1.4.0),
+    tidyr (>= 1.0.3)

@@ -60,7 +60,7 @@ getElem_va <- function(obj, va_chr) {
   } else if (is.atomic(obj)) {
     va_cols <- paste0(whole_str(va_chr$whole)(obj), part_str(va_chr$part)(obj))
   } else {
-    va_cols <- lapply(x, function(x) {
+    va_cols <- lapply(obj, function(x) {
       paste0(whole_str(va_chr$whole)(obj), part_str(va_chr$part)(obj))
     })
   }

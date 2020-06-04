@@ -7,14 +7,16 @@
 \alias{print.etdrs}
 \title{print.snellen}
 \usage{
-\method{print}{snellen}(x)
+\method{print}{snellen}(x, ...)
 
-\method{print}{logmar}(x)
+\method{print}{logmar}(x, ...)
 
-\method{print}{etdrs}(x)
+\method{print}{etdrs}(x, ...)
 }
 \arguments{
 \item{x}{vector}
+
+\item{...}{arguments passed to \link{print.default}}
 }
 \description{
 S3 methods for VA classes "snellen", "logmar" and "etdrs".

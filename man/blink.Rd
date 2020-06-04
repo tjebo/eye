@@ -4,10 +4,14 @@
 \alias{blink}
 \title{Your data in a blink of an eye}
 \usage{
-blink(x, id = NULL, eye = NULL, to = "logmar", ...)
+blink(x, id = NULL, eye = NULL)
 }
 \arguments{
 \item{x}{data frame}
+
+\item{id}{passed to \link{eyes}}
+
+\item{eye}{passed to \link{eyes}}
 }
 \description{
 High level function, wrapping \link{myop}, \link{eyes} and \link{reveal}
@@ -21,5 +25,13 @@ Steps of data processing:
 }
 }
 \examples{
-TBC
+blink(amd)
+
+messy_df <- data.frame( id = letters[1:3],
+iop_r_preop = sample(21:23), iop_r_postop = sample(11:13),
+iop_l_postop = sample(11:13), iop_l_preop = sample(31:33),
+va_r_preop = sample(41:43),  va_l_preop = sample(41:43),
+va_r_postop = sample(51:53), va_l_postop = sample(45:47)
+)
+blink(messy_df)
 }

@@ -10,6 +10,8 @@ eyes(x, id = NULL, eye = NULL, report = FALSE, ...)
 eyestr(x, id = NULL, eye = NULL, small_num = TRUE, para = FALSE, UK = FALSE)
 }
 \arguments{
+\item{x}{required. (data frame)}
+
 \item{id}{Patient identifying column}
 
 \item{eye}{Eye identifying colum.}
@@ -18,7 +20,13 @@ eyestr(x, id = NULL, eye = NULL, small_num = TRUE, para = FALSE, UK = FALSE)
 
 \item{...}{passed to \link{eyes_to_string}}
 
-\item{\strong{x}}{required. (data frame)}
+\item{small_num}{If TRUE: writing numbers <= 12 as words}
+
+\item{para}{If TRUE: Adding "A total of" to comply with most
+journal standards and to avoid awkward long numnbers.}
+
+\item{UK}{Logical, Use UK (English) style (TRUE) or
+USA (American) style (FALSE).}
 }
 \value{
 Vector with count of patients and eyes

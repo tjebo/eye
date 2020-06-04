@@ -11,10 +11,29 @@ set_codes(
   va = c("va", "bcva"),
   method = c("etdrs", "snellen", "logmar"),
   id = c("pat", "id"),
-  quali = c("NLP", "LP", "HM", "CF"),
+  quali = c("nlp", "lp", "hm", "cf"),
   vaPart = "acuit",
   ...
 )
+}
+\arguments{
+\item{r}{right eyes}
+
+\item{l}{left eyes}
+
+\item{iop}{IOP codes}
+
+\item{va}{VA codes}
+
+\item{method}{VA methods}
+
+\item{id}{patient column codes}
+
+\item{quali}{quali VA codes}
+
+\item{vaPart}{partial VA codes}
+
+\item{...}{further codes to set}
 }
 \description{
 set the eye strings looked for in the data

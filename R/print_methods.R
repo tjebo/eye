@@ -5,25 +5,22 @@
 #' than continuous. **logmar** and **etdrs** are both numerics
 #' (logMAR is double, etdrs is integer).
 #' @param x vector
+#' @param ... arguments passed to [print.default]
 #' @export
 #' @family print methods
-print.snellen <- function(x) {
+print.snellen <- function(x, ...) {
   print.default(as.character(x))
 }
 #' print.logmar
 #' @rdname print_methods
-#' @param x vector
 #' @export
-#' @family print methods
-print.logmar <- function(x) {
+print.logmar <- function(x, ...) {
   print.default(as.numeric(x))
 }
 #' print.etdrs
 #' @rdname print_methods
-#' @param x vector
 #' @export
-#' @family print methods
-print.etdrs <- function(x) {
+print.etdrs <- function(x, ...) {
   print.default(as.integer(x))
 }
 

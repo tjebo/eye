@@ -17,10 +17,6 @@ tokens will be matched agains.}
 \description{
 unify code for substrings and arrange, after tokenizing
 }
-\examples{
-x <- c("id", "IOP_r", "iop_l", "Va_r", "va_l", "iop_r_post", "iop_l_post")
-sort_substr(x, list(r = "r", l = "l", iop = "iop", va = "va"))
-}
 \seealso{
 Other string matching functions: 
 \code{\link{getElem}},

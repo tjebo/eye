@@ -17,19 +17,11 @@ both_str(string_vec)
 \item{string}{vector of strings to look for}
 
 \item{string_vec}{vector of two strings}
-
-\item{x}{vector to search}
 }
 \description{
 internal function factory for functions
 to match "whole_str string" with any non character as boundaries
 accepts string as regular expression.
-}
-\examples{
-whole_str("eye")(amd)
-
-part_str(c("pat", "Id")(amd)
-both_str(c("pat","id"))(c("patid", "id", "pat"))
 }
 \seealso{
 Other string matching functions: 

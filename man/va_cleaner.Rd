@@ -13,7 +13,7 @@ clean_va(x)
 
 convert_na_va(x)
 
-convert_NLP(x, replace_PL = c(PL = "LP", NPL = "NLP"))
+convert_NLP(x, replace_PL = c(pl = "lp", npl = "nlp"))
 
 remove_plus(x)
 
@@ -25,6 +25,12 @@ isNAstring(
 }
 \arguments{
 \item{x}{Vector with VA entries}
+
+\item{replace_PL}{named vector how to rename qualitative VA}
+
+\item{full}{vector of full strings to be replaced by NA}
+
+\item{partial}{vector of partial strings to be replaced by NA}
 }
 \description{
 Internal functions for VA cleaning.

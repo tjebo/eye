@@ -6,10 +6,12 @@
 \alias{makeContent.trail}
 \alias{geom_trail}
 \title{geom_trail}
-\source{
-modified from post on https://stackoverflow.com/a/55857158/7941188
+\format{
+An object of class \code{GeomTrail} (inherits from \code{GeomPoint}, \code{Geom}, \code{ggproto}, \code{gg}) of length 3.
 }
 \usage{
+GeomTrail
+
 \method{makeContent}{trail}(x)
 
 geom_trail(
@@ -70,15 +72,19 @@ the default plot specification, e.g. \code{\link[ggplot2:borders]{borders()}}.}
 often aesthetics, used to set an aesthetic to a fixed value, like
 \code{colour = "red"} or \code{size = 3}. They may also be parameters
 to the paired geom/stat.}
-
-\item{gap}{gap between points and lines}
 }
 \description{
 underlying drawing method for paths in geom_trail
 
-Mark your trail with a plot just like the good old base plot type = b
-modified from post on https://stackoverflow.com/a/55857158/7941188
+Mark a trail with a plot just like the base plot type = "b".
+You can also leave the dots blank, thus allowing use of text instead of
+points (see examples).
 }
+\section{Additional arguments}{
+
+\strong{\code{gap}} gap between points and lines
+}
+
 \section{Aesthetics}{
 
 \code{geom_trail} understands the following aesthetics (required aesthetics
@@ -89,20 +95,45 @@ are in bold):
 \item \code{alpha}
 \item \code{color}
 \item \code{linetype}
-\item \code{size} size of points -
-also used for calculation of empty space
+\item \code{size} size of points - 0 for empty space
 \item \code{linesize}
 }
 }
 
 \examples{
+library(ggplot2)
+library(dplyr)
+
 ggplot(pressure, aes(temperature, pressure)) +
   geom_ribbon(aes(ymin = pressure - 50, ymax = pressure + 50), alpha = 0.2) +
   geom_trail()
+
+amd_aggr <-
+amd \%>\%
+  group_by(
+    age_cut10 = cut_width(BaselineAge, 10),
+    days_cut90 = cut_width(FollowupDays, 90, labels = seq(0, 810, 90))
+  ) \%>\%
+  summarise(mean_va = mean(VA_ETDRS_Letters))
+
+p <- ggplot(amd_aggr, aes(days_cut90, mean_va, color = age_cut10)) +
+       theme_classic() +
+       labs(
+         x = "Follow up time [Days]", y = "Mean VA [ETDRS letters]",
+         color = "Age strata"
+       )
+
+p + geom_trail(aes(group = age_cut10))
+
+p + geom_trail(aes(group = age_cut10), size = 0) +
+  geom_text(aes(label = round(mean_va, 0)), show.legend = FALSE)
+}
+\seealso{
+The geom was modfied from the suggestion by user teunbrand on
+Stackoverflow in
+\href{https://stackoverflow.com/a/55857158/7941188}{this thread}
 }
 \author{
-Teun van den Brand / Tjebo Heeren
-
 Teun van den Brand
 }
 \keyword{datasets}

@@ -1,5 +1,14 @@
 #' Set string codes
 #' @name set_codes
+#' @param r right eyes
+#' @param l left eyes
+#' @param iop IOP codes
+#' @param va VA codes
+#' @param method VA methods
+#' @param id patient column codes
+#' @param quali quali VA codes
+#' @param vaPart partial VA codes
+#' @param ... further codes to set
 #' @description set the eye strings looked for in the data
 #' @family string matching functions
 set_codes <- function(
@@ -9,7 +18,7 @@ set_codes <- function(
   va = c("va", "bcva"),
   method = c("etdrs", "snellen", "logmar"),
   id = c("pat","id"),
-  quali = c("NLP", "LP", "HM", "CF"),
+  quali = c("nlp", "lp", "hm", "cf"),
   vaPart = "acuit", ...){
   c(as.list(environment()), list(...))
 }
@@ -22,9 +31,6 @@ set_codes <- function(
 #'   the order in the list defines the resulting order in the string
 #'   Should be names list - the names will be the codes to which the
 #'   tokens will be matched agains.
-#' @examples
-#' x <- c("id", "IOP_r", "iop_l", "Va_r", "va_l", "iop_r_post", "iop_l_post")
-#' sort_substr(x, list(r = "r", l = "l", iop = "iop", va = "va"))
 #' @family string matching functions
 sort_substr <- function(x, list_substr) {
   if(!inherits(list_substr, "list")){
@@ -49,15 +55,11 @@ sort_substr <- function(x, list_substr) {
 
 #' String search func facs
 #' @name str_func_facs
-#' @param x vector to search
 #' @param string vector of strings to look for
 #' @description internal function factory for functions
 #'   to match "whole_str string" with any non character as boundaries
 #'   accepts string as regular expression.
 #' @family string matching functions
-#' @examples
-#' whole_str("eye")(amd)
-#'
 whole_str <- function(string) {
   reg <- paste0("(?<![a-z])(", paste(tolower(string), collapse = "|"), ")(?![a-z])")
   function(x) {
@@ -67,9 +69,6 @@ whole_str <- function(string) {
 
 #' part_str
 #' @rdname str_func_facs
-#' @examples
-#' part_str(c("pat", "Id")(amd)
-
 part_str <- function(string) {
   function(x) {
     x[grepl(paste(tolower(string), collapse = "|"), tolower(x), perl = TRUE)]
@@ -78,9 +77,6 @@ part_str <- function(string) {
 #' both_str
 #' @rdname str_func_facs
 #' @param string_vec vector of two strings
-#' @examples
-#' both_str(c("pat","id"))(c("patid", "id", "pat"))
-
 both_str <- function(string_vec) {
   if(length(string_vec)!=2){
     stop("string_vec needs to be of length 2")

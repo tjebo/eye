@@ -1,11 +1,12 @@
 #' Count patients and eyes
 #' @name eyes
 #' @description Counts number of patients and eyes (right and left).
-#' @param \strong{x} required. (data frame)
+#' @param x required. (data frame)
 #' @param id Patient identifying column
 #' @param eye Eye identifying colum.
 #' @param report if TRUE, text returned for report
 #' @param ... passed to [eyes_to_string]
+#' @inheritParams eyes_to_string
 #' @details
 #' `eyes` guesses columns that identify patients and eyes.
 #' @section Guessing:
@@ -79,6 +80,9 @@ eyes <- function(x, id = NULL, eye = NULL, report = FALSE, ...) {
 
 #' internal count
 #' @name count_eyes
+#' @param x object (data frame)
+#' @param pat_col patient column
+#' @param eye eye column
 #' @description `count_eyes` is the internal counting function
 #'   for `eyes`
 #'

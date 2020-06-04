@@ -1,101 +1,119 @@
 ---
-title: eye
 output: github_document
+title: eye
 bibliography: eye.bib
-link-citations: true
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-```{r, echo = FALSE, message=FALSE}
+```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "README-"
+  fig.path = "man/figures/README-",
+  out.width = "100%"
 )
 library(eye)
 ```
 
-See more with *eye*. 
+<!-- badges: start -->
+<!-- badges: end -->
+
+See more with *eye*
 
 ## Purpose
-*eye* is dedicated to facilitate ophthalmic research. Its core functions [`blink()`](#blink), [`eyes()`](#eyes), [`myop()`](#myop), and [`va()`](#va) help with very common tasks:
+*eye* is dedicated to facilitate ophthalmic research. Its functions [`va()`](#va), [`eyes()`](#eyes), [`myop()`](#myop), [`blink()`](#blink), [`reveal()`](#reveal) and [`age()`](#age) are designed to help with common tasks in eye research:
+  
+- Visual acuity conversion for snellen, logMAR and ETDRS
+- Counting patients and eyes
+- Reshape data from wide to long:  
+  Often, one variables spreads over two columns for right and left eyes. But many functions need the data "long", with only one 
+column for each variable and a separate column for eyes 
+- Summarising data with common statistics (mean, sd, n, range)
+- Calculating age of patients
+  
+Further, *eye* contains a [real life data set](#amd-data).
+    
+Finally, *eye* includes [`geom_trail()`](#geom_trail) for some nice trail graphs. 
 
-- Visual acuity conversion
-- Count eyes and patients 
-- Shape data for analysis of visual acuity and intraocular pressure 
+## Installation
 
-*eye* contains a [real life data set](#amd-data) and some functions beyond ophtalmology, which could make your data analysis a tiny bit more convenient.
+You can install the released version of eye from [CRAN](https://CRAN.R-project.org) with:
 
-*eye* includes [`geom_trail()`](#geom_trail) for some nice trail graphs. 
+``` r
+install.packages("eye") ## not yet available
+```
+And the development version from [GitHub](https://github.com/tjebo/eye) with:
 
+``` r
+# install.packages("devtools")
+devtools::install_github("tjebo/eye")
+
+library(eye)
+```
 ## Features 
 ### Only eye
-- blink: [Perceive your data in a blink of an eye](#blink)
+- va: [Conversion of visual acuity notations](#va) 
 - eyes: [Easy count of patients and eyes](#eyes)
-- va: [Conversion of visual acuity notations](#va) - includes conversion chart
+- eyestr: [return eye count as text for your report](#eyestr)
 - myop: [Make your eye data long](#myop)
-- **AMD data**: Anonymised [real life data from a large cohort](https://datadryad.org/stash/dataset/doi:10.5061/dryad.97r9289) of patients with treatment-naive neovascular age-related macular degeneration (AMD) who received intravitreal anti-VEGF therapy in Moorfields Eye Hospital, London, UK. </br>
-**To reference this data, please kindly cite the corresponding publication**.[@fasler] 
-
+- blink: [Perceive your data in a blink of an eye](#blink)
+- Visual acuity [conversion chart](#va-conversion-chart)
+- **AMD data**: [Anonymised real life data](https://datadryad.org/stash/dataset/doi:10.5061/dryad.97r9289) from a large cohort of patients with treatment-naive neovascular age-related macular degeneration (AMD) who received intravitreal anti-VEGF therapy in Moorfields Eye Hospital, London, UK. </br>
+**Kindly reference this data by citing the corresponding publication**.[@fasler] 
+                  
 ### Beyond eyes
 - reveal: [Get common summary statistics](#reveal)
 - age: [Calculate age](#age)
-- csv: [Conveniently save a data frame to csv](#csv)
 - geom_trail: [A base plot type = "b" equivalent for ggplot2](#geom_trail)
-
-## Install *eye*
-Currently only on github. 
-```{r, eval=FALSE}
-## for the development version 
-devtools::install_github("tjebo/eye")
-```
-
-## Examples
-Required packages
+                          
+## Details and examples
 ```{r, message=FALSE}
 library(tidyverse)
 ```
 
-### Only eye - core *eye* functions 
-#### blink
-#### eyes
-Count patient and eyes (**eyes** or **eyestr**)
-```{r eyes}
-eyes(amd)
-
-## Or get the text for reports
-eyestr(amd)
-
-## This will format numbers <=12 to english words
-eyestr(head(amd, 100))
-```
-
-#### va
-- *eye* includes a [visual acuity conversion chart: `va_chart`](#va-conversion-chart) 
-- This chart and VA conversion formulas are based on [@holladay], [@beck] and [@gregori]
+### va
+- *eye* includes a visual acuity conversion chart: [`va_chart`](#va-conversion-chart) 
+- Chart and VA conversion formulas are based on [@holladay], [@beck] and [@gregori]
 - Categories **counting fingers** and **hand movements** are converted following [@bach]
 - Categories **no light perception** and **light perception** are converted following the suggestions by Michael Bach
-
+                            
 ```{r va}
 ## will automatically detect VA class and convert to logMAR by default
 ## ETDRS letters
-va(c(23, 56, 74, 58)) 
-
+x <- c(23, 56, 74, 58)
+va(x)
 ## ... or convert to snellen
-va(c(23, 56, 74, 58), to = "snellen") 
-
+va(x, to = "snellen")
 ## snellen, mixed with categories. Also dealing with those "plus/minus" entries
-va(c("NLP", "NPL", "PL", "LP", "HM", "CF", "6/60", "20/200", "6/9", "20/40", "20/40+3", "20/50-2"))
+
+x <- c("NLP", "NPL", "PL", "LP", "HM", "CF", "6/60", "20/200", "6/9", "20/40", "20/40+3", "20/50-2")
+
+va(x)
 
 ## on the inbuilt data set:
 head(va(amd$VA_ETDRS_Letters), 10)
 
-## (and indeed, there are unplausible ETDRS values in this data set!)
+## and indeed, there are unplausible ETDRS values in this data set:
+range(amd$VA_ETDRS_Letters)
+```
+                            
+### eyes
+Count patient and eyes (**eyes** or **eyestr**)
+```{r eyes}
+eyes(amd)
 ```
 
+#### eyestr
+Same as `eyes`, but as text for reports
+```{r eyestr}
+eyestr(amd)
+ 
+ ## Numbers smaller or equal then 12 will be english words
+eyestr(head(amd, 100))
+```
 
-#### myop
+### myop
 Make your data long ("myopic")
 ```{r myop, echo=FALSE}
 set.seed(42)
@@ -107,18 +125,20 @@ iop_wide
 
 myop(iop_wide)
 ```
+
 Often enough, there are right eye / left eye columns for more than one variable, e.g., for both IOP and VA. `myop` helps you clean this mess and will detect IOP and VA columns automatically.
 ```{r, echo=FALSE}
 messy_df <- data.frame(
-  id = letters[1:3], 
-  iop_r_preop = sample(11:13), 
-  iop_r_postop = sample(11:13), 
-  iop_l_preop = sample(11:13), 
-  iop_l_postop = sample(11:13), 
-  va_r_preop= sample(41:43), 
-  va_l_preop= sample(41:43),
-  va_r_postop = sample(41:43), 
-  va_l_postop = sample(41:43))
+  id = letters[1:3],
+  iop_r_preop = sample(21:23),
+  iop_r_postop = sample(11:13),
+  iop_l_postop = sample(11:13),
+  iop_l_preop = sample(31:33),
+  va_r_preop = sample(41:43),
+  va_l_preop = sample(41:43),
+  va_r_postop = sample(51:53),
+  va_l_postop = sample(45:47)
+)
 ```
 ```{r myop two vars}
 messy_df
@@ -128,38 +148,38 @@ clean_df <- myop(messy_df)
 clean_df
 ```
 
-### Beyond the eye
-#### reveal
+### blink 
+See your data in a blink of an eye - wrapper around [`myop`](#myop), [`eyes`](#eyes), [`va`](#va) and [`reveal`](#reveal)
+```{r}
+blink(messy_df)
+```
+
+### reveal
 Show common statistics
 ```{r stats, warning=FALSE, message=FALSE}
-amd_unq <- amd[!duplicated(amd$Id),]
+reveal(clean_df)
 
-reveal(amd_unq[c("BaselineAge", "VA_ETDRS_Letters", "FollowupDays")])
+reveal(clean_df, by = "eye")
 ```
 
-#### age
- - Calculate age in years, as [periods or durations](https://lubridate.tidyverse.org/articles/lubridate.html#time-intervals)
- - If only the start date given, calculating the age today.
+### age
+- Calculate age in years, as [periods or durations](https://lubridate.tidyverse.org/articles/lubridate.html#time-intervals)
+                                                                     
 ```{r age, warning=FALSE, message=FALSE}
-age("1984-10-16")
+dob <- c("1984-10-16", "2000-01-01")
 
-dob <-  c("1984-10-16", "2000-01-01")
-test_date <-  as.Date(dob) + c(15000, 20000)
-
-age(dob, test_date)
+## If no second date given, the age today
+age(dob)
+age(dob, "2000-01-01")                                                    
 ```
 
-#### csv
-- A convenience wrapper around `write.csv`. Saves a .csv file with the name of the data frame, or with a different name. 
-```{r csv, warning=FALSE, message=FALSE, eval = FALSE}
-csv(amd)
-```
-
-### ggplot2 extensions
-#### geom_trail
+### geom_trail
 A base plot type = "b" equivalent for ggplot. Works also with text!
+
 <details>
-  <summary>Prepare AMD data for plot (click to unfold) </summary>
+
+<summary>Prepare AMD data for plot (click to unfold) </summary>
+
 ```{r trail, message=FALSE}
 amd_aggr <-
   amd %>%
@@ -167,61 +187,80 @@ amd_aggr <-
     age_cut10 = cut_width(BaselineAge, 10),
     days_cut90 = cut_width(FollowupDays, 90, labels = seq(0, 810, 90))
   ) %>%
-  summarise(mean_va = mean(VA_ETDRS_Letters)) 
+  summarise(mean_va = mean(VA_ETDRS_Letters))
 ```
 </details>
 
 ```{r geom_trail}
 p <-
   ggplot(amd_aggr, aes(days_cut90, mean_va, color = age_cut10)) +
-    theme_classic() +
-    labs(x = "Follow up time [Days]", y = "Mean VA [ETDRS letters]", 
-         color = "Age strata")
+  theme_classic() +
+  labs(
+    x = "Follow up time [Days]", y = "Mean VA [ETDRS letters]",
+    color = "Age strata"
+  )
 ```
 ```
 p + geom_trail(aes(group = age_cut10))
 
 p + geom_trail(aes(group = age_cut10), size = 0) +
-          geom_text(aes(label = round(mean_va, 0)), show.legend = FALSE)
+    geom_text(aes(label = round(mean_va, 0)), show.legend = FALSE)
 ```
 ```{r, echo=FALSE, out.width="45%"}
 p + geom_trail(aes(group = age_cut10))
 
 p + geom_trail(aes(group = age_cut10), size = 0) +
-          geom_text(aes(label = round(mean_va, 0)), show.legend = FALSE)
+  geom_text(aes(label = round(mean_va, 0)), show.legend = FALSE)
 ```
 
 ## Important information
-**I do not assume responsability for your data or analysis**. Please stay always wary when working with data. If you get results that do not make sense, the most likely problem is that your data may not be entered in a way which is suitable for this package. I tried to think of many possible ways to deal with messy data, but I am sure there will be far more creative ways out there to abuse data entries. 
 
-**The cleaner your data, the smoother this package will work** (any package, really!) 
+**I do not assume responsability for your data or analysis**. Please remain
+always wary when working with data. If you get results that do not make sense,
+then it is likely that the data is in an unfortunate shape for which `eye` is
+not suitable. I tried to think of many possible ways to deal with messy data,
+but I am sure there will be far more creative ways out there to abuse data
+entries. 
 
-Variable (column) names - There are not many rules to follow:
+**eye will work smoother with clean data** (any package will, really!). 
+[See here to learn about clean data.](https://tidyr.tidyverse.org/articles/tidy-data.html)
+
+In `eye`, there are not many rules to follow:
+
+**Data coding:**
+
+* Use common codes for eyes ("r", "re", "od", "right" - or numeric coding with 0:1 and 1:2)
+
+**Column names:**
 
 * No spaces! 
-* Use common codes for eyes ("r", "re", "od", "right"). 
-* Use common codes for your patient identifier (e.g., "pat", "patient" or "ID", ideally both: "patientID" or "patID")
-* Common codes for visual acuity ("VA", "BCVA", "Acuity", "ETDRS", "logmar", "snellen") and intraocular pressure ("IOP", "GAT", "NCT") 
-* Separate eye / va/ iop strings with underscores ("iop_l", "VA_r")
+* Do not use numeric coding for eyes in column names
+* Use common codes for visual acuity ("VA", "BCVA", "Acuity") 
+* Separate eye and VA codes with underscores ("bcva_l_preop", "VA_r", "left_va")
+* Keep names short
+* Don't use underscores when you don't have to. Consider each section divided by an underscore as a relevant characteristic of your variable. E.g., "preop" instead of "pre_op", or "VA" instead of "VA_ETDRS_Letters"
+* Use common codes for your patient column (e.g., "pat", "patient" or "ID", ideally both: "patientID" or "patID")
 * **Don't be too creative with your names!** 
 
 Good names (`eye` will work nicely)
 ```{r}
-## Id and Eye are common names, there are no spaces
-## VA is separated from the rest with an underscore
-names(amd) 
-
 ## right and left eyes have common codes
 ## information on the tested dimension is included ("iop")
-## iop and eye strings are separated by underscore
+## VA and eye strings are separated by underscores
+## No unnecessary underscores.
+names(messy_df)
+
 names(iop_wide) 
 ```
 
 OK names (`eye` will work)
 ```{r}
-## I recommend shorter names (for your own sake! 
-## Coding becomes much easier)
-c("id", "right_acuity",  "left_logmar") 
+## Id and Eye are common names, there are no spaces
+## VA is separated from the rest with an underscore
+## BUT: 
+## The names are quite long 
+## There is an unnecessary underscore (etdrs are always letters). Better just "VA"
+names(amd) 
 
 ## All names are commonly used (good!)
 ## But which dimension of "r"/"l" are we exactly looking at? 
@@ -232,25 +271,25 @@ Bad names (`eye` will fail)
 ```{r}
 ## VA/IOP not separated with underscore
 ## `eye` won't be able to recognize IOP and VA columns
-c("id", "iopr",  "iopl", "VAr", "VAl") 
+c("id", "iopr", "iopl", "VAr", "VAl")
 
 ## A human may think this is clear
 ## But `eye` will fail to understand those variable names
-c("person", "goldmann", "vision") 
+c("person", "goldmann", "vision")
 
-## Not even clear to humans 
-c("var1", "var2",  "var3")
+## Not even clear to humans
+c("var1", "var2", "var3")
 ```
-
-
+                                                                              
 ## Acknowledgements
-- Thanks to Siegfried Wagner and Abraham Olvera, for their help with VA conversion
-- Thanks to Tim Yap for helping find typos. All remaining typos are entirely his fault.
-- Thanks to Hadley Wickham! Many of the functions in my package rely on the `tidyverse` package, but I would never have been able to make this package without his development tools `roxygen2`, `usethis`, `testthis` and `devtools`.
+
+- Thanks to **Tim Yap** (times three), **Siegfried Wagner** (times two) and **Abraham Olvera**, for their proof reading, suggestions and their data testing (which they haven't done yet)
+- Special thanks to Hadley Wickham and all developers of the `tidyverse` packages and the packages `roxygen2`, `usethis`, `testthis` and `devtools`, all on which `eye` heavily relies.
 
 ## VA conversion chart
+This chart is included in the package (`va_chart`)
 <div style = "font-size:8 pt;">
-|snellen_ft |snellen_m |snellen_dec |logMAR | ETDRS|quali |
+|Snellen feet |Snellen meter |Snellen decimal |logMAR | ETDRS| Categories |
 |----------|---------|-----------|------|-----|-----|
 |20/20000   |6/6000    |0.001       |3      |     0|NLP   |
 |20/10000   |6/3000    |0.002       |2.7    |     0|LP    |
@@ -266,6 +305,7 @@ c("var1", "var2",  "var3")
 |20/200     |6/60      |0.1         |1.0    |    35|NA    |
 |20/160     |6/48      |0.125       |0.9    |    40|NA    |
 |20/125     |6/38      |0.16        |0.8    |    45|NA    |
+|20/120     |6/36      |0.167        |0.78    |    46|NA    |
 |20/100     |6/30      |0.2         |0.7    |    50|NA    |
 |20/80      |6/24      |0.25        |0.6    |    55|NA    |
 |20/70      |6/21      |0.29        |0.54   |    58|NA    |
@@ -284,9 +324,9 @@ c("var1", "var2",  "var3")
 </div>
 
 ## Resources
-[Michael Bach's homepage](https://michaelbach.de/sci/acuity.html)
-[Michael Bach on NLP and LP](https://michaelbach.de/sci/pubs/Bach2007IOVS%20eLetter%20FrACT.pdf)
+
+- [Michael Bach's homepage](https://michaelbach.de/sci/acuity.html)
+- [Michael Bach on NLP and LP](https://michaelbach.de/sci/pubs/Bach2007IOVS%20eLetter%20FrACT.pdf)
 
 ## References
-
 

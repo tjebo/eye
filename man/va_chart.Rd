@@ -10,8 +10,9 @@ A data frame with 29 rows and 5 variables:
 \item{snellen_ft}{snellen VA in feet}
 \item{snellen_m}{snellen VA in meter}
 \item{snellen_dec}{decimal snellen VA}
-\item{logMAR}{logMAR VA}
-\item{ETDRS}{VA in ETDRS letters}
+\item{logmar}{logMAR VA}
+\item{etdrs}{VA in ETDRS letters}
+\item{quali}{VA categories}
 }
 }
 \usage{
@@ -20,13 +21,21 @@ data("va_chart")
 \description{
 Conversion between snellen, logMAR and ETDRS.
 Snellen feet, meter and decimal supported. Three qualitative common
-vision measures included (light perception, hand movement and counting fingers)
+vision measures included (light perception, hand movement and
+counting fingers). Further details for conversion used can be found in
+\link{va} and \link{va_methods}
 }
-\details{
+\seealso{
 \itemize{
-\item This chart and VA conversion formulas are based on \link{holladay},
-\link{beck} and \link{gregori}. Categories \strong{(no) light perception},
-\strong{counting fingers} and \strong{hand movements} are converted following \link{bach}
+\item This chart and VA conversion formulas are based on charts in
+\href{https://doi.org/10.1016/j.jcrs.2004.01.014}{Holladay et al.},
+\href{https://doi.org/10.1016/s0002-9394(02)01825-1}{Beck et al.},
+\href{https://doi.org/10.1097/iae.0b013e3181d87e04}{Gregori et al.}, and
+https://www.nidek-intl.com/visual_acuity.html.
+Categories \strong{(no) light perception},  \strong{counting fingers}
+and \strong{hand movements} are converted following
+\href{https://doi.org/10.1167/iovs.05-0981}{Schulze-Bonsel et al.}
+and \href{https://michaelbach.de/sci/acuity.html}{Michael Bach's suggestions}
 }
 }
 \keyword{datasets}

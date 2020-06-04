@@ -51,11 +51,12 @@
 #'   va_l = c(30L, 39L, 37L, 40L),
 #'   iop_l = c(31L, 34L, 33L, 31L)
 #' )
-#' myop(iop_va)
+#' myop(iopva)
 #'
 #' @export
 
 myop <- function(x, var_name = "value") {
+  x_sym <- deparse(substitute(x))
   ls_eye <- getElem_eye(x)
   eye_cols <- unlist(ls_eye)
   eye_str <- whole_str(c("eyes", "eye"))(names(x))
@@ -67,9 +68,7 @@ myop <- function(x, var_name = "value") {
     names(x)[names(x) %in% eye_cols] <- paste(eye_cols, var_name, sep = "_")
   }
   if (any(lengths(ls_eye) < 1) | length(eye_str > 0) | !any(grepl("_", names(x)))) {
-    warning("Can't make this myopic - no changes made.
-    Did you separate the eyes? Do you have a column called \"eye\"?
-    See ?myop for help how to format names",
+    warning("Data seems already myopic - no changes made. ?myop for help",
       call. = FALSE
     )
     return(x)
@@ -84,7 +83,8 @@ myop <- function(x, var_name = "value") {
     )
     warning(paste0(
       "Removed duplicate rows from data (rows ",
-      which_dupe, ")"), call. = FALSE)
+      which_dupe, ")"
+    ), call. = FALSE)
     x <- x[!duplicated(x), ]
   }
 
@@ -113,13 +113,15 @@ myopic <- myop
 #' Long eye data
 #' @description pivots longer several columns with "eye" data
 #' @name myop_varswide
+#' @param x object (data frame)
 #' @import tidyr
 #' @importFrom dplyr mutate_all
 
 myop_varswide <- function(x) {
   name_x <- sort_substr(
     tolower(names(x)),
-    within(set_codes(), rm(id, quali, method))
+    set_codes()[base::setdiff(names(set_codes()),
+                              c("id", "quali", "method"))]
   )
   names(x) <- name_x
   x_long <- x %>%

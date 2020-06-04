@@ -2,71 +2,79 @@
 % Please edit documentation in R/va_methods.R
 \name{va_methods}
 \alias{va_methods}
-\alias{tologMAR.quali}
-\alias{tologMAR.NA}
-\alias{toSnellen.quali}
-\alias{toETDRS.quali}
-\alias{tologMAR.snellen}
-\alias{toETDRS.snellen}
-\alias{toSnellen.snellen}
-\alias{toSnellen.logmar}
-\alias{toETDRS.logmar}
-\alias{tologMAR.logmar}
-\alias{toETDRS.etdrs}
-\alias{tologMAR.etdrs}
-\alias{toSnellen.etdrs}
+\alias{convertVA}
+\alias{convertVA.quali}
+\alias{convertVA.snellen}
+\alias{convertVA.logmar}
+\alias{convertVA.etdrs}
+\alias{convertVA.default}
 \title{VA conversion methods}
 \usage{
-tologMAR.quali(x)
+convertVA(x, to, ...)
 
-tologMAR.NA(x)
+\method{convertVA}{quali}(x, to, snellnot, ...)
 
-toSnellen.quali(x, snellen = "ft")
+\method{convertVA}{snellen}(x, to, snellnot, ...)
 
-toETDRS.quali(x)
+\method{convertVA}{logmar}(x, to, snellnot, ...)
 
-tologMAR.snellen(x)
+\method{convertVA}{etdrs}(x, to, snellnot, ...)
 
-toETDRS.snellen(x)
-
-toSnellen.snellen(x, snellen = "ft")
-
-toSnellen.logmar(x, snellen = "ft")
-
-toETDRS.logmar(x)
-
-tologMAR.logmar(x)
-
-toETDRS.etdrs(x)
-
-tologMAR.etdrs(x)
-
-toSnellen.etdrs(x, snellen = "ft")
+\method{convertVA}{default}(x, to, snellnot, ...)
 }
 \arguments{
-\item{x}{Vector with VA entries}
+\item{x}{vector of visual acuities}
 
-\item{snellen}{which Snellen notation to display. Either "sn", "m" or "dec"}
+\item{to}{to which VA class to convert}
+
+\item{...}{further arguments passed to methods}
+
+\item{snellnot}{which snellen notation. One of "ft", "m" or "dec"}
 }
 \description{
-\code{toETDRS.snellen}: Using formula suggested by Gregori et al.
-ETDRS = 85 + 50 * log10(snellen_frac)
-
-\code{toSnellen.logmar}: Rounding logMAR to first digit and
-matching with Snellen entries in \link{va_chart}
-
-\code{toETDRS.logmar}: Rounding logMAR to first digit and
-matching with ETDRS letters in \link{va_chart}
-
-\code{tologMAR.etdrs}: Using formula in Beck et al.
-logMAR = -0.02 * ETDRS + 1.7
-
-\code{toSnellen.etdrs}: Converting to logMAR with
-logMAR = -0.02 * ETDRS + 1.7, rounding this to the first digit,
-and matching the values to Snellen entries in \link{va_chart}
+S3 methods for VA conversion
 }
+\details{
+VA can be snellen feet/meter/decimal, logMAR, ETDRS, or
+"qualitative" (Couting fingers, etc.)
+\itemize{
+\item Snellen fractions need to be either form 6/x or 20/x
+\item ETDRS must be between 0 and 100
+\item logMAR must be between -0.3 and 3.0
+\item Qualitative must be PL, LP, NLP, NPL, HM, CF (any case allowed)
+}
+
+Any element which is not recognized will be converted to NA
+
+For other conversion rules see \link{va}
+}
+\section{Conversion}{
+
+Conversion to snellen notation is not really an exact science,
+considering the somewhat peculiar steps in the historic (but widely used)
+snellen charts, and snellen are not useful for statistics, therefore
+I consider it a conversion out of "interest" and for a ballpoint
+where the VA would be, rather than an exact science.
+
+Therefore, I chose to convert to the closest "equivalent"
+snellen notation for a full line for both ETDRS and logMAR.
+Conversion is done based on the conversion chart \link{va_chart}.
+
+Further:
+\itemize{
+\item logMAR to ETDRS: logMAR rounded to the first digit and converted with
+the chart.
+\item Snellen to logMAR: logMAR = -1 * log10(snellen_frac)
+\item Snellen to ETDRS: ETDRS = 85 + 50 * log10(snellen_frac)
+\href{https://doi.org/10.1097/iae.0b013e3181d87e04}{Gregori et al.}.
+\item ETDRS to logMAR: logMAR = -0.02 * etdrs + 1.7
+\href{https://doi.org/10.1016/s0002-9394(02)01825-1}{Beck et al.}
+}
+}
+
 \seealso{
-Other VA methods: 
-\code{\link{va_generics}}
+Other VA converter: 
+\code{\link{va}()},
+\code{\link{which_va}()}
 }
-\concept{VA methods}
+\concept{VA converter}

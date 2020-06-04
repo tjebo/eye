@@ -76,6 +76,6 @@ iopva <- data.frame(
   va_l = c(30L, 39L, 37L, 40L),
   iop_l = c(31L, 34L, 33L, 31L)
 )
-myop(iop_va)
+myop(iopva)
 
 }
