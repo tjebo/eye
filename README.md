@@ -320,14 +320,15 @@ p <-
 ## Important information
 
 **I do not assume responsability for your data or analysis**. Please
-remain always wary when working with data. If you get results that do
-not make sense, then it is likely that the data is in an unfortunate
-shape for which `eye` is not suitable. I tried to think of many possible
-ways to deal with messy data, but I am sure there will be far more
-creative ways out there to abuse data entries.
+remain always wary when working with data. If you do get results that do
+not make sense, there may be a chance that the data is in an unfortunate
+shape for which `eye` is not suitable. Although I tried to think of many
+possible ways to have peculiar shapes of data, I am sure there will be
+far more creative ways out there to abuse data when entering them into
+spreadsheets.
 
 **eye will work smoother with clean data** (any package will, really\!).
-[See here to learn about clean
+[Learn about clean
 data.](https://tidyr.tidyverse.org/articles/tidy-data.html)
 
 In `eye`, there are not many rules to follow:
