@@ -136,7 +136,7 @@ Same as `eyes`, but as text for reports
 eyestr(amd)
 #> [1] "3357 eyes of 3357 patients"
  
- ## Numbers smaller or equal then 12 will be english words
+ ## Numbers smaller than or equal to 12 will be real English
 eyestr(head(amd, 100))
 #> [1] "Eleven eyes of eleven patients"
 ```
