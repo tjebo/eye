@@ -25,19 +25,14 @@ designed to help with common tasks in eye research:
   - Summarising data with common statistics (mean, sd, n, range)
   - Calculating age of patients
 
-Further, *eye* contains a [real life data set](#amd-data).
+*eye* includes [`amd`](#amd-data), a real life data set of people who
+received intravitreal injections due to age-related macular
+degeneration. (Fasler et al. [2019](#ref-fasler))
 
-Finally, *eye* includes [`geom_trail()`](#geom_trail) for some nice
-trail graphs.
+Finally, *eye* also comes with the ggplot2 extension
+[`geom_trail()`](#geom_trail) for some nice trail graphs.
 
 ## Installation
-
-You can install the released version of eye from
-[CRAN](https://CRAN.R-project.org) with:
-
-``` r
-install.packages("eye") ## not yet available
-```
 
 And the development version from [GitHub](https://github.com/tjebo/eye)
 with:
@@ -65,7 +60,7 @@ library(eye)
     age-related macular degeneration (AMD) who received intravitreal
     anti-VEGF therapy in Moorfields Eye Hospital, London, UK. </br>
     **Kindly reference this data by citing the corresponding
-    publication**.(Fasler et al. 2019)
+    publication**. (Fasler et al. [2019](#ref-fasler))
 
 ### Beyond eyes
 
@@ -83,12 +78,13 @@ Automatic detection of VA notation and convert to logMAR by default (but
 you can convert to snellen or ETDRS as well).
 
   - VA conversion between Snellen, ETDRS and logMAR is based on charts
-    and formulas in (Holladay 2004), (Beck et al. 2003) and (Gregori,
-    Feuer, and Rosenfeld 2010)
+    and formulas in (Holladay [2004](#ref-holladay)), (Beck et al.
+    [2003](#ref-beck)) and (Gregori, Feuer, and Rosenfeld
+    [2010](#ref-gregori))
   - Categories **counting fingers** and **hand movements** are converted
-    following (Schulze-Bonsel et al. 2006)
-  - Categories **no light perception** and **light perception** are
-    converted following the suggestions by Michael Bach
+    following (Schulze-Bonsel et al. [2006](#ref-bach))
+  - Categories **(no) light perception** are converted following the
+    suggestions by Michael Bach
   - Visual acuity conversion chart
 [`va_chart`](#va-conversion-chart)
 
@@ -329,7 +325,7 @@ p <-
     p + geom_trail(aes(group = age_cut10), size = 0) +
         geom_text(aes(label = round(mean_va, 0)), show.legend = FALSE)
 
-<img src="man/figures/README-unnamed-chunk-4-1.png" width="45%" /><img src="man/figures/README-unnamed-chunk-4-2.png" width="45%" />
+<img src="man/figures/README-unnamed-chunk-5-1.png" width="45%" /><img src="man/figures/README-unnamed-chunk-5-2.png" width="45%" />
 
 ## Important information
 

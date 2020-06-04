@@ -2,6 +2,7 @@
 output: github_document
 title: eye
 bibliography: eye.bib
+link-citations: yes
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -32,16 +33,17 @@ column for each variable and a separate column for eyes
 - Summarising data with common statistics (mean, sd, n, range)
 - Calculating age of patients
   
-Further, *eye* contains a [real life data set](#amd-data).
+*eye* includes [`amd`](#amd-data), a real life data set of people who received intravitreal injections due to age-related macular degeneration. [@fasler]
     
-Finally, *eye* includes [`geom_trail()`](#geom_trail) for some nice trail graphs. 
+Finally, *eye* also comes with the ggplot2 extension [`geom_trail()`](#geom_trail) for some nice trail graphs. 
 
 ## Installation
-
-You can install the released version of eye from [CRAN](https://CRAN.R-project.org) with:
-
-``` r
-install.packages("eye") ## not yet available
+```{r include=FALSE}
+# <!-- You can install the released version of eye from [CRAN](https://CRAN.R-project.org) with: -->
+# 
+# <!-- ``` r -->
+# <!-- install.packages("eye") ## not yet available -->
+# <!-- ``` -->
 ```
 And the development version from [GitHub](https://github.com/tjebo/eye) with:
 
@@ -60,7 +62,7 @@ library(eye)
 - blink: [Perceive your data in a blink of an eye](#blink)
 - Visual acuity [conversion chart](#va-conversion-chart)
 - **AMD data**: [Anonymised real life data](https://datadryad.org/stash/dataset/doi:10.5061/dryad.97r9289) from a large cohort of patients with treatment-naive neovascular age-related macular degeneration (AMD) who received intravitreal anti-VEGF therapy in Moorfields Eye Hospital, London, UK. </br>
-**Kindly reference this data by citing the corresponding publication**.[@fasler] 
+**Kindly reference this data by citing the corresponding publication**. [@fasler] 
                   
 ### Beyond eyes
 - reveal: [Get common summary statistics](#reveal)
@@ -73,7 +75,7 @@ Easy conversion from visual acuity notations in a single call to `va()`: Automat
 
 - VA conversion between Snellen, ETDRS and logMAR is based on charts and formulas in [@holladay], [@beck] and [@gregori]
 - Categories **counting fingers** and **hand movements** are converted following [@bach]
-- Categories **no light perception** and **light perception** are converted following the suggestions by Michael Bach
+- Categories **(no) light perception** are converted following the suggestions by Michael Bach
 - Visual acuity conversion chart [`va_chart`](#va-conversion-chart)                             
 ```{r va}
 ## automatic detection of VA notation and converting to logMAR by default
