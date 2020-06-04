@@ -185,16 +185,18 @@ amd_aggr <-
     age_cut10 = cut_width(BaselineAge, 10),
     days_cut90 = cut_width(FollowupDays, 90, labels = seq(0, 810, 90))
   ) %>%
-  summarise(mean_va = mean(VA_ETDRS_Letters))
+  summarise(mean_va = mean(VA_ETDRS_Letters)) %>%
+  filter(as.integer(days_cut90) <= 9)
 ```
 </details>
 
 ```{r geom_trail}
 p <-
-  ggplot(amd_aggr, aes(days_cut90, mean_va, color = age_cut10)) +
+  ggplot(amd_aggr, aes(days_cut90, mean_va, color = age_cut10)) + 
+  scale_color_brewer(palette = "Set1") +
   theme_classic() +
   labs(
-    x = "Follow up time [Days]", y = "Mean VA [ETDRS letters]",
+    x = "Follow up time [binned by 90 days]", y = "Mean VA [ETDRS letters]",
     color = "Age strata"
   )
 ```
