@@ -93,6 +93,11 @@ revealEye.data.frame <- function(x, dec, ...) {
   x
 }
 
+#' @rdname reveal_methods
+#' @export
+revealEye.default <- function(x, dec, ...){
+  NULL
+}
 #' reveals little helper
 #' @name reveal_split
 #' @param x data frame
@@ -110,3 +115,5 @@ reveal_split <- function(x, by){
   ls_x <- split(x[base::setdiff(names(x), by)], eval(parse(text = group)))
   ls_x
 }
+
+

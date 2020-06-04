@@ -6,6 +6,7 @@
 \alias{revealEye.list}
 \alias{revealEye.numeric}
 \alias{revealEye.data.frame}
+\alias{revealEye.default}
 \title{reveals little helper}
 \usage{
 revealEye(x, ...)
@@ -15,6 +16,8 @@ revealEye(x, ...)
 \method{revealEye}{numeric}(x, dec, ...)
 
 \method{revealEye}{data.frame}(x, dec, ...)
+
+\method{revealEye}{default}(x, dec, ...)
 }
 \arguments{
 \item{x}{atomic vector, list of numeric vectors or data frame}

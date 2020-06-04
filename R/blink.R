@@ -25,25 +25,35 @@ blink <- function(x, id = NULL, eye = NULL) {
   x <- myop(x)
   eye_cols <- whole_str(c("eyes", "eye"))(names(x))
   va_cols <- getElem_va(x)
+  iop_cols <- getElem_iop(x)
+
   if (length(va_cols) < 1){
     message("No VA column detected")
+    res_va <- NULL
+    res_va_eyes <- NULL
   } else {
     x <- dplyr::mutate_at(x, .vars = unname(va_cols), .funs = va)
+    res_va <- reveal(x[va_cols])
+    if(length(eye_cols) > 0){
+      res_va_eyes <- reveal(x[c(eye_cols, va_cols)], by = eye_cols)
+    }
+  }
+  if (length(iop_cols) < 1){
+    res_iop <- NULL
+    res_iop_eyes <- NULL
+  } else {
+    res_iop <- reveal(x[iop_cols])
+    if(length(eye_cols) > 0){
+      res_iop_eyes <- reveal(x[c(eye_cols, iop_cols)], by = eye_cols)
+    }
   }
 
   res_count <- eyes(x, id = id, eye = eye)
 
-  res_va <- reveal(x[va_cols])
-
-  if(length(eye_cols) > 0){
-    res_va_eyes <- reveal(x[c(eye_cols, va_cols)], by = eye_cols)
-  } else {
-    res_va_eyes <- NULL
-  }
   ls_blink <- append(list(data = x,
-                   count = res_count,
-                   VA_total = res_va),
-                   list(VA_eyes = res_va_eyes))
+                   count = res_count),
+                   list(VA_total = res_va, VA_eyes = res_va_eyes,
+                        IOP_total = res_iop, IOP_eyes = res_iop_eyes))
 
   class(ls_blink) <- c("blink", class(ls_blink))
   ls_blink

@@ -201,7 +201,9 @@ clean_df
 ### blink
 
 See your data in a blink of an eye - wrapper around [`myop`](#myop),
-[`eyes`](#eyes), [`va`](#va) and [`reveal`](#reveal)
+[`eyes`](#eyes), [`va`](#va) and [`reveal`](#reveal). It will look for
+VA and for IOP columns and provide the summary stats for the entire
+cohort and for right and left eyes for each variable.
 
 ``` r
 blink(messy_df)
@@ -233,6 +235,18 @@ blink(messy_df)
 #> 2   l va_postop  0.8  0 3 0.8 0.8
 #> 3   r  va_preop  0.9  0 3 0.8 0.9
 #> 4   r va_postop  0.7  0 3 0.6 0.7
+#> 
+#> $IOP_total
+#>          var mean  sd n min max
+#> 1  iop_preop   27 5.5 6  21  33
+#> 2 iop_postop   12 0.9 6  11  13
+#> 
+#> $IOP_eyes
+#>   eye        var mean sd n min max
+#> 1   l  iop_preop   32  1 3  31  33
+#> 2   l iop_postop   12  1 3  11  13
+#> 3   r  iop_preop   22  1 3  21  23
+#> 4   r iop_postop   12  1 3  11  13
 #> 
 #> attr(,"class")
 #> [1] "blink" "list"
@@ -343,8 +357,10 @@ In `eye`, there are not many rules to follow:
   - No spaces\!
   - Do not use numeric coding for eyes in column names
   - Use common codes for visual acuity (“VA”, “BCVA”, “Acuity”)
-  - Separate eye and VA codes with underscores (“bcva\_l\_preop”,
-    “VA\_r”, “left\_va”)
+  - Use common codes for intraocular pressure (“IOP”, “GAT”, “NCT”,
+    “pressure”)
+  - Separate eye and VA and IOP codes with underscores
+    (“bcva\_l\_preop”, “VA\_r”, “left\_va”, “IOP\_re”)
   - Keep names short
   - Don’t use underscores when you don’t have to. Consider each section
     divided by an underscore as a relevant characteristic of your

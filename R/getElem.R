@@ -68,6 +68,26 @@ getElem_va <- function(obj, va_chr) {
 }
 
 #' @rdname getElem
+#' @param iop_chr named list with strings for "whole" and "part"
+#' names have to be "whole" and "part"!
+getElem_iop <- function(obj, iop_chr) {
+  if(missing(iop_chr)){
+    iop_chr <-  list(whole = c("iop", "gat", "nct"), part = "pressure")
+  }
+  if (inherits(obj, "data.frame")) {
+    ns_obj <- colnames(obj)
+    iop_cols <- paste0(whole_str(iop_chr$whole)(ns_obj), part_str(iop_chr$part)(ns_obj))
+  } else if (is.atomic(obj)) {
+    iop_cols <- paste0(whole_str(iop_chr$whole)(obj), part_str(iop_chr$part)(obj))
+  } else {
+    iop_cols <- lapply(obj, function(x) {
+      paste0(whole_str(iop_chr$whole)(obj), part_str(iop_chr$part)(obj))
+    })
+  }
+  iop_cols
+}
+
+#' @rdname getElem
 #' @param x vector
 getElem_all <- function(x){
   x <- tolower(x)

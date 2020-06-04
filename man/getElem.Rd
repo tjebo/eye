@@ -5,6 +5,7 @@
 \alias{getElem_id}
 \alias{getElem_eye}
 \alias{getElem_va}
+\alias{getElem_iop}
 \alias{getElem_all}
 \title{Find element based or strings}
 \usage{
@@ -13,6 +14,8 @@ getElem_id(obj, id_chr)
 getElem_eye(obj, eye_chr)
 
 getElem_va(obj, va_chr)
+
+getElem_iop(obj, iop_chr)
 
 getElem_all(x)
 }
@@ -25,6 +28,9 @@ getElem_all(x)
 names have to be "r" and "l"!}
 
 \item{va_chr}{named list with strings for "whole" and "part"
+names have to be "whole" and "part"!}
+
+\item{iop_chr}{named list with strings for "whole" and "part"
 names have to be "whole" and "part"!}
 
 \item{x}{vector}

@@ -144,7 +144,7 @@ clean_df
 ```
 
 ### blink 
-See your data in a blink of an eye - wrapper around [`myop`](#myop), [`eyes`](#eyes), [`va`](#va) and [`reveal`](#reveal)
+See your data in a blink of an eye - wrapper around [`myop`](#myop), [`eyes`](#eyes), [`va`](#va) and [`reveal`](#reveal). It will look for VA and for IOP columns and provide the summary stats for the entire cohort and for right and left eyes for each variable. 
 ```{r}
 blink(messy_df)
 ```
@@ -227,7 +227,8 @@ In `eye`, there are not many rules to follow:
 * No spaces! 
 * Do not use numeric coding for eyes in column names
 * Use common codes for visual acuity ("VA", "BCVA", "Acuity") 
-* Separate eye and VA codes with underscores ("bcva_l_preop", "VA_r", "left_va")
+* Use common codes for intraocular pressure ("IOP", "GAT", "NCT", "pressure") 
+* Separate eye and VA and IOP codes with underscores ("bcva_l_preop", "VA_r", "left_va", "IOP_re")
 * Keep names short
 * Don't use underscores when you don't have to. Consider each section divided by an underscore as a relevant characteristic of your variable. E.g., "preop" instead of "pre_op", or "VA" instead of "VA_ETDRS_Letters"
 * Use common codes for your patient column (e.g., "pat", "patient" or "ID", ideally both: "patientID" or "patID")
