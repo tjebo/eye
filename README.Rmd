@@ -68,10 +68,6 @@ library(eye)
 - geom_trail: [A base plot type = "b" equivalent for ggplot2](#geom_trail)
                           
 ## Details and examples
-```{r, message=FALSE}
-library(tidyverse)
-```
-
 ### va
 - *eye* includes a visual acuity conversion chart: [`va_chart`](#va-conversion-chart) 
 - Chart and VA conversion formulas are based on [@holladay], [@beck] and [@gregori]
@@ -181,6 +177,7 @@ A base plot type = "b" equivalent for ggplot. Works also with text!
 <summary>Prepare AMD data for plot (click to unfold) </summary>
 
 ```{r trail, message=FALSE}
+library(tidyverse)
 amd_aggr <-
   amd %>%
   group_by(

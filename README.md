@@ -76,10 +76,6 @@ library(eye)
 
 ## Details and examples
 
-``` r
-library(tidyverse)
-```
-
 ### va
 
   - *eye* includes a visual acuity conversion chart:
@@ -289,6 +285,7 @@ A base plot type = “b” equivalent for ggplot. Works also with text\!
 <summary>Prepare AMD data for plot (click to unfold) </summary>
 
 ``` r
+library(tidyverse)
 amd_aggr <-
   amd %>%
   group_by(
@@ -315,7 +312,7 @@ p <-
     p + geom_trail(aes(group = age_cut10), size = 0) +
         geom_text(aes(label = round(mean_va, 0)), show.legend = FALSE)
 
-<img src="man/figures/README-unnamed-chunk-5-1.png" width="45%" /><img src="man/figures/README-unnamed-chunk-5-2.png" width="45%" />
+<img src="man/figures/README-unnamed-chunk-4-1.png" width="45%" /><img src="man/figures/README-unnamed-chunk-4-2.png" width="45%" />
 
 ## Important information
 
