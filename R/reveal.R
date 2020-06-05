@@ -85,7 +85,7 @@ revealEye.data.frame <- function(x, dec, ...) {
   x_num <- Filter(f = function(x) {
     sum(is.na(x)) != length(x)
   }, x = x)
-  if (!identical(x, x_num)) {
+  if (!length(x) == length(x_num)) {
     warning("reveal: character elements removed", call. = FALSE)
   }
   result <- lapply(funs_eyeReveal, mapply, x_num)
@@ -94,6 +94,7 @@ revealEye.data.frame <- function(x, dec, ...) {
   x <- cbind(var = rownames(x), data.frame(x, row.names=NULL))
   x
 }
+
 
 #' @rdname reveal_methods
 #' @export

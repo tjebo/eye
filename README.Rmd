@@ -88,6 +88,14 @@ x <- c("NPL", "LP", "HM", "CF","20/200", "6/9", "20/40+3", "20/50-2")
 ## snellen with "plus/minus" entries, mixed with categories 
 va(x)
 
+## A mix of notations is also possible
+x <- c("NLP", "0.8", "34", "3/60", "2/200", "20/40+3", "20/50-2")
+va(x)
+
+## Any fraction is possible, and empty values
+x <- c("CF", "3/60", "2/200", "", "20/40+3", ".", "      ")
+va(x)
+
 ## on the inbuilt data set:
 head(va(amd$VA_ETDRS_Letters), 10) 
 
@@ -291,8 +299,8 @@ c("var1", "var2", "var3")
                                                                               
 ## Acknowledgements
 
-- Thanks to **Tim Yap** (times three), **Siegfried Wagner** (times two) and **Abraham Olvera**, for their proof reading, suggestions and their data testing (which they haven't done yet)
-- Special thanks to Hadley Wickham and all developers of the `tidyverse` packages and the packages `roxygen2`, `usethis`, `testthis` and `devtools`, all on which `eye` heavily relies.
+- Thanks to **Alasdair Warwick** for testing and suggestions, **Tim Yap**, **Siegfried Wagner** for suggestions and **Abraham Olvera** to help testing.
+- Thanks to Hadley Wickham and all developers of the `tidyverse` packages and the packages `roxygen2`, `usethis`, `testthis` and `devtools`, all on which `eye` heavily relies.
 
 ## VA conversion chart
 This chart is included in the package (`va_chart`)

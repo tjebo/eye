@@ -4,6 +4,10 @@
 #' @param x data frame
 #' @param id passed to [eyes]
 #' @param eye passed to [eyes]
+#' @param fct Keep columns for reveal and va that are factors
+#' @param fct_level Remove columns for reveal and va when all unique values
+#' fall into the range of fct_level
+#' @param binary Remove columns for reveal and va with logicals
 #' @details Steps of data processing:
 #'  - checking for duplicate rows and removing them
 #'  - Renaming columns to prepare for myopization and VA conversion
@@ -21,10 +25,14 @@
 
 #' @export
 
-blink <- function(x, id = NULL, eye = NULL) {
+blink <- function(x, id = NULL, eye = NULL,
+                  fct = TRUE, fct_level = 0:4, binary = TRUE) {
   x <- myop(x)
   eye_cols <- whole_str(c("eyes", "eye"))(names(x))
   va_cols <- getElem_va(x)
+  rm_va_cols <- remCols(x = x, va_cols, fct = fct,
+                        fct_level = fct_level, binary = binary)
+  va_cols <- va_cols[rm_va_cols]
   iop_cols <- getElem_iop(x)
 
   if (length(va_cols) < 1){
@@ -36,6 +44,8 @@ blink <- function(x, id = NULL, eye = NULL) {
     res_va <- reveal(x[va_cols])
     if(length(eye_cols) > 0){
       res_va_eyes <- reveal(x[c(eye_cols, va_cols)], by = eye_cols)
+    } else{
+      res_va_eyes <- NULL
     }
   }
   if (length(iop_cols) < 1){
@@ -45,11 +55,11 @@ blink <- function(x, id = NULL, eye = NULL) {
     res_iop <- reveal(x[iop_cols])
     if(length(eye_cols) > 0){
       res_iop_eyes <- reveal(x[c(eye_cols, iop_cols)], by = eye_cols)
+    }else{
+      res_va_eyes <- NULL
     }
   }
-
   res_count <- eyes(x, id = id, eye = eye)
-
   ls_blink <- append(list(data = x,
                    count = res_count),
                    list(VA_total = res_va, VA_eyes = res_va_eyes,
@@ -58,3 +68,33 @@ blink <- function(x, id = NULL, eye = NULL) {
   class(ls_blink) <- c("blink", class(ls_blink))
   ls_blink
 }
+
+#' Remove cols from selected cols
+#' @param x data frame
+#' @param cols cols
+#' @param fct Keep columns for reveal and va that are factors
+#' @param fct_level Remove columns for reveal and va when all unique values
+#' fall into the range of fct_level
+#' @param binary Remove columns for reveal and va with logicals
+#' @description avoiding colums that only
+#' contain values fct_levels or binary,
+#' because they are likely categorical codes.
+#' @rdname remCols
+remCols <- function(x, cols, fct, fct_level, binary) {
+  sapply(cols, function(col) {
+  y <- x[[col]]
+  if(!fct & is.factor(y)){
+    FALSE
+  }
+  if(all(unique(y) %in% fct_level)){
+    FALSE
+  } else if(isTRUE(binary) & all(unique(y) %in% c(TRUE, FALSE))){
+    FALSE
+  } else {
+    TRUE
+  }
+  }
+, USE.NAMES = FALSE)
+}
+
+

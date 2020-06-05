@@ -62,7 +62,7 @@ test_that("error", {
 })
 
 test_that("no error / no warning", {
-  expect_error(va(mixed_VA), regexp = NA)
+
   expect_error(va(logmar, to = "etdrs"), regexp = NA)
   expect_error(va(etdrs), regexp = NA)
   expect_error(va(snellen_dec), regexp = NA)
@@ -83,6 +83,8 @@ test_that("no error / no warning", {
 
 test_that("message", {
   expect_message(va(mixed_VA), "Mixed object")
+  expect_message(va(mixed_VA1), "Mixed object")
+  expect_message(va(mixed_VA2), "Mixed object")
   expect_message(va(etdrs), regexp = "from etdrs")
   expect_message(va(etdrs, from = "etdrs"), regexp = NA)
   expect_message(va(snellen_dec), "from snellen")
@@ -97,6 +99,8 @@ test_that("message", {
 })
 
 test_that("warning", {
+  expect_warning(va(mixed_VA), "NA introduced")
+  expect_warning(va(mixed_VA1), "NA introduced")
   expect_warning(va(etdrs_logmar), "Wavering between logmar and etdrs")
   expect_warning(va(etdrs_logmar_na), "Wavering between logmar and etdrs")
   expect_warning(va(snellen_logmar), "Wavering between logmar and snellen")
@@ -112,6 +116,9 @@ test_that("warning", {
   expect_warning(va(logmar_unplaus), "implausible values")
   expect_warning(va(etdrs_logmar, from = "snellen"), "Ignoring \"from\"")
   expect_warning(va(logmar, to = "snellen", type = "random"), "Ignoring \"type", fixed = TRUE)
+  expect_warning(va(mixed_VA), "implausible values")
+  expect_warning(va(mixed_VA1), "NA introduced")
+  expect_warning(va(mixed_VA), regexp = "NA introduced (character only).", fixed = TRUE)
 
 })
 
@@ -145,27 +152,21 @@ test_that("return", {
 })
 
 
-test_that("No error / no warning: va_dissect", {
-  expect_warning(va_dissect(va_vec), regexp = NA)
-  expect_warning(va_dissect(va_vec1), regexp = NA)
-  expect_warning(va_dissect(va_vec2), regexp = NA)
-  expect_warning(va_dissect(va_vec3), regexp = NA)
-  expect_warning(va_dissect(va_vec4), regexp = NA)
-  expect_warning(va_dissect(va_vec5), regexp = NA)
-  expect_error(va_dissect(va_vec), regexp = NA)
-  expect_error(va_dissect(va_vec1), regexp = NA)
-  expect_error(va_dissect(va_vec2), regexp = NA)
-  expect_error(va_dissect(va_vec3), regexp = NA)
-  expect_error(va_dissect(va_vec4), regexp = NA)
-  expect_error(va_dissect(va_vec5), regexp = NA)
-  expect_warning(va_dissect(mixed_VA2), regexp = NA)
-}
-)
+test_that("No error / no warning", {
+  expect_warning(va(va_vec), regexp = NA)
+  expect_warning(va(va_vec1), regexp = NA)
+  expect_warning(va(va_vec2), regexp = NA)
+  expect_warning(va(va_vec3), regexp = NA)
+  expect_warning(va(va_vec4), regexp = NA)
+  expect_warning(va(va_vec5), regexp = NA)
+  expect_error(va(va_vec), regexp = NA)
+  expect_error(va(va_vec1), regexp = NA)
+  expect_error(va(va_vec4), regexp = NA)
+  expect_error(va(va_vec2), regexp = NA)
+  expect_error(va(va_vec3), regexp = NA)
+  expect_error(va(va_vec5), regexp = NA)
+  expect_warning(va(mixed_VA2), regexp = NA)
 
-test_that("Warning: va_dissect", {
-  expect_warning(va_dissect(mixed_VA), "implausible values")
-  expect_warning(va_dissect(mixed_VA), regexp = "NA introduced (character only).", fixed = TRUE)
-  expect_warning(va_dissect(mixed_VA1), "NA introduced")
 }
 )
 

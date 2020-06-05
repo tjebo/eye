@@ -3,46 +3,28 @@
 \name{va_cleaner}
 \alias{va_cleaner}
 \alias{clean_va}
-\alias{convert_na_va}
-\alias{convert_NLP}
-\alias{remove_plus}
-\alias{isNAstring}
 \title{Visual acuity entry cleaner}
 \usage{
 clean_va(x)
-
-convert_na_va(x)
-
-convert_NLP(x, replace_PL = c(pl = "lp", npl = "nlp"))
-
-remove_plus(x)
-
-isNAstring(
-  x,
-  full = c("\\\\.+", "", "\\\\s+", "n/a", "na", "null"),
-  partial = c("not")
-)
 }
 \arguments{
 \item{x}{Vector with VA entries}
-
-\item{replace_PL}{named vector how to rename qualitative VA}
-
-\item{full}{vector of full strings to be replaced by NA}
-
-\item{partial}{vector of partial strings to be replaced by NA}
 }
 \description{
 Internal functions for VA cleaning.
-
-\code{va_cleaner}: wrapper around \link{convert_na_va}, \link{remove_plus}, and
-\link{convert_NLP}. Assigns \code{NA} to missing entries, removes "plus" and "minus"
-from snellen notation  and simplifies the notation for qualitative VA notation.
-
-\code{convert_na_va}: wrapper around \link{isNAstring}
+\code{va_cleaner}:
+\itemize{
+\item \code{\link[=isNAstring]{isNAstring()}}:
+Replacing empty placeholders (".","", "(any number of empty space)",
+"NULL", "NA" ) with NA with
+\item Removing "plus" and "minus" from snellen notation
+\item \code{\link[=convert_NLP]{convert_NLP()}} Simplifying the notation for qualitative VA notation
+(NPL becomes NLP, PL becomes LP) .
+}
 }
 \seealso{
 Other VA cleaner: 
+\code{\link{convert_NLP}()},
 \code{\link{va}()}
 }
 \concept{VA cleaner}

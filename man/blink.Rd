@@ -4,7 +4,7 @@
 \alias{blink}
 \title{Your data in a blink of an eye}
 \usage{
-blink(x, id = NULL, eye = NULL)
+blink(x, id = NULL, eye = NULL, fct = TRUE, fct_level = 0:4, binary = TRUE)
 }
 \arguments{
 \item{x}{data frame}
@@ -12,6 +12,13 @@ blink(x, id = NULL, eye = NULL)
 \item{id}{passed to \link{eyes}}
 
 \item{eye}{passed to \link{eyes}}
+
+\item{fct}{Keep columns for reveal and va that are factors}
+
+\item{fct_level}{Remove columns for reveal and va when all unique values
+fall into the range of fct_level}
+
+\item{binary}{Remove columns for reveal and va with logicals}
 }
 \description{
 High level function, wrapping \link{myop}, \link{eyes} and \link{reveal}

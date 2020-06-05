@@ -61,6 +61,16 @@ myop <- function(x, var_name = "value") {
   eye_cols <- unlist(ls_eye)
   eye_str <- whole_str(c("eyes", "eye"))(names(x))
 
+  if (anyDuplicated(x)) {
+    which_dupe <- paste(which(duplicated(x) | duplicated(x, fromLast = TRUE)),
+      collapse = ","
+    )
+    warning(paste0(
+      "Removed duplicate rows from data (rows ", which_dupe, ")"
+    ), call. = FALSE)
+    x <- x[!duplicated(x), ]
+  }
+
   if (any(grepl("\\.", names(x)))) {
     names(x) <- gsub("\\.", "_", names(x))
   }
@@ -76,16 +86,6 @@ myop <- function(x, var_name = "value") {
 
   if (length(names(x)) == length(eye_cols)) {
     x$id <- seq_len(nrow(x))
-  }
-  if (anyDuplicated(x)) {
-    which_dupe <- paste(which(duplicated(x) | duplicated(x, fromLast = TRUE)),
-      collapse = ","
-    )
-    warning(paste0(
-      "Removed duplicate rows from data (rows ",
-      which_dupe, ")"
-    ), call. = FALSE)
-    x <- x[!duplicated(x), ]
   }
 
   myop_varswide(x)

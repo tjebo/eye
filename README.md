@@ -107,6 +107,18 @@ va(x)
 #> x: from snellen
 #> [1] 3.00 2.70 2.30 2.00 1.00 0.18 0.30 0.40
 
+## A mix of notations is also possible
+x <- c("NLP", "0.8", "34", "3/60", "2/200", "20/40+3", "20/50-2")
+va(x)
+#> Mixed object (x) - converting one by one
+#> [1] 3.00 0.80 1.02 1.30 2.00 0.30 0.40
+
+## Any fraction is possible, and empty values
+x <- c("CF", "3/60", "2/200", "", "20/40+3", ".", "      ")
+va(x)
+#> x: from snellen
+#> [1] 2.0 1.3 2.0  NA 0.3  NA  NA
+
 ## on the inbuilt data set:
 head(va(amd$VA_ETDRS_Letters), 10) 
 #> Warning: NA introduced (amd$VA_ETDRS_Letters) - implausible values
@@ -458,12 +470,12 @@ c("var1", "var2", "var3")
 
 ## Acknowledgements
 
-  - Thanks to **Tim Yap** (times three), **Siegfried Wagner** (times
-    two) and **Abraham Olvera**, for their proof reading, suggestions
-    and their data testing (which they haven’t done yet)
-  - Special thanks to Hadley Wickham and all developers of the
-    `tidyverse` packages and the packages `roxygen2`, `usethis`,
-    `testthis` and `devtools`, all on which `eye` heavily relies.
+  - Thanks to **Alasdair Warwick** for testing and suggestions, **Tim
+    Yap**, **Siegfried Wagner** for suggestions and **Abraham Olvera**
+    to help testing.
+  - Thanks to Hadley Wickham and all developers of the `tidyverse`
+    packages and the packages `roxygen2`, `usethis`, `testthis` and
+    `devtools`, all on which `eye` heavily relies.
 
 ## VA conversion chart
 

@@ -1,45 +1,60 @@
 #' Visual acuity notation conversion
-#' @description Cleans VA and converts VA notations (classes) into one another.
-#'   `va` will guess the VA class based on specific rules (see details)
+#' @description Cleans and converts visual acuity notations (classes)
+#' between Snellen (decimal, meter and feet), ETDRS, and logMAR.
+#'   `va` detects the VA class and will convert to logMAR as default.
 #' @param x Vector with visual acuity entries. Must be atomic.
-#' @param from from which class to convert. "etdrs", "logmar" or "snellen" -
-#' any case allowed. Ignored if it does not make sense
-#' @param to to which class to convert. "etdrs", "logmar" or "snellen" -
+#' Snellen fractions need to be entered with "/"
+#' @param to To which class to convert. "etdrs", "logmar" or "snellen" -
 #' any case allowed
-#' @param type if to = "snellen", which snellen notation.
-#'   "m", "dec" or "ft"
+#' @param type To which Snellen notation to convert: "m", "dec" or "ft"
+#' @param from From which class to convert. "etdrs", "logmar" or "snellen" -
+#' any case allowed. Ignored if implausible
 #' @name va
-#' @details
-#'   VA can be snellen feet/meter/decimal, logMAR, ETDRS, or
-#' "qualitative" (Couting fingers, etc.), and a mix of those!
+#' @details Each class can be converted from one to another, and va()
+#' converts to logMAR by default. In case of ambiguous detection,
+#' logMAR is selected as default, but you can overrule this with "from".
+#' However, from will be ignored if it does not make sense.
+#' For further details, see the sections below.
+#' @section VA conversion:
+#' - **logMAR to ETDRS**: logMAR rounded to the first digit and converted with
+#' the chart.
+#' - **Snellen to logMAR**: logMAR = -1 * log10(snellen_frac)
+#' - **Snellen to ETDRS**: ETDRS = 85 + 50 * log10(snellen_frac)
+#' [Gregori et al.](https://doi.org/10.1097/iae.0b013e3181d87e04).
+#' - **ETDRS to logMAR**: logMAR = -0.02 * etdrs + 1.7
+#' [Beck et al.](https://doi.org/10.1016/s0002-9394(02)01825-1)
+#' - **Hand movements and counting fingers** are converted following
+#' [Schulze-Bonsel et al.](https://doi.org/10.1167/iovs.05-0981)
+#' - **(No) light perception** are converted following the suggestions by
+#' [Michael Bach](https://michaelbach.de/sci/acuity.html)
+#' - **To Snellen**:
+#' Although there seems to be no good statistical reason to convert
+#' back to Snellen, it is a very natural thing to eye specialists to think
+#' in Snellen. A conversion to snellen gives g good gauge of how the visual
+#' acuity for the patients are. However, back-conversion should not be
+#' considered an exact science and any attempt to use formulas will result
+#' in very weird Snellen values that have no correspondence to common charts.
+#' Therefore, Snellen matching the nearest ETDRS and logMAR value in
+#' the [va_chart] are used.
+#' @section Accepted VA formats:
+#' - Snellen fractions (meter/ feet) need to be entered as fraction with
+#' "/". Any fraction is allowed when converting to ETDRS or logMAR.
+#' When converting to another Snellen fraction, this *has to be*
+#' either 6/ or 20/. Other fractions will not be recognized in those cases.
+#' **See examples**!
 #'
-#'   - Snellen fractions need to be either form 6/x or 20/x
-#'   - ETDRS must be between 0 and 100
-#'   - logMAR must be between -0.3 and 3.0
-#'   - Qualitative must be PL, LP, NLP, NPL, HM, CF (any case allowed)
-#'   For further conversion rules see section "VA guessing"
-#'
-#'   **`va`** cleans visual acuity entries with [clean_va]: it assigns `NA`
-#'   to missing entries, removes "plus" and "minus" from snellen entries
-#'   and unifies the notation for qualitative entries.
-#'
-#'   **`va_dissect`** is very similar to `va`. However, it is less flexible
-#'   and will always convert to logmar. It also does not support
-#'   snellen decimals! Usually you don't need to use it -
-#'   It is internally called when [which_va] guesses "mixed" notation.
-#'
-#'   Distinction between logMAR and snellen decimals, or between ETDRS and
-#'   logMAR can be ambiguous in some special cases and **logmar** is picked -
-#'   provide *from* if you want something else.
-#'
-#'   **snellen decimals** are a particular challenge and `va` may wrongly
-#'   assign  logMAR - this could happen if you have weird snellen decimal
-#'   values that are not found in [va_chart]. E.g., check with `unique(x)`.
-#'
-#'   *quali* class represents "(No) light perception", "hand movements"
-#'   and "counting fingers" and are converted to logmar following the
-#'   suggestions by [Michael Bach](https://michaelbach.de/sci/acuity.html)
-#' @section VA guessing:
+#' Each value will be recognized as Snellen (also 3/60 and 2/200).
+#' `c("NLP", "HM", "CF", "3/60", "2/200", "0.8", "20/40+3", "20/50-2")`
+#' 3/60 and 2/200 will not be recognized because they
+#' - ETDRS must be integer-equivalent between 0 and 100 (integer equivalent
+#' means, it can also be a character vector)
+#' - logMAR must be between -0.3 and 3.0
+#' - Qualitative must be either of PL, LP, NLP, NPL, HM, CF (any case allowed)
+#' - Any element which is not recognized will be converted to NA
+#' - Vectors containing several notations ("mixed") are guessed and converted
+#'   element by element with [which_va_dissect] and [va_dissect]
+#' @section VA detection:
+#'   - Internally done with [which_va()] based on the following rules
 #'   - if x integer and 3 < x <= 100: `etdrs`
 #'   - if x integer and 0 <= x <= 3: `logmar`, but you can choose `etdrs`
 #'   - if x numeric and -0.3 <= x <= 3: `logmar`
@@ -50,10 +65,25 @@
 #'   - if character and format x/y: `snellen` (fraction)
 #'   - if one of "CF", "HM", "LP", "PL", "NLP", or "NPL": `quali`
 #'   - if numeric x beyond the ranges from above: `NA`
-#'   - Any other string or NA: `NA`
+#'   - Any other string or NA: NA
+#'
+#' @section Problematic cases:
+#' There can be ambiguous cases for detection (detection defaults to logmar):
+#' x is one of 0,1,2,3 - This can be ETDRS and logMAR.
+#' x is one of c(1.5, 1, 0.8, 0.5, 0.4, 0.3, 0.2, 0.1, 0) - This can be
+#' snellen decimal or logMAR.
+#'
+#' **snellen decimals** are a particular challenge and `va` may wrongly
+#'   assign  logMAR - this could happen if there are unusual snellen decimal
+#'   values in the data which are not part of [va_chart]. E.g., check the
+#'   values with `unique(x)`.
+#' @section VA cleaning:
+#'   `NA`are assigned to missing entries or empty strings such as "." or "",
+#'   "plus" and "minus" from Snellen entries are removed and the
+#'   notation for qualitative entriesis simplified.
+#'   For more details see [clean_va()]
 #' @return
 #' - **va**: vector of class set with `to` argument
-#' - **va_dissect**: Named vector of class `logmar`
 #' @family Ophthalmic functions
 #' @family VA converter
 #' @family VA cleaner
@@ -70,8 +100,19 @@
 #' va(c("NLP", "NPL", "PL", "LP", "HM", "CF", "6/60", "20/200", "6/9",
 #'  "20/40", "20/40+3", "20/50-2"))
 #'
+#' ## A mix of notations is also possible
+#' x <- c("NLP", "0.8", "34", "3/60", "2/200", "20/40+3", "20/50-2")
+#' va(x)
+#'
+#' ## Any fraction is possible, and empty values
+#' x <- c("CF", "3/60", "2/200", "", "20/40+3", ".", "      ")
+#' va(x)
+#'
+#' ## but this not any fraction when converting from one class to the other
+#' x <- c("3/60", "2/200", "6/60", "20/200", "6/9")
+#' va(x, to="snellen", type = "m")
 #' @export
-va <- function(x, from = NULL, to = "logmar", type = "ft") {
+va <- function(x, to = "logmar", type = NULL, from = NULL) {
   if (!is.atomic(x)) {
     stop("x must be atomic", call. = FALSE)
   }
@@ -96,33 +137,21 @@ va <- function(x, from = NULL, to = "logmar", type = "ft") {
     if (is.character(x) | is.factor(x)) {
       x <- clean_va(x)
     }
+
     guess_va <- which_va(x)
+
     if (all(guess_va == "NA")) {
-      warning(paste0(
-        "No conversion (",
-        x_sym,
-        ") - vector of NA"
-      ), call. = FALSE)
+      warning(paste0("No conversion (", x_sym, ") - vector of NA"), call. = FALSE)
       return(x)
     }
     if (any(guess_va %in% "mixed")) {
-      message(paste0(
-        "Mixed object (",
-        x_sym,
-        ") - using va_dissect()"
-      ))
-      new_va <- sapply(as.character(x), which_va_dissect, USE.NAMES = FALSE)
+      message(paste0("Mixed object (", x_sym, ") - converting one by one"))
+      new_va <- va_dissect(x)
       return(new_va)
     }
     if (length(guess_va) == 2) {
       if (any(guess_va %in% "implaus")) {
-        warning(paste0(
-          "NA introduced (",
-          x_sym,
-          ") - implausible values"
-        ),
-        call. = FALSE
-        )
+        warning(paste0("NA introduced (", x_sym, ") - implausible values"), call. = FALSE)
         class_va <- guess_va[1]
       } else if (is.null(from)) {
         warning(paste("Wavering between", guess_va[1], "and", guess_va[2], "- picked logMAR!
@@ -164,112 +193,39 @@ va <- function(x, from = NULL, to = "logmar", type = "ft") {
   class(x) <- class_va
 
   if (to == "snellen") {
-    if (!type %in% c("ft", "m", "dec")) {
+    if (is.null(type)){
+      type <- "ft"
+    } else if(!type %in% c("ft", "m", "dec")) {
       warning(
-      paste0("Ignoring \"type = ",
-             type, "\" - must be ft, m, or dec. Converting to ft"),
+        paste0(
+          "Ignoring \"type = ",
+          type, "\" - must be ft, m, or dec. Converting to ft"
+        ),
         call. = FALSE
       )
       type <- "ft"
     }
-    }
-convertVA(x, to = to, snellnot = type)
+  }
+  convertVA(x, to = to, snellnot = type)
 }
 
-#' @rdname va
-#' @export
-convert_va <- va
 
-#' @rdname va
-#' @export
+#' Converting each VA element
+#' @param x vector of VA.
+#' @description Helper for [va()] if  [which_va()] finds "mixed" VA
+#' Does require the VA vector to be prepared with [clean_va()] first.
+#' convert seach VA vector element individually
+#' @rdname va_dissect
+#' @family VA converter
 va_dissect <- function(x) {
-  if (!is.atomic(x)) {
-    stop("x must be atomic", call. = FALSE)
-  }
-  x_clean <- clean_va(as.character(x))
-  new_va <- sapply(x_clean,
+  new_va <- sapply(x,
     function(elem) {
       class_va <- which_va_dissect(elem)
       class(elem) <- class_va
       convertVA(elem, to = "logmar")
       }, USE.NAMES = FALSE)
-
   new_va
 }
 
-#' Guessing the VA class
-#' @name which_va
-#' @param x Vector with VA entries
-#' @description Guessing the VA notation (VA class)
-#' * `which_va`: guessing VA class for entire vector
-#' @family VA helper
-#' @family VA converter
-#'
-which_va <- function(x) {
-  x <- tolower(suppressWarnings(as.character(x)))
-  if (all(is.na(x))) {
-    return("NA")
-  }
-  if (all(x[!is.na(x)] %in% unlist(set_codes()["quali"]))) {
-    return("quali")
-  }
-  x_noquali <- x[!x %in% unlist(set_codes()["quali"])]
-  x_num <- suppressWarnings(as.numeric(x_noquali))
-  if (all(grepl("/", x_noquali[!is.na(x_noquali)]))) {
-    return("snellen")
-  } else if (any(grepl("/", x_noquali[!is.na(x_noquali)]))) {
-    return("mixed")
-  }
 
-  if (all(is.na(x_num))) {
-    return("failed")
-  }
-  x_numval <- x_num[!is.na(x_num)]
-  if (length(x_numval) < length(x_noquali[!is.na(x_noquali)])) {
-    return("mixed")
-  }
 
-  if (all(x_numval == as.integer(x_numval))) {
-    if (all(x_numval %in% 0:3)) {
-      return(c("logmar", "etdrs"))
-    } else if (all(x_numval >= 0) & all(x_numval <= 100)) {
-      return("etdrs")
-    } else {
-      return(c("etdrs", "implaus"))
-    }
-  }
-
-  if (all(round(x_num[!is.na(x_num)], 2) %in% inter_snelllog)) {
-    return(c("logmar", "snellen"))
-  } else if (all(round(x_num, 3) %in% as.numeric(va_chart$snellen_dec))) {
-    return("snellen")
-  } else if (any(x_numval < -0.3 | any(x_numval > 3))) {
-    return(c("logmar", "implaus"))
-  } else {
-    return("logmar")
-  }
-}
-
-#' @rdname which_va
-#' @param elem element of vector to convert
-#' @description * `which_va_dissect`: guessing VA class for each vector element
-which_va_dissect <- function(elem) {
-  guess_va <- which_va(elem)
-
-  if (length(guess_va) == 2) {
-    if (any(guess_va %in% "implaus")) {
-      warning("NA introduced (implausible values)", call. = FALSE)
-    }
-    guess_va <- "logmar"
-    class_va <- "logmar"
-  } else if (guess_va == "failed") {
-    warning("NA introduced (character only). See ?va for help",
-      call. = FALSE
-    )
-    elem <- NA
-    class_va <- "logmar"
-  } else {
-    class_va <- guess_va
-  }
-  class_va
-}

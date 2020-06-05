@@ -2,73 +2,93 @@
 % Please edit documentation in R/va.R
 \name{va}
 \alias{va}
-\alias{convert_va}
-\alias{va_dissect}
 \title{Visual acuity notation conversion}
 \usage{
-va(x, from = NULL, to = "logmar", type = "ft")
-
-convert_va(x, from = NULL, to = "logmar", type = "ft")
-
-va_dissect(x)
+va(x, to = "logmar", type = NULL, from = NULL)
 }
 \arguments{
-\item{x}{Vector with visual acuity entries. Must be atomic.}
+\item{x}{Vector with visual acuity entries. Must be atomic.
+Snellen fractions need to be entered with "/"}
 
-\item{from}{from which class to convert. "etdrs", "logmar" or "snellen" -
-any case allowed. Ignored if it does not make sense}
-
-\item{to}{to which class to convert. "etdrs", "logmar" or "snellen" -
+\item{to}{To which class to convert. "etdrs", "logmar" or "snellen" -
 any case allowed}
 
-\item{type}{if to = "snellen", which snellen notation.
-"m", "dec" or "ft"}
+\item{type}{To which Snellen notation to convert: "m", "dec" or "ft"}
+
+\item{from}{From which class to convert. "etdrs", "logmar" or "snellen" -
+any case allowed. Ignored if implausible}
 }
 \value{
 \itemize{
 \item \strong{va}: vector of class set with \code{to} argument
-\item \strong{va_dissect}: Named vector of class \code{logmar}
 }
 }
 \description{
-Cleans VA and converts VA notations (classes) into one another.
-\code{va} will guess the VA class based on specific rules (see details)
+Cleans and converts visual acuity notations (classes)
+between Snellen (decimal, meter and feet), ETDRS, and logMAR.
+\code{va} detects the VA class and will convert to logMAR as default.
 }
 \details{
-VA can be snellen feet/meter/decimal, logMAR, ETDRS, or
-"qualitative" (Couting fingers, etc.), and a mix of those!
+Each class can be converted from one to another, and va()
+converts to logMAR by default. In case of ambiguous detection,
+logMAR is selected as default, but you can overrule this with "from".
+However, from will be ignored if it does not make sense.
+For further details, see the sections below.
+}
+\section{VA conversion}{
+
 \itemize{
-\item Snellen fractions need to be either form 6/x or 20/x
-\item ETDRS must be between 0 and 100
+\item \strong{logMAR to ETDRS}: logMAR rounded to the first digit and converted with
+the chart.
+\item \strong{Snellen to logMAR}: logMAR = -1 * log10(snellen_frac)
+\item \strong{Snellen to ETDRS}: ETDRS = 85 + 50 * log10(snellen_frac)
+\href{https://doi.org/10.1097/iae.0b013e3181d87e04}{Gregori et al.}.
+\item \strong{ETDRS to logMAR}: logMAR = -0.02 * etdrs + 1.7
+\href{https://doi.org/10.1016/s0002-9394(02)01825-1}{Beck et al.}
+\item \strong{Hand movements and counting fingers} are converted following
+\href{https://doi.org/10.1167/iovs.05-0981}{Schulze-Bonsel et al.}
+\item \strong{(No) light perception} are converted following the suggestions by
+\href{https://michaelbach.de/sci/acuity.html}{Michael Bach}
+\item \strong{To Snellen}:
+Although there seems to be no good statistical reason to convert
+back to Snellen, it is a very natural thing to eye specialists to think
+in Snellen. A conversion to snellen gives g good gauge of how the visual
+acuity for the patients are. However, back-conversion should not be
+considered an exact science and any attempt to use formulas will result
+in very weird Snellen values that have no correspondence to common charts.
+Therefore, Snellen matching the nearest ETDRS and logMAR value in
+the \link{va_chart} are used.
+}
+}
+
+\section{Accepted VA formats}{
+
+\itemize{
+\item Snellen fractions (meter/ feet) need to be entered as fraction with
+"/". Any fraction is allowed when converting to ETDRS or logMAR.
+When converting to another Snellen fraction, this \emph{has to be}
+either 6/ or 20/. Other fractions will not be recognized in those cases.
+\strong{See examples}!
+}
+
+Each value will be recognized as Snellen (also 3/60 and 2/200).
+\code{c("NLP", "HM", "CF", "3/60", "2/200", "0.8", "20/40+3", "20/50-2")}
+3/60 and 2/200 will not be recognized because they
+\itemize{
+\item ETDRS must be integer-equivalent between 0 and 100 (integer equivalent
+means, it can also be a character vector)
 \item logMAR must be between -0.3 and 3.0
-\item Qualitative must be PL, LP, NLP, NPL, HM, CF (any case allowed)
-For further conversion rules see section "VA guessing"
+\item Qualitative must be either of PL, LP, NLP, NPL, HM, CF (any case allowed)
+\item Any element which is not recognized will be converted to NA
+\item Vectors containing several notations ("mixed") are guessed and converted
+element by element with \link{which_va_dissect} and \link{va_dissect}
+}
 }
 
-\strong{\code{va}} cleans visual acuity entries with \link{clean_va}: it assigns \code{NA}
-to missing entries, removes "plus" and "minus" from snellen entries
-and unifies the notation for qualitative entries.
-
-\strong{\code{va_dissect}} is very similar to \code{va}. However, it is less flexible
-and will always convert to logmar. It also does not support
-snellen decimals! Usually you don't need to use it -
-It is internally called when \link{which_va} guesses "mixed" notation.
-
-Distinction between logMAR and snellen decimals, or between ETDRS and
-logMAR can be ambiguous in some special cases and \strong{logmar} is picked -
-provide \emph{from} if you want something else.
-
-\strong{snellen decimals} are a particular challenge and \code{va} may wrongly
-assign  logMAR - this could happen if you have weird snellen decimal
-values that are not found in \link{va_chart}. E.g., check with \code{unique(x)}.
-
-\emph{quali} class represents "(No) light perception", "hand movements"
-and "counting fingers" and are converted to logmar following the
-suggestions by \href{https://michaelbach.de/sci/acuity.html}{Michael Bach}
-}
-\section{VA guessing}{
+\section{VA detection}{
 
 \itemize{
+\item Internally done with \code{\link[=which_va]{which_va()}} based on the following rules
 \item if x integer and 3 < x <= 100: \code{etdrs}
 \item if x integer and 0 <= x <= 3: \code{logmar}, but you can choose \code{etdrs}
 \item if x numeric and -0.3 <= x <= 3: \code{logmar}
@@ -79,8 +99,29 @@ suggestions by \href{https://michaelbach.de/sci/acuity.html}{Michael Bach}
 \item if character and format x/y: \code{snellen} (fraction)
 \item if one of "CF", "HM", "LP", "PL", "NLP", or "NPL": \code{quali}
 \item if numeric x beyond the ranges from above: \code{NA}
-\item Any other string or NA: \code{NA}
+\item Any other string or NA: NA
 }
+}
+
+\section{Problematic cases}{
+
+There can be ambiguous cases for detection (detection defaults to logmar):
+x is one of 0,1,2,3 - This can be ETDRS and logMAR.
+x is one of c(1.5, 1, 0.8, 0.5, 0.4, 0.3, 0.2, 0.1, 0) - This can be
+snellen decimal or logMAR.
+
+\strong{snellen decimals} are a particular challenge and \code{va} may wrongly
+assign  logMAR - this could happen if there are unusual snellen decimal
+values in the data which are not part of \link{va_chart}. E.g., check the
+values with \code{unique(x)}.
+}
+
+\section{VA cleaning}{
+
+\code{NA}are assigned to missing entries or empty strings such as "." or "",
+"plus" and "minus" from Snellen entries are removed and the
+notation for qualitative entriesis simplified.
+For more details see \code{\link[=clean_va]{clean_va()}}
 }
 
 \examples{
@@ -96,13 +137,26 @@ va(x, to = "snellen")
 va(c("NLP", "NPL", "PL", "LP", "HM", "CF", "6/60", "20/200", "6/9",
  "20/40", "20/40+3", "20/50-2"))
 
+## A mix of notations is also possible
+x <- c("NLP", "0.8", "34", "3/60", "2/200", "20/40+3", "20/50-2")
+va(x)
+
+## Any fraction is possible, and empty values
+x <- c("CF", "3/60", "2/200", "", "20/40+3", ".", "      ")
+va(x)
+
+## but this not any fraction when converting from one class to the other
+x <- c("3/60", "2/200", "6/60", "20/200", "6/9")
+va(x, to="snellen", type = "m")
 }
 \seealso{
 Other VA converter: 
+\code{\link{va_dissect}()},
 \code{\link{va_methods}},
 \code{\link{which_va}()}
 
 Other VA cleaner: 
+\code{\link{convert_NLP}()},
 \code{\link{va_cleaner}}
 }
 \concept{Ophthalmic functions}

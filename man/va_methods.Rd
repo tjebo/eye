@@ -74,6 +74,7 @@ the chart.
 
 \seealso{
 Other VA converter: 
+\code{\link{va_dissect}()},
 \code{\link{va}()},
 \code{\link{which_va}()}
 }
