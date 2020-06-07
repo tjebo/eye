@@ -4,21 +4,10 @@
 \alias{blink}
 \title{Your data in a blink of an eye}
 \usage{
-blink(
-  x,
-  id = NULL,
-  eye = NULL,
-  va_cols = NULL,
-  iop_cols = NULL,
-  fct_level = 1:4
-)
+blink(x, va_cols = NULL, iop_cols = NULL, fct_level = 0:4)
 }
 \arguments{
 \item{x}{data frame}
-
-\item{id}{passed to \link{eyes}}
-
-\item{eye}{passed to \link{eyes}}
 
 \item{va_cols}{if specified, overruling automatic VA columns selection.
 tidyselection supported}

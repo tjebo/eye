@@ -5,8 +5,6 @@
 #' column naming - please see section "column names" and "data coding".
 #' @name blink
 #' @param x data frame
-#' @param id passed to [eyes]
-#' @param eye passed to [eyes]
 #' @param va_cols if specified, overruling automatic VA columns selection.
 #'   tidyselection supported
 #' @param iop_cols if specified, overruling automatic IOP columns selection
@@ -79,15 +77,15 @@
 
 #' @export
 
-blink <- function(x, id = NULL, eye = NULL, va_cols = NULL, iop_cols = NULL,
-                  fct_level = 1:4) {
-  if(!rlang::quo_is_null(enquo(va_cols))){
+blink <- function(x, va_cols = NULL, iop_cols = NULL,
+                  fct_level = 0:4) {
+  if(!rlang::quo_is_null(rlang::enquo(va_cols))){
       x_exp <- rlang::enquo(va_cols)
       va_index <- unname(tidyselect::eval_select(x_exp, x))
   } else {
     va_index <- which(names(x) %in% getElem_va(x))
   }
-  if(!rlang::quo_is_null(enquo(iop_cols))){
+  if(!rlang::quo_is_null(rlang::enquo(iop_cols))){
     x_exp <- rlang::enquo(iop_cols)
     iop_index <- unname(tidyselect::eval_select(x_exp, x))
   } else {
@@ -135,8 +133,10 @@ blink <- function(x, id = NULL, eye = NULL, va_cols = NULL, iop_cols = NULL,
       res_iop_eyes <- NULL
     }
   }
+  x_myop <- tibble::as_tibble(x_myop)
 
-  res_count <- eyes(x, id = id, eye = eye)
+  res_count <- eyes(x_myop)
+
   ls_blink <- Filter(x = list(data = x_myop, count = res_count,
                    VA_total = res_va, VA_eyes = res_va_eyes,
                    IOP_total = res_iop, IOP_eyes = res_iop_eyes),

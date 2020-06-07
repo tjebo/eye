@@ -17,11 +17,10 @@ test <- structure(list(VA_ETDRS_Letters = c(44, 81, 50, 40, 32, 34)), row.names 
 # alasdair <- read.csv("./data-raw/alasdair.csv")
 # alasdair1 <- read.csv("./data-raw/alasdair1.csv")
 # abraham <- read.csv("./data-raw/abraham.csv")
-# alas <- read.csv("./data-raw/alas.csv")
-# blink(amd)
-# blink(abraham)
-# blink(alasdair)
-# blink(alasdair1)
+# # alas <- read.csv("./data-raw/alas.csv")
+# # blink(amd)
+# # blink(abraham)
+
 test_that("no error", {
   #expect_error(myop(abraham), regexp = NA)
   expect_error(myop(amd), regexp = NA)

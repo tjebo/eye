@@ -80,7 +80,7 @@ myopic <- myop
 #' @family myopizer
 
 myop_pivot <- function(x) {
-  x_long <- x %>%
+  x_myop <- x %>%
     dplyr::mutate_all(as.character) %>%
     tidyr::pivot_longer(
       cols = tidyr::matches("^(r|l)_"),
@@ -90,7 +90,7 @@ myop_pivot <- function(x) {
     tidyr::extract("eyekey", regex = "^(r|l)_(.*)", into = c("eye", "eyekey")) %>%
     tidyr::pivot_wider(names_from = "eyekey", values_from = "new_val_wow")
 
-  x_long
+  x_myop
 }
 
 #' Rename
