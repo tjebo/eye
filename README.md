@@ -208,8 +208,9 @@ cohort and for right and left eyes for each variable.
 blink(messy_df)
 #> va_preop: from etdrs
 #> va_postop: from etdrs
-#> No eye column found: Counting patients only
-#> $data
+#> 
+#> ── blink ────────────────────────────────────────────────────────────
+#> ══ Data ════════════════════════════════
 #> # A tibble: 8 x 7
 #>   id    eye   surgery iop_preop iop_postop va_preop va_postop
 #>   <chr> <chr> <chr>   <chr>     <chr>      <logmar> <logmar> 
@@ -222,36 +223,37 @@ blink(messy_df)
 #> 7 d     r     SLT     24        14         0.82     0.74     
 #> 8 d     l     SLT     34        14         0.82     0.74     
 #> 
-#> $count
-#> patients 
-#>        4 
+#> ══ Count of patient and eyes ═══════════
+#> patients     eyes    right     left 
+#>        4        8        4        4 
 #> 
-#> $VA_total
+#> ══ Visual acuity ═══════════════════════
+#> 
+#> ── $VA_total (all eyes)
 #>         var mean sd n min max
 #> 1  va_preop  0.8  0 8 0.8 0.9
 #> 2 va_postop  0.8  0 8 0.7 0.8
 #> 
-#> $VA_eyes
+#> ── $VA_eyes (right and left eyes)
 #>   eye       var mean sd n min max
 #> 1   l  va_preop  0.8  0 4 0.8 0.9
 #> 2   l va_postop  0.8  0 4 0.7 0.8
 #> 3   r  va_preop  0.8  0 4 0.8 0.9
 #> 4   r va_postop  0.8  0 4 0.7 0.8
 #> 
-#> $IOP_total
+#> ══ Intraocular pressure ════════════════
+#> 
+#> ── $IOP_total (all eyes)
 #>          var mean  sd n min max
 #> 1  iop_preop 27.5 5.5 8  21  34
 #> 2 iop_postop 12.5 1.2 8  11  14
 #> 
-#> $IOP_eyes
+#> ── $IOP_eyes (right and left eyes)
 #>   eye        var mean  sd n min max
 #> 1   l  iop_preop 32.5 1.3 4  31  34
 #> 2   l iop_postop 12.5 1.3 4  11  14
 #> 3   r  iop_preop 22.5 1.3 4  21  24
 #> 4   r iop_postop 12.5 1.3 4  11  14
-#> 
-#> attr(,"class")
-#> [1] "blink" "list"
 ```
 
 ### reveal

@@ -153,6 +153,7 @@ clean_df
 
 ### blink 
 See your data in a blink of an eye - wrapper around [`myop`](#myop), [`eyes`](#eyes), [`va`](#va) and [`reveal`](#reveal). It will look for VA and for IOP columns and provide the summary stats for the entire cohort and for right and left eyes for each variable. 
+
 ```{r}
 blink(messy_df)
 ```
