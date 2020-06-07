@@ -10,8 +10,11 @@
 #' @details
 #' `eyes` guesses columns that identify patients and eyes.
 #' @section Guessing:
-#' For any below, all cases are always ignored (you can write in
+#' For any below, **cases are always ignored** (you can write in
 #' upper or lower case, as you please)
+#'
+#' **id** and **eye** arguments overrule the name guessing for
+#' the respective columns.
 #'
 #' **patient ID columns**:
 #' - First, `eyes` is looking for names that contain both strings
@@ -23,14 +26,12 @@
 #' **eye variable column**:
 #' - `eyes` looks for columns called either "eye" or "eyes"
 #'
-#' **id** and **eye** arguments overrule the name guessing
-#'
-#'  @section Eye coding:
+#' @section Eye coding:
 #' - `eyes` recognizes integer coding 0:1 and 1:2, with right being
 #'    the lower number. For strings coding it recognizes
 #'    right eyes: c("r", "re", "od", "right") and
 #'    left eyes: c("l", "le", "os", "left")
-#' @section report:
+#' @section Report:
 #'  Using [eyes_to_string] to parse the output of `eyes` into
 #'  a text which you can use for reports. Arguments to `eyes_to_string`
 #'  are passed via **...**:

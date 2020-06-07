@@ -65,16 +65,12 @@ the \link{va_chart} are used.
 
 \itemize{
 \item Snellen fractions (meter/ feet) need to be entered as fraction with
-"/". Any fraction is allowed when converting to ETDRS or logMAR.
-When converting to another Snellen fraction, this \emph{has to be}
-either 6/ or 20/. Other fractions will not be recognized in those cases.
-\strong{See examples}!
-}
-
-Each value will be recognized as Snellen (also 3/60 and 2/200).
-\code{c("NLP", "HM", "CF", "3/60", "2/200", "0.8", "20/40+3", "20/50-2")}
-3/60 and 2/200 will not be recognized because they
-\itemize{
+"/".
+\item \strong{when converting to ETDRS or logMAR}: any fraction is allowed ,
+e.g. 3/60 and 2/200 will also be recognized.
+\item \strong{When converting between Snellen fractions}:
+\emph{has to be either 6/ or 20/}. Other fractions will not be recognized -
+see \strong{"Examples"}!
 \item ETDRS must be integer-equivalent between 0 and 100 (integer equivalent
 means, it can also be a character vector)
 \item logMAR must be between -0.3 and 3.0

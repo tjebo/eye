@@ -30,6 +30,9 @@ print.etdrs <- function(x, ...) {
 #' @param x object of class "blink"
 #' @param ... arguments passed to [print.default]
 #' @export
+#' @importFrom cli cli_h1
+#' @importFrom cli cli_h3
+#' @importFrom cli rule
 #' @family print methods
 print.blink <- function(x, ...) {
   cli::cli_h1("blink")

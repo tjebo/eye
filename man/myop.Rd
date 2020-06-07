@@ -57,7 +57,7 @@ If there are only eye columns in your data (should actually not happen),
 myop will create identifiers by row position.
 
 \strong{Please always check the result for plausibility.}
-Depending a lot on how the data was entere, the results could become
+Depending a lot on how the data was entered, the results could become
 quite surprising. There is basically a nearly infinite amount of
 possible combinations of how to enter data, and it is likely that
 myop will not be able to deal with all of them
@@ -73,4 +73,8 @@ iopva <- data.frame(
 )
 myop(iopva)
 
+iop_wide <- data.frame(id = letters[1:3],  r = 11:13 , l = 14:16)
+# the variable has not been exactly named, so you can specify
+# it with the var argument
+myop(iop_wide, var = "iop")
 }

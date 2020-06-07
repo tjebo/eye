@@ -19,11 +19,13 @@ Suggests:
     testthat
 Imports: 
     dplyr (>= 0.8.5),
+    cli (>= 2.0.2),
     english (>= 1.2-5),
     lubridate (>= 1.7.8),
     ggplot2 (>= 3.3.0),
     magrittr (>= 1.5),
     rlang (>= 0.4.6),
     stringr (>= 1.4.0),
+    tibble (>= 3.0.1),
     tidyr (>= 1.0.3),
     tidyselect (>= 1.1.0)

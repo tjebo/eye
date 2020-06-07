@@ -64,6 +64,7 @@
 #'  @importFrom dplyr mutate_at
 #'  @importFrom rlang enquo
 #'  @importFrom tidyselect eval_select
+#'  @importFrom tibble as_tibble
 #' @examples
 #' blink(amd)
 #'

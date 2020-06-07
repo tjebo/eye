@@ -38,14 +38,12 @@
 #' the [va_chart] are used.
 #' @section Accepted VA formats:
 #' - Snellen fractions (meter/ feet) need to be entered as fraction with
-#' "/". Any fraction is allowed when converting to ETDRS or logMAR.
-#' When converting to another Snellen fraction, this *has to be*
-#' either 6/ or 20/. Other fractions will not be recognized in those cases.
-#' **See examples**!
-#'
-#' Each value will be recognized as Snellen (also 3/60 and 2/200).
-#' `c("NLP", "HM", "CF", "3/60", "2/200", "0.8", "20/40+3", "20/50-2")`
-#' 3/60 and 2/200 will not be recognized because they
+#' "/".
+#' - **when converting to ETDRS or logMAR**: any fraction is allowed ,
+#' e.g. 3/60 and 2/200 will also be recognized.
+#' - **When converting between Snellen fractions**:
+#' *has to be either 6/ or 20/*. Other fractions will not be recognized -
+#' see **"Examples"**!
 #' - ETDRS must be integer-equivalent between 0 and 100 (integer equivalent
 #' means, it can also be a character vector)
 #' - logMAR must be between -0.3 and 3.0

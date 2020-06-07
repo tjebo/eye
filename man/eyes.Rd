@@ -43,8 +43,11 @@ Counts number of patients and eyes (right and left).
 }
 \section{Guessing}{
 
-For any below, all cases are always ignored (you can write in
+For any below, \strong{cases are always ignored} (you can write in
 upper or lower case, as you please)
+
+\strong{id} and \strong{eye} arguments overrule the name guessing for
+the respective columns.
 
 \strong{patient ID columns}:
 \itemize{
@@ -59,10 +62,10 @@ or "id"
 \itemize{
 \item \code{eyes} looks for columns called either "eye" or "eyes"
 }
+}
 
-\strong{id} and \strong{eye} arguments overrule the name guessing
+\section{Eye coding}{
 
-@section Eye coding:
 \itemize{
 \item \code{eyes} recognizes integer coding 0:1 and 1:2, with right being
 the lower number. For strings coding it recognizes
@@ -71,7 +74,7 @@ left eyes: c("l", "le", "os", "left")
 }
 }
 
-\section{report}{
+\section{Report}{
 
 Using \link{eyes_to_string} to parse the output of \code{eyes} into
 a text which you can use for reports. Arguments to \code{eyes_to_string}
