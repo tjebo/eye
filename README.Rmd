@@ -154,6 +154,8 @@ clean_df
 ### blink 
 See your data in a blink of an eye - wrapper around [`myop`](#myop), [`eyes`](#eyes), [`va`](#va) and [`reveal`](#reveal). It will look for VA and for IOP columns and provide the summary stats for the entire cohort and for right and left eyes for each variable. 
 
+[**This requires a certain format of your names and codes**](#names-and-codes)
+
 ```{r}
 blink(messy_df)
 ```
@@ -222,8 +224,10 @@ p + geom_trail(aes(group = age_cut10), size = 0) +
   geom_text(aes(label = round(mean_va, 0)), show.legend = FALSE)
 ```
 
-## Column names and codes
-**eye works smoother with clean data** (any package does, really!) - [Learn about clean data.](https://tidyr.tidyverse.org/articles/tidy-data.html)
+## Names and codes
+**eye works smoother with clean data** (any package does, really!) 
+
+[Learn about clean data.](https://tidyr.tidyverse.org/articles/tidy-data.html)
 
 ### Tips and rules for naming: 
 1) Don't be too creative with your names! 

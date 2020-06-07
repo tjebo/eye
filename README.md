@@ -204,12 +204,15 @@ See your data in a blink of an eye - wrapper around [`myop`](#myop),
 VA and for IOP columns and provide the summary stats for the entire
 cohort and for right and left eyes for each variable.
 
+[**This requires a certain format of your names and
+codes**](#names-and-codes)
+
 ``` r
 blink(messy_df)
 #> va_preop: from etdrs
 #> va_postop: from etdrs
 #> 
-#> ── blink ────────────────────────────────────────────────────────────
+#> ── blink ──────────────────────────────────────────────────────────────────────
 #> ══ Data ════════════════════════════════
 #> # A tibble: 8 x 7
 #>   id    eye   surgery iop_preop iop_postop va_preop va_postop
@@ -357,9 +360,10 @@ p <-
 
 <img src="man/figures/README-unnamed-chunk-5-1.png" width="45%" /><img src="man/figures/README-unnamed-chunk-5-2.png" width="45%" />
 
-## Column names and codes
+## Names and codes
 
-**eye works smoother with clean data** (any package does, really\!) -
+**eye works smoother with clean data** (any package does, really\!)
+
 [Learn about clean
 data.](https://tidyr.tidyverse.org/articles/tidy-data.html)
 
