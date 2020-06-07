@@ -12,7 +12,7 @@ Analysis of eye data
 \strong{\code{eye}} is dedicated to facilitate ophthalmic research with its high
 level functions
 \itemize{
-\item \link[eye:va]{eye::va}: Visual acuity conversion
+\item \code{\link{va}}: Visual acuity conversion
 \item \code{\link{eyes}}: Count eyes and patients
 \item \code{\link{myop}}: Make eye data "long"
 \item \code{\link{blink}}: wrapper around \code{va}, \code{myop} and \code{eyes}

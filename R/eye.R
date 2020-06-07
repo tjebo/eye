@@ -5,7 +5,7 @@
 #' @section Ophthalmology functions:
 #' **`eye`** is dedicated to facilitate ophthalmic research with its high
 #' level functions
-#' - [eye::va]: Visual acuity conversion
+#' - [`va`]: Visual acuity conversion
 #' - [`eyes`]: Count eyes and patients
 #' - [`myop`]: Make eye data "long"
 #' - [`blink`]: wrapper around `va`, `myop` and `eyes`
