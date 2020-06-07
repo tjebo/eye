@@ -20,9 +20,8 @@ isNAstring(x, full = c("\\\\.+", "", "\\\\s+", "n/a", "na", "null"))
 \item{full}{vector of full strings to be replaced by NA}
 }
 \description{
-Internal functions for VA cleaning.
-\code{va_cleaner}:
-\itemize{
+VA cleaning:
+\enumerate{
 \item \code{\link[=isNAstring]{isNAstring()}}:
 Replacing empty placeholders (".","", "(any number of empty space)",
 "NULL", "NA" ) with NA with

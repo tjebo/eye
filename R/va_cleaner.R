@@ -1,13 +1,12 @@
 #' Visual acuity entry cleaner
 #' @name clean_va
 #' @param x Vector with VA entries
-#' @description Internal functions for VA cleaning.
-#' `va_cleaner`:
-#' - [isNAstring()]:
+#' @description VA cleaning:
+#' 1. [isNAstring()]:
 #'   Replacing empty placeholders (".","", "(any number of empty space)",
 #'   "NULL", "NA" ) with NA with
-#' - Removing "plus" and "minus" from snellen notation
-#' - [convert_NLP()] Simplifying the notation for qualitative VA notation
+#' 1. Removing "plus" and "minus" from snellen notation
+#' 1. [convert_NLP()] Simplifying the notation for qualitative VA notation
 #' (NPL becomes NLP, PL becomes LP) .
 #' @importFrom stringr str_extract
 #' @family VA cleaner

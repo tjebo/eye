@@ -9,7 +9,7 @@
 #' @param quali quali VA codes
 #' @param vaPart partial VA codes
 #' @param ... further codes to set
-#' @description set the eye strings looked for in the data
+#' @description currently only internal use for convenient set of coding strings
 #' @family string matching functions
 set_codes <- function(
   r = c("r", "re", "od", "right"),
@@ -31,6 +31,7 @@ set_codes <- function(
 #'   the order in the list defines the resulting order in the string
 #'   Should be names list - the names will be the codes to which the
 #'   tokens will be matched agains.
+#' @keywords internal
 #' @family string matching functions
 sort_substr <- function(x, list_substr) {
   if(!inherits(list_substr, "list")){
@@ -59,6 +60,7 @@ sort_substr <- function(x, list_substr) {
 #' @description internal function factory for functions
 #'   to match "whole_str string" with any non character as boundaries
 #'   accepts string as regular expression.
+#' @keywords internal
 #' @family string matching functions
 whole_str <- function(string) {
   reg <- paste0("(?<![a-z])(", paste(tolower(string), collapse = "|"), ")(?![a-z])")
@@ -89,7 +91,7 @@ both_str <- function(string_vec) {
 }
 
 #' split columns in multiple by regex
-#' @name split_to_mult
+#' @name split_mult
 #' @param x data frame
 #' @param col character
 #' @param pattern regex by which to split
@@ -97,6 +99,7 @@ both_str <- function(string_vec) {
 #' @param prefix if into not specified, names created "prefix(sep)index"
 #' @param sep separator of prefix and index
 #' @importFrom stringr str_split_fixed
+#' @keywords internal
 #' @seealso
 #' modified from
 #' [this thread on stackoverflow](https://stackoverflow.com/a/47060452/7941188)

@@ -43,6 +43,12 @@
 #' quite surprising. There is basically a nearly infinite amount of
 #' possible combinations of how to enter data, and it is likely that
 #' myop will not be able to deal with all of them
+#' @section internal preparation:
+#' - Rename data names with  [myop_rename], replacing "." with "_"
+#' - Use of [sort_substr()] - sorting eye strings first, then strings coding
+#' for methods  (IOP/VA), then the rest.
+#' @section myopization:
+#' The actual work is done with [myopizer] and [myop_pivot]
 #' @examples
 #' # Example to clean a bit messy data frame
 #' iopva <- data.frame(
@@ -75,12 +81,13 @@ myope <- myop
 myopic <- myop
 
 #' myopizer
-#' @description The actual myopization using tidyr::pivot_longer
+#' @description The actual myopization using [tidyr::pivot_longer]
 #' several columns with partial strings with "eye codes" in their names
 #' @name myop_pivot
 #' @param x object (data frame)
 #' @import tidyr
 #' @importFrom dplyr mutate_all
+#' @keywords internal
 #' @family myopizer
 
 myop_pivot <- function(x) {
@@ -98,11 +105,15 @@ myop_pivot <- function(x) {
 }
 
 #' Rename
-#' @description Rename data names for Myop
+#' @description Rename data names for [myop()], replacing "." with "_"
+#' in order to prepare for the use of [sort_substr()] - sorting
+#' eye strings first, then strings coding for methods like IOP/VA,
+#' then the rest.
 #' @name myop_rename
 #' @param x object (data frame)
 #' @import tidyr
 #' @importFrom dplyr mutate_all
+#' @keywords internal
 #' @family myopizer
 
 myop_rename <- function(x) {
@@ -121,11 +132,12 @@ myop_rename <- function(x) {
 
 
 #' myopizer
-#' @description checks iand prepares data frames for myopization
+#' @description internal function, checks and prepares data frames for
+#' "myopization":
 #' Removing duplicates, returning myopized data if criteria fulfilled
 #' (No "eye" column, more than one variable column with eye codes
 #' as partial string). Names need to be prepared with
-#' [myop_rename]) beforehand.
+#' [myop_rename] beforehand.
 #' @name myopizer
 #' @inheritParams myop
 #' @import tidyr

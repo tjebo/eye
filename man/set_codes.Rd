@@ -36,7 +36,7 @@ set_codes(
 \item{...}{further codes to set}
 }
 \description{
-set the eye strings looked for in the data
+currently only internal use for convenient set of coding strings
 }
 \seealso{
 Other string matching functions: 

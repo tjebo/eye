@@ -15,7 +15,9 @@ remCols(x, cols, fct_level)
 fall into the range of fct_level}
 }
 \description{
-avoiding colums that only
-contain values fct_levels or binary,
-because they are likely categorical codes.
+Helper for \code{\link[=blink]{blink()}}. Removes colums that only
+contain values fct_levels or binary from selected columns (currently for
+both automatically and manually selected columns).
+fct_levels are removed because they are likely categorical codes.
 }
+\keyword{internal}

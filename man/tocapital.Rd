@@ -15,3 +15,4 @@ Character vector
 \description{
 capitalises single words
 }
+\keyword{internal}

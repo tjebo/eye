@@ -10,7 +10,10 @@ myop_rename(x)
 \item{x}{object (data frame)}
 }
 \description{
-Rename data names for Myop
+Rename data names for \code{\link[=myop]{myop()}}, replacing "." with "_"
+in order to prepare for the use of \code{\link[=sort_substr]{sort_substr()}} - sorting
+eye strings first, then strings coding for methods like IOP/VA,
+then the rest.
 }
 \seealso{
 Other myopizer: 
@@ -18,3 +21,4 @@ Other myopizer:
 \code{\link{myopizer}()}
 }
 \concept{myopizer}
+\keyword{internal}

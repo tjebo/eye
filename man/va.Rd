@@ -19,9 +19,7 @@ any case allowed}
 any case allowed. Ignored if implausible}
 }
 \value{
-\itemize{
-\item \strong{va}: vector of class set with \code{to} argument
-}
+vector of class set with \code{to} argument
 }
 \description{
 Cleans and converts visual acuity notations (classes)
@@ -52,7 +50,7 @@ the chart.
 \item \strong{To Snellen}:
 Although there seems to be no good statistical reason to convert
 back to Snellen, it is a very natural thing to eye specialists to think
-in Snellen. A conversion to snellen gives g good gauge of how the visual
+in Snellen. A conversion to snellen gives a good gauge of how the visual
 acuity for the patients are. However, back-conversion should not be
 considered an exact science and any attempt to use formulas will result
 in very weird Snellen values that have no correspondence to common charts.
@@ -70,7 +68,7 @@ the \link{va_chart} are used.
 e.g. 3/60 and 2/200 will also be recognized.
 \item \strong{When converting between Snellen fractions}:
 \emph{has to be either 6/ or 20/}. Other fractions will not be recognized -
-see \strong{"Examples"}!
+see \strong{"Examples"}
 \item ETDRS must be integer-equivalent between 0 and 100 (integer equivalent
 means, it can also be a character vector)
 \item logMAR must be between -0.3 and 3.0
@@ -97,6 +95,10 @@ element by element with \link{which_va_dissect} and \link{va_dissect}
 \item if numeric x beyond the ranges from above: \code{NA}
 \item Any other string or NA: NA
 }
+
+Detection and convertion is on a vector as a whole by \code{\link[=which_va]{which_va()}}. If a "mixed" VA notation
+is found, \code{\link[=which_va_dissect]{which_va_dissect()}} and \code{\link[=va_dissect]{va_dissect()}} will be called instead
+for each VA vector element individually.
 }
 
 \section{Problematic cases}{

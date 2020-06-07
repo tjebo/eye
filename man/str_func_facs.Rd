@@ -30,3 +30,4 @@ Other string matching functions:
 \code{\link{sort_substr}()}
 }
 \concept{string matching functions}
+\keyword{internal}

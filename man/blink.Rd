@@ -12,7 +12,7 @@ blink(x, va_cols = NULL, iop_cols = NULL, fct_level = 0:4)
 \item{va_cols}{if specified, overruling automatic VA columns selection.
 tidyselection supported}
 
-\item{iop_cols}{if specified, overruling automatic IOP columns selection
+\item{iop_cols}{if specified, overruling automatic IOP columns selection.
 tidyselection supported}
 
 \item{fct_level}{Remove columns for summarising when all unique values
@@ -31,14 +31,20 @@ column naming - please see section "column names" and "data coding".
 \item Column names are prepared for myopization (see \link{myop})
 \item VA will always be converted to logmar
 }
+}
+\section{Data coding}{
 
-@section Data coding:
 \itemize{
 \item Only common codes supported:
 \item \strong{eyes}: "r", "re", "od", "right" - or numeric coding r:l = 0:1 or 1:2
 \item \strong{Visual acuity}: "VA", "BCVA", "Acuity"
 \item \strong{Intraocular pressure}: "IOP", "GAT", "NCT", "pressure"
-@section Column name rules:
+}
+}
+
+\section{Column name rules}{
+
+\itemize{
 \item No spaces!
 \item Do not use numeric coding for eyes in column names
 \item Separate eye and VA and IOP codes with \strong{underscores}
@@ -56,12 +62,15 @@ characteristic of your variable. ("preop" instead of "pre_op",
 \item \strong{Don't be too creative with your names!}
 }
 }
+
 \section{Names examples}{
 
 \strong{Good names}:
+
 -\code{c("patid", "surgery_right", "iop_r_preop", "va_r_preop", "iop_r", "iop_l")}
 
 \strong{OK names}
+
 -\code{c("Id", "Eye", "BaselineAge", "VA_ETDRS_Letters", "InjectionNumber")}:
 Names are long and there are two unnecessary underscore in the VA column.
 Better just "VA"
@@ -76,16 +85,22 @@ but which dimension of "r"/"l" are we exactly looking at?
 \code{eye} \emph{may} wrongly identify the (probably logical) columns "stable_iop"
 as columns containing IOP data. Better maybe: "stableIOP_l"
 \item \code{c("person", "goldmann", "vision")}: \code{eye} will not recognize that at all
-@section tidy data:
+}
+}
+
+\section{tidy data}{
+
 \strong{blink and myop work more reliably with clean data}
 (any package will, really!).
 \href{https://tidyr.tidyverse.org/articles/tidy-data.html}{clean data.}
 }
 
-@importFrom dplyr mutate_at
-@importFrom rlang enquo
-@importFrom tidyselect eval_select
-@importFrom tibble as_tibble
+\section{column removal}{
+
+Done with \link{remCols}: Removes colums that only
+contain values defined in \emph{fct_levels} or logicals from selected columns
+(currently for both automatically and manually selected columns).
+fct_levels are removed because they are likely categorical codes.
 }
 
 \examples{

@@ -24,3 +24,4 @@ Other string matching functions:
 \code{\link{str_func_facs}}
 }
 \concept{string matching functions}
+\keyword{internal}

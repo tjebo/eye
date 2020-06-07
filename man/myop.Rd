@@ -62,6 +62,20 @@ quite surprising. There is basically a nearly infinite amount of
 possible combinations of how to enter data, and it is likely that
 myop will not be able to deal with all of them
 }
+\section{internal preparation}{
+
+\itemize{
+\item Rename data names with  \link{myop_rename}, replacing "." with "_"
+\item Use of \code{\link[=sort_substr]{sort_substr()}} - sorting eye strings first, then strings coding
+for methods  (IOP/VA), then the rest.
+}
+}
+
+\section{myopization}{
+
+The actual work is done with \link{myopizer} and \link{myop_pivot}
+}
+
 \examples{
 # Example to clean a bit messy data frame
 iopva <- data.frame(

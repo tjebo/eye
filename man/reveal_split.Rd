@@ -15,8 +15,9 @@ reveal_split(x, by)
 splits into groups
 }
 \seealso{
-Other reveal: 
+Other revealer: 
 \code{\link{reveal_methods}},
 \code{\link{reveal}()}
 }
-\concept{reveal}
+\concept{revealer}
+\keyword{internal}

@@ -1,31 +1,29 @@
-#' print VA class
-#' @name print_VA
+#' print eye classes
+#' @name print_methods
 #' @description S3 methods for VA classes "snellen", "logmar" and "etdrs".
 #' **snellen** is always also a character class- because it is more categorical
 #' than continuous. **logmar** and **etdrs** are both numerics
 #' (logMAR is double, etdrs is integer).
-#' @param x vector
+#' @param x an object of a class from the eye package (VA class or blink class)
 #' @param ... arguments passed to [print.default]
 #' @export
-#' @family print methods
 print.snellen <- function(x, ...) {
   print.default(as.character(x))
 }
 #' print.logmar
-#' @rdname print_VA
+#' @rdname print_methods
 #' @export
 print.logmar <- function(x, ...) {
   print.default(as.numeric(x))
 }
 #' print.etdrs
-#' @rdname print_VA
+#' @rdname print_methods
 #' @export
 print.etdrs <- function(x, ...) {
   print.default(as.integer(x))
 }
 
-#' print blink
-#' @name print_blink
+#' @rdname print_methods
 #' @description S3 methods for blink class
 #' @param x object of class "blink"
 #' @param ... arguments passed to [print.default]
@@ -33,7 +31,6 @@ print.etdrs <- function(x, ...) {
 #' @importFrom cli cli_h1
 #' @importFrom cli cli_h3
 #' @importFrom cli rule
-#' @family print methods
 print.blink <- function(x, ...) {
   cli::cli_h1("blink")
   cat(paste0(cli::rule(line = 2, left = "Data", width = 40),

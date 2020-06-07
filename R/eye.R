@@ -16,6 +16,7 @@
 #' - [`age`]: Calculate age
 #' - [`csv`]: Conveniently save a data frame to csv
 #' @docType package
+#' @keywords internal
 #' @seealso
 #' Useful links:
 #' - \href{https://github.com/tjebo/eye}{`eye` on github}

@@ -39,8 +39,8 @@ reveal(mydf)
 reveal(mydf, by = "group")
 }
 \seealso{
-Other reveal: 
+Other revealer: 
 \code{\link{reveal_methods}},
 \code{\link{reveal_split}()}
 }
-\concept{reveal}
+\concept{revealer}

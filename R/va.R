@@ -30,12 +30,13 @@
 #' - **To Snellen**:
 #' Although there seems to be no good statistical reason to convert
 #' back to Snellen, it is a very natural thing to eye specialists to think
-#' in Snellen. A conversion to snellen gives g good gauge of how the visual
+#' in Snellen. A conversion to snellen gives a good gauge of how the visual
 #' acuity for the patients are. However, back-conversion should not be
 #' considered an exact science and any attempt to use formulas will result
 #' in very weird Snellen values that have no correspondence to common charts.
 #' Therefore, Snellen matching the nearest ETDRS and logMAR value in
 #' the [va_chart] are used.
+#'
 #' @section Accepted VA formats:
 #' - Snellen fractions (meter/ feet) need to be entered as fraction with
 #' "/".
@@ -43,7 +44,7 @@
 #' e.g. 3/60 and 2/200 will also be recognized.
 #' - **When converting between Snellen fractions**:
 #' *has to be either 6/ or 20/*. Other fractions will not be recognized -
-#' see **"Examples"**!
+#' see **"Examples"**
 #' - ETDRS must be integer-equivalent between 0 and 100 (integer equivalent
 #' means, it can also be a character vector)
 #' - logMAR must be between -0.3 and 3.0
@@ -51,6 +52,7 @@
 #' - Any element which is not recognized will be converted to NA
 #' - Vectors containing several notations ("mixed") are guessed and converted
 #'   element by element with [which_va_dissect] and [va_dissect]
+#'
 #' @section VA detection:
 #'   - Internally done with [which_va()] based on the following rules
 #'   - if x integer and 3 < x <= 100: `etdrs`
@@ -64,6 +66,10 @@
 #'   - if one of "CF", "HM", "LP", "PL", "NLP", or "NPL": `quali`
 #'   - if numeric x beyond the ranges from above: `NA`
 #'   - Any other string or NA: NA
+#'
+#' Detection and convertion is on a vector as a whole by [which_va()]. If a "mixed" VA notation
+#' is found, [which_va_dissect()] and [va_dissect()] will be called instead
+#' for each VA vector element individually.
 #'
 #' @section Problematic cases:
 #' There can be ambiguous cases for detection (detection defaults to logmar):
@@ -80,8 +86,7 @@
 #'   "plus" and "minus" from Snellen entries are removed and the
 #'   notation for qualitative entriesis simplified.
 #'   For more details see [clean_va()]
-#' @return
-#' - **va**: vector of class set with `to` argument
+#' @return vector of class set with `to` argument
 #' @family Ophthalmic functions
 #' @family VA converter
 #' @family VA cleaner
@@ -210,11 +215,12 @@ va <- function(x, to = "logmar", type = NULL, from = NULL) {
 
 #' Converting each VA element
 #' @param x vector of VA.
-#' @description Helper for [va()] if  [which_va()] finds "mixed" VA
-#' Does require the VA vector to be prepared with [clean_va()] first.
-#' convert seach VA vector element individually
+#' @description Used in [va()] if  [which_va()] finds "mixed" VA notation.
+#' Converts each VA vector element individually - requires the VA vector to
+#' be prepared with [clean_va()] first.
 #' @rdname va_dissect
 #' @family VA converter
+#' @keywords internal
 va_dissect <- function(x) {
   new_va <- sapply(x,
     function(elem) {

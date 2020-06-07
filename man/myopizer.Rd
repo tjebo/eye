@@ -14,11 +14,12 @@ is only one column per eye with no further info on the variable
 (default "value")}
 }
 \description{
-checks iand prepares data frames for myopization
+internal function, checks and prepares data frames for
+"myopization":
 Removing duplicates, returning myopized data if criteria fulfilled
 (No "eye" column, more than one variable column with eye codes
 as partial string). Names need to be prepared with
-\link{myop_rename}) beforehand.
+\link{myop_rename} beforehand.
 }
 \seealso{
 Other myopizer: 

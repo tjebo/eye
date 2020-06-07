@@ -4,10 +4,11 @@
 #' @description
 #' A dataset containing anonymised real life human subjects data on eyes with
 #' treatment naive neovascular age-related macular degeneration (AMD),
-#' which underwent intravitreal anti_VEGF therapy with ranibizumab
+#' which underwent intravitreal anti-VEGF therapy with ranibizumab
 #' and/or aflibercept.
 #'
 #' The data was collected in Moorfields Eye Hospital, London, UK.
+#'
 #' (Information governance sign off Moorfields Eye Hospital 19/07/2018)
 #'
 #' @usage data("amd")
@@ -48,7 +49,8 @@
 #' [Holladay et al.](https://doi.org/10.1016/j.jcrs.2004.01.014),
 #' [Beck et al.](https://doi.org/10.1016/s0002-9394(02)01825-1),
 #' [Gregori et al.](https://doi.org/10.1097/iae.0b013e3181d87e04), and
-#' https://www.nidek-intl.com/visual_acuity.html.
+#' [https://www.nidek-intl.com/visual_acuity.html].
+#'
 #' Categories **(no) light perception**,  **counting fingers**
 #' and **hand movements** are converted following
 #' [Schulze-Bonsel et al.](https://doi.org/10.1167/iovs.05-0981)

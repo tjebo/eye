@@ -6,7 +6,6 @@
 \alias{getElem_eye}
 \alias{getElem_va}
 \alias{getElem_iop}
-\alias{getElem_all}
 \title{Find element based or strings}
 \usage{
 getElem_id(obj, id_chr)
@@ -16,8 +15,6 @@ getElem_eye(obj, eye_chr)
 getElem_va(obj, va_chr)
 
 getElem_iop(obj, iop_chr)
-
-getElem_all(x)
 }
 \arguments{
 \item{obj}{can be vector, data frame or list}
@@ -32,8 +29,6 @@ names have to be "whole" and "part"!}
 
 \item{iop_chr}{named list with strings for "whole" and "part"
 names have to be "whole" and "part"!}
-
-\item{x}{vector}
 }
 \value{
 vector
@@ -44,9 +39,9 @@ Finds the element in an object for one of the following:
 \item ID
 \item eye
 \item Visual acuity
-\item All of the above
-\code{getElem} search a vector, the column names (data frame) or the names (list)
 }
+
+\code{getElem} search a vector, the column names (data frame) or the names (list)
 }
 \seealso{
 Other string matching functions: 
@@ -55,3 +50,4 @@ Other string matching functions:
 \code{\link{str_func_facs}}
 }
 \concept{string matching functions}
+\keyword{internal}

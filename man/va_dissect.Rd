@@ -10,9 +10,9 @@ va_dissect(x)
 \item{x}{vector of VA.}
 }
 \description{
-Helper for \code{\link[=va]{va()}} if  \code{\link[=which_va]{which_va()}} finds "mixed" VA
-Does require the VA vector to be prepared with \code{\link[=clean_va]{clean_va()}} first.
-convert seach VA vector element individually
+Used in \code{\link[=va]{va()}} if  \code{\link[=which_va]{which_va()}} finds "mixed" VA notation.
+Converts each VA vector element individually - requires the VA vector to
+be prepared with \code{\link[=clean_va]{clean_va()}} first.
 }
 \seealso{
 Other VA converter: 
@@ -21,3 +21,4 @@ Other VA converter:
 \code{\link{which_va}()}
 }
 \concept{VA converter}
+\keyword{internal}

@@ -1,4 +1,64 @@
 #' geom_trail
+#' @description Mark a trail with a plot just like the base plot type = "b".
+#' You can also leave the dots blank, thus allowing use of text instead of
+#' points (see examples).
+#' @name geom_trail
+#' @import ggplot2
+#' @inheritParams ggplot2::geom_point
+#' @section Additional arguments:
+#' **`gap`** gap between points and lines
+#' @section Aesthetics:
+#' `geom_trail` understands the following aesthetics (required aesthetics
+#' are in bold):
+#'
+#'   - **`x`**
+#'   - **`y`**
+#'   - `alpha`
+#'   - `color`
+#'   - `linetype`
+#'   - `size` size of points - 0 for empty space
+#'   - `linesize`
+#' @examples
+#' library(ggplot2)
+#' library(dplyr)
+#'
+#' ggplot(pressure, aes(temperature, pressure)) +
+#'   geom_ribbon(aes(ymin = pressure - 50, ymax = pressure + 50), alpha = 0.2) +
+#'   geom_trail()
+#'
+#' amd_aggr <-
+#' amd %>%
+#'   group_by(
+#'     age_cut10 = cut_width(BaselineAge, 10),
+#'     days_cut90 = cut_width(FollowupDays, 90, labels = seq(0, 810, 90))
+#'   ) %>%
+#'   summarise(mean_va = mean(VA_ETDRS_Letters))
+#'
+#' p <- ggplot(amd_aggr, aes(days_cut90, mean_va, color = age_cut10)) +
+#'        theme_classic() +
+#'        labs(
+#'          x = "Follow up time [Days]", y = "Mean VA [ETDRS letters]",
+#'          color = "Age strata"
+#'        )
+#'
+#' p + geom_trail(aes(group = age_cut10))
+#'
+#' p + geom_trail(aes(group = age_cut10), size = 0) +
+#'   geom_text(aes(label = round(mean_va, 0)), show.legend = FALSE)
+#' @seealso
+#' The geom was modfied from the suggestion by user teunbrand on
+#' Stackoverflow in
+#' [this thread](https://stackoverflow.com/a/55857158/7941188)
+#' @export
+
+geom_trail <-
+  function (mapping = NULL, data = NULL, stat = "identity", position = "identity",
+            na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, ...) {
+    layer(data = data, mapping = mapping, stat = stat, geom = GeomTrail,
+          position = position, show.legend = show.legend, inherit.aes = inherit.aes,
+          params = list(na.rm = na.rm, ...))
+  }
+
 #' @rdname geom_trail
 #' @import grid
 #' @import ggplot2
@@ -84,9 +144,10 @@ GeomTrail <- ggplot2::ggproto(
   )
 )
 
-#' makeContent.trail
+
+#' grid draw method geom trail
 #' @description underlying drawing method for paths in geom_trail
-#' @rdname geom_trail
+#' @rdname makeContent_trail
 #' @author Teun van den Brand
 #' @import grid
 #' @importFrom utils head
@@ -128,67 +189,5 @@ makeContent.trail <- function(x){
   # Set to segments class
   class(x)[1] <- 'segments'
   x
-}
-
-#' geom_trail
-#' @description Mark a trail with a plot just like the base plot type = "b".
-#' You can also leave the dots blank, thus allowing use of text instead of
-#' points (see examples).
-#' @name geom_trail
-#' @import ggplot2
-#' @inheritParams ggplot2::geom_point
-#' @section Additional arguments:
-#' **`gap`** gap between points and lines
-#' @section Aesthetics:
-#' `geom_trail` understands the following aesthetics (required aesthetics
-#' are in bold):
-#' \itemize{
-#'   \item **`x`**
-#'   \item **`y`**
-#'   \item `alpha`
-#'   \item `color`
-#'   \item `linetype`
-#'   \item `size` size of points - 0 for empty space
-#'   \item `linesize`
-#' }
-#' @examples
-#' library(ggplot2)
-#' library(dplyr)
-#'
-#' ggplot(pressure, aes(temperature, pressure)) +
-#'   geom_ribbon(aes(ymin = pressure - 50, ymax = pressure + 50), alpha = 0.2) +
-#'   geom_trail()
-#'
-#' amd_aggr <-
-#' amd %>%
-#'   group_by(
-#'     age_cut10 = cut_width(BaselineAge, 10),
-#'     days_cut90 = cut_width(FollowupDays, 90, labels = seq(0, 810, 90))
-#'   ) %>%
-#'   summarise(mean_va = mean(VA_ETDRS_Letters))
-#'
-#' p <- ggplot(amd_aggr, aes(days_cut90, mean_va, color = age_cut10)) +
-#'        theme_classic() +
-#'        labs(
-#'          x = "Follow up time [Days]", y = "Mean VA [ETDRS letters]",
-#'          color = "Age strata"
-#'        )
-#'
-#' p + geom_trail(aes(group = age_cut10))
-#'
-#' p + geom_trail(aes(group = age_cut10), size = 0) +
-#'   geom_text(aes(label = round(mean_va, 0)), show.legend = FALSE)
-#' @seealso
-#' The geom was modfied from the suggestion by user teunbrand on
-#' Stackoverflow in
-#' [this thread](https://stackoverflow.com/a/55857158/7941188)
-#' @export
-
-geom_trail <-
-function (mapping = NULL, data = NULL, stat = "identity", position = "identity",
-          na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, ...) {
-  layer(data = data, mapping = mapping, stat = stat, geom = GeomTrail,
-        position = position, show.legend = show.legend, inherit.aes = inherit.aes,
-        params = list(na.rm = na.rm, ...))
 }
 

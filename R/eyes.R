@@ -84,9 +84,9 @@ eyes <- function(x, id = NULL, eye = NULL, report = FALSE, ...) {
 #' @param x object (data frame)
 #' @param pat_col patient column
 #' @param eye eye column
-#' @description `count_eyes` is the internal counting function
-#'   for `eyes`
-#'
+#' @description `count_eyes()` is the internal counting function
+#' @keywords internal
+#'   for [`eyes()`]
 count_eyes <- function(x, pat_col, eye) {
   n_pat <- length(unique(x[[pat_col]]))
   eye_str <- set_codes()[c("r", "l")]

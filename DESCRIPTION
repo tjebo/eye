@@ -7,7 +7,15 @@ Authors@R:
            role = c("aut", "cre"),
            email = "tjebn@web.de",
            comment = c(ORCID = "0000-0001-5297-2301"))
-Description: What the package does (one paragraph).
+Description: eye is dedicated to facilitate ophthalmic research. 
+  Its core functions va(), eyes(), myop(), blink(), reveal() and 
+  age() are designed to help with common tasks in eye research: 
+  Visual acuity conversion for snellen, logMAR and ETDRS, counting patients and 
+  eyes, summarising data with common statistics, calculating age of patients, 
+  and reshaping eye-specific data from wide to long. 
+  eye also contains a real life data set of people who received intravitreal 
+  injections due to age-related macular degeneration in 
+  Moorfields Eye Hospital, London, UK.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -16,7 +24,9 @@ RoxygenNote: 7.1.0
 Depends: 
     R (>= 4.0)
 Suggests: 
-    testthat
+    testthat,
+    knitr,
+    rmarkdown
 Imports: 
     dplyr (>= 0.8.5),
     cli (>= 2.0.2),
@@ -29,3 +39,4 @@ Imports:
     tibble (>= 3.0.1),
     tidyr (>= 1.0.3),
     tidyselect (>= 1.1.0)
+VignetteBuilder: knitr

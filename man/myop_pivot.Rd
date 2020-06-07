@@ -10,7 +10,7 @@ myop_pivot(x)
 \item{x}{object (data frame)}
 }
 \description{
-The actual myopization using tidyr::pivot_longer
+The actual myopization using \link[tidyr:pivot_longer]{tidyr::pivot_longer}
 several columns with partial strings with "eye codes" in their names
 }
 \seealso{
@@ -19,3 +19,4 @@ Other myopizer:
 \code{\link{myopizer}()}
 }
 \concept{myopizer}
+\keyword{internal}

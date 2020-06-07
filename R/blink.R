@@ -7,7 +7,7 @@
 #' @param x data frame
 #' @param va_cols if specified, overruling automatic VA columns selection.
 #'   tidyselection supported
-#' @param iop_cols if specified, overruling automatic IOP columns selection
+#' @param iop_cols if specified, overruling automatic IOP columns selection.
 #'   tidyselection supported
 #' @param fct_level Remove columns for summarising when all unique values
 #' fall into range. character or numeric vector, default `1:4`
@@ -15,14 +15,12 @@
 #' - Duplicate rows are always removed
 #' - Column names are prepared for myopization (see [myop])
 #' - VA will always be converted to logmar
-#'
-#'  @section Data coding:
+#' @section Data coding:
 #' - Only common codes supported:
 #' - **eyes**: "r", "re", "od", "right" - or numeric coding r:l = 0:1 or 1:2
 #' - **Visual acuity**: "VA", "BCVA", "Acuity"
 #' - **Intraocular pressure**: "IOP", "GAT", "NCT", "pressure"
-#'  @section Column name rules:
-#'
+#' @section Column name rules:
 #' - No spaces!
 #' - Do not use numeric coding for eyes in column names
 #' - Separate eye and VA and IOP codes with **underscores**
@@ -40,9 +38,11 @@
 #' - **Don't be too creative with your names!**
 #' @section Names examples:
 #' **Good names**:
+#'
 #' -`c("patid", "surgery_right", "iop_r_preop", "va_r_preop", "iop_r", "iop_l")`
 #'
 #' **OK names**
+#'
 #' -`c("Id", "Eye", "BaselineAge", "VA_ETDRS_Letters", "InjectionNumber")`:
 #' Names are long and there are two unnecessary underscore in the VA column.
 #' Better just "VA"
@@ -50,21 +50,26 @@
 #' but which dimension of "r"/"l" are we exactly looking at?
 #'
 #' **Bad names** (`eye` will fail)
+#'
 #' - `c("id", "iopr", "iopl", "VAr", "VAl")`:
 #' `eye` won't be able to recognize IOP and VA columns
 #' - `c("id", "iop_r", "iop_l", "stable_iop_r", "stable_iop_l")`:
 #' `eye` *may* wrongly identify the (probably logical) columns "stable_iop"
 #' as columns containing IOP data. Better maybe: "stableIOP_l"
 #' - `c("person", "goldmann", "vision")`: `eye` will not recognize that at all
-#'  @section tidy data:
+#' @section tidy data:
 #'  **blink and myop work more reliably with clean data**
 #'  (any package will, really!).
 #'  [clean data.](https://tidyr.tidyverse.org/articles/tidy-data.html)
-#'
-#'  @importFrom dplyr mutate_at
-#'  @importFrom rlang enquo
-#'  @importFrom tidyselect eval_select
-#'  @importFrom tibble as_tibble
+#' @section column removal:
+#' Done with [remCols]: Removes colums that only
+#' contain values defined in *fct_levels* or logicals from selected columns
+#' (currently for both automatically and manually selected columns).
+#' fct_levels are removed because they are likely categorical codes.
+#' @importFrom dplyr mutate_at
+#' @importFrom rlang enquo
+#' @importFrom tidyselect eval_select
+#' @importFrom tibble as_tibble
 #' @examples
 #' blink(amd)
 #'
@@ -152,9 +157,11 @@ blink <- function(x, va_cols = NULL, iop_cols = NULL,
 #' @param cols cols
 #' @param fct_level Remove columns for reveal and va when all unique values
 #' fall into the range of fct_level
-#' @description avoiding colums that only
-#' contain values fct_levels or binary,
-#' because they are likely categorical codes.
+#' @description Helper for [blink()]. Removes colums that only
+#' contain values fct_levels or binary from selected columns (currently for
+#' both automatically and manually selected columns).
+#' fct_levels are removed because they are likely categorical codes.
+#' @keywords internal
 #' @rdname remCols
 remCols <- function(x, cols, fct_level) {
   sapply(cols, function(col) {

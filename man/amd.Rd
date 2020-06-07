@@ -25,10 +25,11 @@ data("amd")
 \description{
 A dataset containing anonymised real life human subjects data on eyes with
 treatment naive neovascular age-related macular degeneration (AMD),
-which underwent intravitreal anti_VEGF therapy with ranibizumab
+which underwent intravitreal anti-VEGF therapy with ranibizumab
 and/or aflibercept.
 
 The data was collected in Moorfields Eye Hospital, London, UK.
+
 (Information governance sign off Moorfields Eye Hospital 19/07/2018)
 }
 \keyword{datasets}

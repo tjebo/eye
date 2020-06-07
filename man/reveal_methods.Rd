@@ -36,8 +36,8 @@ data frame
 S3 generic and methods
 }
 \seealso{
-Other reveal: 
+Other revealer: 
 \code{\link{reveal_split}()},
 \code{\link{reveal}()}
 }
-\concept{reveal}
+\concept{revealer}

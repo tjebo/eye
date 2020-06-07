@@ -1,15 +1,14 @@
-
-
 #' age
 #' @name age
 #' @description calculates age in years, either as duration or as period
-#' Slight modification of a function [posted on stackoverflow by user Moody_Mudskipper](https://stackoverflow.com/a/47529507/7941188)
 #' @param from_date start date
 #' @param to_date end date
 #' @param period default FALSE: output as a duration. If TRUE, output as a period
 #' @param dec How many decimals are displayed
 #' @family convenience functions
 #' @import lubridate
+#' @seealso [original thread on stackoverflow.com](https://stackoverflow.com/a/47529507/7941188)
+#' from which this function was inspired
 #' @examples
 #' age("1984-10-16")
 #'
@@ -59,6 +58,7 @@ csv <- function(x, name = NULL) {
 #' @description capitalises single words
 #' @param x string vector
 #' @return Character vector
+#' @keywords internal
 #'
 tocapital <- function(x) {
   paste(toupper(substring(x, 1,1)), substring(x, 2),

@@ -50,15 +50,14 @@ For other conversion rules see \link{va}
 }
 \section{Conversion}{
 
-Conversion to snellen notation is not really an exact science,
-considering the somewhat peculiar steps in the historic (but widely used)
-snellen charts, and snellen are not useful for statistics, therefore
-I consider it a conversion out of "interest" and for a ballpoint
-where the VA would be, rather than an exact science.
-
-Therefore, I chose to convert to the closest "equivalent"
-snellen notation for a full line for both ETDRS and logMAR.
-Conversion is done based on the conversion chart \link{va_chart}.
+Although there seems to be no good statistical reason to convert
+back to Snellen, it is a very natural thing to eye specialists to think
+in Snellen. A conversion to snellen gives a good gauge of how the visual
+acuity for the patients are. However, back-conversion should not be
+considered an exact science and any attempt to use formulas will result
+in very weird Snellen values that have no correspondence to common charts.
+Therefore, Snellen matching the nearest ETDRS and logMAR value in
+the \link{va_chart} are used.
 
 Further:
 \itemize{

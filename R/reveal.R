@@ -7,7 +7,7 @@
 #' @importFrom dplyr bind_rows
 #' @return data frame
 #' @details Character vectors (or character columns) will be removed.
-#' @family reveal
+#' @family revealer
 #' @examples
 #' x = y = z = c(rnorm(20), NA)
 #' mylist <- list(x = x, y = y, z = z)
@@ -35,7 +35,7 @@ reveal <- function(x, by = NULL, dec = 1) {
 #' @name reveal_methods
 #' @param x atomic vector, list of numeric vectors or data frame
 #' @param ... further arguments passed to methods
-#' @family reveal
+#' @family revealer
 #' @description S3 generic and methods
 #' @importFrom stats sd
 #' @return data frame
@@ -106,7 +106,8 @@ revealEye.default <- function(x, dec, ...){
 #' @param x data frame
 #' @param by character vector with the names of the columns
 #' @description splits into groups
-#' @family reveal
+#' @family revealer
+#' @keywords internal
 reveal_split <- function(x, by){
   if(!inherits(x, "data.frame")){
     stop("x must be a data frame!")

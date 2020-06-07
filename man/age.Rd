@@ -17,7 +17,6 @@ age(from_date, to_date = lubridate::now(), period = FALSE, dec = 1)
 }
 \description{
 calculates age in years, either as duration or as period
-Slight modification of a function \href{https://stackoverflow.com/a/47529507/7941188}{posted on stackoverflow by user Moody_Mudskipper}
 }
 \examples{
 age("1984-10-16")
@@ -27,6 +26,9 @@ test_date <-  as.Date(dob) + c(15000, 20000)
 age(dob, test_date)
 }
 \seealso{
+\href{https://stackoverflow.com/a/47529507/7941188}{original thread on stackoverflow.com}
+from which this function was inspired
+
 Other convenience functions: 
 \code{\link{csv}()}
 }

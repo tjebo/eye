@@ -14,6 +14,8 @@ count_eyes(x, pat_col, eye)
 \item{eye}{eye column}
 }
 \description{
-\code{count_eyes} is the internal counting function
-for \code{eyes}
+\code{count_eyes()} is the internal counting function
 }
+\keyword{[`eyes()`]}
+\keyword{for}
+\keyword{internal}

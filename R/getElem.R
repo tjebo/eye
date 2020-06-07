@@ -6,8 +6,9 @@
 #'  - ID
 #'  - eye
 #'  - Visual acuity
-#'  - All of the above
-#'  `getElem` search a vector, the column names (data frame) or the names (list)
+#'
+#' `getElem` search a vector, the column names (data frame) or the names (list)
+#' @keywords internal
 #' @return vector
 #' @family string matching functions
 #'
@@ -85,15 +86,4 @@ getElem_iop <- function(obj, iop_chr) {
     })
   }
   iop_cols
-}
-
-#' @rdname getElem
-#' @param x vector
-getElem_all <- function(x){
-  x <- tolower(x)
-  pat <- getElem_id(x)
-  eye <- whole_str(c("eyes", "eye"))(x)
-  ls_eye <- unlist(getElem_eye(x))
-  ls_va <- getElem_va(x)
-  list(pat = pat, eye = eye, ls_eye = ls_eye, ls_va = ls_va)
 }
