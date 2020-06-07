@@ -49,7 +49,7 @@
 #' [Holladay et al.](https://doi.org/10.1016/j.jcrs.2004.01.014),
 #' [Beck et al.](https://doi.org/10.1016/s0002-9394(02)01825-1),
 #' [Gregori et al.](https://doi.org/10.1097/iae.0b013e3181d87e04), and
-#' [https://www.nidek-intl.com/visual_acuity.html].
+#' \url{https://www.nidek-intl.com/visual_acuity.html}.
 #'
 #' Categories **(no) light perception**,  **counting fingers**
 #' and **hand movements** are converted following

@@ -6,7 +6,7 @@
 \alias{print.logmar}
 \alias{print.etdrs}
 \alias{print.blink}
-\title{print VA class}
+\title{print eye classes}
 \usage{
 \method{print}{snellen}(x, ...)
 
