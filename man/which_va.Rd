@@ -15,7 +15,8 @@ which_va_dissect(elem)
 \item{elem}{element of vector to convert}
 }
 \description{
-Guessing the VA notation (VA class)
+Guessing the VA notation (VA class). Requires x that was
+prepared with \link{clean_va}
 \itemize{
 \item \code{which_va}: guessing VA class for entire vector
 }

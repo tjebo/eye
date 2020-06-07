@@ -4,7 +4,14 @@
 \alias{blink}
 \title{Your data in a blink of an eye}
 \usage{
-blink(x, id = NULL, eye = NULL, fct = TRUE, fct_level = 0:4, binary = TRUE)
+blink(
+  x,
+  id = NULL,
+  eye = NULL,
+  va_cols = NULL,
+  iop_cols = NULL,
+  fct_level = 1:4
+)
 }
 \arguments{
 \item{x}{data frame}
@@ -13,24 +20,84 @@ blink(x, id = NULL, eye = NULL, fct = TRUE, fct_level = 0:4, binary = TRUE)
 
 \item{eye}{passed to \link{eyes}}
 
-\item{fct}{Keep columns for reveal and va that are factors}
+\item{va_cols}{if specified, overruling automatic VA columns selection.
+tidyselection supported}
 
-\item{fct_level}{Remove columns for reveal and va when all unique values
-fall into the range of fct_level}
+\item{iop_cols}{if specified, overruling automatic IOP columns selection
+tidyselection supported}
 
-\item{binary}{Remove columns for reveal and va with logicals}
+\item{fct_level}{Remove columns for summarising when all unique values
+fall into range. character or numeric vector, default \code{1:4}}
 }
 \description{
-High level function, wrapping \link{myop}, \link{eyes} and \link{reveal}
+\code{blink} summarises your data tailored to the need of
+ophthalmic research: It looks for VA and IOP columns and summarises those
+with common statistics. In order to make it work, it requires specific
+column naming - please see section "column names" and "data coding".
 }
 \details{
-Steps of data processing:
+\code{blink} is basically a wrapper around \link{myop}, \link{eyes} and \link{reveal}:
 \itemize{
-\item checking for duplicate rows and removing them
-\item Renaming columns to prepare for myopization and VA conversion
-\item VA will always be converted to logmar by default
+\item Duplicate rows are always removed
+\item Column names are prepared for myopization (see \link{myop})
+\item VA will always be converted to logmar
+}
+
+@section Data coding:
+\itemize{
+\item Only common codes supported:
+\item \strong{eyes}: "r", "re", "od", "right" - or numeric coding r:l = 0:1 or 1:2
+\item \strong{Visual acuity}: "VA", "BCVA", "Acuity"
+\item \strong{Intraocular pressure}: "IOP", "GAT", "NCT", "pressure"
+@section Column name rules:
+\item No spaces!
+\item Do not use numeric coding for eyes in column names
+\item Separate eye and VA and IOP codes with \strong{underscores}
+("bcva_l_preop", "VA_r", "left_va", "IOP_re")
+\item Avoid separate VA or IOP codes if this is not actually containing
+VA/ IOP data (e.g. "stableVA" instead of "stable_va", ChangeIOP instead
+of "change_IOP")
+\item Keep names short
+\item Don't use underscores when you don't have to.
+Consider each section divided by an underscore as a relevant
+characteristic of your variable. ("preop" instead of "pre_op",
+"VA" instead of "VA_ETDRS_Letters")
+\item Use common codes for your patient column (see \link{eyes}, section Guessing)
+(e.g., "pat", "patient" or "ID", ideally both: "patientID" or "patID")
+\item \strong{Don't be too creative with your names!}
 }
 }
+\section{Names examples}{
+
+\strong{Good names}:
+-\code{c("patid", "surgery_right", "iop_r_preop", "va_r_preop", "iop_r", "iop_l")}
+
+\strong{OK names}
+-\code{c("Id", "Eye", "BaselineAge", "VA_ETDRS_Letters", "InjectionNumber")}:
+Names are long and there are two unnecessary underscore in the VA column.
+Better just "VA"
+-\code{c("id", "r",  "l")}: All names are commonly used (good!),
+but which dimension of "r"/"l" are we exactly looking at?
+
+\strong{Bad names} (\code{eye} will fail)
+\itemize{
+\item \code{c("id", "iopr", "iopl", "VAr", "VAl")}:
+\code{eye} won't be able to recognize IOP and VA columns
+\item \code{c("id", "iop_r", "iop_l", "stable_iop_r", "stable_iop_l")}:
+\code{eye} \emph{may} wrongly identify the (probably logical) columns "stable_iop"
+as columns containing IOP data. Better maybe: "stableIOP_l"
+\item \code{c("person", "goldmann", "vision")}: \code{eye} will not recognize that at all
+@section tidy data:
+\strong{blink and myop work more reliably with clean data}
+(any package will, really!).
+\href{https://tidyr.tidyverse.org/articles/tidy-data.html}{clean data.}
+}
+
+@importFrom dplyr mutate_at
+@importFrom rlang enquo
+@importFrom tidyselect eval_select
+}
+
 \examples{
 blink(amd)
 

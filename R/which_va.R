@@ -2,7 +2,8 @@
 #' Guessing the VA class
 #' @name which_va
 #' @param x Vector with VA entries
-#' @description Guessing the VA notation (VA class)
+#' @description Guessing the VA notation (VA class). Requires x that was
+#' prepared with [clean_va]
 #' * `which_va`: guessing VA class for entire vector
 #' @family VA helper
 #' @family VA converter

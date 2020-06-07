@@ -3,26 +3,21 @@
 \name{myop}
 \alias{myop}
 \alias{myope}
-\alias{myopise}
-\alias{myopize}
 \alias{myopic}
 \title{Myopic eye data}
 \usage{
-myop(x, var_name = "value")
+myop(x, var = "value")
 
-myope(x, var_name = "value")
+myope(x, var = "value")
 
-myopise(x, var_name = "value")
-
-myopize(x, var_name = "value")
-
-myopic(x, var_name = "value")
+myopic(x, var = "value")
 }
 \arguments{
 \item{x}{data frame}
 
-\item{var_name}{to be specified if there is only one column per eye with
-no info on the variable}
+\item{var}{Character vector of length 1 specifying the variable if there
+is only one column per eye with no further info on the variable
+(default "value")}
 }
 \description{
 Pivot "eye" variable to one column
@@ -56,7 +51,7 @@ The strings for eyes need to be \strong{separated by period or underscores}.
 
 An exception is when there is only one column for each eye. Then
 the column names can consist of eye strings (see above) only.
-In this case, \emph{var_name} will be used to "name" the resulting variable.
+In this case, \emph{var} will be used to "name" the resulting variable.
 
 If there are only eye columns in your data (should actually not happen),
 myop will create identifiers by row position.

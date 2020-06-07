@@ -2,8 +2,9 @@
 #' @description Pivot "eye" variable to one column
 #' @name myop
 #' @param x data frame
-#' @param var_name to be specified if there is only one column per eye with
-#'   no info on the variable
+#' @param var Character vector of length 1 specifying the variable if there
+#'  is only one column per eye with no further info on the variable
+#'  (default "value")
 #' @details
 #' Out of convenience, data is often entered in a very "wide" format:
 #' there will be two columns for the same variable, one column for each eye.
@@ -32,7 +33,7 @@
 #'
 #' An exception is when there is only one column for each eye. Then
 #' the column names can consist of eye strings (see above) only.
-#' In this case, *var_name* will be used to "name" the resulting variable.
+#' In this case, *var* will be used to "name" the resulting variable.
 #'
 #' If there are only eye columns in your data (should actually not happen),
 #' myop will create identifiers by row position.
@@ -55,75 +56,30 @@
 #'
 #' @export
 
-myop <- function(x, var_name = "value") {
-  x_sym <- deparse(substitute(x))
-  ls_eye <- getElem_eye(x)
-  eye_cols <- unlist(ls_eye)
-  eye_str <- whole_str(c("eyes", "eye"))(names(x))
-
-  if (anyDuplicated(x)) {
-    which_dupe <- paste(which(duplicated(x) | duplicated(x, fromLast = TRUE)),
-      collapse = ","
-    )
-    warning(paste0(
-      "Removed duplicate rows from data (rows ", which_dupe, ")"
-    ), call. = FALSE)
-    x <- x[!duplicated(x), ]
-  }
-
-  if (any(grepl("\\.", names(x)))) {
-    names(x) <- gsub("\\.", "_", names(x))
-  }
-  if (all(lengths(ls_eye) == 1) & !all(grepl("_", eye_cols))) {
-    names(x)[names(x) %in% eye_cols] <- paste(eye_cols, var_name, sep = "_")
-  }
-  if (any(lengths(ls_eye) < 1) | length(eye_str > 0) | !any(grepl("_", names(x)))) {
-    warning("Data seems already myopic - no changes made. ?myop for help",
-      call. = FALSE
-    )
-    return(x)
-  }
-
-  if (length(names(x)) == length(eye_cols)) {
-    x$id <- seq_len(nrow(x))
-  }
-
-  myop_varswide(x)
+myop <- function(x, var = "value") {
+  names(x) <- myop_rename(x)
+  myopizer(x, var = var)
 }
 
 #' @rdname myop
 #' @export
 myope <- myop
 
-#' myopise
-#' @rdname myop
-#' @export
-myopise <- myop
-
-#' myopize
-#' @rdname myop
-#' @export
-myopize <- myop
-
 #' myopic
 #' @rdname myop
 #' @export
 myopic <- myop
 
-#' Long eye data
-#' @description pivots longer several columns with "eye" data
-#' @name myop_varswide
+#' myopizer
+#' @description The actual myopization using tidyr::pivot_longer
+#' several columns with partial strings with "eye codes" in their names
+#' @name myop_pivot
 #' @param x object (data frame)
 #' @import tidyr
 #' @importFrom dplyr mutate_all
+#' @family myopizer
 
-myop_varswide <- function(x) {
-  name_x <- sort_substr(
-    tolower(names(x)),
-    set_codes()[base::setdiff(names(set_codes()),
-                              c("id", "quali", "method"))]
-  )
-  names(x) <- name_x
+myop_pivot <- function(x) {
   x_long <- x %>%
     dplyr::mutate_all(as.character) %>%
     tidyr::pivot_longer(
@@ -135,5 +91,71 @@ myop_varswide <- function(x) {
     tidyr::pivot_wider(names_from = "eyekey", values_from = "new_val_wow")
 
   x_long
+}
+
+#' Rename
+#' @description Rename data names for Myop
+#' @name myop_rename
+#' @param x object (data frame)
+#' @import tidyr
+#' @importFrom dplyr mutate_all
+#' @family myopizer
+
+myop_rename <- function(x) {
+  if (any(grepl("\\.", names(x)))) {
+    names(x) <- gsub("\\.", "_", names(x))
+  }
+  name_x <- sort_substr(
+    tolower(names(x)),
+    set_codes()[base::setdiff(
+      names(set_codes()),
+      c("id", "quali", "method")
+    )]
+  )
+  name_x
+}
+
+
+#' myopizer
+#' @description checks iand prepares data frames for myopization
+#' Removing duplicates, returning myopized data if criteria fulfilled
+#' (No "eye" column, more than one variable column with eye codes
+#' as partial string). Names need to be prepared with
+#' [myop_rename]) beforehand.
+#' @name myopizer
+#' @inheritParams myop
+#' @import tidyr
+#' @importFrom dplyr mutate_all
+#' @family myopizer
+myopizer <- function(x, var = "value") {
+  x_sym <- deparse(substitute(x))
+  ls_eye <- getElem_eye(x)
+  eye_cols <- unlist(ls_eye)
+  eye_str <- whole_str(c("eyes", "eye"))(names(x))
+
+  if (anyDuplicated(x)) {
+    which_dupe <- paste(which(duplicated(x) | duplicated(x, fromLast = TRUE)),
+                        collapse = ","
+    )
+    warning(paste0(
+      "Removed duplicate rows from data (rows ", which_dupe, ")"
+    ), call. = FALSE)
+    x <- x[!duplicated(x), ]
+  }
+
+  if (all(lengths(ls_eye) == 1) & !all(grepl("_", eye_cols))) {
+    names(x)[names(x) %in% eye_cols] <- paste(eye_cols, var, sep = "_")
+  }
+  if (any(lengths(ls_eye) < 1) | length(eye_str > 0) | !any(grepl("_", names(x)))) {
+    warning("Data seems already myopic - no changes made. ?myop for help",
+            call. = FALSE
+    )
+    return(x)
+  }
+
+  if (length(names(x)) == length(eye_cols)) {
+    x$id <- seq_len(nrow(x))
+  }
+  myop_pivot(x)
 }
 

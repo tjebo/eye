@@ -9,14 +9,14 @@ Analysis of eye data
 }
 \section{Ophthalmology functions}{
 
-\emph{eye} is dedicated to facilitate ophthalmic research with its high
+\strong{\code{eye}} is dedicated to facilitate ophthalmic research with its high
 level functions
 \itemize{
-\item \code{\link{va}}: Visual acuity conversion
+\item \link[eye:va]{eye::va}: Visual acuity conversion
 \item \code{\link{eyes}}: Count eyes and patients
 \item \code{\link{myop}}: Make eye data "long"
 \item \code{\link{blink}}: wrapper around \code{va}, \code{myop} and \code{eyes}
-\emph{eye} contains a real life data set \link{amd} and some functions beyond ophtalmology, which could make your data analysis a tiny bit more convenient.
+\emph{eye} contains a real life data set \code{\link[eye:amd]{eye::amd}} and some functions beyond ophtalmology, which could make your data analysis a tiny bit more convenient.
 }
 }
 
@@ -24,7 +24,7 @@ level functions
 
 \itemize{
 \item \code{\link{reveal}}: Get common summary statistics
-\item \code{\link{geom_trail}}: A base plot type = "b" equivalent for \link{ggplot2}
+\item \code{\link{geom_trail}}: A base plot type = "b" equivalent for \link[ggplot2:ggplot2]{ggplot2::ggplot2}
 \item \code{\link{age}}: Calculate age
 \item \code{\link{csv}}: Conveniently save a data frame to csv
 }
@@ -33,8 +33,8 @@ level functions
 \seealso{
 Useful links:
 \itemize{
-\item https://github.com/tjebo/eye
-\item Report bugs at https://github.com/tjebo/eye/issues
+\item \href{https://github.com/tjebo/eye}{\code{eye} on github}
+\item \href{https://github.com/tjebo/eye/issues}{Report bugs}
 }
 }
 \author{

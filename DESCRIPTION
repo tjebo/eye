@@ -25,4 +25,5 @@ Imports:
     magrittr (>= 1.5),
     rlang (>= 0.4.6),
     stringr (>= 1.4.0),
-    tidyr (>= 1.0.3)
+    tidyr (>= 1.0.3),
+    tidyselect (>= 1.1.0)

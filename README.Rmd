@@ -33,7 +33,7 @@ column for each variable and a separate column for eyes
 - Summarising data with common statistics (mean, sd, n, range)
 - Calculating age of patients
   
-*eye* includes [`amd`](#amd-data), a real life data set of people who received intravitreal injections due to age-related macular degeneration. [@fasler]
+*eye* includes [`amd`](#amd-data), a real life data set of people who received intravitreal injections due to age-related macular degeneration in **Moorfields Eye Hospital**. [@fasler]
     
 Finally, *eye* also comes with the ggplot2 extension [`geom_trail()`](#geom_trail) for some nice trail graphs. 
 
@@ -60,7 +60,7 @@ library(eye)
 - eyestr: [return eye count as text for your report](#eyestr)
 - myop: [Make your eye data long](#myop)
 - blink: [Perceive your data in a blink of an eye](#blink)
-- Visual acuity [conversion chart](#va-conversion-chart)
+- Visual acuity [conversion chart](#va-conversion)
 - **AMD data**: [Anonymised real life data](https://datadryad.org/stash/dataset/doi:10.5061/dryad.97r9289) from a large cohort of patients with treatment-naive neovascular age-related macular degeneration (AMD) who received intravitreal anti-VEGF therapy in Moorfields Eye Hospital, London, UK. </br>
 **Kindly reference this data by citing the corresponding publication**. [@fasler] 
                   
@@ -71,12 +71,8 @@ library(eye)
                           
 ## Details and examples
 ### va
-Easy conversion from visual acuity notations in a single call to `va()`: Automatic detection of VA notation and convert to logMAR by default (but you can convert to snellen or ETDRS as well).
+Easy conversion from visual acuity notations in a single call to `va()`: Automatic detection of VA notation and convert to logMAR by default (but you can convert to snellen or ETDRS as well). For some more details see [VA conversion](#va-conversion)
 
-- VA conversion between Snellen, ETDRS and logMAR is based on charts and formulas in [@holladay], [@beck] and [@gregori]
-- Categories **counting fingers** and **hand movements** are converted following [@bach]
-- Categories **(no) light perception** are converted following the suggestions by Michael Bach
-- Visual acuity conversion chart [`va_chart`](#va-conversion-chart)                             
 ```{r va}
 ## automatic detection of VA notation and converting to logMAR by default
 x <- c(23, 56, 74, 58) ## ETDRS letters
@@ -84,16 +80,8 @@ va(x)
 
 va(x, to = "snellen") ## ... or convert to snellen
 
-x <- c("NPL", "LP", "HM", "CF","20/200", "6/9", "20/40+3", "20/50-2") 
-## snellen with "plus/minus" entries, mixed with categories 
-va(x)
-
-## A mix of notations is also possible
+## A mix of notations, with "plus/minus" entries, and categories 
 x <- c("NLP", "0.8", "34", "3/60", "2/200", "20/40+3", "20/50-2")
-va(x)
-
-## Any fraction is possible, and empty values
-x <- c("CF", "3/60", "2/200", "", "20/40+3", ".", "      ")
 va(x)
 
 ## on the inbuilt data set:
@@ -233,31 +221,24 @@ p + geom_trail(aes(group = age_cut10), size = 0) +
   geom_text(aes(label = round(mean_va, 0)), show.legend = FALSE)
 ```
 
-## Important information
+## Column names and codes
+**eye works smoother with clean data** (any package does, really!) - [Learn about clean data.](https://tidyr.tidyverse.org/articles/tidy-data.html)
 
-**I do not assume responsability for your data or analysis**. Please remain always wary when working with data. If you do get results that do not make sense, there may be a chance that the data is in an unfortunate shape for which `eye` is
-not suitable. Although I tried to think of many possible ways to have peculiar shapes of data, I am sure there will be far more creative ways out there to abuse data when entering them into spreadsheets.
+### Tips and rules for naming: 
+1) Don't be too creative with your names! 
+2) Use common coding:
+- **eyes**: "r", "re", "od", "right" - or numeric coding r:l = 0:1 or 1:2
+- **Visual acuity**: "VA", "BCVA", "Acuity"
+- **Intraocular pressure**: "IOP", "GAT", "NCT", "pressure"
+- **Patient identifier**: "pat", "patient", "ID" (ideally both: "patientID" or "patID")
+3) Column names:
+- No spaces! 
+- Do not use numeric coding for eyes in column names
+- Separate eye and VA and IOP codes with underscores ("bcva_l_preop", "VA_r", "left_va", "IOP_re")
+- Keep names short
+- Don't use underscores when you don't need to: Consider each section divided by an underscore as a relevant characteristic of your variable. E.g., "preop" instead of "pre_op", or simply "VA" instead of "VA_ETDRS_Letters"
 
-**eye will work smoother with clean data** (any package will, really!). [Learn about clean data.](https://tidyr.tidyverse.org/articles/tidy-data.html)
-
-In `eye`, there are not many rules to follow:
-
-**Data coding:**
-
-* Use common codes for eyes ("r", "re", "od", "right" - or numeric coding with 0:1 and 1:2)
-
-**Column names:**
-
-* No spaces! 
-* Do not use numeric coding for eyes in column names
-* Use common codes for visual acuity ("VA", "BCVA", "Acuity") 
-* Use common codes for intraocular pressure ("IOP", "GAT", "NCT", "pressure") 
-* Separate eye and VA and IOP codes with underscores ("bcva_l_preop", "VA_r", "left_va", "IOP_re")
-* Keep names short
-* Don't use underscores when you don't have to. Consider each section divided by an underscore as a relevant characteristic of your variable. E.g., "preop" instead of "pre_op", or "VA" instead of "VA_ETDRS_Letters"
-* Use common codes for your patient column (e.g., "pat", "patient" or "ID", ideally both: "patientID" or "patID")
-* **Don't be too creative with your names!** 
-
+### Name examples
 Good names (`eye` will work nicely)
 ```{r}
 ## right and left eyes have common codes
@@ -296,14 +277,18 @@ c("person", "goldmann", "vision")
 ## Not even clear to humans
 c("var1", "var2", "var3")
 ```
-                                                                              
-## Acknowledgements
 
-- Thanks to **Alasdair Warwick** for testing and suggestions, **Tim Yap**, **Siegfried Wagner** for suggestions and **Abraham Olvera** to help testing.
-- Thanks to Hadley Wickham and all developers of the `tidyverse` packages and the packages `roxygen2`, `usethis`, `testthis` and `devtools`, all on which `eye` heavily relies.
+## Important notes
+**I do not assume responsability for your data or analysis**. Please always keep a critical mind when working with data - if you do get results that seem implausible, there may be a chance that the data is in an unfortunate shape for which `eye` may not be suitable. 
 
-## VA conversion chart
+## VA conversion
+- VA conversion between Snellen, ETDRS and logMAR is based on charts and formulas in [@holladay], [@beck] and [@gregori]
+- Categories **counting fingers** and **hand movements** are converted following [@bach]
+- Categories **(no) light perception** are converted following the suggestions by Michael Bach
+ 
+### VA conversion chart 
 This chart is included in the package (`va_chart`)
+
 <div style = "font-size:8 pt;">
 |Snellen feet |Snellen meter |Snellen decimal |logMAR | ETDRS| Categories |
 |----------|---------|-----------|------|-----|-----|
@@ -338,6 +323,11 @@ This chart is included in the package (`va_chart`)
 |20/13      |6/4       |1.5         |-0.2   |    95|NA    |
 |20/10      |6/3       |2.0         |-0.3   |   100|NA    |
 </div>
+
+## Acknowledgements
+
+- Thanks to **Alasdair Warwick** for both invaluable suggestions and testing, **Tim Yap** and **Siegfried Wagner** for great suggestions and **Abraham Olvera** for testing.
+- Thanks to Hadley Wickham and all developers of the `tidyverse` packages and the packages `roxygen2`, `usethis`, `testthis` and `devtools`, all on which `eye` heavily relies.
 
 ## Resources
 

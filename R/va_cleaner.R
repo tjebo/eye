@@ -1,5 +1,5 @@
 #' Visual acuity entry cleaner
-#' @name va_cleaner
+#' @name clean_va
 #' @param x Vector with VA entries
 #' @description Internal functions for VA cleaning.
 #' `va_cleaner`:
@@ -22,7 +22,6 @@ clean_va <- function(x){
   convert_NLP(x)
 }
 
-#' VA cleaner helper
 #' @rdname clean_va
 #' @param replace_PL named vector how to rename qualitative VA
 #' @family VA cleaner
@@ -34,7 +33,6 @@ convert_NLP <- function(x, replace_PL = c(pl = "lp", npl = "nlp")) {
 
 #' @rdname clean_va
 #' @param full vector of full strings to be replaced by NA
-#' @param partial vector of partial strings to be replaced by NA
 isNAstring <- function(x, full = c("\\.+", "", "\\s+", "n/a", "na", "null")) {
   x <- tolower(x)
   full <- paste0("^", paste(full, collapse = "$|^"), "$")

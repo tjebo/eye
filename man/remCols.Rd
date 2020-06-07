@@ -4,19 +4,15 @@
 \alias{remCols}
 \title{Remove cols from selected cols}
 \usage{
-remCols(x, cols, fct, fct_level, binary)
+remCols(x, cols, fct_level)
 }
 \arguments{
 \item{x}{data frame}
 
 \item{cols}{cols}
 
-\item{fct}{Keep columns for reveal and va that are factors}
-
 \item{fct_level}{Remove columns for reveal and va when all unique values
 fall into the range of fct_level}
-
-\item{binary}{Remove columns for reveal and va with logicals}
 }
 \description{
 avoiding colums that only

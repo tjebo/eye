@@ -156,8 +156,7 @@ Other VA converter:
 \code{\link{which_va}()}
 
 Other VA cleaner: 
-\code{\link{convert_NLP}()},
-\code{\link{va_cleaner}}
+\code{\link{clean_va}()}
 }
 \concept{Ophthalmic functions}
 \concept{VA cleaner}
