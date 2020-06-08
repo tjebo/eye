@@ -21,5 +21,5 @@
 #' Useful links:
 #' - \href{https://github.com/tjebo/eye}{`eye` on github}
 #' - \href{https://github.com/tjebo/eye/issues}{Report bugs}
-utils::globalVariables(c("va_chart", "funs_eyeReveal"))
+utils::globalVariables(c("va_chart"))
 

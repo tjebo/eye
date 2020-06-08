@@ -7,8 +7,8 @@ x <- y <- z <- c(rnorm(11), NA)
 mydf <- data.frame(group = rep(letters[1:3], 4), x, y, z)
 mylist <- list(x = x, y = y, z = z)
 
-# reveal(1:10)
-# reveal(mylist)
+# reveal(1:10, funs = list(mean))
+# reveal(mylist, funs = list(a = function(x) mean(x, na.rm = TRUE)))
 # reveal(mydf)
 # reveal(mydf, by = "group")
 

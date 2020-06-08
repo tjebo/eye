@@ -4,14 +4,18 @@
 \alias{reveal}
 \title{reveal}
 \usage{
-reveal(x, by = NULL, dec = 1)
+reveal(x, by = NULL, dec = 1, funs = NULL)
 }
 \arguments{
 \item{x}{data frame, numeric vector, or list of numeric vectors}
 
-\item{by}{character vector with the names of the columns}
+\item{by}{character vector with the names of the columns. Can be
+several variables!}
 
 \item{dec}{how many decimals are displayed}
+
+\item{funs}{not really meant to be used at the moment - change the
+summarising functions with a named(!) list of functions}
 }
 \value{
 data frame

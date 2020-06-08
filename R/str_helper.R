@@ -90,31 +90,3 @@ both_str <- function(string_vec) {
   }
 }
 
-#' split columns in multiple by regex
-#' @name split_mult
-#' @param x data frame
-#' @param col character
-#' @param pattern regex by which to split
-#' @param into names of columns - character vector of length of n splits
-#' @param prefix if into not specified, names created "prefix(sep)index"
-#' @param sep separator of prefix and index
-#' @importFrom stringr str_split_fixed
-#' @keywords internal
-#' @seealso
-#' modified from
-#' [this thread on stackoverflow](https://stackoverflow.com/a/47060452/7941188)
-split_mult <- function(x, col,
-                       pattern = "_",
-                       into = NULL,
-                       prefix = "var",
-                       sep = ""){
-  cols <- str_split_fixed(x[[col]], pattern, n = Inf)
-  cols[which(cols == "")] <- NA_character_
-  m <- dim(cols)[2]
-  if(length(into) == m){
-    colnames(cols) <- into
-  } else {
-    colnames(cols) <- paste(prefix, 1:m, sep = sep)
-  }
-  cbind(cols, x[names(x) != col])
-}

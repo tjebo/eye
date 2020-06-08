@@ -1,5 +1,5 @@
 Package: eye
-Title: Analysis of eye data
+Title: Analysis of Eye Data
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "Tjebo",
@@ -7,15 +7,7 @@ Authors@R:
            role = c("aut", "cre"),
            email = "tjebn@web.de",
            comment = c(ORCID = "0000-0001-5297-2301"))
-Description: eye is dedicated to facilitate ophthalmic research. 
-  Its core functions va(), eyes(), myop(), blink(), reveal() and 
-  age() are designed to help with common tasks in eye research: 
-  Visual acuity conversion for snellen, logMAR and ETDRS, counting patients and 
-  eyes, summarising data with common statistics, calculating age of patients, 
-  and reshaping eye-specific data from wide to long. 
-  eye also contains a real life data set of people who received intravitreal 
-  injections due to age-related macular degeneration in 
-  Moorfields Eye Hospital, London, UK.
+Description: A tool to facilitate common tasks in ophthalmic research. 
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -28,7 +20,7 @@ Suggests:
     knitr,
     rmarkdown
 Imports: 
-    dplyr (>= 0.8.5),
+    dplyr (>= 1.0.0),
     cli (>= 2.0.2),
     english (>= 1.2-5),
     lubridate (>= 1.7.8),

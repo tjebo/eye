@@ -11,23 +11,26 @@
 \usage{
 revealEye(x, ...)
 
-\method{revealEye}{list}(x, by, dec, ...)
+\method{revealEye}{list}(x, by, dec, funs, ...)
 
-\method{revealEye}{numeric}(x, dec, ...)
+\method{revealEye}{numeric}(x, dec, funs, ...)
 
-\method{revealEye}{data.frame}(x, dec, ...)
+\method{revealEye}{data.frame}(x, dec, funs, ...)
 
-\method{revealEye}{default}(x, dec, ...)
+\method{revealEye}{default}(x, dec, funs, ...)
 }
 \arguments{
-\item{x}{atomic vector, list of numeric vectors or data frame}
+\item{x}{data frame, numeric vector, or list of numeric vectors}
 
 \item{...}{further arguments passed to methods}
 
-\item{by}{grouping variable - character vector with column names
-can be several variables!}
+\item{by}{character vector with the names of the columns. Can be
+several variables!}
 
 \item{dec}{how many decimals are displayed}
+
+\item{funs}{not really meant to be used at the moment - change the
+summarising functions with a named(!) list of functions}
 }
 \value{
 data frame
