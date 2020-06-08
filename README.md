@@ -5,6 +5,8 @@ eye
 
 <!-- badges: start -->
 
+[![Travis build
+status](https://travis-ci.com/tjebo/eye.svg?branch=master)](https://travis-ci.com/tjebo/eye)
 <!-- badges: end -->
 
 See more with *eye*
@@ -212,7 +214,7 @@ blink(messy_df)
 #> va_preop: from etdrs
 #> va_postop: from etdrs
 #> 
-#> ── blink ──────────────────────────────────────────────────────────────────────
+#> ── blink ───────────────────────────────────────────────────────────────────────────
 #> ══ Data ════════════════════════════════
 #> # A tibble: 8 x 7
 #>   id    eye   surgery iop_preop iop_postop va_preop va_postop

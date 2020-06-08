@@ -6,3 +6,6 @@
 [.]rmd$
 ^README\.Rmd$
 ^LICENSE\.md$
+.git
+.Rhistory
+^\.travis\.yml$
