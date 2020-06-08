@@ -110,8 +110,7 @@ eyestr(head(amd, 100))
 ### myop
 Make your data long ("myopic")
 ```{r myop, echo=FALSE}
-set.seed(42)
-iop_wide <- data.frame(id = letters[1:3], iop_r = sample(11:13), iop_l = sample(14:16))
+iop_wide <- data.frame(id = letters[1:3], iop_r = 11:13, iop_l = 14:16)
 ```
 ```{r myop2}
 ## Simple data frame with one column for right eye and left eye.
@@ -228,7 +227,7 @@ p + geom_trail(aes(group = age_cut10), size = 0) +
 ## Names and codes
 **eye works smoother with clean data** (any package does, really!) 
 
-[Learn about clean data.](https://tidyr.tidyverse.org/articles/tidy-data.html)
+[Learn about tidy data.](https://tidyr.tidyverse.org/articles/tidy-data.html)
 
 ### Tips and rules for naming: 
 1) Don't be too creative with your names! 

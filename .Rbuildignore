@@ -3,9 +3,9 @@
 ^data-raw$
 [.]bib$
 [.]png$
-[.]rmd$
 ^README\.Rmd$
 ^LICENSE\.md$
-.git
-.Rhistory
 ^\.travis\.yml$
+^cran-comments\.md$
+^\.git$
+^\.Rhistory$

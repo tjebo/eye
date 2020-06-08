@@ -23,6 +23,7 @@ fall into range. character or numeric vector, default \code{1:4}}
 ophthalmic research: It looks for VA and IOP columns and summarises those
 with common statistics. In order to make it work, it requires specific
 column naming - please see section "column names" and "data coding".
+For more details how blink works, see \code{vignette("eye")}
 }
 \details{
 \code{blink} is basically a wrapper around \link{myop}, \link{eyes} and \link{reveal}:
@@ -113,4 +114,13 @@ va_r_preop = sample(41:43),  va_l_preop = sample(41:43),
 va_r_postop = sample(51:53), va_l_postop = sample(45:47)
 )
 blink(messy_df)
+}
+\seealso{
+\href{https://tidyselect.r-lib.org/reference/language.html}{About tidyselection}.
+
+How to rename your columns (two threads on stackoverflow.com):
+\itemize{
+\item \href{https://stackoverflow.com/questions/7531868/how-to-rename-a-single-column-in-a-data-frame}{Rename columns 1}
+\item \href{https://stackoverflow.com/questions/20987295/rename-multiple-columns-by-names/59567220#59567220}{Rename columns 2}
+}
 }

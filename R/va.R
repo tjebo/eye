@@ -67,7 +67,8 @@
 #'   - if numeric x beyond the ranges from above: `NA`
 #'   - Any other string or NA: NA
 #'
-#' Detection and convertion is on a vector as a whole by [which_va()]. If a "mixed" VA notation
+#' Detection and convertion is on a vector as a whole by [which_va()]. If a
+#' "mixed" VA notation
 #' is found, [which_va_dissect()] and [va_dissect()] will be called instead
 #' for each VA vector element individually.
 #'
@@ -84,7 +85,7 @@
 #' @section VA cleaning:
 #'   `NA`are assigned to missing entries or empty strings such as "." or "",
 #'   "plus" and "minus" from Snellen entries are removed and the
-#'   notation for qualitative entriesis simplified.
+#'   notation for qualitative entries is simplified.
 #'   For more details see [clean_va()]
 #' @return vector of class set with `to` argument
 #' @family Ophthalmic functions

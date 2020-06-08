@@ -141,8 +141,8 @@ Make your data long (“myopic”)
 iop_wide
 #>   id iop_r iop_l
 #> 1  a    11    14
-#> 2  b    13    15
-#> 3  c    12    16
+#> 2  b    12    15
+#> 3  c    13    16
 
 myop(iop_wide)
 #> # A tibble: 6 x 3
@@ -150,9 +150,9 @@ myop(iop_wide)
 #>   <chr> <chr> <chr>
 #> 1 a     r     11   
 #> 2 a     l     14   
-#> 3 b     r     13   
+#> 3 b     r     12   
 #> 4 b     l     15   
-#> 5 c     r     12   
+#> 5 c     r     13   
 #> 6 c     l     16
 ```
 
@@ -214,7 +214,7 @@ blink(messy_df)
 #> va_preop: from etdrs
 #> va_postop: from etdrs
 #> 
-#> ── blink ───────────────────────────────────────────────────────────────────────────
+#> ── blink ───────────────────────────────────────────────────────────
 #> ══ Data ════════════════════════════════
 #> # A tibble: 8 x 7
 #>   id    eye   surgery iop_preop iop_postop va_preop va_postop
@@ -366,7 +366,7 @@ p <-
 
 **eye works smoother with clean data** (any package does, really\!)
 
-[Learn about clean
+[Learn about tidy
 data.](https://tidyr.tidyverse.org/articles/tidy-data.html)
 
 ### Tips and rules for naming:

@@ -1,5 +1,7 @@
 ---
 title: "eye"
+author: "Tjebo Heeren"
+date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{eye}
@@ -13,7 +15,521 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 ```
+## See more with *eye*
 
 ```{r setup}
 library(eye)
 ```
+
+
+## Introduction
+*eye* is dedicated to facilitate ophthalmic research, providing convenient application programming interfaces (API) for common tasks: 
+
+- Visual acuity conversion between Snellen, logMAR and ETDRS [`va()`](#va)
+- Counting patients and eyes [`eyes()`](#eyes)
+- Reshaping data from wide to long [`myop()`](#myop)
+- Summarising data with common statistics (mean, sd, n, range)  [`reveal()`](#reveal)
+- [`blink()`](#blink) wraps the above four functions into one call.
+- Calculating age of patients [`age()`](#age)
+
+*eye* includes [`amd`](#amd-data), a real life data set of people who received intravitreal injections due to age-related macular degeneration in **Moorfields Eye Hospital**. (Fasler et al. 2019)
+
+*eye* includes a [conversion chart](#va-conversion-chart).
+
+This vignette provides more detailed information about the functions in this package. Specific requirements will be explained, and examples provided. 
+
+## AMD data
+`amd` is an anonymised real life data set from a large cohort of patients with treatment-naive neovascular age-related macular degeneration (AMD) who received intravitreal anti-VEGF therapy in Moorfields Eye Hospital, London, UK. [The original data can be found here.](https://datadryad.org/stash/dataset/doi:10.5061/dryad.97r9289)</br>
+**Kindly reference this data by citing the corresponding publication**. (Fasler et al. 2019)
+                  
+## Visual acuity conversion
+Easy conversion from visual acuity notations in a single call to `va()`: Automatic detection of VA notation and convert to logMAR by default (but you can convert to snellen or ETDRS as well). 
+
+`va()` Cleans and converts visual acuity notations (classes) between Snellen (decimal, meter and feet), ETDRS, and logMAR. Each class can be converted from one to another, and va() converts to logMAR by default. `va()` will detect the class automatically based on specific rules detailed below.
+
+It takes an (atomic) vector with visual acuity entries as required argument. 
+The user can specify the original VA notation, but va will check that and ignore the argument if implausible.
+
+### Conversion steps
+`va()` basically runs three main steps: 
+
+1. [Entry cleaning](#cleaning) with `clean_va()` 
+1. [Notation detection](#detection) with `which_va()`
+1. [Conversion](#conversion) with the S3 generic `convertVA()`
+
+### Cleaning
+- `NA` are assigned to missing entries or strings representing such entries (".", "", "{any number of spaces}", "N/A", "NA", "NULL")
+- "plus" and "minus" from Snellen entries are removed
+- Notation for qualitative entries is simplified (NPL becomes NLP, PL becomes LP).
+
+### Detection
+ - Internally done with `which_va()` based on the following rules
+ - if x integer and 3 < x <= 100: `etdrs`
+ - if x integer and 0 <= x <= 3: `logmar`, but you can choose `etdrs`
+ - if x numeric and -0.3 <= x <= 3: `logmar`
+ - if x numeric and all x in intersection(va_chart$logMAR, chart$snellen_dec):
+   `logmar`, but you can choose `snellen`
+ - *non-mixed class*: if all x in va_chart$snellen_dec: `snellen`
+ - *mixed class* ([which_va_dissect]): snellen_dec not supported.
+ - if character and format x/y: `snellen` (fraction)
+ - if one of "CF", "HM", "LP", "PL", "NLP", or "NPL": `quali`
+ - if numeric x beyond the ranges from above: `NA`
+ - Any other string or NA: NA
+ 
+#### Accepted VA formats
+- Snellen fractions (meter/ feet) need to be entered as fraction with
+"/".
+- **when converting to ETDRS or logMAR**: any fraction is allowed ,
+e.g. 3/60 and 2/200 will also be recognized.
+- **When converting between Snellen fractions**:
+*has to be either 6/ or 20/*. Other fractions will not be recognized -
+see **"Examples"**
+- ETDRS must be integer-equivalent between 0 and 100 (integer equivalent
+means, it can also be a character vector)
+- logMAR must be between -0.3 and 3.0
+- Qualitative must be either of PL, LP, NLP, NPL, HM, CF (any case allowed)
+- Any element which is not recognized will be converted to NA
+
+### Conversion
+- **logMAR to ETDRS**: logMAR rounded to the first digit and converted with
+the chart.
+- **Snellen to logMAR**: logMAR = -1 * log10(snellen_frac)
+- **Snellen to ETDRS**: ETDRS = 85 + 50 * log10(snellen_frac)
+[Gregori et al.](https://doi.org/10.1097/iae.0b013e3181d87e04).
+- **ETDRS to logMAR**: logMAR = -0.02 * etdrs + 1.7
+[Beck et al.](https://doi.org/10.1016/s0002-9394(02)01825-1)
+- **Hand movements and counting fingers** are converted following
+[Schulze-Bonsel et al.](https://doi.org/10.1167/iovs.05-0981)
+- **(No) light perception** are converted following the suggestions by
+[Michael Bach](https://michaelbach.de/sci/acuity.html)
+- **To Snellen**:
+Although there seems to be no good statistical reason to convert
+back to Snellen, it is a very natural thing to eye specialists to think
+in Snellen. A conversion to snellen gives a good gauge of how the visual
+acuity for the patients are. However, back-conversion should not be
+considered an exact science and any attempt to use formulas will result
+in very weird Snellen values that have no correspondence to common charts.
+Therefore, Snellen matching the nearest ETDRS and logMAR value in
+[the VA conversion chart](#va-conversion-chart) are used.
+
+Detection and convertion is on a vector as a whole by `which_va()`. If a "mixed" VA notation is found, `which_va_dissect()` and `va_dissect()` will be called instead for each VA vector element individually.
+
+### Problematic cases:
+There can be ambiguous cases for detection (detection defaults to logmar):
+
+- x is one of 0,1,2,3 - This can be ETDRS and logMAR.
+- x is one of c(1.5, 1, 0.8, 0.5, 0.4, 0.3, 0.2, 0.1, 0) - This can be Snellen decimal or logMAR.
+
+**Snellen decimals** are a particular challenge and `va` may wrongly assign  logMAR - this could happen if there are unusual snellen decimal values in the data which are not part of the [VA conversion chart](#va-conversion-chart). 
+
+E.g., check the values with `unique(x)`.
+
+### Examples
+```{r va}
+## automatic detection of VA notation and converting to logMAR by default
+x <- c(23, 56, 74, 58) ## ETDRS letters
+va(x)
+
+va(x, to = "snellen") ## ... or convert to snellen
+
+## A mix of notations, with "plus/minus" entries, and categories 
+x <- c("NLP", "0.8", "34", "3/60", "2/200", "20/40+3", "20/50-2")
+va(x)
+
+## on the inbuilt data set:
+head(va(amd$VA_ETDRS_Letters), 10) 
+
+## and indeed, there are unplausible ETDRS values in this data set:
+range(amd$VA_ETDRS_Letters)
+
+## Any fraction is possible, and empty values
+x <- c("CF", "3/60", "2/200", "", "20/40+3", ".", "      ")
+va(x)
+
+## but this not any fraction when converting from one class to the other
+x <- c("3/60", "2/200", "6/60", "20/200", "6/9")
+va(x, to="snellen", type = "m")
+```
+                            
+## Counting patients and eyes
+`eyes` offers a very simple API for counting patients and eyes. 
+
+An important step in `eyes` is the guessing of the columns that identify patients and eyes. As for `myop` and of course `blink`, a specific column naming is required for a reliable automatic detection of patient and eye column(s) (
+[see Names and codes](#names-and-codes))
+
+The arguments **id** and **eye** arguments overrule the name guessing for the respective columns.
+
+### Guessing
+Column names can be in any case. 
+
+#### patient ID columns:
+- First, `eyes` is looking for names that contain both strings
+"pat" and "id" (the order doesn't matter)
+- Next, it will look for columns that are plainly called "ID"
+- Last, it will search for all names that contain either "pat"
+or "id"
+
+#### eye variable column:
+- `eyes` looks for columns called either "eye" or "eyes"
+
+### Counting 
+For counting eyes, eyes need to be coded in commonly used ways.
+
+- `eyes` recognizes integer coding 0:1 and 1:2, with right being
+   the lower number. 
+- Or, arguably more appropriate in R, character coding for a categorical variable: `eyes` recognizes right eyes: c("r", "re", "od", "right") and
+   left eyes: c("l", "le", "os", "left").
+
+### Report:
+ `eyes` also include a convenience function to turn the count into a text. This is intended for integration into rmarkdown reports, or for easy copy / pasting. `eyes_to_string()` parses the output of `eyes` into text under the hood. Arguments to `eyes_to_string` are passed via **...**:
+ 
+ - **small_num** If TRUE (default): numbers <= 12 will be printed as words.
+ - **para** If TRUE (not default): Adding "A total of" to comply with most journal standards and to avoid awkward long numbers.
+ - **UK** TRUE: UK style (English) or FALSE (default): US style (American).
+ 
+**eyestr** is a shorthand for `eyes(x, report = TRUE)`. The name was chosen because it's a contraction of "eyes" and "strings" and it's a tiny bit easier to type than "eyetxt". 
+
+#### Use in rmarkdown
+`eyestr` was designed with the use in rmarkdown in mind, most explicitely for the use inline:
+
+We analysed `` `r knitr::inline_expr("eyestr(amd)")` `` 
+
+will give:
+
+We analysed `r eyestr(amd)`. 
+
+The beauty of this report is of course that the numbers will always update with new data. 
+
+### Examples
+```{r eyestr}
+eyes(amd)
+
+## or as text for a report
+eyestr(amd)
+
+## Complying with journal standards when at beginning of paragraph
+eyestr(amd, para = TRUE)
+ 
+## Numbers smaller than or equal to 12 will be real English
+eyestr(head(amd, 100))
+
+## But you can turn this off
+eyestr(head(amd, 100), small_num = FALSE)
+```
+
+## Make your data long ("myopic")
+Out of convenience, data is often entered in a "wide" format: In particular, in eye research, there will be often two columns for the same variable, one column for each eye. 
+
+However, "eye" is a variable (a dimension of your observation), and it should ideally be stored in one column. (It may be necessary to pivot right and left eye values into different columns for specific questions, but in my experience it is better to do this type of data transformation ad hoc only, meaning for the purpose).
+
+[Learn about tidy data.](https://tidyr.tidyverse.org/articles/tidy-data.html)
+
+`myop()` will make your data "tidier". It will remove duplicate rows, and pivot the eye variable to one column and generate a single column for each variable, thus tidying the data for specific types of analysis. For example, eight columns that store data of four variables for right and left eyes will be pivoted to 5 columns (one eye column and four further variable columns)). See also **Examples**.
+
+As with `eyes()`, `myop()` requires a specific data format. 
+If there is already a column called "eye" or "eyes", myop will not make
+any changes - because the data is then already assumed to be in long
+format. 
+
+If there still are variables spread over two columns for right and left eyes, then this is an example of messy data. A solution would be to remove or simply rename the "eye" column and then let myop do the work. However, you need to be very careful in those cases if resulting data frame is plausible. 
+
+myop will only work properly if you adhere to the following:
+
+1. Common codes for eyes:
+    - Right eyes: *"r", "re", "od", "right"*
+    - Left eyes:  *"l", "le", "os", "left"*
+1. strings for eyes need to be **separated by period or underscores**. (Periods will be replaced by underscores). 
+1. Any order of substrings is allowed:
+    - **Will work**: "va_r", "right_morningpressure", "night_iop.le", "gat_os_postop"
+    - **Will fail**: "VAr", "rightmorningPressure", "night_IOPle", "gatOSpostop"
+
+An exception is when there is only one column for each eye. Then
+the column names can consist of "eye strings" only.
+In this case, the argument *var* will be used to name the resulting variable.
+
+If there are only eye columns in your data (should actually not happen), myop will create identifiers by row position.
+
+**Please always check the result for plausibility.**
+Depending a lot on how the data was entered, the results could become
+quite surprising. There is basically a nearly infinite amount of
+possible combinations of how to enter data, and it is likely that
+myop will not be able to deal with all of them
+
+### myop under the hood
+`myop()` basically runs three main steps: 
+
+1. Removing duplicates 
+1. Rename data names with `myop_rename()` and `sort_substr()`:
+    - Replacing "." by "_"
+    - Re-arranging and recoding substrings in a way that strings for eyes always appear at first position. They will be recoded to "r" and "l"
+1. Myopization: The actual work is done with `myopizer()` and `myop_pivot()` and itself consiste of three steps. 
+    - All columns with an eye string at first position will be selected pivoted to two long colums (`key` and `value`) using `tidyr::pivot_longer`.
+    - The `key` column will be split by position into an eye column and a `variable` column. 
+    - The `variable` and `value` columns will be pivoted wide again with `tidyr::pivot_wider`.
+
+```{r }
+## the variable has not been exactly named, (but it is probably IOP data), 
+## you can specify the dimension with the var argument
+wide1 <- data.frame(id = letters[1:3],  r = 11:13 , l = 14:16)
+myop(wide1, var = "iop")
+
+## If the dimension is already part of the column names, this is not necessary. 
+iop_wide <- data.frame(id = letters[1:3], iop_r = 11:13, iop_l = 14:16)
+myop(iop_wide)
+
+## Mildly messy data frame with several variables spread over two columns:
+messy_df <- data.frame(
+  id = letters[1:4], 
+  surgery_right = c("TE", "TE", "SLT", "SLT"),
+  surgery_left = c("TE", "TE", "TE", "SLT"),
+  iop_r_preop = 21:24, iop_r_postop = 11:14,
+  iop_l_preop = 31:34, iop_l_postop = 11:14, 
+  va_r_preop = 41:44, va_r_postop = 45:48,
+  va_l_preop = 41:44, va_l_postop = 45:48
+)
+
+## myop deals with this in a breeze:
+myop(messy_df)
+```
+
+## See your data in a blink of an eye 
+`blink()` is more than just a wrapper around `myop()`, `eyes()`, `va()` and `reveal()`. It will look for VA and for IOP columns and provide the summary stats for the entire cohort and for right and left eyes for each VA and IOP variable. 
+
+**This, again, requires a certain format of names and codes** - [See Names and Codes](#names-and-codes)
+
+### Work under the hood
+1. Removing duplicates 
+1. Identification of the index of the VA and IOP columns
+1. Remove certain columns from analysis: 
+    - Logical columns 
+    - Character columns if they are not coding for Snellen fractions or "qualitative visual acuity"
+    - Those with unique values in the range of the vector defined by the argument "fct_level". Those are removed because they are likely categorical codes. If you have columns with VA or IOP that contain only 0 and 1 for example (which is unlikely, but not impossible), you can just set `fct_level = "x"` or any other arbitrary value. 
+1. Rename data names with `myop_rename()` and `sort_substr()`
+1. Getting the new names based on the indices of the colums
+1. Creating a vector of "expected new names" for the summary after myopization
+1. Myopizing if possible
+1. Converting VA vectors to logMAR
+1. Applying `reveal()` to all VA and IOP columns. 
+
+As you can see, a lot of those steps rely hugely on reasonnable naming of your columns. 
+
+If you are not happy with the automatic column selection, you can manually select the VA and IOP columns with the arguments `va_cols` or `iop_cols`. Both accept [tidyselection](https://tidyselect.r-lib.org/reference/language.html). I personally find `starts_with`, `ends_with`, `contains()` or the more general `matches()` very useful.
+
+### Examples
+```{r}
+blink(messy_df)
+
+blink(amd)
+```
+
+## Names and codes
+This chapter explains how you can improve names and codes so that `eye` will work like a charm. 
+
+If you struggle to rename your columns, please have a look at those two interesting Stackoverflow threads which suggest many different ways to rename one or more columns: 
+
+- [Rename columns 1](https://stackoverflow.com/questions/7531868/how-to-rename-a-single-column-in-a-data-frame)
+- [Rename columns 2](https://stackoverflow.com/questions/20987295/rename-multiple-columns-by-names/59567220#59567220)
+
+**eye works smoother with clean data** (any package does, really!) 
+
+### Tips and rules for naming: 
+1. Don't be too creative with your names! 
+1. Use common coding:
+    - **eyes**: "r", "re", "od", "right" - or numeric coding r:l = 0:1 or 1:2
+    - **Visual acuity**: "VA", "BCVA", "Acuity"
+    - **Intraocular pressure**: "IOP", "GAT", "NCT", "pressure"
+    - **Patient identifier**: "pat", "patient", "ID" (ideally both: "patientID" or "patID")
+1. Column names:
+    - No spaces! 
+    - Do not use numeric coding for eyes in column names
+    - Separate eye and VA and IOP codes with underscores ("bcva_l_preop", "VA_r", "left_va", "IOP_re")
+    - Keep names short
+    - Don't use underscores when you don't need to: Consider each section divided by an underscore as a relevant characteristic of your variable. E.g., "preop" instead of "pre_op", or simply "VA" instead of "VA_ETDRS_Letters"
+
+### Name examples
+Good names (`eye` will work nicely)
+```{r}
+## right and left eyes have common codes
+## information on the tested dimension is included ("iop")
+## VA and eye strings are separated by underscores
+## No unnecessary underscores.
+names(messy_df)
+
+names(iop_wide) 
+```
+
+OK names (`eye` will work)
+```{r}
+## Id and Eye are common names, there are no spaces
+## VA is separated from the rest with an underscore
+## BUT: 
+## The names are quite long 
+## There is an unnecessary underscore (etdrs are always letters). Better just "VA"
+names(amd) 
+
+## All names are commonly used (good!)
+## But which dimension of "r"/"l" are we exactly looking at? 
+c("id", "r",  "l")
+```
+
+Bad names (`eye` will fail)
+```{r}
+## VA/IOP not separated with underscore
+## `eye` won't be able to recognize IOP and VA columns
+c("id", "iopr", "iopl", "VAr", "VAl")
+
+## A human may think this is clear
+## But `eye` will fail to understand those variable names
+c("person", "goldmann", "vision")
+
+## Not even clear to humans
+c("var1", "var2", "var3")
+```
+
+### Reveal common statistics
+`reveal()` offers a simple API to show common summary statistics for all numeric columns of your data frame. `reveal()` is basically a slightly complicated wrapper around `mean()`, `sd()`, `length()`, `min()` and `max()` (with na.rm = TRUE and `length()` counting only non-NA values). 
+
+It is not really intended to replace other awesome data exploration packages / functions such as `skimr::skim`, and it will likely remain focussed on summarising numerical data only. 
+
+It uses an S3 generic under the hood with methods for atomic vectors, data frames, and lists of either atomic vectors or data frames. Character vectors will be omitted (and it should give a warning that it has done so). 
+
+`reveal()` takes the grouping argument `by` and it returns vector for atomic vectors or a data frame for lists. 
+```{r stats, warning=FALSE, message=FALSE}
+clean_df <- myop(messy_df)
+reveal(clean_df)
+
+reveal(clean_df, by = "eye")
+
+reveal(clean_df, by = c("eye", "surgery"))
+```
+
+### age
+This is a simple function and should not require much explanation. However, it may be noteworthy to mention the subtle distinction of periods and durations, which are an idiosyncrasy of time measurements and well explained [in this thread.](https://lubridate.tidyverse.org/articles/lubridate.html#time-intervals)
+
+#### Examples                                                                 
+```{r age, warning=FALSE, message=FALSE}
+dob <- c("1984-10-16", "2000-01-01")
+
+## If no second date given, the age today
+age(dob)
+
+## If the second argument is specified, the age until then
+age(dob, "2000-01-01")                                                    
+```
+
+### geom_trail
+A base plot type = "b" equivalent for ggplot. Works also with text!
+
+This vignette is not meant to dive into detail how to use `ggplot2`, an amazing package which allows for very creative data visualisation in a fairly userfriendly manner. A good place to start learning about ggplot2 is http://www.cookbook-r.com/Graphs/
+
+The following it an example of how to use `geom_trail` in the context of the inbuilt data set `amd`.
+
+First, the data needs to be prepared. I often find that especially rather unexperienced users hesitate to manipulate / shape their data before doing any visualisation or analysis. 
+
+However, there is really no need to fret. It is an often very important and necessary step. Actually, it can make your life much easier. And if you follow simple precautions, you can not cause much damage to your actual raw data. 
+
+(**Those simple precautions are**: Do not use functions in your script or report which write a file on your disk. This may easily overwrite your raw data! E.g. `write.csv` and friends should be used with great care)
+
+Any wrong assignments where you may need to rerun your scripts can be annoying, but are in itself not detrimental (provided your scripts are sound).
+
+On this note, I recommend to always start in a new session. This is another advantage of using rmarkdown. Knitting your script to a report makes you aware of inconsistencies in your script. 
+
+```{r trail, message=FALSE}
+library(ggplot2)
+library(dplyr)
+amd_aggr <-
+  amd %>%
+  group_by(
+    age_cut10 = cut_width(BaselineAge, 10),
+    days_cut90 = cut_width(FollowupDays, 90, labels = seq(0, 810, 90))
+  ) %>%
+  summarise(mean_va = mean(VA_ETDRS_Letters)) %>%
+  filter(as.integer(days_cut90) <= 9)
+```
+
+Now we can use this and make a nice graph:
+
+```
+p <-
+  ggplot(amd_aggr, aes(days_cut90, mean_va, color = age_cut10)) + 
+  scale_color_brewer(palette = "Set1") +
+  theme_classic() +
+  labs(
+    x = "Follow up time [binned by 90 days]", y = "Mean VA [ETDRS letters]",
+    color = "Age strata"
+  )
+```
+
+This one is with the lines and dots:
+```
+p + geom_trail(aes(group = age_cut10))
+```
+
+But you can also leave the points blank and include text instead:
+```
+p + geom_trail(aes(group = age_cut10), size = 0) +
+  geom_text(aes(label = round(mean_va, 0)), show.legend = FALSE)
+```
+
+## Important notes
+**I do not assume responsability for your data or analysis**. Please always keep a critical mind when working with data - if you do get results that seem implausible, there may be a chance that the data is in an unfortunate shape for which `eye` may not be suitable. 
+
+### VA conversion chart 
+This chart is included in the package as `va_chart`
+
+<div style = "font-size:8 pt;">
+|Snellen feet |Snellen meter |Snellen decimal |logMAR | ETDRS| Categories |
+|----------|---------|-----------|------|-----|-----|
+|20/20000   |6/6000    |0.001       |3      |     0|NLP   |
+|20/10000   |6/3000    |0.002       |2.7    |     0|LP    |
+|20/4000    |6/1200    |0.005       |2.3    |     0|HM    |
+|20/2000    |6/600     |0.01        |1.9    |     2|CF    |
+|20/800     |6/240     |0.025       |1.6    |     5|NA    |
+|20/630     |6/190     |0.032       |1.5    |    10|NA    |
+|20/500     |6/150     |0.04        |1.4    |    15|NA    |
+|20/400     |6/120     |0.05        |1.3    |    20|NA    |
+|20/320     |6/96      |0.062       |1.2    |    25|NA    |
+|20/300     |6/90      |0.067       |1.18   |    26|NA    |
+|20/250     |6/75      |0.08        |1.1    |    30|NA    |
+|20/200     |6/60      |0.1         |1.0    |    35|NA    |
+|20/160     |6/48      |0.125       |0.9    |    40|NA    |
+|20/125     |6/38      |0.16        |0.8    |    45|NA    |
+|20/120     |6/36      |0.167        |0.78    |    46|NA    |
+|20/100     |6/30      |0.2         |0.7    |    50|NA    |
+|20/80      |6/24      |0.25        |0.6    |    55|NA    |
+|20/70      |6/21      |0.29        |0.54   |    58|NA    |
+|20/63      |6/19      |0.32        |0.5    |    60|NA    |
+|20/60      |6/18      |0.33        |0.48   |    61|NA    |
+|20/50      |6/15      |0.4         |0.4    |    65|NA    |
+|20/40      |6/12      |0.5         |0.3    |    70|NA    |
+|20/32      |6/9.6     |0.625       |0.2    |    75|NA    |
+|20/30      |6/9       |0.66        |0.18   |    76|NA    |
+|20/25      |6/7.5     |0.8         |0.1    |    80|NA    |
+|20/20      |6/6       |1.0         |0.0    |    85|NA    |
+|20/16      |6/5       |1.25        |-0.1   |    90|NA    |
+|20/15      |6/4.5     |1.33        |-0.12  |    91|NA    |
+|20/13      |6/4       |1.5         |-0.2   |    95|NA    |
+|20/10      |6/3       |2.0         |-0.3   |   100|NA    |
+</div>
+
+## Acknowledgements
+
+- Thanks to **Alasdair Warwick** for both invaluable suggestions and testing, **Tim Yap** and **Siegfried Wagner** for great suggestions and **Abraham Olvera** for testing.
+- Thanks to Hadley Wickham and all developers of the `tidyverse` packages and the packages `roxygen2`, `usethis`, `testthis` and `devtools`, all on which `eye` heavily relies.
+
+## Resources
+
+- [Michael Bach's homepage](https://michaelbach.de/sci/acuity.html)
+- [Michael Bach on NLP and LP](https://michaelbach.de/sci/pubs/Bach2007IOVS%20eLetter%20FrACT.pdf)
+
+## References
+
+Beck, Roy W, Pamela S Moke, Andrew H Turpin, Frederick L Ferris, John Paul SanGiovanni, Chris A Johnson, Eileen E Birch, et al. 2003. “A Computerized Method of Visual Acuity Testing.” American Journal of Ophthalmology 135 (2). Elsevier BV: 194–205. https://doi.org/10.1016/s0002-9394(02)01825-1.
+
+Fasler, Katrin, Gabriella Moraes, Siegfried Wagner, Karsten U Kortuem, Reena Chopra, Livia Faes, Gabriella Preston, et al. 2019. “One- and Two-Year Visual Outcomes from the Moorfields Age-Related Macular Degeneration Database: A Retrospective Cohort Study and an Open Science Resource.” BMJ Open 9 (6). British Medical Journal Publishing Group. https://doi.org/10.1136/bmjopen-2018-027441.
+
+Gregori, Ninel Z, William Feuer, and Philip J Rosenfeld. 2010. “Novel Method for Analyzing Snellen Visual Acuity Measurements.” Retina 30 (7). Ovid Technologies (Wolters Kluwer Health): 1046–50. https://doi.org/10.1097/iae.0b013e3181d87e04.
+
+Holladay, Jack T. 2004. “Visual Acuity Measurements.” Journal of Cataract and Refractive Surgery 30 (2): 287–90. https://doi.org/10.1016/j.jcrs.2004.01.014.
+
+Schulze-Bonsel, Kilian, Nicolas Feltgen, Hermann Burau, Lutz Hansen, and Michael Bach. 2006. “Visual Acuities ‘Hand Motion’ and ‘Counting Fingers’ Can Be Quantified with the Freiburg Visual Acuity Test.” Investigative Ophthalmology & Visual Science 47 (3): 1236–40. https://doi.org/10.1167/iovs.05-0981.

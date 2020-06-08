@@ -96,7 +96,8 @@ element by element with \link{which_va_dissect} and \link{va_dissect}
 \item Any other string or NA: NA
 }
 
-Detection and convertion is on a vector as a whole by \code{\link[=which_va]{which_va()}}. If a "mixed" VA notation
+Detection and convertion is on a vector as a whole by \code{\link[=which_va]{which_va()}}. If a
+"mixed" VA notation
 is found, \code{\link[=which_va_dissect]{which_va_dissect()}} and \code{\link[=va_dissect]{va_dissect()}} will be called instead
 for each VA vector element individually.
 }
@@ -118,7 +119,7 @@ values with \code{unique(x)}.
 
 \code{NA}are assigned to missing entries or empty strings such as "." or "",
 "plus" and "minus" from Snellen entries are removed and the
-notation for qualitative entriesis simplified.
+notation for qualitative entries is simplified.
 For more details see \code{\link[=clean_va]{clean_va()}}
 }
 

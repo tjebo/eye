@@ -3,6 +3,7 @@
 #' ophthalmic research: It looks for VA and IOP columns and summarises those
 #' with common statistics. In order to make it work, it requires specific
 #' column naming - please see section "column names" and "data coding".
+#' For more details how blink works, see `vignette("eye")`
 #' @name blink
 #' @param x data frame
 #' @param va_cols if specified, overruling automatic VA columns selection.
@@ -70,6 +71,11 @@
 #' @importFrom rlang enquo
 #' @importFrom tidyselect eval_select
 #' @importFrom tibble as_tibble
+#' @seealso [About tidyselection](https://tidyselect.r-lib.org/reference/language.html).
+#'
+#' How to rename your columns (two threads on stackoverflow.com):
+#' - [Rename columns 1](https://stackoverflow.com/questions/7531868/how-to-rename-a-single-column-in-a-data-frame)
+#' - [Rename columns 2](https://stackoverflow.com/questions/20987295/rename-multiple-columns-by-names/59567220#59567220)
 #' @examples
 #' blink(amd)
 #'
