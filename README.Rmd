@@ -224,9 +224,9 @@ p + geom_trail(aes(group = age_cut10), size = 0) +
 ```
 
 ## Names and codes
-**eye works smoother with clean data** (any package does, really!) 
+**eye works smoother with tidy data** (any package does, really!) 
 
-[Learn about tidy data.](https://tidyr.tidyverse.org/articles/tidy-data.html)
+An important part of tidy data are good names. [Learn more about tidy data.](https://tidyr.tidyverse.org/articles/tidy-data.html)
 
 ### Tips and rules for naming: 
 1) Don't be too creative with your names! 

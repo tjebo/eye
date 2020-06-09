@@ -364,9 +364,9 @@ p <-
 
 ## Names and codes
 
-**eye works smoother with clean data** (any package does, really\!)
+**eye works smoother with tidy data** (any package does, really\!)
 
-[Learn about tidy
+An important part of tidy data are good names. [Learn more about tidy
 data.](https://tidyr.tidyverse.org/articles/tidy-data.html)
 
 ### Tips and rules for naming:
