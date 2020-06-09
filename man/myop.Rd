@@ -4,7 +4,7 @@
 \alias{myop}
 \alias{myope}
 \alias{myopic}
-\title{Myopic eye data}
+\title{myopic}
 \usage{
 myop(x, var = "value")
 

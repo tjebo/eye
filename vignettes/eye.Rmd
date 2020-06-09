@@ -25,29 +25,35 @@ library(eye)
 ## Introduction
 *eye* is dedicated to facilitate ophthalmic research, providing convenient application programming interfaces (API) for common tasks: 
 
-- Visual acuity conversion between Snellen, logMAR and ETDRS [`va()`](#va)
-- Counting patients and eyes [`eyes()`](#eyes)
-- Reshaping data from wide to long [`myop()`](#myop)
-- Summarising data with common statistics (mean, sd, n, range)  [`reveal()`](#reveal)
-- [`blink()`](#blink) wraps the above four functions into one call.
-- Calculating age of patients [`age()`](#age)
+- [Visual acuity conversion](#va) between Snellen, logMAR and ETDRS
+- [Counting patients and eyes](#eyes)
+- [Tidy eye data](#myop): One column for "eye" (r/l) and dedicated columns for each eye-related variable
 
-*eye* includes [`amd`](#amd-data), a real life data set of people who received intravitreal injections due to age-related macular degeneration in **Moorfields Eye Hospital**. (Fasler et al. 2019)
+Further, it provides tools for easy data summaries and calculations:
 
-*eye* includes a [conversion chart](#va-conversion-chart).
+- [Summarising data](#reveal) with common statistics (mean, sd, n, range)
+- Summarise your data in a [blink of an eye](#blink)
+- [Calculating age](#age) of patients
 
-This vignette provides more detailed information about the functions in this package. Specific requirements will be explained, and examples provided. 
+*eye* includes [the real life data set `amd`](#amd), of people who received intravitreal anti-VEGF injections for treatment naive neovascular age-related macular degeneration in **Moorfields Eye Hospital**. (Fasler et al. 2019)
 
-## AMD data
-`amd` is an anonymised real life data set from a large cohort of patients with treatment-naive neovascular age-related macular degeneration (AMD) who received intravitreal anti-VEGF therapy in Moorfields Eye Hospital, London, UK. [The original data can be found here.](https://datadryad.org/stash/dataset/doi:10.5061/dryad.97r9289)</br>
+*eye* includes a [visual acuity conversion chart](#va-conversion-chart).
+
+## AMD data set {#amd}
+`amd` is an anonymised real life data set from a large cohort of patients with treatment-naive neovascular age-related macular degeneration (AMD) who received intravitreal anti-VEGF therapy in Moorfields Eye Hospital, London, UK. Data was accessed on the 25th May 2020 [from the source](https://datadryad.org/stash/dataset/doi:10.5061/dryad.97r9289)</br>
 **Kindly reference this data by citing the corresponding publication**. (Fasler et al. 2019)
-                  
-## Visual acuity conversion
-Easy conversion from visual acuity notations in a single call to `va()`: Automatic detection of VA notation and convert to logMAR by default (but you can convert to snellen or ETDRS as well). 
 
-`va()` Cleans and converts visual acuity notations (classes) between Snellen (decimal, meter and feet), ETDRS, and logMAR. Each class can be converted from one to another, and va() converts to logMAR by default. `va()` will detect the class automatically based on specific rules detailed below.
+There are erroneous visual acuity entries in this data set which I noticed during the work on this package. The data set curator has been contacted and it was concluded that these were erroneous entries
+in the original medical health records. I decided to keep the values in the data set and wait for the final decision how to proceed from the data set curator (if they are going to replace it with missing 
+values or not). I believe this is a great example for the challenges of real life data and a reminder to remain 
+vigilant when doing data analysis. 
 
-It takes an (atomic) vector with visual acuity entries as required argument. 
+## Visual acuity conversion {#va}
+Easy conversion from visual acuity notations in a single call to `va()`:
+
+`va()` cleans and converts visual acuity notations (classes) between Snellen (decimal, meter and feet), ETDRS, and logMAR. Each class can be converted from one to another, but `va()` converts to logMAR by default. `va()` will detect the class automatically based on specific rules detailed below.
+
+It takes an (atomic) vector with visual acuity entries as the only required argument. 
 The user can specify the original VA notation, but va will check that and ignore the argument if implausible.
 
 ### Conversion steps
@@ -58,7 +64,8 @@ The user can specify the original VA notation, but va will check that and ignore
 1. [Conversion](#conversion) with the S3 generic `convertVA()`
 
 ### Cleaning
-- `NA` are assigned to missing entries or strings representing such entries (".", "", "{any number of spaces}", "N/A", "NA", "NULL")
+- `NA` are assigned to missing entries or strings representing such entries 
+(".", "", "{any number of spaces}", "N/A", "NA", "NULL")
 - "plus" and "minus" from Snellen entries are removed
 - Notation for qualitative entries is simplified (NPL becomes NLP, PL becomes LP).
 
@@ -67,23 +74,23 @@ The user can specify the original VA notation, but va will check that and ignore
  - if x integer and 3 < x <= 100: `etdrs`
  - if x integer and 0 <= x <= 3: `logmar`, but you can choose `etdrs`
  - if x numeric and -0.3 <= x <= 3: `logmar`
- - if x numeric and all x in intersection(va_chart$logMAR, chart$snellen_dec):
-   `logmar`, but you can choose `snellen`
+ - if x numeric and all x in `intersection(va_chart$logMAR, va_chart$snellen_dec)`:
+   default to `logmar`, but you can choose `snellen` (then snellen decimal)
  - *non-mixed class*: if all x in va_chart$snellen_dec: `snellen`
  - *mixed class* ([which_va_dissect]): snellen_dec not supported.
  - if character and format x/y: `snellen` (fraction)
  - if one of "CF", "HM", "LP", "PL", "NLP", or "NPL": `quali`
- - if numeric x beyond the ranges from above: `NA`
+ - if numeric x beyond the ranges from above: `NA` (with a warning that values outside the range were found)
  - Any other string or NA: NA
  
 #### Accepted VA formats
 - Snellen fractions (meter/ feet) need to be entered as fraction with
 "/".
-- **when converting to ETDRS or logMAR**: any fraction is allowed ,
+- **converting Snellen to ETDRS or logMAR**: any fraction is allowed ,
 e.g. 3/60 and 2/200 will also be recognized.
-- **When converting between Snellen fractions**:
-*has to be either 6/ or 20/*. Other fractions will not be recognized -
-see **"Examples"**
+- **converting between Snellen fractions**:
+*has to be either 6/ or 20/*. Other fractions will not be recognized.
+See also **"Examples"**
 - ETDRS must be integer-equivalent between 0 and 100 (integer equivalent
 means, it can also be a character vector)
 - logMAR must be between -0.3 and 3.0
@@ -117,7 +124,7 @@ Detection and convertion is on a vector as a whole by `which_va()`. If a "mixed"
 ### Problematic cases:
 There can be ambiguous cases for detection (detection defaults to logmar):
 
-- x is one of 0,1,2,3 - This can be ETDRS and logMAR.
+- x is one of 0,1,2,3 - This can be both ETDRS and logMAR.
 - x is one of c(1.5, 1, 0.8, 0.5, 0.4, 0.3, 0.2, 0.1, 0) - This can be Snellen decimal or logMAR.
 
 **Snellen decimals** are a particular challenge and `va` may wrongly assign  logMAR - this could happen if there are unusual snellen decimal values in the data which are not part of the [VA conversion chart](#va-conversion-chart). 
@@ -151,8 +158,8 @@ x <- c("3/60", "2/200", "6/60", "20/200", "6/9")
 va(x, to="snellen", type = "m")
 ```
                             
-## Counting patients and eyes
-`eyes` offers a very simple API for counting patients and eyes. 
+## Counting patients and eyes {#eyes}
+`eyes` offers a very simple tool for counting patients and eyes. 
 
 An important step in `eyes` is the guessing of the columns that identify patients and eyes. As for `myop` and of course `blink`, a specific column naming is required for a reliable automatic detection of patient and eye column(s) (
 [see Names and codes](#names-and-codes))
@@ -160,9 +167,8 @@ An important step in `eyes` is the guessing of the columns that identify patient
 The arguments **id** and **eye** arguments overrule the name guessing for the respective columns.
 
 ### Guessing
-Column names can be in any case. 
-
 #### patient ID columns:
+- names can be in any case.
 - First, `eyes` is looking for names that contain both strings
 "pat" and "id" (the order doesn't matter)
 - Next, it will look for columns that are plainly called "ID"
@@ -170,6 +176,7 @@ Column names can be in any case.
 or "id"
 
 #### eye variable column:
+- names can be in any case.
 - `eyes` looks for columns called either "eye" or "eyes"
 
 ### Counting 
@@ -177,8 +184,9 @@ For counting eyes, eyes need to be coded in commonly used ways.
 
 - `eyes` recognizes integer coding 0:1 and 1:2, with right being
    the lower number. 
-- Or, arguably more appropriate in R, character coding for a categorical variable: `eyes` recognizes right eyes: c("r", "re", "od", "right") and
-   left eyes: c("l", "le", "os", "left").
+- Or, arguably more appropriate in R, character coding for a categorical variable: `eyes` recognizes right eyes: 
+`c("r", "re", "od", "right")` and
+   left eyes: `c("l", "le", "os", "left")`.
 
 ### Report:
  `eyes` also include a convenience function to turn the count into a text. This is intended for integration into rmarkdown reports, or for easy copy / pasting. `eyes_to_string()` parses the output of `eyes` into text under the hood. Arguments to `eyes_to_string` are passed via **...**:
@@ -192,11 +200,11 @@ For counting eyes, eyes need to be coded in commonly used ways.
 #### Use in rmarkdown
 `eyestr` was designed with the use in rmarkdown in mind, most explicitely for the use inline:
 
-We analysed `` `r knitr::inline_expr("eyestr(amd)")` `` 
+> We analysed `` `r knitr::inline_expr("eyestr(amd)")` `` 
 
-will give:
+*will give:*
 
-We analysed `r eyestr(amd)`. 
+> We analysed `r eyestr(amd)`. 
 
 The beauty of this report is of course that the numbers will always update with new data. 
 
@@ -217,23 +225,26 @@ eyestr(head(amd, 100))
 eyestr(head(amd, 100), small_num = FALSE)
 ```
 
-## Make your data long ("myopic")
-Out of convenience, data is often entered in a "wide" format: In particular, in eye research, there will be often two columns for the same variable, one column for each eye. 
+## Make your eye data long {#myop}
+Out of convenience, data is often entered in a "wide" format: In eye research, there will be often two columns for the same variable, one column for each eye.
 
-However, "eye" is a variable (a dimension of your observation), and it should ideally be stored in one column. (It may be necessary to pivot right and left eye values into different columns for specific questions, but in my experience it is better to do this type of data transformation ad hoc only, meaning for the purpose).
+This may be a necessary data formal for specific questions. 
 
-[Learn about tidy data.](https://tidyr.tidyverse.org/articles/tidy-data.html)
+However, "eye" is also variable (a dimension of your observation), and it can also be stored in a separate column. Indeed, in my experience R often needs eyes to be in a single column, with each other variable having their own dedicated column. 
 
-`myop()` will make your data "tidier". It will remove duplicate rows, and pivot the eye variable to one column and generate a single column for each variable, thus tidying the data for specific types of analysis. For example, eight columns that store data of four variables for right and left eyes will be pivoted to 5 columns (one eye column and four further variable columns)). See also **Examples**.
+Reshaping many such columns can be a daunting task, and `myop()` makes this easier. It will remove duplicate rows, and pivot the eye variable to one column and generate a single column for each variable, thus shaping the data for specific types of analysis. For example, eight columns that store data of four variables for right and left eyes will be pivoted to 5 columns (one eye column and four further variable columns)). See also **Examples**.
 
-As with `eyes()`, `myop()` requires a specific data format. 
+As with `eyes()`, `myop()` requires a specific data format. [See names and codes](#names-and-codes)
 If there is already a column called "eye" or "eyes", myop will not make
 any changes - because the data is then already assumed to be in long
 format. 
 
 If there still are variables spread over two columns for right and left eyes, then this is an example of messy data. A solution would be to remove or simply rename the "eye" column and then let myop do the work. However, you need to be very careful in those cases if resulting data frame is plausible. 
 
-myop will only work properly if you adhere to the following:
+[Learn about tidy data.](https://tidyr.tidyverse.org/articles/tidy-data.html)
+
+### Make myop work 
+myop will work reliably if you adhere to the following:
 
 1. Common codes for eyes:
     - Right eyes: *"r", "re", "od", "right"*
@@ -250,10 +261,7 @@ In this case, the argument *var* will be used to name the resulting variable.
 If there are only eye columns in your data (should actually not happen), myop will create identifiers by row position.
 
 **Please always check the result for plausibility.**
-Depending a lot on how the data was entered, the results could become
-quite surprising. There is basically a nearly infinite amount of
-possible combinations of how to enter data, and it is likely that
-myop will not be able to deal with all of them
+Depending a lot on how the data was entered, the results could become quite surprising. There is basically a nearly infinite amount of possible combinations of how to enter data, and it is likely that myop will not be able to deal with all of them.
 
 ### myop under the hood
 `myop()` basically runs three main steps: 
@@ -292,7 +300,9 @@ messy_df <- data.frame(
 myop(messy_df)
 ```
 
-## See your data in a blink of an eye 
+## blink
+**See your data in a blink of an eye**
+
 `blink()` is more than just a wrapper around `myop()`, `eyes()`, `va()` and `reveal()`. It will look for VA and for IOP columns and provide the summary stats for the entire cohort and for right and left eyes for each VA and IOP variable. 
 
 **This, again, requires a certain format of names and codes** - [See Names and Codes](#names-and-codes)
@@ -311,7 +321,7 @@ myop(messy_df)
 1. Converting VA vectors to logMAR
 1. Applying `reveal()` to all VA and IOP columns. 
 
-As you can see, a lot of those steps rely hugely on reasonnable naming of your columns. 
+As you can imagine, a lot of those steps rely hugely on reasonnable naming of your columns and this is what makes this function unfortunately a bit fragile. However, if you adhere to the naming conventions, blink (and myop) will do a great job for you.
 
 If you are not happy with the automatic column selection, you can manually select the VA and IOP columns with the arguments `va_cols` or `iop_cols`. Both accept [tidyselection](https://tidyselect.r-lib.org/reference/language.html). I personally find `starts_with`, `ends_with`, `contains()` or the more general `matches()` very useful.
 
@@ -323,14 +333,42 @@ blink(amd)
 ```
 
 ## Names and codes
+**eye works smoother with tidy data, and with good names** (any package does, really!) 
+
+### Tidy data
+The basic principle of tidy data is: one column for each dimension and one row for each observation.
+
+[Learn more about tidy data.](https://tidyr.tidyverse.org/articles/tidy-data.html)
+
 This chapter explains how you can improve names and codes so that `eye` will work like a charm. 
 
-If you struggle to rename your columns, please have a look at those two interesting Stackoverflow threads which suggest many different ways to rename one or more columns: 
+### How do I rename columns in R?
+When I started with R, I found it challenging to rename columns and I found the following methods very helpful:
 
-- [Rename columns 1](https://stackoverflow.com/questions/7531868/how-to-rename-a-single-column-in-a-data-frame)
-- [Rename columns 2](https://stackoverflow.com/questions/20987295/rename-multiple-columns-by-names/59567220#59567220)
+I've got a data frame with unfortunate names:
+```{r}
+name_mess <- data.frame(name = "a", oculus = "r", eyepressure = 14, vision = 0.2)
+names(name_mess)
+```
+I can rename all names easily:
+```{r}
+names(name_mess) <- c("patID", "eye", "IOP", "VA")
+names(name_mess)
+```
+To rename only specific columns, even if you are not sure about their exact position:
+```{r, include=FALSE}
+names(name_mess) <- c("name", "oculus", "eyepressure", "vision")
+```
+```{r}
+## if you only want to rename one or a few columns: 
+names(name_mess)[names(name_mess) %in% c("name", "vision")] <- c("patID", "VA")
+names(name_mess)
+```
 
-**eye works smoother with clean data** (any package does, really!) 
+For even more methods, I found those two threads on Stackoverflow very helpful: 
+
+- [Rename single column](https://stackoverflow.com/q/7531868/7941188)
+- [Rename columns with named vector](https://stackoverflow.com/q/20987295/7941188)
 
 ### Tips and rules for naming: 
 1. Don't be too creative with your names! 
@@ -386,7 +424,7 @@ c("person", "goldmann", "vision")
 c("var1", "var2", "var3")
 ```
 
-### Reveal common statistics
+## Reveal common statistics {#reveal}
 `reveal()` offers a simple API to show common summary statistics for all numeric columns of your data frame. `reveal()` is basically a slightly complicated wrapper around `mean()`, `sd()`, `length()`, `min()` and `max()` (with na.rm = TRUE and `length()` counting only non-NA values). 
 
 It is not really intended to replace other awesome data exploration packages / functions such as `skimr::skim`, and it will likely remain focussed on summarising numerical data only. 
@@ -394,6 +432,8 @@ It is not really intended to replace other awesome data exploration packages / f
 It uses an S3 generic under the hood with methods for atomic vectors, data frames, and lists of either atomic vectors or data frames. Character vectors will be omitted (and it should give a warning that it has done so). 
 
 `reveal()` takes the grouping argument `by` and it returns vector for atomic vectors or a data frame for lists. 
+
+### Examples
 ```{r stats, warning=FALSE, message=FALSE}
 clean_df <- myop(messy_df)
 reveal(clean_df)
@@ -403,10 +443,10 @@ reveal(clean_df, by = "eye")
 reveal(clean_df, by = c("eye", "surgery"))
 ```
 
-### age
+## Calculate age {#age}
 This is a simple function and should not require much explanation. However, it may be noteworthy to mention the subtle distinction of periods and durations, which are an idiosyncrasy of time measurements and well explained [in this thread.](https://lubridate.tidyverse.org/articles/lubridate.html#time-intervals)
 
-#### Examples                                                                 
+### Examples                                                                 
 ```{r age, warning=FALSE, message=FALSE}
 dob <- c("1984-10-16", "2000-01-01")
 
@@ -417,7 +457,7 @@ age(dob)
 age(dob, "2000-01-01")                                                    
 ```
 
-### geom_trail
+## geom_trail
 A base plot type = "b" equivalent for ggplot. Works also with text!
 
 This vignette is not meant to dive into detail how to use `ggplot2`, an amazing package which allows for very creative data visualisation in a fairly userfriendly manner. A good place to start learning about ggplot2 is http://www.cookbook-r.com/Graphs/
@@ -428,11 +468,11 @@ First, the data needs to be prepared. I often find that especially rather unexpe
 
 However, there is really no need to fret. It is an often very important and necessary step. Actually, it can make your life much easier. And if you follow simple precautions, you can not cause much damage to your actual raw data. 
 
-(**Those simple precautions are**: Do not use functions in your script or report which write a file on your disk. This may easily overwrite your raw data! E.g. `write.csv` and friends should be used with great care)
+(**Those simple precautions are**: Do not use functions in your script or report which write a file on your disk. This may easily overwrite your raw data! E.g. `write.csv` and friends should be used only with utmost care.)
 
 Any wrong assignments where you may need to rerun your scripts can be annoying, but are in itself not detrimental (provided your scripts are sound).
 
-On this note, I recommend to always start in a new session. This is another advantage of using rmarkdown. Knitting your script to a report makes you aware of inconsistencies in your script. 
+On this note, I recommend to always start in a fresh session and to make sure that your script does not rely on objects that have not been correctly created. This is another advantage of using rmarkdown: Knitting your script to a report makes you aware of inconsistencies in your script. 
 
 ```{r trail, message=FALSE}
 library(ggplot2)

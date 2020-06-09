@@ -27,9 +27,24 @@ A dataset containing anonymised real life human subjects data on eyes with
 treatment naive neovascular age-related macular degeneration (AMD),
 which underwent intravitreal anti-VEGF therapy with ranibizumab
 and/or aflibercept.
-
-The data was collected in Moorfields Eye Hospital, London, UK.
-
-(Information governance sign off Moorfields Eye Hospital 19/07/2018)
 }
+\details{
+The data was collected in Moorfields Eye Hospital, London, UK.
+(Information governance sign off Moorfields Eye Hospital 19/07/2018)
+
+Data was accessed on the 25th May 2020
+}
+\section{Spurious data entries}{
+
+Note there are erroneous visual acuity entries in this data set which I
+noticed during the work on this package. The data set curator has been
+contacted and it it was concluded that these were erroneous entries
+in the original medical health records. I decided to keep the
+values in the data set and wait for the final decision how to proceed
+from the data set curator (if they are going to replace it with missing
+values or not). I believe this is a great example for the
+challenges of real life data and a reminder to remain
+vigilant when doing data analysis.
+}
+
 \keyword{datasets}

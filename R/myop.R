@@ -1,4 +1,3 @@
-#' Myopic eye data
 #' @description Pivot "eye" variable to one column
 #' @name myop
 #' @param x data frame
