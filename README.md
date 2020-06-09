@@ -157,17 +157,27 @@ myop(iop_wide)
 ```
 
 Often enough, there are right eye / left eye columns for more than one
-variable, e.g., for both IOP and VA. `myop` helps you clean this mess
-and will detect those variable columns automatically.
+variable, e.g., for both IOP and VA. This may be a necessary data formal
+for specific questions.
 
-This is an example of such a messy data frame:
+However, “eye” is also variable (a dimension of your observation), and
+it can also be stored in a separate column. The data would be “longer”.
+
+Indeed, R requires exactly this data shape for many tasks: “eye\[r/l\]”
+as a separate column, and each eye-related variable (e.g., IOP or VA) in
+their own dedicated column.
+
+`myop` provides an easy to use API for an automatic reshape of your data
+to a “myop” format.
+
+This is an example of such a wide data frame:
 
 <details>
 
-<summary>Click to unfold code to create messy df </summary>
+<summary>Click to unfold code to create `wide_df` </summary>
 
 ``` r
-messy_df <- data.frame(
+wide_df <- data.frame(
   id = letters[1:4], 
   surgery_right = c("TE", "TE", "SLT", "SLT"),
   surgery_left = c("TE", "TE", "TE", "SLT"),
@@ -183,9 +193,9 @@ messy_df <- data.frame(
 <img src="man/figures/messy.png"/>
 
 ``` r
-clean_df <- myop(messy_df)
+myop_df <- myop(wide_df)
 
-clean_df
+myop_df
 #> # A tibble: 8 x 7
 #>   id    eye   surgery iop_preop iop_postop va_preop va_postop
 #>   <chr> <chr> <chr>   <chr>     <chr>      <chr>    <chr>    
@@ -210,7 +220,7 @@ cohort and for right and left eyes for each variable.
 codes**](#names-and-codes)
 
 ``` r
-blink(messy_df)
+blink(wide_df)
 #> va_preop: from etdrs
 #> va_postop: from etdrs
 #> 
@@ -267,14 +277,14 @@ Show common statistics for all numeric columns, for the entire cohort or
 aggregated by group(s):
 
 ``` r
-reveal(clean_df)
+reveal(myop_df)
 #>          var mean  sd n min max
 #> 1  iop_preop 27.5 5.5 8  21  34
 #> 2 iop_postop 12.5 1.2 8  11  14
 #> 3   va_preop 42.5 1.2 8  41  44
 #> 4  va_postop 46.5 1.2 8  45  48
 
-reveal(clean_df, by = "eye")
+reveal(myop_df, by = "eye")
 #>   eye        var mean  sd n min max
 #> 1   l  iop_preop 32.5 1.3 4  31  34
 #> 2   l iop_postop 12.5 1.3 4  11  14
@@ -285,7 +295,7 @@ reveal(clean_df, by = "eye")
 #> 7   r   va_preop 42.5 1.3 4  41  44
 #> 8   r  va_postop 46.5 1.3 4  45  48
 
-reveal(clean_df, by = c("eye", "surgery"))
+reveal(myop_df, by = c("eye", "surgery"))
 #>    eye surgery        var mean  sd n min max
 #> 1    l     SLT  iop_preop 34.0  NA 1  34  34
 #> 2    l     SLT iop_postop 14.0  NA 1  14  14
@@ -408,7 +418,7 @@ Good names (`eye` will work nicely)
 ## information on the tested dimension is included ("iop")
 ## VA and eye strings are separated by underscores
 ## No unnecessary underscores.
-names(messy_df)
+names(wide_df)
 #>  [1] "id"            "surgery_right" "surgery_left"  "iop_r_preop"  
 #>  [5] "iop_r_postop"  "iop_l_preop"   "iop_l_postop"  "va_r_preop"   
 #>  [9] "va_r_postop"   "va_l_preop"    "va_l_postop"

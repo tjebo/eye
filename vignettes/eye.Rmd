@@ -27,7 +27,7 @@ library(eye)
 
 - [Visual acuity conversion](#va) between Snellen, logMAR and ETDRS
 - [Counting patients and eyes](#eyes)
-- [Tidy eye data](#myop): One column for "eye" (r/l) and dedicated columns for each eye-related variable
+- [long eye data](#myop): One column for "eye" (r/l) and dedicated columns for each eye-related variable
 
 Further, it provides tools for easy data summaries and calculations:
 

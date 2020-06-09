@@ -118,13 +118,19 @@ iop_wide
 myop(iop_wide)
 ```
 
-Often enough, there are right eye / left eye columns for more than one variable, e.g., for both IOP and VA. `myop` helps you clean this mess and will detect those variable columns automatically.
+Often enough, there are right eye / left eye columns for more than one variable, e.g., for both IOP and VA. This may be a necessary data formal for specific questions. 
 
-This is an example of such a messy data frame:
+However, "eye" is also variable (a dimension of your observation), and it can also be stored in a separate column. The data would be "longer". 
+
+Indeed, R requires exactly this data shape for many tasks: "eye[r/l]" as a separate column, and each eye-related variable (e.g., IOP or VA) in their own dedicated column. 
+
+`myop` provides an easy to use API for an automatic reshape of your data to a "myop" format.
+
+This is an example of such a wide data frame:
 <details>
-<summary>Click to unfold code to create messy df </summary>
+<summary>Click to unfold code to create `wide_df` </summary>
 ```{r messy df}
-messy_df <- data.frame(
+wide_df <- data.frame(
   id = letters[1:4], 
   surgery_right = c("TE", "TE", "SLT", "SLT"),
   surgery_left = c("TE", "TE", "TE", "SLT"),
@@ -137,7 +143,7 @@ messy_df <- data.frame(
 </details>
 ```{r eval=FALSE, include = FALSE}
 # library(flextable)
-# messy_df %>%
+# wide_df %>%
 #   flextable() %>% 
 #   autofit() %>%
 #   save_as_image("messy.png", zoom = 3, expand = 10, webshot = "webshot")
@@ -145,9 +151,9 @@ messy_df <- data.frame(
 
 <img src="man/figures/messy.png"/>
 ```{r myop two vars}
-clean_df <- myop(messy_df)
+myop_df <- myop(wide_df)
 
-clean_df
+myop_df
 ```
 
 ### blink 
@@ -156,17 +162,17 @@ See your data in a blink of an eye - wrapper around [`myop`](#myop), [`eyes`](#e
 [**This requires a certain format of your names and codes**](#names-and-codes)
 
 ```{r}
-blink(messy_df)
+blink(wide_df)
 ```
 
 ### reveal
 Show common statistics for all numeric columns, for the entire cohort or aggregated by group(s):
 ```{r stats, warning=FALSE, message=FALSE}
-reveal(clean_df)
+reveal(myop_df)
 
-reveal(clean_df, by = "eye")
+reveal(myop_df, by = "eye")
 
-reveal(clean_df, by = c("eye", "surgery"))
+reveal(myop_df, by = c("eye", "surgery"))
 ```
 
 ### age
@@ -249,7 +255,7 @@ Good names (`eye` will work nicely)
 ## information on the tested dimension is included ("iop")
 ## VA and eye strings are separated by underscores
 ## No unnecessary underscores.
-names(messy_df)
+names(wide_df)
 
 names(iop_wide) 
 ```
