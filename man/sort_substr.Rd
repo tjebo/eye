@@ -20,6 +20,7 @@ unify code for substrings and arrange, after tokenizing
 \seealso{
 Other string matching functions: 
 \code{\link{getElem}},
+\code{\link{recode_eyes}()},
 \code{\link{set_codes}()},
 \code{\link{str_func_facs}}
 }

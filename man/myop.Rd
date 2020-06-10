@@ -2,13 +2,10 @@
 % Please edit documentation in R/myop.R
 \name{myop}
 \alias{myop}
-\alias{myope}
 \alias{myopic}
-\title{myopic}
+\title{Myopic eye data}
 \usage{
 myop(x, var = "value")
-
-myope(x, var = "value")
 
 myopic(x, var = "value")
 }

@@ -27,8 +27,8 @@ library(eye)
 
 - [Visual acuity conversion](#va) between Snellen, logMAR and ETDRS
 - [Counting patients and eyes](#eyes)
-- [long eye data](#myop): One column for "eye" (r/l) and dedicated columns for each eye-related variable
-
+- [Reshaping eye specific variables](#reshape-eye-data): One column for "eye" (r/l) and dedicated columns for each eye-related variable, or vice-versa
+- [Recoding the eye variable](#recode)
 Further, it provides tools for easy data summaries and calculations:
 
 - [Summarising data](#reveal) with common statistics (mean, sd, n, range)
@@ -225,13 +225,14 @@ eyestr(head(amd, 100))
 eyestr(head(amd, 100), small_num = FALSE)
 ```
 
-## Make your eye data long {#myop}
+## Reshape eye data 
 Out of convenience, data is often entered in a "wide" format: In eye research, there will be often two columns for the same variable, one column for each eye.
 
 This may be a necessary data formal for specific questions. 
 
 However, "eye" is also variable (a dimension of your observation), and it can also be stored in a separate column. Indeed, in my experience R often needs eyes to be in a single column, with each other variable having their own dedicated column. 
 
+### myop
 Reshaping many such columns can be a daunting task, and `myop()` makes this easier. It will remove duplicate rows, and pivot the eye variable to one column and generate a single column for each variable, thus shaping the data for specific types of analysis. For example, eight columns that store data of four variables for right and left eyes will be pivoted to 5 columns (one eye column and four further variable columns)). See also **Examples**.
 
 As with `eyes()`, `myop()` requires a specific data format. [See names and codes](#names-and-codes)
@@ -243,7 +244,7 @@ If there still are variables spread over two columns for right and left eyes, th
 
 [Learn about tidy data.](https://tidyr.tidyverse.org/articles/tidy-data.html)
 
-### Make myop work 
+#### Make myop work 
 myop will work reliably if you adhere to the following:
 
 1. Common codes for eyes:
@@ -263,7 +264,7 @@ If there are only eye columns in your data (should actually not happen), myop wi
 **Please always check the result for plausibility.**
 Depending a lot on how the data was entered, the results could become quite surprising. There is basically a nearly infinite amount of possible combinations of how to enter data, and it is likely that myop will not be able to deal with all of them.
 
-### myop under the hood
+#### myop under the hood
 `myop()` basically runs three main steps: 
 
 1. Removing duplicates 
@@ -286,7 +287,7 @@ iop_wide <- data.frame(id = letters[1:3], iop_r = 11:13, iop_l = 14:16)
 myop(iop_wide)
 
 ## Mildly messy data frame with several variables spread over two columns:
-messy_df <- data.frame(
+wide_df <- data.frame(
   id = letters[1:4], 
   surgery_right = c("TE", "TE", "SLT", "SLT"),
   surgery_left = c("TE", "TE", "TE", "SLT"),
@@ -297,7 +298,19 @@ messy_df <- data.frame(
 )
 
 ## myop deals with this in a breeze:
-myop(messy_df)
+myop(wide_df)
+```
+
+### hyperop
+Basically the opposite of [myop()] - a slightly intelligent
+wrapper around `tidyr::pivot_longer()` and `tidyr::pivot_wider()`. 
+Will find the eye column, unify the codes for the eyes (all to "r" and "l")  and pivot the columns wide, that have been specified in "cols". **Again, good names and tidy data always help!** 
+
+The cols argument takes a tidyselection. [Read about tidyselection](https://tidyselect.r-lib.org/reference/language.html)
+
+```{r}
+myop_df <- myop(wide_df)
+hyperop(myop_df, cols = matches("va|iop"))
 ```
 
 ## blink
@@ -327,9 +340,22 @@ If you are not happy with the automatic column selection, you can manually selec
 
 ### Examples
 ```{r}
-blink(messy_df)
+blink(wide_df)
 
 blink(amd)
+```
+
+## recode_eyes {#recode}
+Makes recoding eye variables very easy
+```{r}
+x <- c("r", "re", "od", "right", "l", "le", "os", "left")
+recode_eyes(x)
+## chose the resulting codes
+recode_eyes(x, to = c("right", "left"))
+x <- 1:2
+recode_eyes(x)
+## or, if right is coded with 2)
+recode_eyes(x, numcode = 2:1)
 ```
 
 ## Names and codes
@@ -391,7 +417,7 @@ Good names (`eye` will work nicely)
 ## information on the tested dimension is included ("iop")
 ## VA and eye strings are separated by underscores
 ## No unnecessary underscores.
-names(messy_df)
+names(wide_df)
 
 names(iop_wide) 
 ```
@@ -435,7 +461,7 @@ It uses an S3 generic under the hood with methods for atomic vectors, data frame
 
 ### Examples
 ```{r stats, warning=FALSE, message=FALSE}
-clean_df <- myop(messy_df)
+clean_df <- myop(wide_df)
 reveal(clean_df)
 
 reveal(clean_df, by = "eye")

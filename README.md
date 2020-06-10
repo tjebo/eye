@@ -20,10 +20,8 @@ designed to help with common tasks in eye research:
 
   - Visual acuity conversion for snellen, logMAR and ETDRS
   - Counting patients and eyes
-  - Reshape data from wide to long:  
-    Often, one variables spreads over two columns for right and left
-    eyes. But many functions need the data “long”, with only one column
-    for each variable and a separate column for eyes
+  - Recode eye strings
+  - Reshape eye specific variables  
   - Summarising data with common statistics (mean, sd, n, range)
   - Calculating age of patients
 
@@ -53,7 +51,9 @@ library(eye)
   - va: [Conversion of visual acuity notations](#va)
   - eyes: [Easy count of patients and eyes](#eyes)
   - eyestr: [return eye count as text for your report](#eyestr)
+  - recode\_eyes: [recode eye variable](#recode)
   - myop: [Make your eye data long](#myop)
+  - hyperop: [Make your eye data wide](#hyperop)
   - blink: [Perceive your data in a blink of an eye](#blink)
   - Visual acuity [conversion chart](#va-conversion)
   - **AMD data**: [Anonymised real life
@@ -132,9 +132,47 @@ eyestr(head(amd, 100))
 #> [1] "Eleven eyes of eleven patients"
 ```
 
-### myop
+### recode\_eyes
 
-Make your data long (“myopic”)
+Makes recoding eye variables very easy. It deals with weird missing
+entries like “.” and "“, or”N/A"
+
+``` r
+x <- c("r", "re", "od", "right", "l", "le", "os", "left")
+recode_eyes(x)
+#> [1] "r" "r" "r" "r" "l" "l" "l" "l"
+## chose the resulting codes
+recode_eyes(x, to = c("right", "left"))
+#> [1] "right" "right" "right" "right" "left"  "left"  "left"  "left"
+x <- 1:2
+recode_eyes(x)
+#> Eyes coded 1:2. Interpreting r = 1
+#> [1] "r" "l"
+## or, if right is coded with 2)
+recode_eyes(x, numcode = 2:1)
+#> Eyes coded 2:1 with r = 2
+#> [1] "l" "r"
+## with weird missing values
+x <- c(1:2, ".", NA, "", "    ")
+recode_eyes(x)
+#> Eyes coded 1:2. Interpreting r = 1
+#> [1] "r" "l" NA  NA  NA  NA
+```
+
+### myop - Make your data long
+
+Often enough, there are right eye / left eye columns for more than one
+variable, e.g., for both IOP and VA. This may be a necessary data formal
+for specific questions. However, “eye” is also variable (a dimension of
+your observation), and it can also be stored in a separate column. The
+data would be “longer”.
+
+Indeed, R requires exactly this data shape for many tasks: “eye\[r/l\]”
+as a separate column, and each eye-related variable (e.g., IOP or VA) in
+their own dedicated column.
+
+`myop` provides an easy to use API for an automatic reshape of your data
+to a “myop” format.
 
 ``` r
 ## Simple data frame with one column for right eye and left eye.
@@ -156,21 +194,7 @@ myop(iop_wide)
 #> 6 c     l     16
 ```
 
-Often enough, there are right eye / left eye columns for more than one
-variable, e.g., for both IOP and VA. This may be a necessary data formal
-for specific questions.
-
-However, “eye” is also variable (a dimension of your observation), and
-it can also be stored in a separate column. The data would be “longer”.
-
-Indeed, R requires exactly this data shape for many tasks: “eye\[r/l\]”
-as a separate column, and each eye-related variable (e.g., IOP or VA) in
-their own dedicated column.
-
-`myop` provides an easy to use API for an automatic reshape of your data
-to a “myop” format.
-
-This is an example of such a wide data frame:
+Or another example with many more variables:
 
 <details>
 
@@ -209,6 +233,33 @@ myop_df
 #> 8 d     l     SLT     34        14         44       48
 ```
 
+### hyperop
+
+If you actually need certain eye-related variables spread over two
+columns, `hyperop()` is your friend:
+
+``` r
+hyperop(myop(iop_wide), iop)
+#> # A tibble: 3 x 3
+#>   id    r_iop l_iop
+#>   <chr> <chr> <chr>
+#> 1 a     11    14   
+#> 2 b     12    15   
+#> 3 c     13    16
+
+hyperop(myop_df, cols = matches("va|iop"))
+#> # A tibble: 5 x 10
+#>   id    surgery r_iop_preop r_iop_postop r_va_preop r_va_postop l_iop_preop
+#>   <chr> <chr>   <chr>       <chr>        <chr>      <chr>       <chr>      
+#> 1 a     TE      21          11           41         45          31         
+#> 2 b     TE      22          12           42         46          32         
+#> 3 c     SLT     23          13           43         47          <NA>       
+#> 4 c     TE      <NA>        <NA>         <NA>       <NA>        33         
+#> 5 d     SLT     24          14           44         48          34         
+#> # … with 3 more variables: l_iop_postop <chr>, l_va_preop <chr>,
+#> #   l_va_postop <chr>
+```
+
 ### blink
 
 See your data in a blink of an eye - wrapper around [`myop`](#myop),
@@ -224,7 +275,7 @@ blink(wide_df)
 #> va_preop: from etdrs
 #> va_postop: from etdrs
 #> 
-#> ── blink ────────────────────────────────────────────────────────────────────────────
+#> ── blink ───────────────────────────────────────────────────────────────────────
 #> ══ Data ════════════════════════════════
 #> # A tibble: 8 x 7
 #>   id    eye   surgery iop_preop iop_postop va_preop va_postop
@@ -327,7 +378,7 @@ dob <- c("1984-10-16", "2000-01-01")
 
 ## If no second date given, the age today
 age(dob)
-#> [1] 35.6 20.4
+#> [1] 35.7 20.4
 age(dob, "2000-01-01")                                                    
 #> [1] 15.2  0.0
 ```
@@ -370,7 +421,7 @@ p <-
     p + geom_trail(aes(group = age_cut10), size = 0) +
         geom_text(aes(label = round(mean_va, 0)), show.legend = FALSE)
 
-<img src="man/figures/README-unnamed-chunk-5-1.png" width="45%" /><img src="man/figures/README-unnamed-chunk-5-2.png" width="45%" />
+<img src="man/figures/README-unnamed-chunk-7-1.png" width="45%" /><img src="man/figures/README-unnamed-chunk-7-2.png" width="45%" />
 
 ## Names and codes
 

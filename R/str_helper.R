@@ -89,4 +89,3 @@ both_str <- function(string_vec) {
     x[grepl(reg, tolower(x), perl = TRUE)]
   }
 }
-

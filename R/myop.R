@@ -1,3 +1,4 @@
+#' Myopic eye data
 #' @description Pivot "eye" variable to one column
 #' @name myop
 #' @param x data frame
@@ -72,11 +73,6 @@ myop <- function(x, var = "value") {
 
 #' @rdname myop
 #' @export
-myope <- myop
-
-#' myopic
-#' @rdname myop
-#' @export
 myopic <- myop
 
 #' myopizer
@@ -121,10 +117,7 @@ myop_rename <- function(x) {
   }
   name_x <- sort_substr(
     tolower(names(x)),
-    set_codes()[base::setdiff(
-      names(set_codes()),
-      c("id", "quali", "method")
-    )]
+    set_codes()[c("r", "l", "iop", "va")]
   )
   name_x
 }

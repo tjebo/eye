@@ -27,9 +27,8 @@ See more with *eye*
   
 - Visual acuity conversion for snellen, logMAR and ETDRS
 - Counting patients and eyes
-- Reshape data from wide to long:  
-  Often, one variables spreads over two columns for right and left eyes. But many functions need the data "long", with only one 
-column for each variable and a separate column for eyes 
+- Recode eye strings
+- Reshape eye specific variables  
 - Summarising data with common statistics (mean, sd, n, range)
 - Calculating age of patients
   
@@ -58,7 +57,9 @@ library(eye)
 - va: [Conversion of visual acuity notations](#va) 
 - eyes: [Easy count of patients and eyes](#eyes)
 - eyestr: [return eye count as text for your report](#eyestr)
+- recode_eyes: [recode eye variable](#recode)
 - myop: [Make your eye data long](#myop)
+- hyperop: [Make your eye data wide](#hyperop)
 - blink: [Perceive your data in a blink of an eye](#blink)
 - Visual acuity [conversion chart](#va-conversion)
 - **AMD data**: [Anonymised real life data](https://datadryad.org/stash/dataset/doi:10.5061/dryad.97r9289) from a large cohort of patients with treatment-naive neovascular age-related macular degeneration (AMD) who received intravitreal anti-VEGF therapy in Moorfields Eye Hospital, London, UK. </br>
@@ -106,8 +107,29 @@ eyestr(amd)
 eyestr(head(amd, 100))
 ```
 
-### myop
-Make your data long ("myopic")
+### recode_eyes {#recode}
+Makes recoding eye variables very easy. It deals with weird missing entries like "." and "", or "N/A"
+```{r}
+x <- c("r", "re", "od", "right", "l", "le", "os", "left")
+recode_eyes(x)
+## chose the resulting codes
+recode_eyes(x, to = c("right", "left"))
+x <- 1:2
+recode_eyes(x)
+## or, if right is coded with 2)
+recode_eyes(x, numcode = 2:1)
+## with weird missing values
+x <- c(1:2, ".", NA, "", "    ")
+recode_eyes(x)
+```
+
+### myop - Make your data long {#myop}
+Often enough, there are right eye / left eye columns for more than one variable, e.g., for both IOP and VA. This may be a necessary data formal for specific questions. However, "eye" is also variable (a dimension of your observation), and it can also be stored in a separate column. The data would be "longer". 
+
+Indeed, R requires exactly this data shape for many tasks: "eye[r/l]" as a separate column, and each eye-related variable (e.g., IOP or VA) in their own dedicated column. 
+
+`myop` provides an easy to use API for an automatic reshape of your data to a "myop" format.
+
 ```{r myop, echo=FALSE}
 iop_wide <- data.frame(id = letters[1:3], iop_r = 11:13, iop_l = 14:16)
 ```
@@ -117,16 +139,7 @@ iop_wide
 
 myop(iop_wide)
 ```
-
-Often enough, there are right eye / left eye columns for more than one variable, e.g., for both IOP and VA. This may be a necessary data formal for specific questions. 
-
-However, "eye" is also variable (a dimension of your observation), and it can also be stored in a separate column. The data would be "longer". 
-
-Indeed, R requires exactly this data shape for many tasks: "eye[r/l]" as a separate column, and each eye-related variable (e.g., IOP or VA) in their own dedicated column. 
-
-`myop` provides an easy to use API for an automatic reshape of your data to a "myop" format.
-
-This is an example of such a wide data frame:
+Or another example with many more variables:
 <details>
 <summary>Click to unfold code to create `wide_df` </summary>
 ```{r messy df}
@@ -154,6 +167,15 @@ wide_df <- data.frame(
 myop_df <- myop(wide_df)
 
 myop_df
+```
+
+### hyperop 
+If you actually need certain eye-related variables spread over two columns, `hyperop()` is your friend:
+
+```{r}
+hyperop(myop(iop_wide), iop)
+
+hyperop(myop_df, cols = matches("va|iop"))
 ```
 
 ### blink 

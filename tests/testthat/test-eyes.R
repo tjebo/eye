@@ -29,8 +29,8 @@ foo21 <- data.frame(id , eyes = c("r", "f"))
 
 test_that("messages",{
   expect_message(eyes(foo1), regexp = "Not all eyes are identified \\(contains NA\\)")
-  expect_message(eyes(foo6), "Eye coding somewhat messy")
-  expect_message(eyes(foo8), "Eye coding somewhat messy")
+  # expect_message(eyes(foo6), "Eye coding somewhat messy")
+  # expect_message(eyes(foo8), "Eye coding somewhat messy")
   expect_message(eyes(foo10), "Eyes coded 0:1")
   expect_message(eyes(foo11), regexp = "Eyes coded 1:2")
   expect_message(eyes(foo17), regexp = "No eye column found")

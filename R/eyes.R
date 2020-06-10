@@ -43,6 +43,7 @@
 #'  US style (American).
 #' @return Vector with count of patients and eyes
 #' @family eye core functions
+#' @importFrom purrr quietly
 #' @examples
 #' eyes(amd)
 #' @export
@@ -69,6 +70,21 @@ eyes <- function(x, id = NULL, eye = NULL, report = FALSE, ...) {
     message("No eye column found: Counting patients only")
     res <- c(patients = length(unique(x[[pat_col]])))
   } else if (length(eye) == 1) {
+    quiet_recode <- purrr::quietly(recode_eyes)
+    recode_eye <- quiet_recode(x[[eye]])
+    if(length(recode_eye$warnings)>0){
+      warning(paste("Unclear eye coding! Not recoded. Please clean data.
+            Your values:", paste(unique(x[[eye]]), collapse = ", ")), call. = FALSE)
+      return(NULL)
+    }
+    if(length(recode_eye$messages)>0){
+        message(gsub("\\\n", "", recode_eye$messages))
+    }
+    x[[eye]] <- recode_eye$result
+
+    if (sum(is.na(x[[eye]]) > 0)) {
+      message("Not all eyes are identified (contains NA)")
+    }
     res <- count_eyes(x = x, pat_col = pat_col, eye = eye)
   }
   if (report) {
@@ -89,55 +105,9 @@ eyes <- function(x, id = NULL, eye = NULL, report = FALSE, ...) {
 #'   for [`eyes()`]
 count_eyes <- function(x, pat_col, eye) {
   n_pat <- length(unique(x[[pat_col]]))
-  eye_str <- set_codes()[c("r", "l")]
-  eye_int <- suppressWarnings(unique(as.integer(x[[eye]])))
-  eye_integ <- eye_int[!is.na(eye_int)]
-  eye_char <- as.logical(sum(is.na(eye_int)))
-
-  if (eye_char & length(eye_integ > 0)) {
-    warning("Unclear eye coding! Please clean data", call. = FALSE)
-    return(NULL)
-  }
-  if (length(eye_integ) > 2 | length(eye_integ) == 1) {
-    warning("Unclear eye coding! Please clean data", call. = FALSE)
-    return(NULL)
-  } else if (length(eye_integ) == 2) {
-    if (!(all(eye_integ %in% 0:1) | all(eye_integ %in% 1:2))) {
-      warning("Unclear eye coding! Please clean data", call. = FALSE)
-      return(NULL)
-    } else {
-      if (all(eye_integ %in% 0:1)) {
-        message("Eyes coded 0:1. Interpreting r = 0")
-      } else if (all(eye_integ %in% 1:2)) {
-        message("Eyes coded 1:2. Interpreting r = 1")
-      }
-    }
-  } else if (eye_char) {
-    if (!all(tolower(unique(x[[eye]])) %in% c(NA, unname(unlist(eye_str))))) {
-      warning("Unclear eye coding! Please clean data", call. = FALSE)
-      return(NULL)
-      rm}
-  }
-  if (sum(is.na(x[[eye]]) > 0)) {
-    message("Not all eyes are identified (contains NA)")
-  }
   eye_tab <- table(unique(x[, c(pat_col, eye)]))
-  if (!eye_char) {
-    n_r <- unname(colSums(eye_tab[, 1, drop = FALSE]))
-    n_l <- unname(colSums(eye_tab[, 2, drop = FALSE]))
-  } else {
-    tab_r <- eye_tab[, tolower(colnames(eye_tab)) %in% eye_str$r, drop = FALSE]
-    tab_l <- eye_tab[, tolower(colnames(eye_tab)) %in% eye_str$l, drop = FALSE]
-
-    if (ncol(tab_r) > 1 | ncol(tab_l) > 1) {
-      paste_fac <- function(x) {
-        paste(x, collapse = ",")
-      }
-      message("Eye coding somewhat messy - recommend cleaning")
-    }
-    n_r <- sum(colSums(tab_r))
-    n_l <- sum(colSums(tab_l))
-  }
+  n_r <- unname(colSums(eye_tab[, colnames(eye_tab) == "r", drop = FALSE]))
+  n_l <- unname(colSums(eye_tab[, colnames(eye_tab) == "l", drop = FALSE]))
   n_eyes <- n_r + n_l
   res <- c(patients = n_pat, eyes = n_eyes, right = n_r, left = n_l)
   res
