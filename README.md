@@ -514,6 +514,36 @@ c("var1", "var2", "var3")
 #> [1] "var1" "var2" "var3"
 ```
 
+### How do I rename columns in R?
+
+When I started with R, I found it challenging to rename columns and I
+found the following threads on stackoverflow very helpful:
+
+  - [Rename single column](https://stackoverflow.com/q/7531868/7941188)
+  - [Rename columns with named
+    vector](https://stackoverflow.com/q/20987295/7941188)
+
+I find the two following methods straight forward:
+
+``` r
+# I've got a data frame with unfortunate names:
+name_mess <- data.frame(name = "a", oculus = "r", eyepressure = 14, vision = 0.2)
+names(name_mess)
+#> [1] "name"        "oculus"      "eyepressure" "vision"
+
+## rename all names
+names(name_mess) <- c("patID", "eye", "IOP", "VA")
+names(name_mess)
+#> [1] "patID" "eye"   "IOP"   "VA"
+```
+
+``` r
+## To rename only specific columns, even if you are not sure about their exact position:
+names(name_mess)[names(name_mess) %in% c("name", "vision")] <- c("patID", "VA")
+names(name_mess)
+#> [1] "patID"       "oculus"      "eyepressure" "VA"
+```
+
 ## Important notes
 
 **I do not assume responsability for your data or analysis**. Please
