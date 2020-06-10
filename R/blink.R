@@ -171,24 +171,28 @@ blink <- function(x, va_cols = NULL, iop_cols = NULL,
 #' @rdname remCols
 remCols <- function(x, cols, fct_level) {
   sapply(cols, function(col) {
+    y <- x[[col]]
+    y_new <- tolower(suppressWarnings(as.character(y)))
 
-  y <- x[[col]]
-  y_new <- tolower(suppressWarnings(as.character(y)))
-  if (all(y_new[!is.na(y_new)] %in% unlist(set_codes()["quali"]))) {
-    return(TRUE)
-  }
-  y_noquali <- y_new[!y_new %in% unlist(set_codes()["quali"])]
-  y_num <- suppressWarnings(as.numeric(y_noquali))
-  if (all(is.na(y_num))|
+    if (all(y_new[!is.na(y_new)] %in% unlist(set_codes()["quali"]))) {
+      return(TRUE)
+    }
+    y_noquali <- y_new[!y_new %in% unlist(set_codes()["quali"])]
+    y_num <- suppressWarnings(as.numeric(y_noquali))
+
+    if (any(grepl("/", y_noquali))) {
+      res <- TRUE
+    } else if (all(is.na(y_num)) |
       all(unique(y_new) %in% c("true", "false"))) {
-    return(FALSE)
-  }
-  if(all(unique(y_new) %in% tolower(fct_level))){
-    res <- FALSE
-  } else {
-    res <- TRUE
-  }
-  res
-  }
-, USE.NAMES = FALSE)
+      return(FALSE)
+    }
+    if (all(unique(y_new) %in% tolower(fct_level))) {
+      res <- FALSE
+    } else {
+      res <- TRUE
+    }
+    res
+  },
+  USE.NAMES = FALSE
+  )
 }
