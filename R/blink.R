@@ -6,6 +6,7 @@
 #' For more details how blink works, see `vignette("eye")`
 #' @name blink
 #' @param x data frame
+#' @param va_to to which VA notation (passed to [va()])
 #' @param va_cols if specified, overruling automatic VA columns selection.
 #'   tidyselection supported
 #' @param iop_cols if specified, overruling automatic IOP columns selection.
@@ -89,7 +90,8 @@
 
 #' @export
 
-blink <- function(x, va_cols = NULL, iop_cols = NULL,
+blink <- function(x, va_to = "logmar",
+                  va_cols = NULL, iop_cols = NULL,
                   fct_level = 0:4) {
   if(!rlang::quo_is_null(rlang::enquo(va_cols))){
       x_exp <- rlang::enquo(va_cols)
@@ -119,7 +121,7 @@ blink <- function(x, va_cols = NULL, iop_cols = NULL,
     names_va <- names(x)[va_true]
     new_names_va <- unique(gsub("^(r|l)_", "", names_va))
     #update VA with VA
-    x_myop <- dplyr::mutate_at(x_myop, new_names_va, .funs = va)
+    x_myop <- dplyr::mutate_at(x_myop, new_names_va, .funs = va, to = va_to)
     # summary for VA cols (based on new names!)
     res_va <- reveal(x_myop[new_names_va])
     if(length(eye_cols) > 0){

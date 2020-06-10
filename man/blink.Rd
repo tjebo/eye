@@ -4,10 +4,12 @@
 \alias{blink}
 \title{Your data in a blink of an eye}
 \usage{
-blink(x, va_cols = NULL, iop_cols = NULL, fct_level = 0:4)
+blink(x, va_to = "logmar", va_cols = NULL, iop_cols = NULL, fct_level = 0:4)
 }
 \arguments{
 \item{x}{data frame}
+
+\item{va_to}{to which VA notation (passed to \code{\link[=va]{va()}})}
 
 \item{va_cols}{if specified, overruling automatic VA columns selection.
 tidyselection supported}
