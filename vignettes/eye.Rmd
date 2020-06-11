@@ -64,10 +64,15 @@ The user can specify the original VA notation, but va will check that and ignore
 1. [Conversion](#conversion) with the S3 generic `convertVA()`
 
 ### Cleaning
-- `NA` are assigned to missing entries or strings representing such entries 
+1. `NA` are assigned to missing entries or strings representing such entries 
 (".", "", "{any number of spaces}", "N/A", "NA", "NULL")
-- "plus" and "minus" from Snellen entries are removed
-- Notation for qualitative entries is simplified (NPL becomes NLP, PL becomes LP).
+1. Notation for qualitative entries is simplified (NPL becomes NLP, PL becomes LP).
+1. "plus" and "minus" from Snellen entries are converted: 
+    - if entry -1 to +3 : take same Snellen value
+    - if <= -2 : take Snellen value one line below
+    - if >+3 (unlikely, but unfortunately not impossible): Snellen value one line above
+
+Snellen are unfortunately often entered with "+/-", which is a violation of psychophysical methods designed to assign one (!) unambiguous value to visual acuity, with non-arbitrary thresholds based on psychometric functions. Therefore, transforming "+/-" notation to actual results is in itself problematic and the below suggestion to convert it will remain an approximation to the most likely "true" result. Even more so, as the given conditions should work for charts with 4 or 5 optotypes in a line, and visual acuity is not always tested on such charts. Yet, I believe that the approach is still better than just omitting the letters or (worse) assigning a missing value to those entries. 
 
 ### Detection
  - Internally done with `which_va()` based on the following rules

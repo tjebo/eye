@@ -117,10 +117,18 @@ values with \code{unique(x)}.
 
 \section{VA cleaning}{
 
-\code{NA}are assigned to missing entries or empty strings such as "." or "",
-"plus" and "minus" from Snellen entries are removed and the
-notation for qualitative entries is simplified.
 For more details see \code{\link[=clean_va]{clean_va()}}
+\enumerate{
+\item \code{NA} is assigned to strings such as "." or "", "n/a" or "   "
+\item "plus" and "minus" from Snellen entries are converted:
+\itemize{
+\item if entry -1 to +3 : take same Snellen value
+\item if <= -2 : take Snellen value one line below
+\item if >+3 (unlikely, but unfortunately not impossible):
+Snellen value one line above
+}
+\item notation for qualitative entries is simplified.
+}
 }
 
 \examples{

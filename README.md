@@ -92,11 +92,17 @@ va(x, to = "snellen") ## ... or convert to snellen
 #> x: from etdrs
 #> [1] "20/320" "20/80"  "20/32"  "20/70"
 
-## A mix of notations, with "plus/minus" entries, and categories 
-x <- c("NLP", "0.8", "34", "3/60", "2/200", "20/40+3", "20/50-2")
+## A mix of notations
+x <- c("NLP", "0.8", "34", "3/60", "2/200", "20/50")
 va(x)
 #> Mixed object (x) - converting one by one
-#> [1] 3.00 0.80 1.02 1.30 2.00 0.30 0.40
+#> [1] 3.00 0.80 1.02 1.30 2.00 0.40
+
+## "plus/minus" entries are converted to the most probable threshold (any spaces allowed)
+x <- c("20/200", "20/200 - 1", "6/6", "6/6-2", "20/50 + 3", "20/50 -2")
+va(x)
+#> x: from snellen
+#> [1] 1.00 1.00 0.00 0.10 0.40 0.48
 
 ## on the inbuilt data set:
 head(va(amd$VA_ETDRS_Letters), 10) 
@@ -275,7 +281,7 @@ blink(wide_df)
 #> va_preop: from etdrs
 #> va_postop: from etdrs
 #> 
-#> ── blink ───────────────────────────────────────────────────────────────────────
+#> ── blink ────────────────────────────────────────────────────────────────
 #> ══ Data ════════════════════════════════
 #> # A tibble: 8 x 7
 #>   id    eye   surgery iop_preop iop_postop va_preop va_postop

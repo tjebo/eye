@@ -83,10 +83,15 @@
 #'   values in the data which are not part of [va_chart]. E.g., check the
 #'   values with `unique(x)`.
 #' @section VA cleaning:
-#'   `NA`are assigned to missing entries or empty strings such as "." or "",
-#'   "plus" and "minus" from Snellen entries are removed and the
-#'   notation for qualitative entries is simplified.
-#'   For more details see [clean_va()]
+#' For more details see [clean_va()]
+#' 1. `NA` is assigned to strings such as "." or "", "n/a" or "   "
+#' 1. "plus" and "minus" from Snellen entries are converted:
+#'     - if entry -1 to +3 : take same Snellen value
+#'     - if <= -2 : take Snellen value one line below
+#'     - if >+3 (unlikely, but unfortunately not impossible):
+#' Snellen value one line above
+#' 1. notation for qualitative entries is simplified.
+#'
 #' @return vector of class set with `to` argument
 #' @family Ophthalmic functions
 #' @family VA converter
