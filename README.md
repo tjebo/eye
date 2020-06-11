@@ -149,22 +149,34 @@ entries like `"."` and `""`, or `"N/A"`
 x <- c("r", "re", "od", "right", "l", "le", "os", "left")
 recodeye(x)
 #> [1] "r" "r" "r" "r" "l" "l" "l" "l"
-## chose the resulting codes
-recodeye(x, to = c("right", "left"))
-#> [1] "right" "right" "right" "right" "left"  "left"  "left"  "left"
+
+## Numeric codes 0:1/ 1:2 are recognized 
 x <- 1:2
 recodeye(x)
 #> Eyes coded 1:2. Interpreting r = 1
 #> [1] "r" "l"
+
+## chose the resulting codes
+recodeye(x, to = c("right", "left"))
+#> Eyes coded 1:2. Interpreting r = 1
+#> [1] "right" "left"
+
 ## or, if right is coded with 2)
 recodeye(x, numcode = 2:1)
 #> Eyes coded 2:1 with r = 2
 #> [1] "l" "r"
+
 ## with weird missing values
 x <- c(1:2, ".", NA, "", "    ")
 recodeye(x)
 #> Eyes coded 1:2. Interpreting r = 1
 #> [1] "r" "l" NA  NA  NA  NA
+
+## Or if you have weird codes for eyes
+x <- c("alright", "righton", "lefty","leftover")
+
+recodeye(x, eyecodes = list(c("alright","righton"), c("lefty","leftover")))
+#> [1] "r" "r" "l" "l"
 ```
 
 ### myop - Make your data long
@@ -283,7 +295,7 @@ blink(wide_df)
 #> va_preop: from etdrs
 #> va_postop: from etdrs
 #> 
-#> ── blink ────────────────────────────────────────────────────────────────
+#> ── blink ────────────────────────────────────────────────────────────
 #> ══ Data ════════════════════════════════
 #> # A tibble: 8 x 7
 #>   id    eye   surgery iop_preop iop_postop va_preop va_postop

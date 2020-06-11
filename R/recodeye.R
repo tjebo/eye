@@ -48,8 +48,8 @@ recodeye <- function(x, to = c("r", "l"),
         "Eyes coded ", paste(numcode, collapse = ":"),
         " with r = ", numcode[1]
       ))
-      x[x == numcode[1]] <- "r"
-      x[x == numcode[2]] <- "l"
+      x[x == numcode[1]] <- to[1]
+      x[x == numcode[2]] <- to[2]
       return(x)
     }
   }
@@ -71,12 +71,12 @@ recodeye <- function(x, to = c("r", "l"),
     } else {
       if (all(eyeInt_noNA %in% 0:1)) {
         message("Eyes coded 0:1. Interpreting r = 0")
-        recode_lookup <- c("0" = "r", "1" = "l")
+        recode_lookup <- c("0" = to[1], "1" = to[2])
         x <- unname(recode_lookup[as.character(x)])
         return(x)
       } else if (all(eyeInt_noNA %in% 1:2)) {
         message("Eyes coded 1:2. Interpreting r = 1")
-        recode_lookup <- c("1" = "r", "2" = "l")
+        recode_lookup <- c("1" = to[1], "2" = to[2])
         x <- unname(recode_lookup[as.character(x)])
         return(x)
       }

@@ -77,11 +77,11 @@ convertVA.snellen <- function(x, to, snellnot, logmarstep, ...){
     x <- snellensteps(x_split)
     parse_snellen <- strsplit(x, "/")
   } else {
-    snellensplit <- sapply(x_split, function(x) x[[1]])
+    x <- sapply(x_split, function(x) x[[1]])
     plussplit <- sapply(x_split,
                         function(x) suppressWarnings(as.integer(x[2])))
     plussplit[is.na(plussplit)] <- 0
-    parse_snellen <- strsplit(snellensplit, "/")
+    parse_snellen <- strsplit(x, "/")
   }
    snellen_frac <- sapply(parse_snellen,
                           function(x) {x <- suppressWarnings(as.numeric(x)); x[1] / x[2]})

@@ -111,15 +111,25 @@ Makes recoding eye variables very easy. It deals with weird missing entries like
 ```{r}
 x <- c("r", "re", "od", "right", "l", "le", "os", "left")
 recodeye(x)
-## chose the resulting codes
-recodeye(x, to = c("right", "left"))
+
+## Numeric codes 0:1/ 1:2 are recognized 
 x <- 1:2
 recodeye(x)
+
+## chose the resulting codes
+recodeye(x, to = c("right", "left"))
+
 ## or, if right is coded with 2)
 recodeye(x, numcode = 2:1)
+
 ## with weird missing values
 x <- c(1:2, ".", NA, "", "    ")
 recodeye(x)
+
+## Or if you have weird codes for eyes
+x <- c("alright", "righton", "lefty","leftover")
+
+recodeye(x, eyecodes = list(c("alright","righton"), c("lefty","leftover")))
 ```
 
 ### myop - Make your data long {#myop}

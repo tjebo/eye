@@ -29,6 +29,7 @@ library(eye)
 - [Counting patients and eyes](#eyes)
 - [Reshaping eye specific variables](#reshape-eye-data): One column for "eye" (r/l) and dedicated columns for each eye-related variable, or vice-versa
 - [Recoding the eye variable](#recode)
+
 Further, it provides tools for easy data summaries and calculations:
 
 - [Summarising data](#reveal) with common statistics (mean, sd, n, range)
@@ -43,10 +44,8 @@ Further, it provides tools for easy data summaries and calculations:
 `amd` is an anonymised real life data set from a large cohort of patients with treatment-naive neovascular age-related macular degeneration (AMD) who received intravitreal anti-VEGF therapy in Moorfields Eye Hospital, London, UK. Data was accessed on the 25th May 2020 [from the source](https://datadryad.org/stash/dataset/doi:10.5061/dryad.97r9289)</br>
 **Kindly reference this data by citing the corresponding publication**. (Fasler et al. 2019)
 
-There are erroneous visual acuity entries in this data set which I noticed during the work on this package. The data set curator has been contacted and it was concluded that these were erroneous entries
-in the original medical health records. I decided to keep the values in the data set and wait for the final decision how to proceed from the data set curator (if they are going to replace it with missing 
-values or not). I believe this is a great example for the challenges of real life data and a reminder to remain 
-vigilant when doing data analysis. 
+There are erroneous visual acuity entries in this data set which I noticed during the work on this package. The data set curator investigated and concluded that these were erroneous entries in the original medical health records. I decided to keep the values in the data set and wait for the final decision how to proceed from the data set curator (if they are going to replace it with missing 
+values or not). I believe this is a great example for the challenges of real life data and a reminder to remain vigilant when doing data analysis. 
 
 ## Visual acuity conversion {#va}
 Easy conversion from visual acuity notations in a single call to `va()`:
@@ -74,7 +73,7 @@ The user can specify the original VA notation, but va will check that and ignore
 
 Snellen are unfortunately often entered with "+/-", which is a violation of psychophysical methods designed to assign one (!) unambiguous value to visual acuity, with non-arbitrary thresholds based on psychometric functions. Therefore, transforming "+/-" notation to actual results is in itself problematic and the below suggestion to convert it will remain an approximation to the most likely "true" result. Even more so, as the given conditions should work for charts with 4 or 5 optotypes in a line, and visual acuity is not always tested on such charts. Yet, I believe that the approach is still better than just omitting the letters or (worse) assigning a missing value to those entries. 
 
-If the argument `logmarstep = TRUE`, the entries will be converted to logmar values or or ETDRS letters (0.02 logmar or 1 letter for each optotype). This is based on the assumption of 5 optotypes in a row. The argument should not be set TRUE when conversion to Snellen is desired. 1) this does not make sense and 2) this will result in NA values when plus/minus entries occur. 
+If the argument `logmarstep = TRUE`, the entries will be converted to logmar values or or ETDRS letters (0.02 logmar or 1 letter for each optotype). This is based on the assumption of 5 optotypes in a row. The argument should not be set `TRUE` when conversion to Snellen is desired - this does not make sense. However, if you still decide to do that, you will get the values just without +/- entries. 
 
 ### Detection
  - Internally done with `which_va()` based on the following rules
@@ -167,11 +166,41 @@ range(amd$VA_ETDRS_Letters)
 x <- c("CF", "3/60", "2/200", "", "20/40+3", ".", "      ")
 va(x)
 
-## but this not any fraction when converting from one class to the other
+## but not when converting from one class to the other
 x <- c("3/60", "2/200", "6/60", "20/200", "6/9")
 va(x, to="snellen", type = "m")
 ```
-                            
+## recodeye {#recode}
+Makes recoding eye variables very easy.
+
+- `recodeye` recognizes integer coding 0:1 and 1:2, with right being the lower number. 
+- For character coding the following codes are recognized as a default: 
+`c("r", "re", "od", "right")` and
+   left eyes: `c("l", "le", "os", "left")`.
+   
+If you have different codes, you can change the recognized strings with the `eyecodes` argument, which needs to be a list. But remember to put the strings for right eyes first!
+```{r}
+x <- c("r", "re", "od", "right", "l", "le", "os", "left")
+recodeye(x)
+
+## chose the resulting codes
+recodeye(x, to = c("right", "left"))
+
+## Or if you have weird codes for eyes
+x <- c("alright", "righton", "lefty","leftover")
+recodeye(x, eyecodes = list(c("alright","righton"), c("lefty","leftover")))
+
+## Numeric codes 0:1/ 1:2 are recognized 
+x <- 1:2
+recodeye(x)
+
+## chose the resulting codes
+recodeye(x, to = c("right", "left"))
+
+## or, if right is coded with 2)
+recodeye(x, numcode = 2:1)
+```               
+
 ## Counting patients and eyes {#eyes}
 `eyes` offers a very simple tool for counting patients and eyes. 
 
@@ -194,7 +223,7 @@ or "id"
 - `eyes` looks for columns called either "eye" or "eyes"
 
 ### Counting 
-For counting eyes, eyes need to be coded in commonly used ways.
+For counting eyes, eyes need to be coded in commonly used ways. You can use [recodeye](#recode) for very convenient recoding.
 
 - `eyes` recognizes integer coding 0:1 and 1:2, with right being
    the lower number. 
@@ -316,9 +345,7 @@ myop(wide_df)
 ```
 
 ### hyperop
-Basically the opposite of [myop()] - a slightly intelligent
-wrapper around `tidyr::pivot_longer()` and `tidyr::pivot_wider()`. 
-Will find the eye column, unify the codes for the eyes (all to "r" and "l")  and pivot the columns wide, that have been specified in "cols". **Again, good names and tidy data always help!** 
+Basically the opposite of `myop()` - a slightly intelligent wrapper around `tidyr::pivot_longer()` and `tidyr::pivot_wider()`. Will find the eye column, unify the codes for the eyes (all to "r" and "l")  and pivot the columns wide, that have been specified in "cols". **Again, good names and tidy data always help!** 
 
 The cols argument takes a tidyselection. [Read about tidyselection](https://tidyselect.r-lib.org/reference/language.html)
 
@@ -357,19 +384,6 @@ If you are not happy with the automatic column selection, you can manually selec
 blink(wide_df)
 
 blink(amd)
-```
-
-## recodeye {#recode}
-Makes recoding eye variables very easy
-```{r}
-x <- c("r", "re", "od", "right", "l", "le", "os", "left")
-recodeye(x)
-## chose the resulting codes
-recodeye(x, to = c("right", "left"))
-x <- 1:2
-recodeye(x)
-## or, if right is coded with 2)
-recodeye(x, numcode = 2:1)
 ```
 
 ## Names and codes
