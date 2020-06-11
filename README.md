@@ -13,10 +13,8 @@ See more with *eye*
 
 ## Purpose
 
-*eye* is dedicated to facilitate ophthalmic research. Its functions
-[`va()`](#va), [`eyes()`](#eyes), [`myop()`](#myop),
-[`blink()`](#blink), [`reveal()`](#reveal) and [`age()`](#age) are
-designed to help with common tasks in eye research:
+*eye* is dedicated to facilitate very common tasks in ophthalmic
+research.
 
   - Visual acuity conversion for snellen, logMAR and ETDRS
   - Counting patients and eyes
@@ -34,14 +32,13 @@ Finally, *eye* also comes with the ggplot2 extension
 
 ## Installation
 
-And the development version from [GitHub](https://github.com/tjebo/eye)
-with:
+You can install eye from [CRAN](https://CRAN.R-project.org) using
+`install.packages("eye")`. Or you can install the development version
+from github with devtools:
 
 ``` r
 # install.packages("devtools")
 devtools::install_github("tjebo/eye")
-
-library(eye)
 ```
 
 ## Features
@@ -51,7 +48,7 @@ library(eye)
   - va: [Conversion of visual acuity notations](#va)
   - eyes: [Easy count of patients and eyes](#eyes)
   - eyestr: [return eye count as text for your report](#eyestr)
-  - recode\_eyes: [recode eye variable](#recode)
+  - recodeye: [recode eye variable](#recodeye)
   - myop: [Make your eye data long](#myop)
   - hyperop: [Make your eye data wide](#hyperop)
   - blink: [Perceive your data in a blink of an eye](#blink)
@@ -104,6 +101,11 @@ va(x)
 #> x: from snellen
 #> [1] 1.00 1.00 0.00 0.10 0.40 0.48
 
+## or evaluating them as logmar values 
+va(x, logmarstep = TRUE)
+#> x: from snellen
+#> [1]  1.00  0.98  0.00 -0.04  0.46  0.36
+
 ## on the inbuilt data set:
 head(va(amd$VA_ETDRS_Letters), 10) 
 #> Warning: NA introduced (amd$VA_ETDRS_Letters) - implausible values
@@ -138,29 +140,29 @@ eyestr(head(amd, 100))
 #> [1] "Eleven eyes of eleven patients"
 ```
 
-### recode\_eyes
+### recodeye
 
 Makes recoding eye variables very easy. It deals with weird missing
-entries like “.” and "“, or”N/A"
+entries like `"."` and `""`, or `"N/A"`
 
 ``` r
 x <- c("r", "re", "od", "right", "l", "le", "os", "left")
-recode_eyes(x)
+recodeye(x)
 #> [1] "r" "r" "r" "r" "l" "l" "l" "l"
 ## chose the resulting codes
-recode_eyes(x, to = c("right", "left"))
+recodeye(x, to = c("right", "left"))
 #> [1] "right" "right" "right" "right" "left"  "left"  "left"  "left"
 x <- 1:2
-recode_eyes(x)
+recodeye(x)
 #> Eyes coded 1:2. Interpreting r = 1
 #> [1] "r" "l"
 ## or, if right is coded with 2)
-recode_eyes(x, numcode = 2:1)
+recodeye(x, numcode = 2:1)
 #> Eyes coded 2:1 with r = 2
 #> [1] "l" "r"
 ## with weird missing values
 x <- c(1:2, ".", NA, "", "    ")
-recode_eyes(x)
+recodeye(x)
 #> Eyes coded 1:2. Interpreting r = 1
 #> [1] "r" "l" NA  NA  NA  NA
 ```
@@ -427,7 +429,7 @@ p <-
     p + geom_trail(aes(group = age_cut10), size = 0) +
         geom_text(aes(label = round(mean_va, 0)), show.legend = FALSE)
 
-<img src="man/figures/README-unnamed-chunk-7-1.png" width="45%" /><img src="man/figures/README-unnamed-chunk-7-2.png" width="45%" />
+<img src="man/figures/README-unnamed-chunk-6-1.png" width="45%" /><img src="man/figures/README-unnamed-chunk-6-2.png" width="45%" />
 
 ## Names and codes
 
@@ -612,9 +614,9 @@ This chart is included in the package
 
 ## Acknowledgements
 
-  - Thanks to **Alasdair Warwick** for both invaluable suggestions and
-    testing, **Tim Yap** and **Siegfried Wagner** for great suggestions
-    and **Abraham Olvera** for testing.
+  - Thanks to **Alasdair Warwick**, **Aaron Lee**, **Tim Yap**,
+    **Siegfried Wagner** and **Abraham Olvera** for great suggestions,
+    testing and code review.
   - Thanks to Hadley Wickham and all developers of the `tidyverse`
     packages and the packages `roxygen2`, `usethis`, `testthis` and
     `devtools`, all on which `eye` heavily relies.

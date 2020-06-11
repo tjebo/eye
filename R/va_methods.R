@@ -57,24 +57,48 @@ convertVA.quali <- function(x, to, snellnot, ...){
 }
 
 #' @rdname va_methods
+#' @param logmarstep how plus/minus entries are evaluated. Default to
+#'   increase/decrease snellen fractions by lines. If TRUE, each snellen
+#'   optotype will be considered equivalent to 0.02 logmar or 1 ETDRS
+#'   letter (assuming 5 letters in a row in a chart)
 #' @export
 #'
-convertVA.snellen <- function(x, to, snellnot, ...){
+convertVA.snellen <- function(x, to, snellnot, logmarstep, ...){
+  if(to == "snellen" & logmarstep){
+    warning("logmarstep should be FALSE when to = \"snellen\"", call. = FALSE)
+  }
   x <- tolower(x)
   if(any(x %in% unlist(set_codes()["quali"]))){
     x_quali <- va_quali$snellen_ft[match(x, va_quali$quali)]
     x <- ifelse(!is.na(x_quali), x_quali, x)
   }
-  parse_snellen <- strsplit(x, "/")
-  snellen_frac <- sapply(parse_snellen,
-                         function(x) {x <- suppressWarnings(as.numeric(x)); x[1] / x[2]})
+    x_split <- strsplit(x, "(?<=.)(?=[-\\+])", perl = TRUE)
+  if(!logmarstep){
+    x <- snellensteps(x_split)
+    parse_snellen <- strsplit(x, "/")
+  } else {
+    snellensplit <- sapply(x_split, function(x) x[[1]])
+    plussplit <- sapply(x_split,
+                        function(x) suppressWarnings(as.integer(x[2])))
+    plussplit[is.na(plussplit)] <- 0
+    parse_snellen <- strsplit(snellensplit, "/")
+  }
+   snellen_frac <- sapply(parse_snellen,
+                          function(x) {x <- suppressWarnings(as.numeric(x)); x[1] / x[2]})
+
   if(to == "logmar"){
     new_va <- as.numeric(round(-1 * log10(snellen_frac), 2))
+    if(logmarstep){
+      new_va <- new_va + 0.02 * plussplit
+    }
   } else if (to == "etdrs"){
     new_va <- round(85 + 50 * log10(snellen_frac), 0)
     new_va[snellen_frac <= 0.02 & snellen_frac > 0.005] <- 2
     new_va[snellen_frac <= 0.005] <- 0
     new_va <- as.integer(new_va)
+    if(logmarstep){
+      new_va <- new_va + plussplit
+    }
   } else if(to == "snellen"){
     looksnellen <- c("6" = "m", "20" = "ft")
     snellen_type <- sapply(parse_snellen, function(x) looksnellen[x[1]])
@@ -111,7 +135,6 @@ convertVA.logmar <- function(x, to, snellnot, ...){
   new_va
 }
 
-
 #' @rdname va_methods
 #' @export
 convertVA.etdrs <- function(x, to, snellnot, ...){
@@ -142,5 +165,59 @@ convertVA.etdrs <- function(x, to, snellnot, ...){
 #' @export
 convertVA.default <- function(x, to, snellnot, ...){
 NA
+}
+
+
+#' Convert plus minus entries
+#' @name snellen_steps
+#' @param y Vector with VA entries of class snellen - needs to be in
+#' format xx/yy
+#' @description used in conversion method for class snellen
+#' - Removing "plus" and "minus" from snellen notation
+#'     - if entry -1 to +3 : take same Snellen value
+#'     - if <= -2 : take Snellen value one line below
+#'     - if >+3 (unlikely, but unfortunately not impossible):
+#'     Snellen value one line above
+#' @section snellen_steps:
+#' Snellen are unfortunately often entered with "+/-", which is a
+#' violation of a psychophysical method designed to assign one
+#' unambiguous value to visual acuity, with
+#' non-arbitrary thresholds based on psychometric functions. Therefore,
+#' transforming "+/-" notation to actual results is in itself
+#' problematic and the below suggestion to convert it will remain an
+#' approximation to the most likely "true" result. Even more so, as the
+#' given conditions should work for charts with
+#' 4 or 5 optotypes in a line, and visual acuity is not always tested
+#' on such charts. Yet, I believe that the approach is still better than
+#' just omitting the letters or (worse) assigning a missing value to those
+#' entries.
+#' @family VA converter
+#' @seealso
+#' https://en.wikipedia.org/wiki/Psychometric_function
+
+snellensteps <- function(y){
+  parsed_elem <- sapply(y, function(x) {
+    snellen_split <- x[1]
+    plusminus <- suppressWarnings(as.integer(x[2]))
+    snellen_type <- if (snellen_split %in% va_chart$snellen_ft) {
+      "snellen_ft"
+    } else if (snellen_split %in% va_chart$snellen_m) {
+      "snellen_m"
+    } else {
+      NA
+    }
+    if (plusminus <= 3 & plusminus >= -1 |
+        is.na(plusminus) | is.na(snellen_type)) {
+      new_elem <- snellen_split
+    } else if (plusminus <- 1) {
+      ind <- match(snellen_split, va_chart[[snellen_type]]) - 1
+      new_elem <- va_chart[[snellen_type]][ind]
+    } else if (plusminus > 3) {
+      ind <- match(snellen_split, va_chart[[snellen_type]]) + 1
+      new_elem <- va_chart[[snellen_type]][ind]
+    }
+    new_elem
+  })
+  parsed_elem
 }
 

@@ -14,7 +14,7 @@ convertVA(x, to, ...)
 
 \method{convertVA}{quali}(x, to, snellnot, ...)
 
-\method{convertVA}{snellen}(x, to, snellnot, ...)
+\method{convertVA}{snellen}(x, to, snellnot, logmarstep, ...)
 
 \method{convertVA}{logmar}(x, to, snellnot, ...)
 
@@ -30,6 +30,11 @@ convertVA(x, to, ...)
 \item{...}{further arguments passed to methods}
 
 \item{snellnot}{which snellen notation. One of "ft", "m" or "dec"}
+
+\item{logmarstep}{how plus/minus entries are evaluated. Default to
+increase/decrease snellen fractions by lines. If TRUE, each snellen
+optotype will be considered equivalent to 0.02 logmar or 1 ETDRS
+letter (assuming 5 letters in a row in a chart)}
 }
 \description{
 S3 methods for VA conversion
@@ -73,6 +78,7 @@ the chart.
 
 \seealso{
 Other VA converter: 
+\code{\link{snellen_steps}},
 \code{\link{va_dissect}()},
 \code{\link{va}()},
 \code{\link{which_va}()}

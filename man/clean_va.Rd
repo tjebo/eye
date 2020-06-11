@@ -4,7 +4,6 @@
 \alias{clean_va}
 \alias{convert_NLP}
 \alias{isNAstring}
-\alias{parse_plusminus}
 \title{Visual acuity entry cleaner}
 \usage{
 clean_va(x)
@@ -12,8 +11,6 @@ clean_va(x)
 convert_NLP(x, replace_PL = c(pl = "lp", npl = "nlp"))
 
 isNAstring(x, full = c("\\\\.+", "", "\\\\s+", "n/a", "na", "null"))
-
-parse_plusminus(x)
 }
 \arguments{
 \item{x}{Vector with VA entries}
@@ -28,36 +25,11 @@ VA cleaning:
 \item \code{\link[=isNAstring]{isNAstring()}}:
 Replacing empty placeholders (".","", "(any number of empty space)",
 "NULL", "NA", "N/A" ) - any cases - with NA
-\item Removing "plus" and "minus" from snellen notation
-\itemize{
-\item if entry -1 to +3 : take same Snellen value
-\item if <= -2 : take Snellen value one line below
-\item if >+3 (unlikely, but unfortunately not impossible):
-Snellen value one line above
-}
 \item \code{\link[=convert_NLP]{convert_NLP()}} Simplifying the notation for qualitative VA notation
 (NPL becomes NLP, PL becomes LP)
 }
 }
-\section{parse_plusminus}{
-
-Snellen are unfortunately often entered with "+/-", which is a
-violation of a psychophysical method designed to assign one
-unambiguous value to visual acuity, with
-non-arbitrary thresholds based on psychometric functions. Therefore,
-transforming "+/-" notation to actual results is in itself
-problematic and the below suggestion to convert it will remain an
-approximation to the most likely "true" result. Even more so, as the
-given conditions should work for charts with
-4 or 5 optotypes in a line, and visual acuity is not always tested
-on such charts. Yet, I believe that the approach is still better than
-just omitting the letters or (worse) assigning a missing value to those
-entries.
-}
-
 \seealso{
-https://en.wikipedia.org/wiki/Psychometric_function
-
 Other VA cleaner: 
 \code{\link{va}()}
 

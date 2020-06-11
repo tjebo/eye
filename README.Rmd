@@ -23,7 +23,7 @@ library(eye)
 See more with *eye*
 
 ## Purpose
-*eye* is dedicated to facilitate ophthalmic research. Its functions [`va()`](#va), [`eyes()`](#eyes), [`myop()`](#myop), [`blink()`](#blink), [`reveal()`](#reveal) and [`age()`](#age) are designed to help with common tasks in eye research:
+*eye* is dedicated to facilitate very common tasks in ophthalmic research. 
   
 - Visual acuity conversion for snellen, logMAR and ETDRS
 - Counting patients and eyes
@@ -37,27 +37,19 @@ See more with *eye*
 Finally, *eye* also comes with the ggplot2 extension [`geom_trail()`](#geom_trail) for some nice trail graphs. 
 
 ## Installation
-```{r include=FALSE}
-# <!-- You can install the released version of eye from [CRAN](https://CRAN.R-project.org) with: -->
-# 
-# <!-- ``` r -->
-# <!-- install.packages("eye") ## not yet available -->
-# <!-- ``` -->
-```
-And the development version from [GitHub](https://github.com/tjebo/eye) with:
+
+You can install eye from [CRAN](https://CRAN.R-project.org) using `install.packages("eye")`. Or you can install the development version from github with devtools:
 
 ``` r
 # install.packages("devtools")
 devtools::install_github("tjebo/eye")
-
-library(eye)
 ```
 ## Features 
 ### Only eye
 - va: [Conversion of visual acuity notations](#va) 
 - eyes: [Easy count of patients and eyes](#eyes)
 - eyestr: [return eye count as text for your report](#eyestr)
-- recode_eyes: [recode eye variable](#recode)
+- recodeye: [recode eye variable](#recodeye)
 - myop: [Make your eye data long](#myop)
 - hyperop: [Make your eye data wide](#hyperop)
 - blink: [Perceive your data in a blink of an eye](#blink)
@@ -89,6 +81,9 @@ va(x)
 x <- c("20/200", "20/200 - 1", "6/6", "6/6-2", "20/50 + 3", "20/50 -2")
 va(x)
 
+## or evaluating them as logmar values 
+va(x, logmarstep = TRUE)
+
 ## on the inbuilt data set:
 head(va(amd$VA_ETDRS_Letters), 10) 
 
@@ -111,20 +106,20 @@ eyestr(amd)
 eyestr(head(amd, 100))
 ```
 
-### recode_eyes {#recode}
-Makes recoding eye variables very easy. It deals with weird missing entries like "." and "", or "N/A"
+### recodeye
+Makes recoding eye variables very easy. It deals with weird missing entries like `"."` and `""`, or `"N/A"`
 ```{r}
 x <- c("r", "re", "od", "right", "l", "le", "os", "left")
-recode_eyes(x)
+recodeye(x)
 ## chose the resulting codes
-recode_eyes(x, to = c("right", "left"))
+recodeye(x, to = c("right", "left"))
 x <- 1:2
-recode_eyes(x)
+recodeye(x)
 ## or, if right is coded with 2)
-recode_eyes(x, numcode = 2:1)
+recodeye(x, numcode = 2:1)
 ## with weird missing values
 x <- c(1:2, ".", NA, "", "    ")
-recode_eyes(x)
+recodeye(x)
 ```
 
 ### myop - Make your data long {#myop}
@@ -387,7 +382,7 @@ This chart is included in the package (`va_chart`)
 
 ## Acknowledgements
 
-- Thanks to **Alasdair Warwick** for both invaluable suggestions and testing, **Tim Yap** and **Siegfried Wagner** for great suggestions and **Abraham Olvera** for testing.
+- Thanks to **Alasdair Warwick**, **Aaron Lee**, **Tim Yap**, **Siegfried Wagner** and **Abraham Olvera** for great suggestions, testing and code review. 
 - Thanks to Hadley Wickham and all developers of the `tidyverse` packages and the packages `roxygen2`, `usethis`, `testthis` and `devtools`, all on which `eye` heavily relies.
 
 ## Resources

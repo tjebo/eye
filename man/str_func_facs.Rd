@@ -26,7 +26,7 @@ accepts string as regular expression.
 \seealso{
 Other string matching functions: 
 \code{\link{getElem}},
-\code{\link{recode_eyes}()},
+\code{\link{recodeye}()},
 \code{\link{set_codes}()},
 \code{\link{sort_substr}()}
 }

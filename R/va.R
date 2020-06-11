@@ -9,6 +9,9 @@
 #' @param type To which Snellen notation to convert: "m", "dec" or "ft"
 #' @param from From which class to convert. "etdrs", "logmar" or "snellen" -
 #' any case allowed. Ignored if implausible
+#' @param logmarstep how +/- entries are evaluated. FALSE:
+#'   increase/decrease Snellen fractions by lines. TRUE: plus/minus
+#'   entries equivalent to 0.02 logmar or 1 ETDRS letter
 #' @name va
 #' @details Each class can be converted from one to another, and va()
 #' converts to logMAR by default. In case of ambiguous detection,
@@ -82,14 +85,20 @@
 #'   assign  logMAR - this could happen if there are unusual snellen decimal
 #'   values in the data which are not part of [va_chart]. E.g., check the
 #'   values with `unique(x)`.
-#' @section VA cleaning:
-#' For more details see [clean_va()]
-#' 1. `NA` is assigned to strings such as "." or "", "n/a" or "   "
-#' 1. "plus" and "minus" from Snellen entries are converted:
+#' @section Snellen "+/-" entries:
+#' By default, plus/minus entries are evaluated as intended by the
+#' test design: Snellen fractions increase/decrease only by lines.
+#'
 #'     - if entry -1 to +3 : take same Snellen value
 #'     - if <= -2 : take Snellen value one line below
 #'     - if >+3 (unlikely, but unfortunately not impossible):
-#' Snellen value one line above
+#'
+#' If logmarstep = TRUE, each snellen optotype will be considered
+#' equivalent to 0.02 logmar or 1 ETDRS letter (assuming 5 letters
+#' in a row in a chart)
+#' @section VA cleaning:
+#' For more details see [clean_va()]
+#' 1. `NA` is assigned to strings such as "." or "", "n/a" or "   "
 #' 1. notation for qualitative entries is simplified.
 #'
 #' @return vector of class set with `to` argument
@@ -121,7 +130,10 @@
 #' x <- c("3/60", "2/200", "6/60", "20/200", "6/9")
 #' va(x, to="snellen", type = "m")
 #' @export
-va <- function(x, to = "logmar", type = NULL, from = NULL) {
+va <- function(x, to = "logmar",
+               type = NULL,
+               from = NULL,
+               logmarstep = FALSE) {
   if (!is.atomic(x)) {
     stop("x must be atomic", call. = FALSE)
   }
@@ -155,7 +167,7 @@ va <- function(x, to = "logmar", type = NULL, from = NULL) {
     }
     if (any(guess_va %in% "mixed")) {
       message(paste0("Mixed object (", x_sym, ") - converting one by one"))
-      new_va <- va_dissect(x)
+      new_va <- va_dissect(x, to = to, snellnot = type, logmarstep = logmarstep)
       return(new_va)
     }
     if (length(guess_va) == 2) {
@@ -215,27 +227,25 @@ va <- function(x, to = "logmar", type = NULL, from = NULL) {
       type <- "ft"
     }
   }
-  convertVA(x, to = to, snellnot = type)
+  convertVA(x, to = to, snellnot = type, logmarstep = logmarstep)
 }
 
 
 #' Converting each VA element
 #' @param x vector of VA.
+#' @param ... passed to convertVA
 #' @description Used in [va()] if  [which_va()] finds "mixed" VA notation.
 #' Converts each VA vector element individually - requires the VA vector to
 #' be prepared with [clean_va()] first.
 #' @rdname va_dissect
 #' @family VA converter
 #' @keywords internal
-va_dissect <- function(x) {
+va_dissect <- function(x, ...) {
   new_va <- sapply(x,
     function(elem) {
       class_va <- which_va_dissect(elem)
       class(elem) <- class_va
-      convertVA(elem, to = "logmar")
+      convertVA(elem, ...)
       }, USE.NAMES = FALSE)
   new_va
 }
-
-
-

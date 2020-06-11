@@ -4,7 +4,7 @@
 \alias{va}
 \title{Visual acuity notation conversion}
 \usage{
-va(x, to = "logmar", type = NULL, from = NULL)
+va(x, to = "logmar", type = NULL, from = NULL, logmarstep = FALSE)
 }
 \arguments{
 \item{x}{Vector with visual acuity entries. Must be atomic.
@@ -17,6 +17,10 @@ any case allowed}
 
 \item{from}{From which class to convert. "etdrs", "logmar" or "snellen" -
 any case allowed. Ignored if implausible}
+
+\item{logmarstep}{how +/- entries are evaluated. FALSE:
+increase/decrease Snellen fractions by lines. TRUE: plus/minus
+entries equivalent to 0.02 logmar or 1 ETDRS letter}
 }
 \value{
 vector of class set with \code{to} argument
@@ -115,18 +119,24 @@ values in the data which are not part of \link{va_chart}. E.g., check the
 values with \code{unique(x)}.
 }
 
+\section{Snellen "+/-" entries}{
+
+By default, plus/minus entries are evaluated as intended by the
+test design: Snellen fractions increase/decrease only by lines.\preformatted{- if entry -1 to +3 : take same Snellen value
+- if <= -2 : take Snellen value one line below
+- if >+3 (unlikely, but unfortunately not impossible):
+}
+
+If logmarstep = TRUE, each snellen optotype will be considered
+equivalent to 0.02 logmar or 1 ETDRS letter (assuming 5 letters
+in a row in a chart)
+}
+
 \section{VA cleaning}{
 
 For more details see \code{\link[=clean_va]{clean_va()}}
 \enumerate{
 \item \code{NA} is assigned to strings such as "." or "", "n/a" or "   "
-\item "plus" and "minus" from Snellen entries are converted:
-\itemize{
-\item if entry -1 to +3 : take same Snellen value
-\item if <= -2 : take Snellen value one line below
-\item if >+3 (unlikely, but unfortunately not impossible):
-Snellen value one line above
-}
 \item notation for qualitative entries is simplified.
 }
 }
@@ -158,6 +168,7 @@ va(x, to="snellen", type = "m")
 }
 \seealso{
 Other VA converter: 
+\code{\link{snellen_steps}},
 \code{\link{va_dissect}()},
 \code{\link{va_methods}},
 \code{\link{which_va}()}

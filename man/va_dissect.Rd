@@ -4,10 +4,12 @@
 \alias{va_dissect}
 \title{Converting each VA element}
 \usage{
-va_dissect(x)
+va_dissect(x, ...)
 }
 \arguments{
 \item{x}{vector of VA.}
+
+\item{...}{passed to convertVA}
 }
 \description{
 Used in \code{\link[=va]{va()}} if  \code{\link[=which_va]{which_va()}} finds "mixed" VA notation.
@@ -16,6 +18,7 @@ be prepared with \code{\link[=clean_va]{clean_va()}} first.
 }
 \seealso{
 Other VA converter: 
+\code{\link{snellen_steps}},
 \code{\link{va_methods}},
 \code{\link{va}()},
 \code{\link{which_va}()}

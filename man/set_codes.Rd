@@ -41,7 +41,7 @@ currently only internal use for convenient set of coding strings
 \seealso{
 Other string matching functions: 
 \code{\link{getElem}},
-\code{\link{recode_eyes}()},
+\code{\link{recodeye}()},
 \code{\link{sort_substr}()},
 \code{\link{str_func_facs}}
 }

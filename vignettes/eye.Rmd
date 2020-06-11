@@ -74,6 +74,8 @@ The user can specify the original VA notation, but va will check that and ignore
 
 Snellen are unfortunately often entered with "+/-", which is a violation of psychophysical methods designed to assign one (!) unambiguous value to visual acuity, with non-arbitrary thresholds based on psychometric functions. Therefore, transforming "+/-" notation to actual results is in itself problematic and the below suggestion to convert it will remain an approximation to the most likely "true" result. Even more so, as the given conditions should work for charts with 4 or 5 optotypes in a line, and visual acuity is not always tested on such charts. Yet, I believe that the approach is still better than just omitting the letters or (worse) assigning a missing value to those entries. 
 
+If the argument `logmarstep = TRUE`, the entries will be converted to logmar values or or ETDRS letters (0.02 logmar or 1 letter for each optotype). This is based on the assumption of 5 optotypes in a row. The argument should not be set TRUE when conversion to Snellen is desired. 1) this does not make sense and 2) this will result in NA values when plus/minus entries occur. 
+
 ### Detection
  - Internally done with `which_va()` based on the following rules
  - if x integer and 3 < x <= 100: `etdrs`
@@ -144,9 +146,16 @@ va(x)
 
 va(x, to = "snellen") ## ... or convert to snellen
 
-## A mix of notations, with "plus/minus" entries, and categories 
-x <- c("NLP", "0.8", "34", "3/60", "2/200", "20/40+3", "20/50-2")
+## A mix of notations
+x <- c("NLP", "0.8", "34", "3/60", "2/200", "20/50")
 va(x)
+
+## "plus/minus" entries are converted to the most probable threshold (any spaces allowed)
+x <- c("20/200", "20/200 - 1", "6/6", "6/6-2", "20/50 + 3", "20/50 -2")
+va(x)
+
+## or evaluating them as logmar values 
+va(x, logmarstep = TRUE)
 
 ## on the inbuilt data set:
 head(va(amd$VA_ETDRS_Letters), 10) 
@@ -350,17 +359,17 @@ blink(wide_df)
 blink(amd)
 ```
 
-## recode_eyes {#recode}
+## recodeye {#recode}
 Makes recoding eye variables very easy
 ```{r}
 x <- c("r", "re", "od", "right", "l", "le", "os", "left")
-recode_eyes(x)
+recodeye(x)
 ## chose the resulting codes
-recode_eyes(x, to = c("right", "left"))
+recodeye(x, to = c("right", "left"))
 x <- 1:2
-recode_eyes(x)
+recodeye(x)
 ## or, if right is coded with 2)
-recode_eyes(x, numcode = 2:1)
+recodeye(x, numcode = 2:1)
 ```
 
 ## Names and codes
@@ -584,8 +593,7 @@ This chart is included in the package as `va_chart`
 </div>
 
 ## Acknowledgements
-
-- Thanks to **Alasdair Warwick** for both invaluable suggestions and testing, **Tim Yap** and **Siegfried Wagner** for great suggestions and **Abraham Olvera** for testing.
+- Thanks to **Alasdair Warwick**, **Aaron Lee**, **Tim Yap**, **Siegfried Wagner** and **Abraham Olvera** for great suggestions, testing and code review. 
 - Thanks to Hadley Wickham and all developers of the `tidyverse` packages and the packages `roxygen2`, `usethis`, `testthis` and `devtools`, all on which `eye` heavily relies.
 
 ## Resources

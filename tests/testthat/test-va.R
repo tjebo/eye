@@ -185,14 +185,13 @@ test_that("NA", {
   expect_equal(sum(is.na(eye:::convertVA(va_vec3, to = "etdrs", "ft"))),0) #class etdrs
   expect_equal(sum(is.na(eye:::convertVA(va_vec3, to = "snellen", "ft"))),0) #class etdrs
   expect_equal(sum(is.na(eye:::convertVA(va_vec3, to = "logmar", "ft"))),0) #class etdrs
-  expect_equal(sum(is.na(eye:::convertVA(va_vec7, to = "snellen", "dec")))-1,1) #class snellen
-  expect_equal(sum(is.na(eye:::convertVA(va_vec7, to = "etdrs", "ft"))),1) #class snellen
-  expect_equal(sum(is.na(eye:::convertVA(va_vec7, to = "logmar", "ft"))),1) #class snellen
+  expect_equal(sum(is.na(eye:::convertVA(va_vec7, logmarstep = FALSE, to = "snellen", "dec")))-1,1) #class snellen
+  expect_equal(sum(is.na(eye:::convertVA(va_vec7,  logmarstep = FALSE,to = "etdrs", "ft"))),1) #class snellen
+  expect_equal(sum(is.na(eye:::convertVA(va_vec7, logmarstep = FALSE, to = "logmar", "ft"))),1) #class snellen
   expect_equal(sum(is.na(eye:::convertVA(va_vec8, to = "snellen", "ft"))),26) #class quali
   expect_equal(sum(is.na(eye:::convertVA(va_vec8, to = "etdrs", "ft"))),26) #class quali
   expect_equal(sum(is.na(eye:::convertVA(va_vec8, to = "logmar", "ft"))),26) #class quali
 }
 )
-
 
 
