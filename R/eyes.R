@@ -70,7 +70,7 @@ eyes <- function(x, id = NULL, eye = NULL, report = FALSE, ...) {
     message("No eye column found: Counting patients only")
     res <- c(patients = length(unique(x[[pat_col]])))
   } else if (length(eye) == 1) {
-    quiet_recode <- purrr::quietly(recode_eyes)
+    quiet_recode <- purrr::quietly(recodeye)
     recode_eye <- quiet_recode(x[[eye]])
     if(length(recode_eye$warnings)>0){
       warning(paste("Unclear eye coding! Not recoded. Please clean data.

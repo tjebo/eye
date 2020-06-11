@@ -49,7 +49,7 @@ hyperop <- function(x, cols, eye = NULL) {
             Use argument \"eye\"", call. = FALSE)
     return(x)
   }
-  x[[eye]] <- recode_eyes(x[[eye]])
+  x[[eye]] <- recodeye(x[[eye]])
   cols_exp <- rlang::enquo(cols)
 
   # va_index <- unname(tidyselect::eval_select(x_exp, x))

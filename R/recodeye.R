@@ -1,6 +1,6 @@
 #' Recode eyes
 #' @description recoding eyes to "r" and "l"
-#' @name recode_eyes
+#' @name recodeye
 #' @param x vector of strings
 #' @param to to which codes. Right coded first.
 #' @param eyecodes list of substrings which should be converted to
@@ -10,16 +10,16 @@
 #' @family string matching functions
 #' @examples
 #' x <- c("r", "re", "od", "right", "l", "le", "os", "left")
-#' recode_eyes(x)
+#' recodeye(x)
 #' ## chose the resulting codes
-#' recode_eyes(x, to = c("right", "left"))
+#' recodeye(x, to = c("right", "left"))
 #' x <- 1:2
-#' recode_eyes(x)
+#' recodeye(x)
 #' ## or, if right is coded with 2)
-#' recode_eyes(x, numcode = 2:1)
+#' recodeye(x, numcode = 2:1)
 #'
 #' @export
-recode_eyes <- function(x, to = c("r", "l"),
+recodeye <- function(x, to = c("r", "l"),
                         eyecodes = list(
                           c("r", "re", "od", "right"),
                           c("l", "le", "os", "left")
