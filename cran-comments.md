@@ -2,6 +2,8 @@
 * local OS X install, R 4.0.0
 * ubuntu Ubuntu 16.04 (on travis-ci), R 4.0.0
 * win-builder (devel and release), R 4.0.0
+* R-hub
+
 
 ## R CMD check results
 There were no ERRORs or WARNINGs. 
