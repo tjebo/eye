@@ -29,9 +29,8 @@ counting fingers). Further details for conversion used can be found in
 \itemize{
 \item This chart and VA conversion formulas are based on charts in
 \href{https://doi.org/10.1016/j.jcrs.2004.01.014}{Holladay et al.},
-\href{https://doi.org/10.1016/s0002-9394(02)01825-1}{Beck et al.},
-\href{https://doi.org/10.1097/iae.0b013e3181d87e04}{Gregori et al.}, and
-\url{https://www.nidek-intl.com/visual_acuity.html}.
+\href{https://doi.org/10.1016/s0002-9394(02)01825-1}{Beck et al.}, and
+\href{https://doi.org/10.1097/iae.0b013e3181d87e04}{Gregori et al.}.
 }
 
 Categories \strong{(no) light perception},  \strong{counting fingers}

@@ -30,7 +30,7 @@ set_codes <- function(
 #' @param list_substr list of substrings to match against and sort -
 #'   the order in the list defines the resulting order in the string
 #'   Should be names list - the names will be the codes to which the
-#'   tokens will be matched agains.
+#'   tokens will be matched against.
 #' @keywords internal
 #' @family string matching functions
 sort_substr <- function(x, list_substr) {

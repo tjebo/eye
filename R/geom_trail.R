@@ -46,7 +46,7 @@
 #' p + geom_trail(aes(group = age_cut10), size = 0) +
 #'   geom_text(aes(label = round(mean_va, 0)), show.legend = FALSE)
 #' @seealso
-#' The geom was modfied from the suggestion by user teunbrand on
+#' The geom was modified from the suggestion by user teunbrand on
 #' Stackoverflow in
 #' [this thread](https://stackoverflow.com/a/55857158/7941188)
 #' @export

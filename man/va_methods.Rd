@@ -41,7 +41,7 @@ S3 methods for VA conversion
 }
 \details{
 VA can be snellen feet/meter/decimal, logMAR, ETDRS, or
-"qualitative" (Couting fingers, etc.)
+"qualitative" (Counting fingers, etc.)
 \itemize{
 \item Snellen fractions need to be either form 6/x or 20/x
 \item ETDRS must be between 0 and 100

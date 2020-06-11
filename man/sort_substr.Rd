@@ -12,7 +12,7 @@ sort_substr(x, list_substr)
 \item{list_substr}{list of substrings to match against and sort -
 the order in the list defines the resulting order in the string
 Should be names list - the names will be the codes to which the
-tokens will be matched agains.}
+tokens will be matched against.}
 }
 \description{
 unify code for substrings and arrange, after tokenizing

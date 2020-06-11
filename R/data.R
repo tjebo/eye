@@ -2,7 +2,7 @@
 #' @docType data
 #' @name amd
 #' @description
-#' A dataset containing anonymised real life human subjects data on eyes with
+#' A dataset containing anonymized real life human subjects data on eyes with
 #' treatment naive neovascular age-related macular degeneration (AMD),
 #' which underwent intravitreal anti-VEGF therapy with ranibizumab
 #' and/or aflibercept.
@@ -57,9 +57,8 @@
 #' @seealso
 #' - This chart and VA conversion formulas are based on charts in
 #' [Holladay et al.](https://doi.org/10.1016/j.jcrs.2004.01.014),
-#' [Beck et al.](https://doi.org/10.1016/s0002-9394(02)01825-1),
-#' [Gregori et al.](https://doi.org/10.1097/iae.0b013e3181d87e04), and
-#' \url{https://www.nidek-intl.com/visual_acuity.html}.
+#' [Beck et al.](https://doi.org/10.1016/s0002-9394(02)01825-1), and
+#' [Gregori et al.](https://doi.org/10.1097/iae.0b013e3181d87e04).
 #'
 #' Categories **(no) light perception**,  **counting fingers**
 #' and **hand movements** are converted following

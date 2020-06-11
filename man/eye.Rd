@@ -5,25 +5,27 @@
 \alias{eye}
 \title{eye}
 \description{
-Analysis of eye data
+See more with \emph{eye}
 }
 \section{Ophthalmology functions}{
 
-\strong{\code{eye}} is dedicated to facilitate ophthalmic research with its high
-level functions
+\emph{eye} is dedicated to facilitate very common tasks
+in ophthalmic research.
 \itemize{
-\item \code{\link{va}}: Visual acuity conversion
-\item \code{\link{eyes}}: Count eyes and patients
-\item \code{\link{myop}}: Make eye data "long"
-\item \code{\link{blink}}: wrapper around \code{va}, \code{myop} and \code{eyes}
-\emph{eye} contains a real life data set \code{\link[eye:amd]{eye::amd}} and some functions beyond ophtalmology, which could make your data analysis a tiny bit more convenient.
+\item Visual acuity conversion for snellen, logMAR and ETDRS \code{\link{va}}
+\item Counting patients and eyes \code{\link{eyes}}
+\item Recode eye strings \code{\link{recodeye}}
+\item Reshape eye specific variables \code{\link{myop}} and \code{\link{hyperop}}
+\item Summarizing data with common statistics (mean, sd, n, range)\code{\link{reveal}}
+\item Easy summary of your eye data in one blink \code{\link{blink}}
 }
+
+\emph{eye} contains a real life data set \code{\link[eye:amd]{eye::amd}}
 }
 
 \section{Beyond ophthalmology}{
 
 \itemize{
-\item \code{\link{reveal}}: Get common summary statistics
 \item \code{\link{geom_trail}}: A base plot type = "b" equivalent for \link[ggplot2:ggplot2]{ggplot2::ggplot2}
 \item \code{\link{age}}: Calculate age
 \item \code{\link{csv}}: Conveniently save a data frame to csv

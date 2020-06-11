@@ -6,7 +6,7 @@
 #' @param ... further arguments passed to methods
 #' @details
 #' VA can be snellen feet/meter/decimal, logMAR, ETDRS, or
-#' "qualitative" (Couting fingers, etc.)
+#' "qualitative" (Counting fingers, etc.)
 #'
 #'   - Snellen fractions need to be either form 6/x or 20/x
 #'   - ETDRS must be between 0 and 100

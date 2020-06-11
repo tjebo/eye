@@ -15,7 +15,7 @@ several variables!}
 \item{dec}{how many decimals are displayed}
 
 \item{funs}{not really meant to be used at the moment - change the
-summarising functions with a named(!) list of functions}
+Summarizing functions with a named(!) list of functions}
 }
 \value{
 data frame

@@ -32,8 +32,8 @@ library(eye)
 
 Further, it provides tools for easy data summaries and calculations:
 
-- [Summarising data](#reveal) with common statistics (mean, sd, n, range)
-- Summarise your data in a [blink of an eye](#blink)
+- [Summarizing data](#reveal) with common statistics (mean, sd, n, range)
+- Summarize your data in a [blink of an eye](#blink)
 - [Calculating age](#age) of patients
 
 *eye* includes [the real life data set `amd`](#amd), of people who received intravitreal anti-VEGF injections for treatment naive neovascular age-related macular degeneration in **Moorfields Eye Hospital**. (Fasler et al. 2019)
@@ -125,7 +125,7 @@ in very weird Snellen values that have no correspondence to common charts.
 Therefore, Snellen matching the nearest ETDRS and logMAR value in
 [the VA conversion chart](#va-conversion-chart) are used.
 
-Detection and convertion is on a vector as a whole by `which_va()`. If a "mixed" VA notation is found, `which_va_dissect()` and `va_dissect()` will be called instead for each VA vector element individually.
+Detection and conversion is on a vector as a whole by `which_va()`. If a "mixed" VA notation is found, `which_va_dissect()` and `va_dissect()` will be called instead for each VA vector element individually.
 
 ### Problematic cases:
 There can be ambiguous cases for detection (detection defaults to logmar):
@@ -241,7 +241,7 @@ For counting eyes, eyes need to be coded in commonly used ways. You can use [rec
 **eyestr** is a shorthand for `eyes(x, report = TRUE)`. The name was chosen because it's a contraction of "eyes" and "strings" and it's a tiny bit easier to type than "eyetxt". 
 
 #### Use in rmarkdown
-`eyestr` was designed with the use in rmarkdown in mind, most explicitely for the use inline:
+`eyestr` was designed with the use in rmarkdown in mind, most explicitly for the use inline:
 
 > We analysed `` `r knitr::inline_expr("eyestr(amd)")` `` 
 
@@ -314,7 +314,7 @@ Depending a lot on how the data was entered, the results could become quite surp
 1. Rename data names with `myop_rename()` and `sort_substr()`:
     - Replacing "." by "_"
     - Re-arranging and recoding substrings in a way that strings for eyes always appear at first position. They will be recoded to "r" and "l"
-1. Myopization: The actual work is done with `myopizer()` and `myop_pivot()` and itself consiste of three steps. 
+1. Myopization: The actual work is done with `myopizer()` and `myop_pivot()` and itself consists of three steps. 
     - All columns with an eye string at first position will be selected pivoted to two long colums (`key` and `value`) using `tidyr::pivot_longer`.
     - The `key` column will be split by position into an eye column and a `variable` column. 
     - The `variable` and `value` columns will be pivoted wide again with `tidyr::pivot_wider`.
@@ -369,13 +369,13 @@ hyperop(myop_df, cols = matches("va|iop"))
     - Character columns if they are not coding for Snellen fractions or "qualitative visual acuity"
     - Those with unique values in the range of the vector defined by the argument "fct_level". Those are removed because they are likely categorical codes. If you have columns with VA or IOP that contain only 0 and 1 for example (which is unlikely, but not impossible), you can just set `fct_level = "x"` or any other arbitrary value. 
 1. Rename data names with `myop_rename()` and `sort_substr()`
-1. Getting the new names based on the indices of the colums
+1. Getting the new names based on the indices of the columns
 1. Creating a vector of "expected new names" for the summary after myopization
 1. Myopizing if possible
 1. Converting VA vectors to logMAR
 1. Applying `reveal()` to all VA and IOP columns. 
 
-As you can imagine, a lot of those steps rely hugely on reasonnable naming of your columns and this is what makes this function unfortunately a bit fragile. However, if you adhere to the naming conventions, blink (and myop) will do a great job for you.
+As you can imagine, a lot of those steps rely hugely on reasonable naming of your columns and this is what makes this function unfortunately a bit fragile. However, if you adhere to the naming conventions, blink (and myop) will do a great job for you.
 
 If you are not happy with the automatic column selection, you can manually select the VA and IOP columns with the arguments `va_cols` or `iop_cols`. Both accept [tidyselection](https://tidyselect.r-lib.org/reference/language.html). I personally find `starts_with`, `ends_with`, `contains()` or the more general `matches()` very useful.
 
@@ -481,7 +481,7 @@ c("var1", "var2", "var3")
 ## Reveal common statistics {#reveal}
 `reveal()` offers a simple API to show common summary statistics for all numeric columns of your data frame. `reveal()` is basically a slightly complicated wrapper around `mean()`, `sd()`, `length()`, `min()` and `max()` (with na.rm = TRUE and `length()` counting only non-NA values). 
 
-It is not really intended to replace other awesome data exploration packages / functions such as `skimr::skim`, and it will likely remain focussed on summarising numerical data only. 
+It is not really intended to replace other awesome data exploration packages / functions such as `skimr::skim`, and it will likely remain focussed on summarizing numerical data only. 
 
 It uses an S3 generic under the hood with methods for atomic vectors, data frames, and lists of either atomic vectors or data frames. Character vectors will be omitted (and it should give a warning that it has done so). 
 
@@ -514,11 +514,11 @@ age(dob, "2000-01-01")
 ## geom_trail
 A base plot type = "b" equivalent for ggplot. Works also with text!
 
-This vignette is not meant to dive into detail how to use `ggplot2`, an amazing package which allows for very creative data visualisation in a fairly userfriendly manner. A good place to start learning about ggplot2 is http://www.cookbook-r.com/Graphs/
+This vignette is not meant to dive into detail how to use `ggplot2`, an amazing package which allows for very creative data visualization in a fairly user-friendly manner. A good place to start learning about ggplot2 is http://www.cookbook-r.com/Graphs/
 
 The following it an example of how to use `geom_trail` in the context of the inbuilt data set `amd`.
 
-First, the data needs to be prepared. I often find that especially rather unexperienced users hesitate to manipulate / shape their data before doing any visualisation or analysis. 
+First, the data needs to be prepared. I often find that especially rather inexperienced users hesitate to manipulate / shape their data before doing any visualization or analysis. 
 
 However, there is really no need to fret. It is an often very important and necessary step. Actually, it can make your life much easier. And if you follow simple precautions, you can not cause much damage to your actual raw data. 
 

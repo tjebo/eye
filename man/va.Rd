@@ -100,7 +100,7 @@ element by element with \link{which_va_dissect} and \link{va_dissect}
 \item Any other string or NA: NA
 }
 
-Detection and convertion is on a vector as a whole by \code{\link[=which_va]{which_va()}}. If a
+Detection and conversion is on a vector as a whole by \code{\link[=which_va]{which_va()}}. If a
 "mixed" VA notation
 is found, \code{\link[=which_va_dissect]{which_va_dissect()}} and \code{\link[=va_dissect]{va_dissect()}} will be called instead
 for each VA vector element individually.

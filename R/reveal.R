@@ -6,7 +6,7 @@
 #' several variables!
 #' @param dec how many decimals are displayed
 #' @param funs not really meant to be used at the moment - change the
-#'  summarising functions with a named(!) list of functions
+#'  Summarizing functions with a named(!) list of functions
 #' @importFrom dplyr bind_rows
 #' @return data frame
 #' @details Character vectors (or character columns) will be removed.

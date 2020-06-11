@@ -23,7 +23,7 @@ A data frame with 40764 rows and 7 variables:
 data("amd")
 }
 \description{
-A dataset containing anonymised real life human subjects data on eyes with
+A dataset containing anonymized real life human subjects data on eyes with
 treatment naive neovascular age-related macular degeneration (AMD),
 which underwent intravitreal anti-VEGF therapy with ranibizumab
 and/or aflibercept.

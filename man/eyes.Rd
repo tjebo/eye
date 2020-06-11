@@ -14,7 +14,7 @@ eyestr(x, id = NULL, eye = NULL, small_num = TRUE, para = FALSE, UK = FALSE)
 
 \item{id}{Patient identifying column}
 
-\item{eye}{Eye identifying colum.}
+\item{eye}{Eye identifying column.}
 
 \item{report}{if TRUE, text returned for report}
 
@@ -23,7 +23,7 @@ eyestr(x, id = NULL, eye = NULL, small_num = TRUE, para = FALSE, UK = FALSE)
 \item{small_num}{If TRUE: writing numbers <= 12 as words}
 
 \item{para}{If TRUE: Adding "A total of" to comply with most
-journal standards and to avoid awkward long numnbers.}
+journal standards and to avoid awkward long numbers.}
 
 \item{UK}{Logical, Use UK (English) style (TRUE) or
 USA (American) style (FALSE).}

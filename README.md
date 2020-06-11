@@ -20,7 +20,7 @@ research.
   - Counting patients and eyes
   - Recode eye strings
   - Reshape eye specific variables  
-  - Summarising data with common statistics (mean, sd, n, range)
+  - Summarizing data with common statistics (mean, sd, n, range)
   - Calculating age of patients
 
 *eye* includes [`amd`](#amd-data), a real life data set of people who
@@ -53,7 +53,7 @@ devtools::install_github("tjebo/eye")
   - hyperop: [Make your eye data wide](#hyperop)
   - blink: [Perceive your data in a blink of an eye](#blink)
   - Visual acuity [conversion chart](#va-conversion)
-  - **AMD data**: [Anonymised real life
+  - **AMD data**: [Anonymized real life
     data](https://datadryad.org/stash/dataset/doi:10.5061/dryad.97r9289)
     from a large cohort of patients with treatment-naive neovascular
     age-related macular degeneration (AMD) who received intravitreal
@@ -295,7 +295,7 @@ blink(wide_df)
 #> va_preop: from etdrs
 #> va_postop: from etdrs
 #> 
-#> ── blink ────────────────────────────────────────────────────────────
+#> ── blink ───────────────────────────────────────────────────────────────────────────
 #> ══ Data ════════════════════════════════
 #> # A tibble: 8 x 7
 #>   id    eye   surgery iop_preop iop_postop va_preop va_postop

@@ -31,7 +31,7 @@ see also \emph{examples}).
 
 If there is a column called "eye" or "eyes", myop will not make
 any changes - because the data is then already assumed to be in long
-format. If you neverthess have columns with eye-specific values,
+format. If you \emph{also} have columns with eye-specific values,
 then you have messy data. Maybe, you could remove or rename the "eye"
 column and then let myop do the work.
 

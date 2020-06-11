@@ -70,7 +70,7 @@
 #'   - if numeric x beyond the ranges from above: `NA`
 #'   - Any other string or NA: NA
 #'
-#' Detection and convertion is on a vector as a whole by [which_va()]. If a
+#' Detection and conversion is on a vector as a whole by [which_va()]. If a
 #' "mixed" VA notation
 #' is found, [which_va_dissect()] and [va_dissect()] will be called instead
 #' for each VA vector element individually.

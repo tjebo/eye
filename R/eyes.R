@@ -3,7 +3,7 @@
 #' @description Counts number of patients and eyes (right and left).
 #' @param x required. (data frame)
 #' @param id Patient identifying column
-#' @param eye Eye identifying colum.
+#' @param eye Eye identifying column.
 #' @param report if TRUE, text returned for report
 #' @param ... passed to [eyes_to_string]
 #' @inheritParams eyes_to_string
@@ -129,7 +129,7 @@ suppressMessages(eyes(x = x, id = id, report = TRUE, eye = eye, small_num = smal
 #' @param x vector of one or two
 #' @param small_num If TRUE: writing numbers <= 12 as words
 #' @param para If TRUE: Adding "A total of" to comply with most
-#' journal standards and to avoid awkward long numnbers.
+#' journal standards and to avoid awkward long numbers.
 #' @param UK Logical, Use UK (English) style (TRUE) or
 #'   USA (American) style (FALSE).
 #' @return String to paste into text

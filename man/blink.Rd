@@ -17,11 +17,11 @@ tidyselection supported}
 \item{iop_cols}{if specified, overruling automatic IOP columns selection.
 tidyselection supported}
 
-\item{fct_level}{Remove columns for summarising when all unique values
+\item{fct_level}{Remove columns for Summarizing when all unique values
 fall into range. character or numeric vector, default \code{1:4}}
 }
 \description{
-\code{blink} summarises your data tailored to the need of
+\code{blink} summarizes your data tailored to the need of
 ophthalmic research: It looks for VA and IOP columns and summarises those
 with common statistics. In order to make it work, it requires specific
 column naming - please see section "column names" and "data coding".
@@ -100,7 +100,7 @@ as columns containing IOP data. Better maybe: "stableIOP_l"
 
 \section{column removal}{
 
-Done with \link{remCols}: Removes colums that only
+Done with \link{remCols}: Removes columns that only
 contain values defined in \emph{fct_levels} or logicals from selected columns
 (currently for both automatically and manually selected columns).
 fct_levels are removed because they are likely categorical codes.
