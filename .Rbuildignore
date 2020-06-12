@@ -9,3 +9,4 @@
 ^cran-comments\.md$
 ^\.git$
 ^\.Rhistory$
+^CRAN-RELEASE$

@@ -26,7 +26,8 @@ in ophthalmic research.
 \section{Beyond ophthalmology}{
 
 \itemize{
-\item \code{\link{geom_trail}}: A base plot type = "b" equivalent for \link[ggplot2:ggplot2]{ggplot2::ggplot2}
+\item \code{\link{geom_trail}}: A base plot type = "b" equivalent for the
+ggplot2 package
 \item \code{\link{age}}: Calculate age
 \item \code{\link{csv}}: Conveniently save a data frame to csv
 }
@@ -37,6 +38,7 @@ Useful links:
 \itemize{
 \item \href{https://github.com/tjebo/eye}{\code{eye} on github}
 \item \href{https://github.com/tjebo/eye/issues}{Report bugs}
+\item \href{https://ggplot2.tidyverse.org/}{the ggplot2 package}
 }
 }
 \author{
