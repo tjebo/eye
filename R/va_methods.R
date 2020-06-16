@@ -154,8 +154,8 @@ convertVA.etdrs <- function(x, to, snellnot, ...){
   } else if(to == "logmar"){
     new_va <- (-0.02 * x_int) + 1.7
     new_va <- round(as.numeric(new_va), 2)
-  } else {
-    new_va <- va_chart[[to]][match(x_int, as.numeric(va_chart$etdrs))]
+  } else if(to == "etdrs"){
+    new_va <- x_int
   }
   class(new_va) <- c(to, "va", class(new_va))
   new_va

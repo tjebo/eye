@@ -1,3 +1,7 @@
+# eye 0.1.1
+bug fixes
+Issue #8 ETDRS converts to all ETDRS integers
+
 # eye 0.1.0
 the eye package is online!
 eye is a tool to facilitate common tasks in ophthalmic research.
