@@ -118,7 +118,7 @@ convertVA.snellen <- function(x, to, snellnot, logmarstep, ...){
 convertVA.logmar <- function(x, to, snellnot, ...){
   x <- tolower(x)
   if(any(x %in% unlist(set_codes()["quali"]))){
-    x_quali <- va_quali$snellen_ft[match(x, va_quali$quali)]
+    x_quali <- va_quali$logmar[match(x, va_quali$quali)]
     x <- ifelse(!is.na(x_quali), x_quali, x)
   }
   x_num <- suppressWarnings(as.numeric(x))

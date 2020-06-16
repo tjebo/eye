@@ -1,6 +1,7 @@
 # eye 0.1.1
 bug fixes
 Issue #8 ETDRS converts to all ETDRS integers
+Issue #10 logmar with quali conversion 
 
 # eye 0.1.0
 the eye package is online!
