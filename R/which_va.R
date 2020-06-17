@@ -18,15 +18,15 @@ which_va <- function(x) {
   }
   x_noquali <- x[!x %in% unlist(set_codes()["quali"])]
   x_num <- suppressWarnings(as.numeric(x_noquali))
+
   if (all(grepl("/", x_noquali[!is.na(x_noquali)]))) {
     return("snellen")
   } else if (any(grepl("/", x_noquali[!is.na(x_noquali)]))) {
     return("mixed")
-  }
-
-  if (all(is.na(x_num))) {
+  } else if (all(is.na(x_num))) {
     return("failed")
   }
+
   x_numval <- x_num[!is.na(x_num)]
   if (length(x_numval) < length(x_noquali[!is.na(x_noquali)])) {
     return("mixed")

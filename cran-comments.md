@@ -1,5 +1,9 @@
 ## Resubmission
 This is a resubmission. In this version I have:
+* Added proper copyright holder to MIT license
+
+## Resubmission
+This is a resubmission. In this version I have:
 
 * Changed the link to ggplot2 in eye.Rd to a web-anchored link
 

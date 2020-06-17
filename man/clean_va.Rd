@@ -8,14 +8,20 @@
 \usage{
 clean_va(x)
 
-convert_NLP(x, replace_PL = c(pl = "lp", npl = "nlp"))
+convert_NLP(x, replace_PL = c(pl = "lp", npl = "nlp"), tolower = TRUE)
 
-isNAstring(x, full = c("\\\\.+", "", "\\\\s+", "n/a", "na", "null"))
+isNAstring(
+  x,
+  full = c("\\\\.+", "", "\\\\s+", "n/a", "na", "null"),
+  tolower = TRUE
+)
 }
 \arguments{
 \item{x}{Vector with VA entries}
 
 \item{replace_PL}{named vector how to rename qualitative VA}
+
+\item{tolower}{if TRUE, x will be converted to lower first}
 
 \item{full}{vector of full strings to be replaced by NA}
 }

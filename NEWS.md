@@ -1,6 +1,6 @@
 # eye 0.1.1
 bug fixes
-Issue #8 ETDRS converts to all ETDRS integers
+Issue #7 and #8 ETDRS converts to all ETDRS integers and conversion to Snellen without specifying type
 Issue #10 logmar with quali conversion 
 
 # eye 0.1.0
