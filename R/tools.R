@@ -1,14 +1,18 @@
 #' age
 #' @name age
-#' @description calculates age in years, either as duration or as period
+#' @author Antoine Fabri and Tjebo Heeren
+#' @description calculates age in years, as a duration or a period
 #' @param from_date start date
 #' @param to_date end date
-#' @param period default FALSE: output as a duration. If TRUE, output as a period
+#' @param period Calculating period (TRUE) or duration (FALSE- default)
 #' @param dec How many decimals are displayed
 #' @family convenience functions
 #' @import lubridate
-#' @seealso [original thread on stackoverflow.com](https://stackoverflow.com/a/47529507/7941188)
-#' from which this function was inspired
+#' @seealso
+#' [OP on stackoverflow](https://stackoverflow.com/a/47529507/7941188)
+#' from which this function was inspired.
+#' [Read about periods and durations](
+#' https://lubridate.tidyverse.org/articles/lubridate.html#time-intervals)
 #' @examples
 #' age("1984-10-16")
 #'
@@ -24,10 +28,12 @@ age <- function(from_date,
   if (is.character(from_date)) from_date <- lubridate::as_date(from_date)
   if (is.character(to_date)) to_date <- lubridate::as_date(to_date)
   if (period) {
-    age <- lubridate::year(lubridate::as.period(lubridate::interval(start = from_date, end = to_date)))
+    age <- lubridate::year(
+      lubridate::as.period(lubridate::interval(start = from_date, end = to_date)))
     round(age, dec)
   } else {
-    age <- lubridate::interval(start = from_date, end = to_date) / lubridate::dyears(1)
+    age <- lubridate::interval(
+      start = from_date, end = to_date) / lubridate::dyears(1)
     round(age, dec)
   }
 }
@@ -40,6 +46,7 @@ age <- function(from_date,
 #' @param name Filename (Default: Name of dataframe). If provided,
 #'  character string (.csv extension added automatically)
 #' @family convenience functions
+#' @return No return value, called for side effects (saving file)
 #' @examples
 #' \dontrun{
 #' csv(amd)

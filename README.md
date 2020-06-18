@@ -27,9 +27,6 @@ research.
 received intravitreal injections due to age-related macular degeneration
 in **Moorfields Eye Hospital**. (Fasler et al. [2019](#ref-fasler))
 
-Finally, *eye* also comes with the ggplot2 extension
-[`geom_trail()`](#geom_trail) for some nice trail graphs.
-
 ## Installation
 
 You can install eye from [CRAN](https://CRAN.R-project.org) using
@@ -65,8 +62,6 @@ devtools::install_github("tjebo/eye")
 
   - reveal: [Get common summary statistics](#reveal)
   - age: [Calculate age](#age)
-  - geom\_trail: [A base plot type = “b” equivalent for
-    ggplot2](#geom_trail)
 
 ## Details and examples
 
@@ -295,7 +290,7 @@ blink(wide_df)
 #> va_preop: from etdrs
 #> va_postop: from etdrs
 #> 
-#> ── blink ───────────────────────────────────────────────────────────────────────────
+#> ── blink ─────────────────────────────────────────────────────────────────────────
 #> ══ Data ════════════════════════════════
 #> # A tibble: 8 x 7
 #>   id    eye   surgery iop_preop iop_postop va_preop va_postop
@@ -398,50 +393,10 @@ dob <- c("1984-10-16", "2000-01-01")
 
 ## If no second date given, the age today
 age(dob)
-#> [1] 35.7 20.4
+#> [1] 35.7 20.5
 age(dob, "2000-01-01")                                                    
 #> [1] 15.2  0.0
 ```
-
-### geom\_trail
-
-A base plot type = “b” equivalent for ggplot. Works also with text\!
-
-<details>
-
-<summary>Prepare AMD data for plot (click to unfold) </summary>
-
-``` r
-library(tidyverse)
-amd_aggr <-
-  amd %>%
-  group_by(
-    age_cut10 = cut_width(BaselineAge, 10),
-    days_cut90 = cut_width(FollowupDays, 90, labels = seq(0, 810, 90))
-  ) %>%
-  summarise(mean_va = mean(VA_ETDRS_Letters)) %>%
-  filter(as.integer(days_cut90) <= 9)
-```
-
-</details>
-
-``` r
-p <-
-  ggplot(amd_aggr, aes(days_cut90, mean_va, color = age_cut10)) + 
-  scale_color_brewer(palette = "Set1") +
-  theme_classic() +
-  labs(
-    x = "Follow up time [binned by 90 days]", y = "Mean VA [ETDRS letters]",
-    color = "Age strata"
-  )
-```
-
-    p + geom_trail(aes(group = age_cut10))
-    
-    p + geom_trail(aes(group = age_cut10), size = 0) +
-        geom_text(aes(label = round(mean_va, 0)), show.legend = FALSE)
-
-<img src="man/figures/README-unnamed-chunk-6-1.png" width="45%" /><img src="man/figures/README-unnamed-chunk-6-2.png" width="45%" />
 
 ## Names and codes
 

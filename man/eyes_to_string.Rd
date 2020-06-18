@@ -18,7 +18,7 @@ journal standards and to avoid awkward long numbers.}
 USA (American) style (FALSE).}
 }
 \value{
-String to paste into text
+Character string - can be directly pasted into reports
 }
 \description{
 Eye count to strings

@@ -22,6 +22,9 @@ right and left eyes - first vector for right, then for left eyes}
 \item{numcode}{if you have numeric coding which is not 0:1 or 1:2 for
 right:left, specify it here.}
 }
+\value{
+Character vector
+}
 \description{
 recoding eyes to "r" and "l"
 }

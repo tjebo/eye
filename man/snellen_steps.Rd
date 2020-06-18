@@ -11,6 +11,9 @@ snellensteps(y)
 \item{y}{Vector with VA entries of class snellen - needs to be in
 format xx/yy}
 }
+\value{
+character vector of Snellen entries
+}
 \description{
 used in conversion method for class snellen
 \itemize{

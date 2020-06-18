@@ -13,6 +13,9 @@ count_eyes(x, pat_col, eye)
 
 \item{eye}{eye column}
 }
+\value{
+Named integer vector with count of patients and eyes
+}
 \description{
 \code{count_eyes()} is the internal counting function
 }

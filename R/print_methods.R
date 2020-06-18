@@ -6,6 +6,7 @@
 #' (logMAR is double, etdrs is integer).
 #' @param x an object of a class from the eye package (VA class or blink class)
 #' @param ... arguments passed to [print.default]
+#' @return No return value, called for side effects (printing)
 #' @export
 print.snellen <- function(x, ...) {
   print.default(as.character(x))

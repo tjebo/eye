@@ -4,12 +4,17 @@
 \alias{va_dissect}
 \title{Converting each VA element}
 \usage{
-va_dissect(x, ...)
+va_dissect(x, from_logmar, to, ...)
 }
 \arguments{
 \item{x}{vector of VA.}
 
+\item{to}{to which VA notation}
+
 \item{...}{passed to convertVA}
+}
+\value{
+vector of \code{va} class. see also \code{\link[=va]{va()}}
 }
 \description{
 Used in \code{\link[=va]{va()}} if  \code{\link[=which_va]{which_va()}} finds "mixed" VA notation.

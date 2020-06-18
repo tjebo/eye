@@ -34,6 +34,12 @@
 #' [Gregori et al.](https://doi.org/10.1097/iae.0b013e3181d87e04).
 #' - ETDRS to logMAR: logMAR = -0.02 * etdrs + 1.7
 #' [Beck et al.](https://doi.org/10.1016/s0002-9394(02)01825-1)
+#' @section VA classes:
+#' convert_VA returns a vector of three classes: `va`, one of `snellen`,
+#' `logmar`, `etdrs` or `quali`. `snellen` and `quali`, and either of
+#' `character` (for Snellen and qualitative), `numeric` (for logMAR)
+#' or `integer` (for ETDRS).
+#' @return vector with visual acuity of class `va`. See also "VA classes"
 #' @family VA converter
 #' @export
 convertVA <- function (x, to, ...) {
@@ -63,73 +69,85 @@ convertVA.quali <- function(x, to, snellnot, ...){
 #'   letter (assuming 5 letters in a row in a chart)
 #' @export
 #'
-convertVA.snellen <- function(x, to, snellnot, logmarstep, ...){
-  if(to == "snellen" & logmarstep){
+convertVA.snellen <- function(x, to, snellnot, logmarstep, ...) {
+  if (to == "snellen" & logmarstep) {
     warning("logmarstep should be FALSE when to = \"snellen\"", call. = FALSE)
   }
-  x <- tolower(x)
-  if(any(x %in% unlist(set_codes()["quali"]))){
+  if (any(x %in% c("nlp", "lp", "hm", "cf"))) {
     x_quali <- va_quali$snellen_ft[match(x, va_quali$quali)]
     x <- ifelse(!is.na(x_quali), x_quali, x)
   }
-    x_split <- strsplit(x, "(?<=.)(?=[-\\+])", perl = TRUE)
-  if(!logmarstep){
+  x_num <- suppressWarnings(as.numeric(x))
+
+  if (any(!is.na(x_num))) {
+    x_dec <- va_chart$snellen_ft[match(x_num, as.numeric(va_chart$snellen_dec))]
+    x <- ifelse(!is.na(x_dec), x_dec, x)
+  }
+  x_split <- strsplit(x, "(?<=.)(?=[-\\+])", perl = TRUE)
+  if (!logmarstep) {
     x <- snellensteps(x_split)
     parse_snellen <- strsplit(x, "/")
   } else {
     x <- sapply(x_split, function(x) x[[1]])
-    plussplit <- sapply(x_split,
-                        function(x) suppressWarnings(as.integer(x[2])))
+    plussplit <- sapply(
+      x_split,
+      function(x) suppressWarnings(as.integer(x[2]))
+    )
     plussplit[is.na(plussplit)] <- 0
     parse_snellen <- strsplit(x, "/")
   }
-   snellen_frac <- sapply(parse_snellen,
-                          function(x) {x <- suppressWarnings(as.numeric(x)); x[1] / x[2]})
+  snellen_frac <- sapply(
+    parse_snellen,
+    function(x) {
+      x <- suppressWarnings(as.numeric(x))
+      x[1] / x[2]
+    }
+  )
 
-  if(to == "logmar"){
+  if (to == "logmar") {
     new_va <- as.numeric(round(-1 * log10(snellen_frac), 2))
-    if(logmarstep){
+    if (logmarstep) {
       new_va <- new_va + 0.02 * plussplit
     }
-  } else if (to == "etdrs"){
+  } else if (to == "etdrs") {
     new_va <- round(85 + 50 * log10(snellen_frac), 0)
     new_va[snellen_frac <= 0.02 & snellen_frac > 0.005] <- 2
     new_va[snellen_frac <= 0.005] <- 0
     new_va <- as.integer(new_va)
-    if(logmarstep){
+    if (logmarstep) {
       new_va <- new_va + plussplit
     }
-  } else if(to == "snellen"){
+  } else if (to == "snellen") {
     looksnellen <- c("6" = "m", "20" = "ft")
     snellen_type <- sapply(parse_snellen, function(x) looksnellen[x[1]])
     from <- paste(to, snellen_type, sep = "_")
     col <- paste(to, snellnot, sep = "_")
-    new_va <- mapply(FUN = function(x, fromstr){
+    new_va <- mapply(FUN = function(x, fromstr) {
       va_chart[[col]][match(x, va_chart[[fromstr]])]
     }, x, from, USE.NAMES = FALSE)
   }
   class(new_va) <- c(to, "va", class(new_va))
   new_va
 }
-
 #' @rdname va_methods
 #' @export
 #'
 convertVA.logmar <- function(x, to, snellnot, ...){
   x <- tolower(x)
-  if(any(x %in% unlist(set_codes()["quali"]))){
-    x_quali <- va_quali$snellen_ft[match(x, va_quali$quali)]
+  if(any(x %in% c("nlp", "lp", "hm", "cf"))){
+    x_quali <- va_quali$logmar[match(x, va_quali$quali)]
     x <- ifelse(!is.na(x_quali), x_quali, x)
   }
   x_num <- suppressWarnings(as.numeric(x))
   x_num[x_num < -0.3 | x_num > 3] <- NA
-  x_num <- round(x_num, 1)
 
   if(to == "snellen"){
     col <- paste(to, snellnot, sep = "_")
-    new_va <- va_chart[[col]][match(x_num, as.numeric(va_chart$logmar))]
-  } else {
-  new_va <- va_chart[[to]][match(x_num, as.numeric(va_chart$logmar))]
+    new_va <- va_chart[[col]][match(round(x_num, 1), as.numeric(va_chart$logmar))]
+  } else if(to == "etdrs"){
+  new_va <- va_chart[[to]][match(round(x_num, 1), as.numeric(va_chart$logmar))]
+  } else{
+    new_va <- x_num
   }
   class(new_va) <- c(to, "va", class(new_va))
   new_va
@@ -139,12 +157,14 @@ convertVA.logmar <- function(x, to, snellnot, ...){
 #' @export
 convertVA.etdrs <- function(x, to, snellnot, ...){
   x <- tolower(x)
-  if(any(x %in% unlist(set_codes()["quali"]))){
+  if(any(x %in% c("nlp", "lp", "hm", "cf"))){
     x_quali <- va_quali$etdrs[match(x, va_quali$quali)]
     x <- ifelse(!is.na(x_quali), x_quali, x)
   }
   x_int <- suppressWarnings(as.integer(x))
+  true_int <- x == x_int
   x_int[x_int < 0 | x_int > 100] <- NA
+  x_int[!true_int] <- NA
 
   if(to == "snellen"){
     col <- paste(to, snellnot, sep = "_")
@@ -154,8 +174,8 @@ convertVA.etdrs <- function(x, to, snellnot, ...){
   } else if(to == "logmar"){
     new_va <- (-0.02 * x_int) + 1.7
     new_va <- round(as.numeric(new_va), 2)
-  } else {
-    new_va <- va_chart[[to]][match(x_int, as.numeric(va_chart$etdrs))]
+  } else if(to == "etdrs"){
+    new_va <- x_int
   }
   class(new_va) <- c(to, "va", class(new_va))
   new_va
@@ -192,6 +212,7 @@ NA
 #' just omitting the letters or (worse) assigning a missing value to those
 #' entries.
 #' @family VA converter
+#' @return character vector of Snellen entries
 #' @seealso
 #' https://en.wikipedia.org/wiki/Psychometric_function
 

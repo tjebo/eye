@@ -11,12 +11,12 @@ age(from_date, to_date = lubridate::now(), period = FALSE, dec = 1)
 
 \item{to_date}{end date}
 
-\item{period}{default FALSE: output as a duration. If TRUE, output as a period}
+\item{period}{Calculating period (TRUE) or duration (FALSE- default)}
 
 \item{dec}{How many decimals are displayed}
 }
 \description{
-calculates age in years, either as duration or as period
+calculates age in years, as a duration or a period
 }
 \examples{
 age("1984-10-16")
@@ -26,10 +26,14 @@ test_date <-  as.Date(dob) + c(15000, 20000)
 age(dob, test_date)
 }
 \seealso{
-\href{https://stackoverflow.com/a/47529507/7941188}{original thread on stackoverflow.com}
-from which this function was inspired
+\href{https://stackoverflow.com/a/47529507/7941188}{OP on stackoverflow}
+from which this function was inspired.
+\href{https://lubridate.tidyverse.org/articles/lubridate.html#time-intervals}{Read about periods and durations}
 
 Other convenience functions: 
 \code{\link{csv}()}
+}
+\author{
+Antoine Fabri and Tjebo Heeren
 }
 \concept{convenience functions}

@@ -4,7 +4,14 @@
 \alias{va}
 \title{Visual acuity notation conversion}
 \usage{
-va(x, to = "logmar", type = NULL, from = NULL, logmarstep = FALSE)
+va(
+  x,
+  to = "logmar",
+  type = NULL,
+  from_logmar = TRUE,
+  logmarstep = FALSE,
+  mixed = FALSE
+)
 }
 \arguments{
 \item{x}{Vector with visual acuity entries. Must be atomic.
@@ -15,15 +22,18 @@ any case allowed}
 
 \item{type}{To which Snellen notation to convert: "m", "dec" or "ft"}
 
-\item{from}{From which class to convert. "etdrs", "logmar" or "snellen" -
-any case allowed. Ignored if implausible}
+\item{from_logmar}{chose logmar when guessing between two notations (logmar
+vs. snellen decimal or logmar vs. etdrs)}
 
 \item{logmarstep}{how +/- entries are evaluated. FALSE:
 increase/decrease Snellen fractions by lines. TRUE: plus/minus
 entries equivalent to 0.02 logmar or 1 ETDRS letter}
+
+\item{mixed}{TRUE Elements will be converted one by one.
+Most plausibility checks will be overruled!}
 }
 \value{
-vector of class set with \code{to} argument
+vector of \code{va} class. See also "VA classes"
 }
 \description{
 Cleans and converts visual acuity notations (classes)
@@ -33,9 +43,8 @@ between Snellen (decimal, meter and feet), ETDRS, and logMAR.
 \details{
 Each class can be converted from one to another, and va()
 converts to logMAR by default. In case of ambiguous detection,
-logMAR is selected as default, but you can overrule this with "from".
-However, from will be ignored if it does not make sense.
-For further details, see the sections below.
+logMAR is selected as default, or the other alternative is selected with
+\code{from_logmar = FALSE}.
 }
 \section{VA conversion}{
 
@@ -138,6 +147,17 @@ For more details see \code{\link[=clean_va]{clean_va()}}
 \enumerate{
 \item \code{NA} is assigned to strings such as "." or "", "n/a" or "   "
 \item notation for qualitative entries is simplified.
+}
+}
+
+\section{VA classes}{
+
+convert_VA returns a vector of three classes:
+\enumerate{
+\item \code{va}
+\item One of \code{snellen}, \code{logmar}, \code{etdrs} or \code{quali}.
+\item Either of \code{character} (for Snellen and qualitative),
+\code{numeric} (for logMAR), or \code{integer} (for ETDRS).
 }
 }
 

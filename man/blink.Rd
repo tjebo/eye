@@ -20,6 +20,11 @@ tidyselection supported}
 \item{fct_level}{Remove columns for Summarizing when all unique values
 fall into range. character or numeric vector, default \code{1:4}}
 }
+\value{
+object of class \code{blink} and \code{list}. Class blink contains the
+myopized data, count of patients and eyes,
+and summaries for visual acuities and intraocular pressure.
+}
 \description{
 \code{blink} summarizes your data tailored to the need of
 ophthalmic research: It looks for VA and IOP columns and summarises those

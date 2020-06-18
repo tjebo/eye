@@ -14,6 +14,9 @@ remCols(x, cols, fct_level)
 \item{fct_level}{Remove columns for reveal and va when all unique values
 fall into the range of fct_level}
 }
+\value{
+logical vector
+}
 \description{
 Helper for \code{\link[=blink]{blink()}}. Removes columns that only
 contain values fct_levels or binary from selected columns (currently for

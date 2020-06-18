@@ -5,14 +5,21 @@
 \alias{which_va_dissect}
 \title{Guessing the VA class}
 \usage{
-which_va(x)
+which_va(x, quali = c("nlp", "lp", "hm", "cf"))
 
-which_va_dissect(elem)
+which_va_dissect(elem, from_logmar)
 }
 \arguments{
 \item{x}{Vector with VA entries}
 
+\item{quali}{strings for qualitative visual acuity entries}
+
 \item{elem}{element of vector to convert}
+
+\item{from_logmar}{chose logmar when guessing between two notations}
+}
+\value{
+character vector with strings indicating guessed VA notation
 }
 \description{
 Guessing the VA notation (VA class). Requires x that was
