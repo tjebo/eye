@@ -89,7 +89,7 @@ eyes <- function(x, id = NULL, eye = NULL, report = FALSE, ...) {
   }
   if (report) {
     res_str <- res[c("patients", "eyes")]
-    eyes_to_string(res_str, ...)
+    eyes_to_string(res_str[!is.na(res_str)], ...)
   } else {
     res
   }

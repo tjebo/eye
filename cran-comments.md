@@ -15,6 +15,7 @@ Changes in this second resubmission:
     "from_logmar"
     - va() added argument "mixed" for more flexibility in cases of mixed      
       notation.
+    - va_dissect() now also returns vector of class `va`
   
 ## Resubmission
 This is a resubmission. In this version I have:

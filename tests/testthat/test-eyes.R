@@ -2,6 +2,8 @@ context("test eyes")
 library(eye)
 library(testthat)
 
+iop_wide <- data.frame(id = letters[1:3], iop_r = 11:13, iop_l = 14:16)
+
 set.seed(42)
 patient <- id <- c(letters[sample(20)], letters[sample(20)])
 foo0 <- data.frame(id, eyes = c(1:4))
@@ -79,3 +81,7 @@ expect_null(eyes(foo16))
 expect_null(eyes(foo14))
 }
 )
+
+test_that("return", {
+  expect_true(length(eyestr(iop_wide)) == 1)
+})
