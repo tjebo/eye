@@ -15,8 +15,11 @@ age(from_date, to_date = lubridate::now(), period = FALSE, dec = 1)
 
 \item{dec}{How many decimals are displayed}
 }
+\value{
+Numeric vector
+}
 \description{
-calculates age in years, as a duration or a period
+calculates age in years, as durations or periods
 }
 \examples{
 age("1984-10-16")

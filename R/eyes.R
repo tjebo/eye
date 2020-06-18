@@ -41,7 +41,7 @@
 #'     long numbers.
 #'  - **UK** TRUE: UK style (English) or FALSE (default):
 #'  US style (American).
-#' @return Named integer vector with count of patients and eyes
+#' @return `eyes`: Named integer vector with count of patients and eyes
 #' @family eye core functions
 #' @importFrom purrr quietly
 #' @examples
@@ -134,6 +134,7 @@ suppressMessages(eyes(x = x, id = id, report = TRUE, eye = eye, small_num = smal
 #' @param UK Logical, Use UK (English) style (TRUE) or
 #'   USA (American) style (FALSE).
 #' @return Character string - can be directly pasted into reports
+#' @keywords internal
 #' @importFrom english english
 
 eyes_to_string <- function(x, small_num = TRUE, para = FALSE, UK = FALSE) {

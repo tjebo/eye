@@ -17,7 +17,7 @@ is only one column per eye with no further info on the variable
 (default "value")}
 }
 \value{
-a tibble (class tbl_df, tbl and data.frame)
+A tibble, see also \link[tibble:tibble]{tibble::tibble}
 }
 \description{
 Pivot "eye" variable to one column
@@ -91,7 +91,4 @@ iop_wide <- data.frame(id = letters[1:3],  r = 11:13 , l = 14:16)
 # the variable has not been exactly named, so you can specify
 # it with the var argument
 myop(iop_wide, var = "iop")
-}
-\seealso{
-\href{https://www.rdocumentation.org/packages/tibble/versions/3.0.1}{About tibbles}
 }

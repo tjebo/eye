@@ -14,7 +14,7 @@ hyperop(x, cols, eye = NULL)
 \item{eye}{eye column (default looking for "eye" or "eyes", all cases)}
 }
 \value{
-a tibble (class tbl_df, tbl and data.frame)
+A tibble, see also \link[tibble:tibble]{tibble::tibble}
 }
 \description{
 Pivot eye-related variables to two columns
@@ -46,6 +46,5 @@ hyperop(myop_iop, cols = matches("va|iop"))
 
 }
 \seealso{
-\href{https://tidyselect.r-lib.org/reference/language.html}{Read about tidyselection}
-\href{https://www.rdocumentation.org/packages/tibble/versions/3.0.1}{About tibbles}
+\href{https://tidyselect.r-lib.org/reference/language.html}{About tidyselection}
 }

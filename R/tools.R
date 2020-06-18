@@ -1,11 +1,12 @@
 #' age
 #' @name age
 #' @author Antoine Fabri and Tjebo Heeren
-#' @description calculates age in years, as a duration or a period
+#' @description calculates age in years, as durations or periods
 #' @param from_date start date
 #' @param to_date end date
 #' @param period Calculating period (TRUE) or duration (FALSE- default)
 #' @param dec How many decimals are displayed
+#' @return Numeric vector
 #' @family convenience functions
 #' @import lubridate
 #' @seealso

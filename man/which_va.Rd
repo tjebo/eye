@@ -19,7 +19,7 @@ which_va_dissect(elem, from_logmar)
 \item{from_logmar}{chose logmar when guessing between two notations}
 }
 \value{
-character vector with strings indicating guessed VA notation
+character vector indicating guessed VA notation
 }
 \description{
 Guessing the VA notation (VA class). Requires x that was
@@ -41,3 +41,4 @@ Other VA converter:
 }
 \concept{VA converter}
 \concept{VA helper}
+\keyword{internal}

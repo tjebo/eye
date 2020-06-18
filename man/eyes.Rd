@@ -29,7 +29,7 @@ journal standards and to avoid awkward long numbers.}
 USA (American) style (FALSE).}
 }
 \value{
-Named integer vector with count of patients and eyes
+\code{eyes}: Named integer vector with count of patients and eyes
 
 \code{eyestr}: Character string - can be directly pasted into reports
 }

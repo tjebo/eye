@@ -5,7 +5,7 @@
 #' @param var Character vector of length 1 specifying the variable if there
 #'  is only one column per eye with no further info on the variable
 #'  (default "value")
-#' @return a tibble (class tbl_df, tbl and data.frame)
+#' @return A tibble, see also [tibble::tibble]
 #' @details
 #' Out of convenience, data is often entered in a very "wide" format:
 #' there will be two columns for the same variable, one column for each eye.
@@ -50,8 +50,6 @@
 #' for methods  (IOP/VA), then the rest.
 #' @section myopization:
 #' The actual work is done with [myopizer] and [myop_pivot]
-#' @seealso
-#' [About tibbles](https://www.rdocumentation.org/packages/tibble/versions/3.0.1)
 #' @examples
 #' # Example to clean a bit messy data frame
 #' iopva <- data.frame(
@@ -137,6 +135,7 @@ myop_rename <- function(x) {
 #' @inheritParams myop
 #' @import tidyr
 #' @importFrom dplyr mutate_all
+#' @keywords internal
 #' @family myopizer
 myopizer <- function(x, var = "value") {
   x_sym <- deparse(substitute(x))

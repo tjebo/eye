@@ -35,10 +35,11 @@
 #' - ETDRS to logMAR: logMAR = -0.02 * etdrs + 1.7
 #' [Beck et al.](https://doi.org/10.1016/s0002-9394(02)01825-1)
 #' @section VA classes:
-#' convert_VA returns a vector of three classes: `va`, one of `snellen`,
-#' `logmar`, `etdrs` or `quali`. `snellen` and `quali`, and either of
-#' `character` (for Snellen and qualitative), `numeric` (for logMAR)
-#' or `integer` (for ETDRS).
+#' convert_VA returns a vector of three classes:
+#'   1. `va`
+#'   1. One of `snellen`, `logmar`, `etdrs` or `quali`.
+#'   1. Either of `character` (for Snellen and qualitative),
+#'       `numeric` (for logMAR), or `integer` (for ETDRS).
 #' @return vector with visual acuity of class `va`. See also "VA classes"
 #' @family VA converter
 #' @export

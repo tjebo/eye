@@ -6,7 +6,8 @@
 #' @description Guessing the VA notation (VA class). Requires x that was
 #' prepared with [clean_va]
 #' * `which_va`: guessing VA class for entire vector
-#' @return character vector with strings indicating guessed VA notation
+#' @return character vector indicating guessed VA notation
+#' @keywords internal
 #' @family VA helper
 #' @family VA converter
 #'

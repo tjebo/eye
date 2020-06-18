@@ -9,6 +9,7 @@
 #' @param quali quali VA codes
 #' @param vaPart partial VA codes
 #' @param ... further codes to set
+#' @keywords internal
 #' @description currently only internal use for convenient set of coding strings
 #' @family string matching functions
 set_codes <- function(

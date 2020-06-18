@@ -19,7 +19,7 @@ Changes in this second resubmission:
       - clean_va removes non-snellen character strings
       - va() removed "from" argument and simplified to logical argument 
       "from_logmar"
-      - va() added argument "mixed" for more flexibility in cases of mixed      
+      - va() added argument "mixed" for more flexibility in cases of mixed
         notation.
       - va_dissect() now also returns vector of class `va`
     * eyestr fix error when called on patient only data

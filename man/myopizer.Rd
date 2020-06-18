@@ -27,3 +27,4 @@ Other myopizer:
 \code{\link{myop_rename}()}
 }
 \concept{myopizer}
+\keyword{internal}

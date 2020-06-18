@@ -23,3 +23,4 @@ Character string - can be directly pasted into reports
 \description{
 Eye count to strings
 }
+\keyword{internal}
