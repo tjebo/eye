@@ -7,17 +7,16 @@
 #' @param to To which class to convert. "etdrs", "logmar" or "snellen" -
 #' any case allowed
 #' @param type To which Snellen notation to convert: "m", "dec" or "ft"
-#' @param from From which class to convert. "etdrs", "logmar" or "snellen" -
-#' any case allowed. Ignored if implausible
+#' @param from_logmar chose logmar when guessing between two notations (logmar
+#'   vs. snellen decimal or logmar vs. etdrs)
 #' @param logmarstep how +/- entries are evaluated. FALSE:
 #'   increase/decrease Snellen fractions by lines. TRUE: plus/minus
 #'   entries equivalent to 0.02 logmar or 1 ETDRS letter
 #' @name va
 #' @details Each class can be converted from one to another, and va()
 #' converts to logMAR by default. In case of ambiguous detection,
-#' logMAR is selected as default, but you can overrule this with "from".
-#' However, from will be ignored if it does not make sense.
-#' For further details, see the sections below.
+#' logMAR is selected as default, or the other alternative is selected with
+#' `from_logmar = FALSE`.
 #' @section VA conversion:
 #' - **logMAR to ETDRS**: logMAR rounded to the first digit and converted with
 #' the chart.
@@ -100,8 +99,12 @@
 #' For more details see [clean_va()]
 #' 1. `NA` is assigned to strings such as "." or "", "n/a" or "   "
 #' 1. notation for qualitative entries is simplified.
-#'
-#' @return vector of class set with `to` argument
+#' @section VA classes:
+#' convert_VA returns a vector of three classes: `va`, one of `snellen`,
+#' `logmar`, `etdrs` or `quali`. `snellen` and `quali`, and either of
+#' `character` (for Snellen and qualitative), `numeric` (for logMAR)
+#' or `integer` (for ETDRS).
+#' @return vector of `va` class. See also "VA classes"
 #' @family Ophthalmic functions
 #' @family VA converter
 #' @family VA cleaner
@@ -132,7 +135,7 @@
 #' @export
 va <- function(x, to = "logmar",
                type = NULL,
-               from = NULL,
+               from_logmar = TRUE,
                logmarstep = FALSE) {
   if (!is.atomic(x)) {
     stop("x must be atomic", call. = FALSE)
@@ -145,9 +148,6 @@ va <- function(x, to = "logmar",
   if (inherits(x, "va")) {
     set_va <- class(x)[class(x) %in% c("logmar", "snellen", "etdrs", "quali")]
 
-    if (!is.null(from)) {
-      warning("Ignoring \"from\": overruled by VA class", call. = FALSE)
-    }
     if (to == set_va) {
       message("VA already in desired class. No conversion made")
       return(x)
@@ -167,22 +167,34 @@ va <- function(x, to = "logmar",
     }
     if (any(guess_va %in% "mixed")) {
       message(paste0("Mixed object (", x_sym, ") - converting one by one"))
-      new_va <- va_dissect(x, to = to, snellnot = type, logmarstep = logmarstep)
+      new_va <- va_dissect(x,
+        to = to, snellnot = type,
+        logmarstep = logmarstep,
+        from_logmar = from_logmar
+      )
       return(new_va)
     }
     if (length(guess_va) == 2) {
       if (any(guess_va %in% "implaus")) {
-        warning(paste0("NA introduced (", x_sym, ") - implausible values"), call. = FALSE)
-        class_va <- guess_va[1]
-      } else if (is.null(from)) {
-        warning(paste("Wavering between", guess_va[1], "and", guess_va[2], "- picked logMAR!
-              If unhappy, change with \"from\""), call. = FALSE)
-        class_va <- "logmar"
-      } else if (length(from) > 1 | !tolower(from) %in% guess_va) {
-        warning(paste("Ignoring \"from\": Pick", paste(guess_va, collapse = " or ")), call. = FALSE)
+        warning(paste0(
+          x_sym, " (from ", guess_va[!guess_va %in% "implaus"],
+          "): NA introduced - implausible values"
+        ),
+        call. = FALSE
+        )
+        class_va <- guess_va[!guess_va %in% "implaus"]
+      } else if (isTRUE(from_logmar)) {
+        message(
+          paste(
+            "Ambiguous:",
+            guess_va[1], "or", guess_va[2], "- logMAR picked!
+              Change to other with \"from_logmar = FALSE\""
+          )
+        )
         class_va <- "logmar"
       } else {
-        class_va <- guess_va[guess_va == tolower(from)]
+        message(paste0(x_sym, ": from ", guess_va[!guess_va %in% "logmar"]))
+        class_va <- guess_va[!guess_va %in% "logmar"]
       }
     } else {
       if (guess_va == "failed") {
@@ -195,14 +207,7 @@ va <- function(x, to = "logmar",
         return(x)
       }
       class_va <- guess_va
-      if (!is.null(from)) {
-        if (tolower(from) != class_va) {
-          message(paste0(x_sym, ": from ", guess_va))
-          warning(paste("Ignoring \"from\":", from, "implausible"), call. = FALSE)
-        }
-      } else {
-        message(paste0(x_sym, ": from ", guess_va))
-      }
+      message(paste0(x_sym, ": from ", guess_va))
     }
 
     if (class_va == to) {
@@ -212,11 +217,10 @@ va <- function(x, to = "logmar",
     }
   }
   class(x) <- class_va
-
   if (to == "snellen") {
-    if (is.null(type)){
+    if (is.null(type)) {
       type <- "ft"
-    } else if(!type %in% c("ft", "m", "dec")) {
+    } else if (!type %in% c("ft", "m", "dec")) {
       warning(
         paste0(
           "Ignoring \"type = ",
@@ -230,7 +234,6 @@ va <- function(x, to = "logmar",
   convertVA(x, to = to, snellnot = type, logmarstep = logmarstep)
 }
 
-
 #' Converting each VA element
 #' @param x vector of VA.
 #' @param ... passed to convertVA
@@ -239,11 +242,12 @@ va <- function(x, to = "logmar",
 #' be prepared with [clean_va()] first.
 #' @rdname va_dissect
 #' @family VA converter
+#' @return vector of `va` class. see also [va()]
 #' @keywords internal
-va_dissect <- function(x, ...) {
+va_dissect <- function(x, from_logmar, ...) {
   new_va <- sapply(x,
     function(elem) {
-      class_va <- which_va_dissect(elem)
+      class_va <- which_va_dissect(elem, from_logmar = from_logmar)
       class(elem) <- class_va
       convertVA(elem, ...)
       }, USE.NAMES = FALSE)

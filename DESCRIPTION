@@ -1,14 +1,25 @@
 Package: eye
 Title: Analysis of Eye Data
-Version: 0.1.9000
+Version: 0.1.0
 Authors@R: 
     person(given = "Tjebo",
            family = "Heeren",
            role = c("aut", "cre"),
            email = "tjebo@gmx.de",
            comment = c(ORCID = "0000-0001-5297-2301"))
-Description: A tool to facilitate common tasks in ophthalmic research including
-    a function for easy handling of different visual acuity notations.
+Description: A tool to facilitate common tasks in ophthalmic research: 
+    Conversion between different visual acuity notations (Snellen, logMAR 
+    and ETDRS), counting of patients, recode right and left eyes and reshape 
+    eye side specific variables between wide and long format. 
+    The eye package also contains a real life data set of people with 
+    intravitreal injections with anti-vascular endothelial growth factor 
+    (anti-VEGF), made available by 
+    Fasler et al. (2019) <doi:10.1136/bmjopen-2018-027441>.  
+    Visual acuity conversion is based on 
+    Schulze-Bonsel et al. (2006) <doi:10.1167/iovs.05-0981>, 
+    Gregori et al. (2010) <doi:10.1097/iae.0b013e3181d87e04>, 
+    Beck et al. (2003) <doi:10.1016/s0002-9394(02)01825-1> and 
+    Bach (2007) <http:michaelbach.de/sci/acuity.html>
 License: MIT + file LICENSE
 Language: en-US
 Encoding: UTF-8
@@ -26,7 +37,6 @@ Imports:
     cli (>= 2.0.2),
     english (>= 1.2-5),
     lubridate (>= 1.7.8),
-    ggplot2 (>= 3.3.0),
     magrittr (>= 1.5),
     purrr (>= 0.3.4),
     rlang (>= 0.4.6),

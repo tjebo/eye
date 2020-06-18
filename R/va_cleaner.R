@@ -1,31 +1,30 @@
 #' Visual acuity entry cleaner
 #' @name clean_va
 #' @param x Vector with VA entries
+#' @param quali strings for qualitative visual acuity entries
 #' @description VA cleaning:
 #' 1. [isNAstring()]:
 #'   Replacing empty placeholders (".","", "(any number of empty space)",
 #'   "NULL", "NA", "N/A" ) - any cases - with NA
 #' 1. [convert_NLP()] Simplifying the notation for qualitative VA notation
 #' (NPL becomes NLP, PL becomes LP)
+#' @return character vector
 #' @family VA cleaner
 #' @export
-clean_va <- function(x){
-  x <- tolower(as.character(x))
+clean_va <- function(x, quali = c("nlp", "lp", "hm", "cf")) {
+  x <- tolower(x)
   x[isNAstring(x, tolower = FALSE)] <- NA_character_
-  x <- gsub("\\s","", x)
-   convert_NLP(x, tolower = FALSE)
+  x <- gsub("\\s", "", x)
+  x <- convert_NLP(x, tolower = FALSE)
 
-   x_quali <- x %in% unlist(set_codes()["quali"])
-   x_snell <- grepl("/", x)
-   x_keep <- as.logical (x_quali + x_snell)
-   x_num <- suppressWarnings(as.numeric(x_noquali))
+  x_quali <- x %in% quali
+  x_snell <- grepl("/", x)
+  x_num <- !is.na(suppressWarnings(as.numeric(x)))
+  x_keep <- as.logical(x_quali + x_snell + x_num)
+  x[!x_keep] <- NA
+  x
+}
 
-   if (all(is.na(x_num))) {
-     return("failed")
-   } else if (all(grepl("/", x_noquali[!is.na(x_noquali)]))) {
-     return("snellen")
-}
-}
 #' @rdname clean_va
 #' @param replace_PL named vector how to rename qualitative VA
 #' @param tolower if TRUE, x will be converted to lower first

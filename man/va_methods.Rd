@@ -36,6 +36,9 @@ increase/decrease snellen fractions by lines. If TRUE, each snellen
 optotype will be considered equivalent to 0.02 logmar or 1 ETDRS
 letter (assuming 5 letters in a row in a chart)}
 }
+\value{
+vector with visual acuity of class \code{va}. See also "VA classes"
+}
 \description{
 S3 methods for VA conversion
 }
@@ -74,6 +77,14 @@ the chart.
 \item ETDRS to logMAR: logMAR = -0.02 * etdrs + 1.7
 \href{https://doi.org/10.1016/s0002-9394(02)01825-1}{Beck et al.}
 }
+}
+
+\section{VA classes}{
+
+convert_VA returns a vector of three classes: \code{va}, one of \code{snellen},
+\code{logmar}, \code{etdrs} or \code{quali}. \code{snellen} and \code{quali}, and either of
+\code{character} (for Snellen and qualitative), \code{numeric} (for logMAR)
+or \code{integer} (for ETDRS).
 }
 
 \seealso{

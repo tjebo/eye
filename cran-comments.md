@@ -1,7 +1,19 @@
-## Resubmission
-This is a resubmission. In this version I have:
+## Resubmission #2
+Changes in this second resubmission:
+* Extended on the description field in DESCRIPTION
+* Included references in the description field in DESCRIPTION for   
+  methods and theoretical background. 
 * Added proper copyright holder to MIT license
-
+* Decision to remove geom_trail (a ggplot2 extension) from eye, because it does   not fully fit to the scope of this package. This resulted in:
+    - Removal of one package dependency (ggplot2) 
+    - Removal of code that based on code by third person Teun van den Brand.
+* Added \value to Rd files 
+* Conversion issue fixes:
+    - va_methods fixed conversion to and from snellen decimal
+    - clean_va removes non-snellen character strings
+    - va() simplified "from" argument to logical value, argument now called 
+    "from_logmar"
+  
 ## Resubmission
 This is a resubmission. In this version I have:
 

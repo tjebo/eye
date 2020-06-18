@@ -6,7 +6,7 @@
 \alias{isNAstring}
 \title{Visual acuity entry cleaner}
 \usage{
-clean_va(x)
+clean_va(x, quali = c("nlp", "lp", "hm", "cf"))
 
 convert_NLP(x, replace_PL = c(pl = "lp", npl = "nlp"), tolower = TRUE)
 
@@ -19,11 +19,16 @@ isNAstring(
 \arguments{
 \item{x}{Vector with VA entries}
 
+\item{quali}{strings for qualitative visual acuity entries}
+
 \item{replace_PL}{named vector how to rename qualitative VA}
 
 \item{tolower}{if TRUE, x will be converted to lower first}
 
 \item{full}{vector of full strings to be replaced by NA}
+}
+\value{
+character vector
 }
 \description{
 VA cleaning:
