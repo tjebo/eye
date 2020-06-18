@@ -4,7 +4,14 @@
 \alias{va}
 \title{Visual acuity notation conversion}
 \usage{
-va(x, to = "logmar", type = NULL, from_logmar = TRUE, logmarstep = FALSE)
+va(
+  x,
+  to = "logmar",
+  type = NULL,
+  from_logmar = TRUE,
+  logmarstep = FALSE,
+  mixed = FALSE
+)
 }
 \arguments{
 \item{x}{Vector with visual acuity entries. Must be atomic.
@@ -21,6 +28,9 @@ vs. snellen decimal or logmar vs. etdrs)}
 \item{logmarstep}{how +/- entries are evaluated. FALSE:
 increase/decrease Snellen fractions by lines. TRUE: plus/minus
 entries equivalent to 0.02 logmar or 1 ETDRS letter}
+
+\item{mixed}{TRUE Elements will be converted one by one.
+Most plausibility checks will be overruled!}
 }
 \value{
 vector of \code{va} class. See also "VA classes"

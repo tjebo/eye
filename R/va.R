@@ -12,6 +12,8 @@
 #' @param logmarstep how +/- entries are evaluated. FALSE:
 #'   increase/decrease Snellen fractions by lines. TRUE: plus/minus
 #'   entries equivalent to 0.02 logmar or 1 ETDRS letter
+#' @param mixed TRUE Elements will be converted one by one.
+#'   Most plausibility checks will be overruled!
 #' @name va
 #' @details Each class can be converted from one to another, and va()
 #' converts to logMAR by default. In case of ambiguous detection,
@@ -136,7 +138,8 @@
 va <- function(x, to = "logmar",
                type = NULL,
                from_logmar = TRUE,
-               logmarstep = FALSE) {
+               logmarstep = FALSE,
+               mixed = FALSE) {
   if (!is.atomic(x)) {
     stop("x must be atomic", call. = FALSE)
   }
@@ -165,7 +168,7 @@ va <- function(x, to = "logmar",
       warning(paste0("No conversion (", x_sym, ") - vector of NA"), call. = FALSE)
       return(x)
     }
-    if (any(guess_va %in% "mixed")) {
+    if (any(guess_va %in% "mixed")| isTRUE(mixed)) {
       message(paste0("Mixed object (", x_sym, ") - converting one by one"))
       new_va <- va_dissect(x,
         to = to, snellnot = type,
@@ -186,9 +189,9 @@ va <- function(x, to = "logmar",
       } else if (isTRUE(from_logmar)) {
         message(
           paste(
-            "Ambiguous:",
-            guess_va[1], "or", guess_va[2], "- logMAR picked!
-              Change to other with \"from_logmar = FALSE\""
+            "Notation ambiguous - logMAR picked. Change to",
+            guess_va[!guess_va %in% "logmar"] ,
+            "with \"from_logmar = FALSE\""
           )
         )
         class_va <- "logmar"
@@ -210,11 +213,6 @@ va <- function(x, to = "logmar",
       message(paste0(x_sym, ": from ", guess_va))
     }
 
-    if (class_va == to) {
-      message(paste(
-        x_sym, "already in desired notation. Updated to class", class_va
-      ))
-    }
   }
   class(x) <- class_va
   if (to == "snellen") {

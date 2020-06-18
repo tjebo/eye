@@ -11,8 +11,10 @@ Changes in this second resubmission:
 * Conversion issue fixes:
     - va_methods fixed conversion to and from snellen decimal
     - clean_va removes non-snellen character strings
-    - va() simplified "from" argument to logical value, argument now called 
+    - va() removed "from" argument and simplified to logical argument 
     "from_logmar"
+    - va() added argument "mixed" for more flexibility in cases of mixed      
+      notation.
   
 ## Resubmission
 This is a resubmission. In this version I have:

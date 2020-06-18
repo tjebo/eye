@@ -21,8 +21,8 @@ mixed_VA1 <- c(32, "20/40",3, NA, "1.1", 0.2, -0.3, "NA",  -0.4, "NLP", "PL")
 mixed_VA2 <- c(32, "20/40",3, NA, "1.1", 0.2, -0.3, "NA",   "NLP", "PL")
 etdrs_logmar <- 0:1
 etdrs_logmar_na <- c(0:1, NA)
-snellen_logmar <- eye:::inter_snelllog[c(2,4,5)]
-snellen_logmar_na <- c(eye:::inter_snelllog[c(2,4,5)], NA)
+snellen_logmar <- intersect(as.numeric(va_chart$snellen_dec), va_chart$logmar)
+snellen_logmar_na <- c(snellen_logmar, NA)
 va_vecNA <- c(NA, NA)
 va_vec <- c("NLP", "LP", "HM", "CF", "6/60", "NA", NA, "20/40")
 va_vec1 <- c("NPL", "NLP", "LP", "PL", "HM", "CF", "6/60", "20/200", "6/9", "20/40")
@@ -85,16 +85,11 @@ test_that("message", {
   expect_message(va(etdrs), regexp = "from etdrs")
   expect_message(va(snellen_dec, from_logmar = FALSE), "from snellen")
   expect_message(va(quali_snellen_ft), "from snellen")
-  expect_message(va(va_vec3, to = "etdrs"), "already in desired")
-  expect_message(va(va_vec2, to = "logmar"), "already in desired")
-  expect_message(va(logmar, to = "logmar"), "already in desired")
-  expect_message(va(logmar, from = "etdrs"), "already in desired")
-  expect_message(va(logmar_unplaus), "already in desired")
   expect_message(va(logmar), "from logmar")
-  expect_message(va(etdrs_logmar_na), "Ambiguous: logmar or etdrs")
-  expect_message(va(snellen_logmar), "Ambiguous: logmar or snellen")
-  expect_message(va(snellen_logmar_na), "Ambiguous: logmar or snellen")
-  expect_message(va(etdrs_logmar), "Ambiguous: logmar or etdrs")
+  expect_message(va(etdrs_logmar_na), "Notation ambiguous - logMAR picked.")
+  expect_message(va(snellen_logmar), "Notation ambiguous - logMAR picked.")
+  expect_message(va(snellen_logmar_na), "Notation ambiguous - logMAR picked.")
+  expect_message(va(etdrs_logmar), "Notation ambiguous - logMAR picked.")
 })
 
 test_that("warning", {
@@ -113,7 +108,7 @@ test_that("warning", {
 
 test_that("return", {
   expect_identical(eye:::which_va(etdrs), "etdrs")
-  expect_identical(eye:::which_va(snellen_dec), c("snellen","logmar"))
+  expect_identical(eye:::which_va(snellen_dec), c("logmar","snellen"))
   expect_identical(eye:::which_va(snellen_m), "snellen")
   expect_identical(eye:::which_va(snellen_ft), "snellen")
   expect_identical(eye:::which_va(logmar), "logmar")
@@ -180,6 +175,8 @@ test_that("NA", {
   expect_equal(sum(is.na(eye:::convertVA(va_vec8, to = "snellen", "ft"))),26) #class quali
   expect_equal(sum(is.na(eye:::convertVA(va_vec8, to = "etdrs", "ft"))),26) #class quali
   expect_equal(sum(is.na(eye:::convertVA(va_vec8, to = "logmar", "ft"))),26) #class quali
+  expect_equal(sum(is.na(va(c(25, 23, 0.4), to = "snellen", from_logmar = FALSE))),1) #class quali
+  expect_equal(sum(is.na(va(c(25, 23, 0.4), to = "snellen"))), 2) #class quali
 }
 )
 

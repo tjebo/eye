@@ -44,13 +44,10 @@ va_chart$etdrs <-  as.integer(va_chart$etdrs)
 
 usethis::use_data(va_chart, overwrite = TRUE)
 
-chart_logmar <- round(as.numeric(va_chart$logmar), 2)
-chart_snellen <- round(as.numeric(va_chart$snellen_dec), 2)
-inter_snelllog <- round(intersect(chart_logmar, chart_snellen), 1)
 
 va_quali <- va_chart[!is.na(va_chart$quali), ]
 va_quali$quali <- tolower(va_quali$quali )
 names(va_quali) <- tolower(names(va_quali))
 va_quali$logmar <- round(as.numeric(va_quali$logmar),1)
 va_quali$etdrs <- as.integer(c(0, 0, 0, 2))
-usethis::use_data(va_quali, inter_snelllog, internal = TRUE, overwrite = TRUE)
+usethis::use_data(va_quali, internal = TRUE, overwrite = TRUE)

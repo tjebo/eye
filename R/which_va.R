@@ -43,13 +43,18 @@ which_va <- function(x, quali = c("nlp", "lp", "hm", "cf")) {
     }
   }
 
-  if (all(round(x_num[!is.na(x_num)], 2) %in% inter_snelllog)) {
+  if (all(round(x_numval, 3) %in% as.numeric(va_chart$snellen_dec))) {
     return(c("logmar", "snellen"))
-  } else if (all(round(x_num, 3) %in% as.numeric(va_chart$snellen_dec))) {
-    return(c("snellen", "logmar"))
-  } else if (any(x_numval < -0.3 | any(x_numval > 3))) {
+  } else if (any(x_numval < -0.3 )) {
     return(c("logmar", "implaus"))
-  } else {
+  } else if(any(x_numval > 3)){
+    x_bigint <- x_numval[x_numval > 3]
+    if (all(x_bigint== as.integer(x_bigint))){
+      return(c("logmar", "etdrs"))
+    } else {
+      return(c("logmar", "implaus"))
+    }
+    } else {
     return("logmar")
   }
 }
