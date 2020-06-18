@@ -148,6 +148,20 @@ va <- function(x, to = "logmar",
   if (length(to) != 1 | !to %in% c("etdrs", "logmar", "snellen")) {
     stop("\"to\": Pick one of \"etdrs\", \"logmar\" or \"snellen\"", call. = FALSE)
   }
+  if (to == "snellen") {
+    if (is.null(type)) {
+      type <- "ft"
+    } else if (!type %in% c("ft", "m", "dec")) {
+      warning(
+        paste0(
+          "Ignoring \"type = ",
+          type, "\" - must be ft, m, or dec. Converting to ft"
+        ),
+        call. = FALSE
+      )
+      type <- "ft"
+    }
+  }
   if (inherits(x, "va")) {
     set_va <- class(x)[class(x) %in% c("logmar", "snellen", "etdrs", "quali")]
 
@@ -171,7 +185,8 @@ va <- function(x, to = "logmar",
     if (any(guess_va %in% "mixed")| isTRUE(mixed)) {
       message(paste0("Mixed object (", x_sym, ") - converting one by one"))
       new_va <- va_dissect(x,
-        to = to, snellnot = type,
+        to = to,
+        snellnot = type,
         logmarstep = logmarstep,
         from_logmar = from_logmar
       )
@@ -215,25 +230,13 @@ va <- function(x, to = "logmar",
 
   }
   class(x) <- class_va
-  if (to == "snellen") {
-    if (is.null(type)) {
-      type <- "ft"
-    } else if (!type %in% c("ft", "m", "dec")) {
-      warning(
-        paste0(
-          "Ignoring \"type = ",
-          type, "\" - must be ft, m, or dec. Converting to ft"
-        ),
-        call. = FALSE
-      )
-      type <- "ft"
-    }
-  }
+
   convertVA(x, to = to, snellnot = type, logmarstep = logmarstep)
 }
 
 #' Converting each VA element
 #' @param x vector of VA.
+#' @param to to which VA notation
 #' @param ... passed to convertVA
 #' @description Used in [va()] if  [which_va()] finds "mixed" VA notation.
 #' Converts each VA vector element individually - requires the VA vector to
@@ -242,12 +245,13 @@ va <- function(x, to = "logmar",
 #' @family VA converter
 #' @return vector of `va` class. see also [va()]
 #' @keywords internal
-va_dissect <- function(x, from_logmar, ...) {
+va_dissect <- function(x, from_logmar, to, ...) {
   new_va <- sapply(x,
     function(elem) {
       class_va <- which_va_dissect(elem, from_logmar = from_logmar)
       class(elem) <- class_va
-      convertVA(elem, ...)
+      convertVA(elem, to = to, ...)
       }, USE.NAMES = FALSE)
+  class(new_va) <- c(to, "va", class(new_va))
   new_va
 }

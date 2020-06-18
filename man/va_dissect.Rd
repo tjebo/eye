@@ -4,10 +4,12 @@
 \alias{va_dissect}
 \title{Converting each VA element}
 \usage{
-va_dissect(x, from_logmar, ...)
+va_dissect(x, from_logmar, to, ...)
 }
 \arguments{
 \item{x}{vector of VA.}
+
+\item{to}{to which VA notation}
 
 \item{...}{passed to convertVA}
 }

@@ -133,6 +133,7 @@ test_that("return", {
   expect_true(all(grepl("20/", va(logmar, to = "snellen", type = "random"))))
   expect_true(all(grepl("6/", va(logmar, to = "snellen", type = "m"))))
   expect_true(all(va(logmar, to = "snellen", type = "dec") %in% va_chart$snellen_dec))
+  expect_true(inherits(va(mixed_VA), "logmar"))
 })
 
 
@@ -177,7 +178,10 @@ test_that("NA", {
   expect_equal(sum(is.na(eye:::convertVA(va_vec8, to = "logmar", "ft"))),26) #class quali
   expect_equal(sum(is.na(va(c(25, 23, 0.4), to = "snellen", from_logmar = FALSE))),1) #class quali
   expect_equal(sum(is.na(va(c(25, 23, 0.4), to = "snellen"))), 2) #class quali
-}
+  expect_equal(sum(is.na(va(mixed_VA))), 4)
+  expect_equal(sum(is.na(va(mixed_VA1))), 3)
+  expect_equal(sum(is.na(va(mixed_VA2))), 2)
+  }
 )
 
 
