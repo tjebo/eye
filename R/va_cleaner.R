@@ -8,6 +8,7 @@
 #'   "NULL", "NA", "N/A" ) - any cases - with NA
 #' 1. [convert_NLP()] Simplifying the notation for qualitative VA notation
 #' (NPL becomes NLP, PL becomes LP)
+#' 1. Removing non-Snellen character strings
 #' @return character vector
 #' @family VA cleaner
 #' @export

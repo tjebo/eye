@@ -38,6 +38,7 @@ Replacing empty placeholders (".","", "(any number of empty space)",
 "NULL", "NA", "N/A" ) - any cases - with NA
 \item \code{\link[=convert_NLP]{convert_NLP()}} Simplifying the notation for qualitative VA notation
 (NPL becomes NLP, PL becomes LP)
+\item Removing non-Snellen character strings
 }
 }
 \seealso{

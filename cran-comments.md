@@ -2,29 +2,37 @@
 
 Changes in this second resubmission:
 
-### Submission comment fixes
+### CRAN-submission comment fixes
 * Extended on the description field in DESCRIPTION
 * Included references in the description field in DESCRIPTION for   
   methods and theoretical background. 
-* Added contributor Antoine Fabri to Authors@R field (he contributed to age())
+* Added contributor Antoine Fabri to Authors@R field (he contributed to
+  `age()`)
 * Added proper copyright holder to MIT license
 * Added \value to Rd files for exported functions
-* Decision to remove geom_trail (a ggplot2 extension) from eye, because it does   not fully fit to the scope of this package. This resulted in:
+* Decision to remove geom_trail (a ggplot2 extension) from eye, because it does not fully fit to the scope of this package. This resulted in:
     - Removal of one package dependency (ggplot2) 
     - Removal of code contributed by Teun van den Brand.
 
-### Additional issues fixed:
-    * Visual acuity conversion issues
-      - va_methods fixed conversion to and from snellen decimal
-      - clean_va removes non-snellen character strings
-      - va() removed "from" argument and simplified to logical argument 
-      "from_logmar"
-      - va() added argument "mixed" for more flexibility in cases of mixed
-        notation.
-      - va_dissect() now also returns vector of class `va`
-    * eyestr fix error when called on patient only data
-  
-## Resubmission
+### Additional changes / issues fixed:
+ * `eyestr()` fix error when called on patient only data
+ * Removed internal object `inter_snelllog` (became irrelevant after 
+   issue fixes)
+ * Removed empty R file "reveal_change.R"
+ * Visual acuity conversion issues
+      - `convertVA.snellen`: fixed conversion from snellen decimal
+      - `convertVA.etdrs`: fixed conversion from mixed etdrs/logmar
+      - `which_va()` recognizes mixed logmar /snellen decimal notations
+      - `clean_va()` removes non-snellen character strings
+      - `va()` removed "from" argument, simplified to argumen 
+        "from_logmar"
+      - `va()` added argument "mixed" for more flexibility in cases of 
+         mixed notation.
+      - `va_dissect()` now also returns vector of class `va`
+
+### Re-checked on all test environments detailed below. 
+
+## Resubmission #1
 This is a resubmission. In this version I have:
 
 * Changed the link to ggplot2 in eye.Rd to a web-anchored link
@@ -34,7 +42,6 @@ This is a resubmission. In this version I have:
 * ubuntu Ubuntu 16.04 (on travis-ci), R 4.0.0
 * win-builder (devel and release), R 4.0.0
 * R-hub
-
 
 ## R CMD check results
 There were no ERRORs or WARNINGs. 
