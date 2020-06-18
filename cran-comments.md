@@ -1,6 +1,7 @@
 ## Resubmission #2
 
-Changes in this second resubmission:
+### This second resubmission was re-checked on all test environments detailed under the first submission below. 
+There was only one NOTE (first submission).
 
 ### CRAN-submission comment fixes
 * Extended on the description field in DESCRIPTION
@@ -15,9 +16,9 @@ Changes in this second resubmission:
     - Removal of code contributed by Teun van den Brand.
 
 ### Additional changes / issues fixed:
- * `eyestr()` fix error when called on patient only data
+ * `eyestr()` fixed error when called on patient only data
  * Removed internal object `inter_snelllog` (became irrelevant after 
-   issue fixes)
+   VA conversion issue fixes)
  * Removed empty R file "reveal_change.R"
  * Visual acuity conversion issues
       - `convertVA.snellen`: fixed conversion from snellen decimal
@@ -29,8 +30,6 @@ Changes in this second resubmission:
       - `va()` added argument "mixed" for more flexibility in cases of 
          mixed notation.
       - `va_dissect()` now also returns vector of class `va`
-
-### Re-checked on all test environments detailed below. 
 
 ## Resubmission #1
 This is a resubmission. In this version I have:
