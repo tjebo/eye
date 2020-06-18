@@ -1,12 +1,12 @@
 Package: eye
 Title: Analysis of Eye Data
 Version: 0.1.0
-Authors@R: 
-    person(given = "Tjebo",
-           family = "Heeren",
+Authors@R: c(
+    person("Tjebo", "Heeren",
            role = c("aut", "cre"),
            email = "tjebo@gmx.de",
-           comment = c(ORCID = "0000-0001-5297-2301"))
+           comment = c(ORCID = "0000-0001-5297-2301")),
+    person("Antoine", "Fabri", role = "ctb"))
 Description: A tool to facilitate common tasks in ophthalmic research: 
     Conversion between different visual acuity notations (Snellen, logMAR 
     and ETDRS), counting of patients, recode right and left eyes and reshape 

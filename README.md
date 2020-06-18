@@ -29,9 +29,7 @@ in **Moorfields Eye Hospital**. (Fasler et al. [2019](#ref-fasler))
 
 ## Installation
 
-You can install eye from [CRAN](https://CRAN.R-project.org) using
-`install.packages("eye")`. Or you can install the development version
-from github with devtools:
+you can install the development version from github with devtools:
 
 ``` r
 # install.packages("devtools")
@@ -103,7 +101,7 @@ va(x, logmarstep = TRUE)
 
 ## on the inbuilt data set:
 head(va(amd$VA_ETDRS_Letters), 10) 
-#> Warning: NA introduced (amd$VA_ETDRS_Letters) - implausible values
+#> Warning: amd$VA_ETDRS_Letters (from etdrs): NA introduced - implausible values
 #>  [1] 0.82 0.08 0.70 0.90 1.06 1.02 0.96 1.06 0.40 0.46
 
 ## and indeed, there are unplausible ETDRS values in this data set:
@@ -290,7 +288,7 @@ blink(wide_df)
 #> va_preop: from etdrs
 #> va_postop: from etdrs
 #> 
-#> ── blink ─────────────────────────────────────────────────────────────────────────
+#> ── blink ─────────────────────────────────────────────────
 #> ══ Data ════════════════════════════════
 #> # A tibble: 8 x 7
 #>   id    eye   surgery iop_preop iop_postop va_preop va_postop
@@ -584,6 +582,8 @@ This chart is included in the package
   - Thanks to **Alasdair Warwick**, **Aaron Lee**, **Tim Yap**,
     **Siegfried Wagner** and **Abraham Olvera** for great suggestions,
     testing and code review.
+  - Thanks to [Antoine Fabri](https://github.com/moodymudskipper) for
+    his contribution to `age()`
   - Thanks to Hadley Wickham and all developers of the `tidyverse`
     packages and the packages `roxygen2`, `usethis`, `testthis` and
     `devtools`, all on which `eye` heavily relies.
