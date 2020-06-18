@@ -21,6 +21,9 @@
 
 \item{...}{arguments passed to \link{print.default}}
 }
+\value{
+No return value, called for side effects (printing)
+}
 \description{
 S3 methods for VA classes "snellen", "logmar" and "etdrs".
 \strong{snellen} is always also a character class- because it is more categorical

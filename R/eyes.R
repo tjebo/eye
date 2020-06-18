@@ -41,7 +41,7 @@
 #'     long numbers.
 #'  - **UK** TRUE: UK style (English) or FALSE (default):
 #'  US style (American).
-#' @return Vector with count of patients and eyes
+#' @return Named integer vector with count of patients and eyes
 #' @family eye core functions
 #' @importFrom purrr quietly
 #' @examples
@@ -101,6 +101,7 @@ eyes <- function(x, id = NULL, eye = NULL, report = FALSE, ...) {
 #' @param pat_col patient column
 #' @param eye eye column
 #' @description `count_eyes()` is the internal counting function
+#' @return Named integer vector with count of patients and eyes
 #' @keywords internal
 #'   for [`eyes()`]
 count_eyes <- function(x, pat_col, eye) {
@@ -116,7 +117,7 @@ count_eyes <- function(x, pat_col, eye) {
 #' Eye count to string
 #' @rdname eyes
 #' @description `eyestr`: identical to `eyes(x, report = TRUE, ...)`
-#' @return `eyestr`: Text which can be used for reports
+#' @return `eyestr`: Character string - can be directly pasted into reports
 #' @examples
 #' eyestr(amd, para = TRUE)
 #' @export
@@ -132,7 +133,7 @@ suppressMessages(eyes(x = x, id = id, report = TRUE, eye = eye, small_num = smal
 #' journal standards and to avoid awkward long numbers.
 #' @param UK Logical, Use UK (English) style (TRUE) or
 #'   USA (American) style (FALSE).
-#' @return String to paste into text
+#' @return Character string - can be directly pasted into reports
 #' @importFrom english english
 
 eyes_to_string <- function(x, small_num = TRUE, para = FALSE, UK = FALSE) {

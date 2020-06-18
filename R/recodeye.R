@@ -7,6 +7,7 @@
 #' right and left eyes - first vector for right, then for left eyes
 #' @param numcode if you have numeric coding which is not 0:1 or 1:2 for
 #' right:left, specify it here.
+#' @return Character vector
 #' @family string matching functions
 #' @examples
 #' x <- c("r", "re", "od", "right", "l", "le", "os", "left")

@@ -72,6 +72,9 @@
 #' @importFrom rlang enquo
 #' @importFrom tidyselect eval_select
 #' @importFrom tibble as_tibble
+#' @return object of class `blink` and `list`. Class blink contains the
+#'   myopized data, count of patients and eyes,
+#'   and summaries for visual acuities and intraocular pressure.
 #' @seealso [About tidyselection](https://tidyselect.r-lib.org/reference/language.html).
 #'
 #' How to rename your columns (two threads on stackoverflow.com):
@@ -170,6 +173,7 @@ blink <- function(x, va_to = "logmar",
 #' both automatically and manually selected columns).
 #' fct_levels are removed because they are likely categorical codes.
 #' @keywords internal
+#' @return logical vector
 #' @rdname remCols
 remCols <- function(x, cols, fct_level) {
   sapply(cols, function(col) {

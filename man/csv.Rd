@@ -12,6 +12,9 @@ csv(x, name = NULL)
 \item{name}{Filename (Default: Name of dataframe). If provided,
 character string (.csv extension added automatically)}
 }
+\value{
+No return value, called for side effects (saving file)
+}
 \description{
 wrapper around write.csv with default 'row.names = FALSE'.
 Will use the name of the data frame for the generated .csv file.

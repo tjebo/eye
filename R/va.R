@@ -102,10 +102,11 @@
 #' 1. `NA` is assigned to strings such as "." or "", "n/a" or "   "
 #' 1. notation for qualitative entries is simplified.
 #' @section VA classes:
-#' convert_VA returns a vector of three classes: `va`, one of `snellen`,
-#' `logmar`, `etdrs` or `quali`. `snellen` and `quali`, and either of
-#' `character` (for Snellen and qualitative), `numeric` (for logMAR)
-#' or `integer` (for ETDRS).
+#' convert_VA returns a vector of three classes:
+#'   1. `va`
+#'   1. One of `snellen`, `logmar`, `etdrs` or `quali`.
+#'   1. Either of `character` (for Snellen and qualitative),
+#'       `numeric` (for logMAR), or `integer` (for ETDRS).
 #' @return vector of `va` class. See also "VA classes"
 #' @family Ophthalmic functions
 #' @family VA converter

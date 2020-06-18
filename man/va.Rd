@@ -152,10 +152,13 @@ For more details see \code{\link[=clean_va]{clean_va()}}
 
 \section{VA classes}{
 
-convert_VA returns a vector of three classes: \code{va}, one of \code{snellen},
-\code{logmar}, \code{etdrs} or \code{quali}. \code{snellen} and \code{quali}, and either of
-\code{character} (for Snellen and qualitative), \code{numeric} (for logMAR)
-or \code{integer} (for ETDRS).
+convert_VA returns a vector of three classes:
+\enumerate{
+\item \code{va}
+\item One of \code{snellen}, \code{logmar}, \code{etdrs} or \code{quali}.
+\item Either of \code{character} (for Snellen and qualitative),
+\code{numeric} (for logMAR), or \code{integer} (for ETDRS).
+}
 }
 
 \examples{

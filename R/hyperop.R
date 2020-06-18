@@ -4,6 +4,7 @@
 #' @param x data frame
 #' @param cols columns which should be made "wide". Tidyselection supported
 #' @param eye eye column (default looking for "eye" or "eyes", all cases)
+#' @return a tibble (class tbl_df, tbl and data.frame)
 #' @details
 #' Basically the opposite of [myop()] - a slightly intelligent
 #' wrapper around [tidyr::pivot_longer()] and [tidyr::pivot_wider()]
@@ -15,7 +16,6 @@
 #' For more information about shaping data and good names, see `vignette("eye")`,
 #' or `?blink` or `?myop`
 #'
-
 #' @examples
 #' # Example to clean a bit messy data frame
 #'
@@ -37,7 +37,7 @@
 #' @importFrom rlang !!
 #' @seealso
 #' [Read about tidyselection](https://tidyselect.r-lib.org/reference/language.html)
-#'
+#' [About tibbles](https://www.rdocumentation.org/packages/tibble/versions/3.0.1)
 #' @export
 
 hyperop <- function(x, cols, eye = NULL) {

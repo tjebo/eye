@@ -8,14 +8,16 @@ Changes in this second resubmission:
     - Removal of one package dependency (ggplot2) 
     - Removal of code that based on code by third person Teun van den Brand.
 * Added \value to Rd files 
-* Conversion issue fixes:
-    - va_methods fixed conversion to and from snellen decimal
-    - clean_va removes non-snellen character strings
-    - va() removed "from" argument and simplified to logical argument 
-    "from_logmar"
-    - va() added argument "mixed" for more flexibility in cases of mixed      
-      notation.
-    - va_dissect() now also returns vector of class `va`
+* Fixed issues:
+    * Conversion issues
+      - va_methods fixed conversion to and from snellen decimal
+      - clean_va removes non-snellen character strings
+      - va() removed "from" argument and simplified to logical argument 
+      "from_logmar"
+      - va() added argument "mixed" for more flexibility in cases of mixed      
+        notation.
+      - va_dissect() now also returns vector of class `va`
+    * eyestr fix error when called on patient only data
   
 ## Resubmission
 This is a resubmission. In this version I have:

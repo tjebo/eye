@@ -29,9 +29,9 @@ journal standards and to avoid awkward long numbers.}
 USA (American) style (FALSE).}
 }
 \value{
-Vector with count of patients and eyes
+Named integer vector with count of patients and eyes
 
-\code{eyestr}: Text which can be used for reports
+\code{eyestr}: Character string - can be directly pasted into reports
 }
 \description{
 Counts number of patients and eyes (right and left).
