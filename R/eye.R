@@ -16,7 +16,6 @@
 #'  *eye* contains a real life data set [`eye::amd`]
 #' @section Beyond ophthalmology:
 #' - [`age`]: Calculate age
-#' - [`csv`]: Conveniently save a data frame to csv
 #' @docType package
 #' @keywords internal
 #' @seealso

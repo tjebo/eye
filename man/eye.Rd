@@ -27,7 +27,6 @@ in ophthalmic research.
 
 \itemize{
 \item \code{\link{age}}: Calculate age
-\item \code{\link{csv}}: Conveniently save a data frame to csv
 }
 }
 

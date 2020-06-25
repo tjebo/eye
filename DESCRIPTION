@@ -10,7 +10,7 @@ Authors@R: c(
 Description: A tool to facilitate common tasks in ophthalmic research: 
     Conversion between different visual acuity notations (Snellen, logMAR 
     and ETDRS), counting of patients, recode right and left eyes and reshape 
-    eye side specific variables between wide and long format. The eye 
+    eye side specific variables between wide and long format. The 'eye' 
     package also contains a real life data set of people with intravitreal 
     injections with anti-vascular endothelial growth factor (anti-VEGF), 
     made available by Fasler et al. (2019) <doi:10.1136/bmjopen-2018-027441>.  

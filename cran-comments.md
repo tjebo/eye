@@ -1,3 +1,9 @@
+## Resubmission #3
+CRAN-submission comment fixes
+1. Decision to remove `csv()`, which created most issues. It was just a tiny convenience      wrapper and did not exactly fit into the main scope of the package, and it was not      required by any other function, so it could be removed without any further change 
+     of the package structure.  
+2. Added single quotes to 'eye' in description field of Description.
+
 ## Resubmission #2
 
 ### This second resubmission was re-checked on all test environments detailed under the first submission below. 

@@ -32,9 +32,6 @@ age(dob, test_date)
 \href{https://stackoverflow.com/a/47529507/7941188}{OP on stackoverflow}
 from which this function was inspired.
 \href{https://lubridate.tidyverse.org/articles/lubridate.html#time-intervals}{Read about periods and durations}
-
-Other convenience functions: 
-\code{\link{csv}()}
 }
 \author{
 Antoine Fabri and Tjebo Heeren

@@ -39,27 +39,6 @@ age <- function(from_date,
   }
 }
 
-#' csv
-#' @description wrapper around write.csv with default 'row.names = FALSE'.
-#' Will use the name of the data frame for the generated .csv file.
-#' @name csv
-#' @param x data frame
-#' @param name Filename (Default: Name of dataframe). If provided,
-#'  character string (.csv extension added automatically)
-#' @family convenience functions
-#' @return No return value, called for side effects (saving file)
-#' @examples
-#' \dontrun{
-#' csv(amd)
-#' }
-#' @export
-csv <- function(x, name = NULL) {
-  if(is.null(name)){
-    name <- deparse(substitute(x))
-  }
-  file = paste0(name, '.csv')
-  utils::write.csv(x, file, row.names = F)
-}
 
 #' Capitalize words
 #' @name tocapital
