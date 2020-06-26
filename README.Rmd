@@ -37,7 +37,7 @@ See more with *eye*
 
 You can install eye from [CRAN](https://CRAN.R-project.org) using `install.packages("eye")` or you can install the development version from github with devtools:
 
-```{r}
+```
 # install.packages("devtools")
 devtools::install_github("tjebo/eye")
 ```
