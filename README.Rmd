@@ -34,16 +34,14 @@ See more with *eye*
 *eye* includes [`amd`](#amd-data), a real life data set of people who received intravitreal injections due to age-related macular degeneration in **Moorfields Eye Hospital**. [@fasler]
     
 ## Installation
-```{r eval=FALSE, include=FALSE}
-You can install eye from [CRAN](https://CRAN.R-project.org) using `install.packages("eye")`. Or 
-```
 
-you can install the development version from github with devtools:
+You can install eye from [CRAN](https://CRAN.R-project.org) using `install.packages("eye")` or you can install the development version from github with devtools:
 
-``` r
+```{r}
 # install.packages("devtools")
 devtools::install_github("tjebo/eye")
 ```
+
 ## Features 
 ### Only eye
 - va: [Conversion of visual acuity notations](#va) 

@@ -29,11 +29,24 @@ in **Moorfields Eye Hospital**. (Fasler et al. [2019](#ref-fasler))
 
 ## Installation
 
-you can install the development version from github with devtools:
+You can install eye from [CRAN](https://CRAN.R-project.org) using
+`install.packages("eye")` or you can install the development version
+from github with devtools:
 
 ``` r
 # install.packages("devtools")
 devtools::install_github("tjebo/eye")
+#> Downloading GitHub repo tjebo/eye@master
+#> 
+#>      checking for file ‘/private/var/folders/vh/9q9pdfhs1cbdshpq7zgzmxyc0000gn/T/RtmpC265Hw/remotes21f9f181373/tjebo-eye-df5c19f/DESCRIPTION’ ...  ✓  checking for file ‘/private/var/folders/vh/9q9pdfhs1cbdshpq7zgzmxyc0000gn/T/RtmpC265Hw/remotes21f9f181373/tjebo-eye-df5c19f/DESCRIPTION’ (443ms)
+#>   ─  preparing ‘eye’:
+#>      checking DESCRIPTION meta-information ...  ✓  checking DESCRIPTION meta-information
+#>   ─  checking for LF line-endings in source and make files and shell scripts
+#>   ─  checking for empty or unneeded directories
+#>      Removed empty directory ‘eye/man/figures’
+#>   ─  building ‘eye_0.1.9000.tar.gz’
+#>      
+#> 
 ```
 
 ## Features
@@ -288,7 +301,7 @@ blink(wide_df)
 #> va_preop: from etdrs
 #> va_postop: from etdrs
 #> 
-#> ── blink ─────────────────────────────────────────────────
+#> ── blink ────────────────────────────────────────────────────────────────────────────────
 #> ══ Data ════════════════════════════════
 #> # A tibble: 8 x 7
 #>   id    eye   surgery iop_preop iop_postop va_preop va_postop
