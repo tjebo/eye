@@ -11,16 +11,11 @@
 #' (Information governance sign off Moorfields Eye Hospital 19/07/2018)
 #'
 #' Data was accessed on the 25th May 2020
-#' @section Spurious data entries:
-#' Note there are erroneous visual acuity entries in this data set which I
-#' noticed during the work on this package. The data set curator has been
-#' contacted and it it was concluded that these were erroneous entries
-#' in the original medical health records. I decided to keep the
-#' values in the data set and wait for the final decision how to proceed
-#' from the data set curator (if they are going to replace it with missing
-#' values or not). I believe this is a great example for the
-#' challenges of real life data and a reminder to remain
-#' vigilant when doing data analysis.
+#' @section Missing values:
+#' There are two missing visual acuity entries in this data set. They result
+#' from data entry errors (ETDRS values above 100) in the original
+#' medical health records. Unfortunately, the correct VA value could not be
+#' retrieved and it was decided to assign missing values to those measurements.
 #' @usage data("amd")
 #' @format A data frame with 40764 rows and 7 variables:
 #' \describe{

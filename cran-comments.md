@@ -1,46 +1,10 @@
-## Resubmission #3
-CRAN-submission comment fixes
-1. Decision to remove `csv()`, which created most issues. It was just a tiny convenience      wrapper and did not exactly fit into the main scope of the package, and it was not      required by any other function, so it could be removed without any further change 
-     of the package structure.  
-2. Added single quotes to 'eye' in description field of Description.
+## Submission version 0.1.1
+This is a first patch for version 0.1
+In this version I have:
 
-## Resubmission #2
-
-### This second resubmission was re-checked on all test environments detailed under the first submission below. 
-There was only one NOTE (first submission).
-
-### CRAN-submission comment fixes
-* Extended on the description field in DESCRIPTION
-* Included references in the description field in DESCRIPTION for   
-  methods and theoretical background. 
-* Added contributor Antoine Fabri to Authors@R field (he contributed to
-  `age()`)
-* Added proper copyright holder to MIT license
-* Added \value to Rd files for exported functions
-* Decision to remove geom_trail (a ggplot2 extension) from eye, because it does not fully fit to the scope of this package. This resulted in:
-    - Removal of one package dependency (ggplot2) 
-    - Removal of code contributed by Teun van den Brand.
-
-### Additional changes / issues fixed:
- * `eyestr()` fixed error when called on patient only data
- * Removed internal object `inter_snelllog` (became irrelevant after 
-   VA conversion issue fixes)
- * Removed empty R file "reveal_change.R"
- * Visual acuity conversion issues
-      - `convertVA.snellen`: fixed conversion from snellen decimal
-      - `convertVA.etdrs`: fixed conversion from mixed etdrs/logmar
-      - `which_va()` recognizes mixed logmar /snellen decimal notations
-      - `clean_va()` removes non-snellen character strings
-      - `va()` removed "from" argument, simplified to argumen 
-        "from_logmar"
-      - `va()` added argument "mixed" for more flexibility in cases of 
-         mixed notation.
-      - `va_dissect()` now also returns vector of class `va`
-
-## Resubmission #1
-This is a resubmission. In this version I have:
-
-* Changed the link to ggplot2 in eye.Rd to a web-anchored link
+* Added URLs to the description file, including bug report field
+* Updated the inbuilt data set `amd`, because it was in the meanwhile updated by the data set curator (replaced erroneous entries with missing values). 
+* Update information in eye.Rd and in the vignette: Replaced the paragraph about erroneous entries with a paragraph about missing values in the `amd` data set. 
 
 ## Test environments
 * local OS X install, R 4.0.0
@@ -49,10 +13,7 @@ This is a resubmission. In this version I have:
 * R-hub
 
 ## R CMD check results
-There were no ERRORs or WARNINGs. 
-
-There was one NOTE:
-* This is the first submission for this package. 
+There were no ERRORs or WARNINGs or NOTEs. 
 
 ## Downstream dependencies
 There are currently no downstream dependencies for this package.

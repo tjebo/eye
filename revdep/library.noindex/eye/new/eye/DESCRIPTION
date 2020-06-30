@@ -20,29 +20,23 @@ Description: A tool to facilitate common tasks in ophthalmic research:
     Beck et al. (2003) <doi:10.1016/s0002-9394(02)01825-1> and 
     Bach (2007) <http:michaelbach.de/sci/acuity.html>.
 License: MIT + file LICENSE
-URL: https://github.com/tjebo/eye
-BugReports: https://github.com/tjebo/eye/issues
 Language: en-US
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.0
-Depends: 
-    R (>= 4.0)
-Suggests: 
-    testthat,
-    knitr,
-    rmarkdown
-Imports: 
-    dplyr (>= 1.0.0),
-    cli (>= 2.0.2),
-    english (>= 1.2-5),
-    lubridate (>= 1.7.8),
-    magrittr (>= 1.5),
-    purrr (>= 0.3.4),
-    rlang (>= 0.4.6),
-    stringr (>= 1.4.0),
-    tibble (>= 3.0.1),
-    tidyr (>= 1.0.3),
-    tidyselect (>= 1.1.0)
+Depends: R (>= 4.0)
+Suggests: testthat, knitr, rmarkdown
+Imports: dplyr (>= 1.0.0), cli (>= 2.0.2), english (>= 1.2-5),
+        lubridate (>= 1.7.8), magrittr (>= 1.5), purrr (>= 0.3.4),
+        rlang (>= 0.4.6), stringr (>= 1.4.0), tibble (>= 3.0.1), tidyr
+        (>= 1.0.3), tidyselect (>= 1.1.0)
 VignetteBuilder: knitr
+RemoteType: local
+RemoteUrl: /Users/tjebo/Desktop/eye
+NeedsCompilation: no
+Packaged: 2020-06-30 09:37:33 UTC; tjebo
+Author: Tjebo Heeren [aut, cre] (<https://orcid.org/0000-0001-5297-2301>),
+  Antoine Fabri [ctb]
+Maintainer: Tjebo Heeren <tjebo@gmx.de>
+Built: R 4.0.0; ; 2020-06-30 09:37:33 UTC; unix

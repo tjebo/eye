@@ -1,0 +1,15 @@
+age                     age
+amd                     Real life data of patients with neovascular AMD
+blink                   Your data in a blink of an eye
+clean_va                Visual acuity entry cleaner
+eyes                    Count patients and eyes
+hyperop                 Hyperopic eye data
+myop                    Myopic eye data
+print_methods           print eye classes
+recodeye                Recode eyes
+reveal                  reveal
+reveal_methods          reveals little helper
+snellen_steps           Convert plus minus entries
+va                      Visual acuity notation conversion
+va_chart                Visual acuity conversion chart
+va_methods              VA conversion methods

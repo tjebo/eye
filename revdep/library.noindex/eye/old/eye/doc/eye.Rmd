@@ -44,7 +44,8 @@ Further, it provides tools for easy data summaries and calculations:
 `amd` is an anonymised real life data set from a large cohort of patients with treatment-naive neovascular age-related macular degeneration (AMD) who received intravitreal anti-VEGF therapy in Moorfields Eye Hospital, London, UK. Data was accessed on the 25th May 2020 [from the source](https://datadryad.org/stash/dataset/doi:10.5061/dryad.97r9289)</br>
 **Kindly reference this data by citing the corresponding publication**. (Fasler et al. 2019)
 
-There are two missing visual acuity entries in this data set. They result from data entry errors (ETDRS values above 100) in the original medical health records. Unfortunately, the correct VA value could not be retrieved and it was decided to assign missing values to those measurements.
+There are erroneous visual acuity entries in this data set which I noticed during the work on this package. The data set curator investigated and concluded that these were erroneous entries in the original medical health records. I decided to keep the values in the data set and wait for the final decision how to proceed from the data set curator (if they are going to replace it with missing 
+values or not). I believe this is a great example for the challenges of real life data and a reminder to remain vigilant when doing data analysis. 
 
 ## Visual acuity conversion {#va}
 Easy conversion from visual acuity notations in a single call to `va()`:
