@@ -31,7 +31,7 @@ See more with *eye*
 - Summarizing data with common statistics (mean, sd, n, range)
 - Calculating age of patients
   
-*eye* includes [`amd`](#amd-data), a real life data set of people who received intravitreal injections due to age-related macular degeneration in **Moorfields Eye Hospital**. [@fasler]
+*eye* includes the [real life data sets](#data-sets) `amd` [@fasler] and `dme` [@fu], of people who received intravitreal injections due to age-related macular degeneration or diabetic macular edema in **Moorfields Eye Hospital**. 
     
 ## Installation
 
@@ -52,8 +52,14 @@ devtools::install_github("tjebo/eye")
 - hyperop: [Make your eye data wide](#hyperop)
 - blink: [Perceive your data in a blink of an eye](#blink)
 - Visual acuity [conversion chart](#va-conversion)
-- **AMD data**: Anonymized real life data from a large cohort of patients with treatment-naive neovascular age-related macular degeneration (AMD) who received intravitreal anti-VEGF therapy in Moorfields Eye Hospital, London, UK. [The data is also available from source online](https://datadryad.org/stash/dataset/doi:10.5061/dryad.97r9289)</br>
-**Kindly reference this data by citing the corresponding publication**. [@fasler] 
+
+### Data sets
+`eye` contains two large anonymized real life data sets from patients treated in Moorfields Eye Hospital, London, UK. 
+**Kindly reference those data sets by citing the corresponding publications** [@fasler] and [@fu].
+
+- **amd**: Patients with treatment-naive neovascular age-related macular degeneration (AMD) who received intravitreal anti-VEGF therapy.
+[data source](https://datadryad.org/stash/dataset/doi:10.5061/dryad.97r9289)
+- **dme**: Patients with diabetic macular edema (DME) who received intravitreal anti-VEGF therapy. [data source](https://doi.org/10.5061/dryad.pzgmsbcfw)
                   
 ### Beyond eyes
 - reveal: [Get common summary statistics](#reveal)
@@ -81,25 +87,24 @@ va(x)
 ## or evaluating them as logmar values 
 va(x, logmarstep = TRUE)
 
-## on the inbuilt data set:
-head(va(amd$VA_ETDRS_Letters), 10) 
-
-## and indeed, there are unplausible ETDRS values in this data set:
-range(amd$VA_ETDRS_Letters)
 ```
                             
 ### eyes
 Count patient and eyes (**eyes** or **eyestr**)
 ```{r eyes}
 eyes(amd)
+
+eyes(dme)
 ```
 
 #### eyestr
 Same as `eyes`, but as text for reports
 ```{r eyestr}
 eyestr(amd)
- 
+
+eyestr(dme)
  ## Numbers smaller than or equal to 12 will be real English
+
 eyestr(head(amd, 100))
 ```
 
@@ -252,7 +257,8 @@ OK names (`eye` will work)
 ## BUT: 
 ## The names are quite long 
 ## There is an unnecessary underscore (etdrs are always letters). Better just "VA"
-names(amd) 
+c("Id", "Eye", "FollowupDays", "BaselineAge", "Gender", "VA_ETDRS_Letters", 
+"InjectionNumber")
 
 ## All names are commonly used (good!)
 ## But which dimension of "r"/"l" are we exactly looking at? 
@@ -346,7 +352,8 @@ This chart is included in the package (`va_chart`)
 
 ## Acknowledgements
 
-- Thanks to **Alasdair Warwick**, **Aaron Lee**, **Tim Yap**, **Siegfried Wagner** and **Abraham Olvera** for great suggestions, testing and code review. 
+- Thanks to **Alasdair Warwick**, **Aaron Lee**, **Tim Yap**, **Siegfried Wagner** and **Abraham Olvera** for great suggestions, testing and code review.  
+- **Pearse Keane**, **Dun Jack Fu**, **Katrin Fasler** and **Christoph Kern** for their contribution of open source data
 - Thanks to [Antoine Fabri](https://github.com/moodymudskipper) for his contribution to `age()`
 - Thanks to Hadley Wickham and all developers of the `tidyverse` packages and the packages `roxygen2`, `usethis`, `testthis` and `devtools`, all on which `eye` heavily relies.
 

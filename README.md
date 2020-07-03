@@ -23,9 +23,10 @@ research.
   - Summarizing data with common statistics (mean, sd, n, range)
   - Calculating age of patients
 
-*eye* includes [`amd`](#amd-data), a real life data set of people who
-received intravitreal injections due to age-related macular degeneration
-in **Moorfields Eye Hospital**. (Fasler et al. [2019](#ref-fasler))
+*eye* includes the [real life data sets](#data-sets) `amd` (Fasler et
+al. [2019](#ref-fasler)) and `dme` (Fu and Keane [2020](#ref-fu)), of
+people who received intravitreal injections due to age-related macular
+degeneration or diabetic macular edema in **Moorfields Eye Hospital**.
 
 ## Installation
 
@@ -48,14 +49,21 @@ from github with devtools:
   - hyperop: [Make your eye data wide](#hyperop)
   - blink: [Perceive your data in a blink of an eye](#blink)
   - Visual acuity [conversion chart](#va-conversion)
-  - **AMD data**: Anonymized real life data from a large cohort of
-    patients with treatment-naive neovascular age-related macular
-    degeneration (AMD) who received intravitreal anti-VEGF therapy in
-    Moorfields Eye Hospital, London, UK. [The data is also available
-    from source
-    online](https://datadryad.org/stash/dataset/doi:10.5061/dryad.97r9289)</br>
-    **Kindly reference this data by citing the corresponding
-    publication**. (Fasler et al. [2019](#ref-fasler))
+
+### Data sets
+
+`eye` contains two large anonymized real life data sets from patients
+treated in Moorfields Eye Hospital, London, UK. **Kindly reference those
+data sets by citing the corresponding publications** (Fasler et al.
+[2019](#ref-fasler)) and (Fu and Keane [2020](#ref-fu)).
+
+  - **amd**: Patients with treatment-naive neovascular age-related
+    macular degeneration (AMD) who received intravitreal anti-VEGF
+    therapy. [data
+    source](https://datadryad.org/stash/dataset/doi:10.5061/dryad.97r9289)
+  - **dme**: Patients with diabetic macular edema (DME) who received
+    intravitreal anti-VEGF therapy. [data
+    source](https://doi.org/10.5061/dryad.pzgmsbcfw)
 
 ### Beyond eyes
 
@@ -99,15 +107,6 @@ va(x)
 va(x, logmarstep = TRUE)
 #> x: from snellen
 #> [1]  1.00  0.98  0.00 -0.04  0.46  0.36
-
-## on the inbuilt data set:
-head(va(amd$VA_ETDRS_Letters), 10) 
-#> Warning: amd$VA_ETDRS_Letters (from etdrs): NA introduced - implausible values
-#>  [1] 0.82 0.08 0.70 0.90 1.06 1.02 0.96 1.06 0.40 0.46
-
-## and indeed, there are unplausible ETDRS values in this data set:
-range(amd$VA_ETDRS_Letters)
-#> [1]   0 105
 ```
 
 ### eyes
@@ -116,9 +115,12 @@ Count patient and eyes (**eyes** or **eyestr**)
 
 ``` r
 eyes(amd)
-#> Eyes coded 0:1. Interpreting r = 0
 #> patients     eyes    right     left 
 #>     3357     3357     1681     1676
+
+eyes(dme)
+#> patients     eyes    right     left 
+#>     1964     2614     1321     1293
 ```
 
 #### eyestr
@@ -128,8 +130,11 @@ Same as `eyes`, but as text for reports
 ``` r
 eyestr(amd)
 #> [1] "3357 eyes of 3357 patients"
- 
+
+eyestr(dme)
+#> [1] "2614 eyes of 1964 patients"
  ## Numbers smaller than or equal to 12 will be real English
+
 eyestr(head(amd, 100))
 #> [1] "Eleven eyes of eleven patients"
 ```
@@ -289,7 +294,7 @@ blink(wide_df)
 #> va_preop: from etdrs
 #> va_postop: from etdrs
 #> 
-#> ── blink ────────────────────────────────────────────────────────────────────────────────
+#> ── blink ────────────────────────────────────────────────────────
 #> ══ Data ════════════════════════════════
 #> # A tibble: 8 x 7
 #>   id    eye   surgery iop_preop iop_postop va_preop va_postop
@@ -460,7 +465,8 @@ OK names (`eye` will work)
 ## BUT: 
 ## The names are quite long 
 ## There is an unnecessary underscore (etdrs are always letters). Better just "VA"
-names(amd) 
+c("Id", "Eye", "FollowupDays", "BaselineAge", "Gender", "VA_ETDRS_Letters", 
+"InjectionNumber")
 #> [1] "Id"               "Eye"              "FollowupDays"     "BaselineAge"     
 #> [5] "Gender"           "VA_ETDRS_Letters" "InjectionNumber"
 
@@ -582,7 +588,9 @@ This chart is included in the package
 
   - Thanks to **Alasdair Warwick**, **Aaron Lee**, **Tim Yap**,
     **Siegfried Wagner** and **Abraham Olvera** for great suggestions,
-    testing and code review.
+    testing and code review.  
+  - **Pearse Keane**, **Dun Jack Fu**, **Katrin Fasler** and **Christoph
+    Kern** for their contribution of open source data
   - Thanks to [Antoine Fabri](https://github.com/moodymudskipper) for
     his contribution to `age()`
   - Thanks to Hadley Wickham and all developers of the `tidyverse`
@@ -617,6 +625,14 @@ Two-Year Visual Outcomes from the Moorfields Age-Related Macular
 Degeneration Database: A Retrospective Cohort Study and an Open Science
 Resource.” *BMJ Open* 9 (6). British Medical Journal Publishing Group.
 <https://doi.org/10.1136/bmjopen-2018-027441>.
+
+</div>
+
+<div id="ref-fu">
+
+Fu, Dun Jack, and Pearse Keane. 2020. *Anti-Vegf Therapy in Diabetic
+Macular Oedema Patients over Four Years*. Dryad.
+<https://doi.org/10.5061/dryad.pzgmsbcfw>.
 
 </div>
 
