@@ -161,12 +161,6 @@ va(x)
 ## or evaluating them as logmar values 
 va(x, logmarstep = TRUE)
 
-## on the inbuilt data set:
-head(va(amd$VA_ETDRS_Letters), 10) 
-
-## and indeed, there are unplausible ETDRS values in this data set:
-range(amd$VA_ETDRS_Letters)
-
 ## Any fraction is possible, and empty values
 x <- c("CF", "3/60", "2/200", "", "20/40+3", ".", "      ")
 va(x)
@@ -462,7 +456,8 @@ OK names (`eye` will work)
 ## BUT: 
 ## The names are quite long 
 ## There is an unnecessary underscore (etdrs are always letters). Better just "VA"
-names(amd) 
+c("Id", "Eye", "FollowupDays", "BaselineAge", "Gender", "VA_ETDRS_Letters", 
+"InjectionNumber")
 
 ## All names are commonly used (good!)
 ## But which dimension of "r"/"l" are we exactly looking at? 
