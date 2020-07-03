@@ -36,15 +36,21 @@ Further, it provides tools for easy data summaries and calculations:
 - Summarize your data in a [blink of an eye](#blink)
 - [Calculating age](#age) of patients
 
-*eye* includes [the real life data set `amd`](#amd), of people who received intravitreal anti-VEGF injections for treatment naive neovascular age-related macular degeneration in **Moorfields Eye Hospital**. (Fasler et al. 2019)
+*eye* includes the [real life data sets](#data) `amd` (Fasler et al 2019) and `dme` (Fu and Keane 2020), of people who received intravitreal injections due to age-related macular degeneration or diabetic macular edema in **Moorfields Eye Hospital**. 
 
 *eye* includes a [visual acuity conversion chart](#va-conversion-chart).
 
-## AMD data set {#amd}
+## Data sets {#data}
+### AMD
 `amd` is an anonymised real life data set from a large cohort of patients with treatment-naive neovascular age-related macular degeneration (AMD) who received intravitreal anti-VEGF therapy in Moorfields Eye Hospital, London, UK. Data was accessed on the 25th May 2020 [from the source](https://datadryad.org/stash/dataset/doi:10.5061/dryad.97r9289)</br>
 **Kindly reference this data by citing the corresponding publication**. (Fasler et al. 2019)
 
-There are two missing visual acuity entries in this data set. They result from data entry errors (ETDRS values above 100) in the original medical health records. Unfortunately, the correct VA value could not be retrieved and it was decided to assign missing values to those measurements.
+### DME
+`dme` is an anonymised real life data set from a large cohort of patients with diabetic macular edema (dme) who received intravitreal anti-VEGF therapy in Moorfields Eye Hospital, London, UK. Data was accessed on the 3rd July 2020 [from the source](https://doi.org/10.5061/dryad.pzgmsbcfw)</br>
+**Kindly reference this data by citing the corresponding publication**. (Fu and Keane 2020)
+
+### Missing data
+`amd` and `dme` have two and 18 missing visual acuity entries. They result from data entry errors (ETDRS values above 100) in the original medical health records. Unfortunately, the correct VA value could not be retrieved and it was decided to assign missing values to those measurements.
 
 ## Visual acuity conversion {#va}
 Easy conversion from visual acuity notations in a single call to `va()`:
@@ -553,7 +559,9 @@ This chart is included in the package as `va_chart`
 </div>
 
 ## Acknowledgements
-- Thanks to **Alasdair Warwick**, **Aaron Lee**, **Tim Yap**, **Siegfried Wagner** and **Abraham Olvera** for great suggestions, testing and code review. 
+- Thanks to **Alasdair Warwick**, **Aaron Lee**, **Tim Yap**, **Siegfried Wagner** and **Abraham Olvera** for great suggestions, testing and code review.  
+- **Pearse Keane**, **Dun Jack Fu**, **Katrin Fasler** and **Christoph Kern** for their contribution of open source data
+- Thanks to [Antoine Fabri](https://github.com/moodymudskipper) for his contribution to `age()`
 - Thanks to Hadley Wickham and all developers of the `tidyverse` packages and the packages `roxygen2`, `usethis`, `testthis` and `devtools`, all on which `eye` heavily relies.
 
 ## Resources
@@ -566,6 +574,8 @@ This chart is included in the package as `va_chart`
 Beck, Roy W, Pamela S Moke, Andrew H Turpin, Frederick L Ferris, John Paul SanGiovanni, Chris A Johnson, Eileen E Birch, et al. 2003. “A Computerized Method of Visual Acuity Testing.” American Journal of Ophthalmology 135 (2). Elsevier BV: 194–205. https://doi.org/10.1016/s0002-9394(02)01825-1.
 
 Fasler, Katrin, Gabriella Moraes, Siegfried Wagner, Karsten U Kortuem, Reena Chopra, Livia Faes, Gabriella Preston, et al. 2019. “One- and Two-Year Visual Outcomes from the Moorfields Age-Related Macular Degeneration Database: A Retrospective Cohort Study and an Open Science Resource.” BMJ Open 9 (6). British Medical Journal Publishing Group. https://doi.org/10.1136/bmjopen-2018-027441.
+
+Fu, Dun Jack, and Pearse Keane. 2020. Anti-Vegf Therapy in Diabetic Macular Oedema Patients over Four Years. Dryad. https://doi.org/10.5061/dryad.pzgmsbcfw.
 
 Gregori, Ninel Z, William Feuer, and Philip J Rosenfeld. 2010. “Novel Method for Analyzing Snellen Visual Acuity Measurements.” Retina 30 (7). Ovid Technologies (Wolters Kluwer Health): 1046–50. https://doi.org/10.1097/iae.0b013e3181d87e04.
 

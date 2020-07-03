@@ -13,7 +13,7 @@
 #' - Summarizing data with common statistics (mean, sd, n, range)[`reveal`]
 #' - Easy summary of your eye data in one blink [`blink`]
 #'
-#'  *eye* contains a real life data set [`eye::amd`]
+#'  *eye* contains the real life data sets [`eye::amd`] and [`eye::dme`]
 #' @section Beyond ophthalmology:
 #' - [`age`]: Calculate age
 #' @docType package

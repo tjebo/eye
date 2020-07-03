@@ -7,9 +7,9 @@ Changes:
 * Add URLs to the description file, including bug report field
 * Update the inbuilt data set `amd`, because it was in the meanwhile updated by the data set curator (replaced erroneous entries with missing values). 
 * This also led to renaming and simplifying of given data
-* Update information in eye.Rd and in the vignette: Replaced the paragraph about erroneous entries with a paragraph about missing values in the `amd` data set. 
 * added url to original article for amd data to its documentation
 * Second data set: "dme". The data set curator of the first data set "amd" was quite excited about this package and asked if I wanted to include this second data set as well. The .rda file is 85kB in size, so should not have added much to the size of the package.
+* Update information about data sets in eye.Rd and in the vignette.
 
 ## Test environments
 * local OS X install, R 4.0.0
