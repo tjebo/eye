@@ -5,7 +5,7 @@
 \alias{amd}
 \title{Real life data of patients with neovascular AMD}
 \format{
-A data frame with 40764 rows and 7 variables:
+A data frame (tibble) with 40764 rows and 7 variables:
 \describe{
 \item{patID}{Anonymized patient identifier}
 \item{sex}{Sex of patient (m = male, f = female)}

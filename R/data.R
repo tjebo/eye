@@ -17,7 +17,7 @@
 #' medical health records. Unfortunately, the correct VA value could not be
 #' retrieved and it was decided to assign missing values to those measurements.
 #' @usage data("amd")
-#' @format A data frame with 40764 rows and 7 variables:
+#' @format A data frame (tibble) with 40764 rows and 7 variables:
 #' \describe{
 #'   \item{patID}{Anonymized patient identifier}
 #'   \item{sex}{Sex of patient (m = male, f = female)}
@@ -74,7 +74,7 @@
 #' or fluocinolone acetonide intravitreal implant; leaving 2614 eyes of 1964
 #' patients taken forward for analysis.
 #' @usage data("dme")
-#' @format A data frame with 40281 rows and 8 variables:
+#' @format A data frame (tibble) with 40281 rows and 8 variables:
 #' \describe{
 #'   \item{patID}{Anonymized patient identifier}
 #'   \item{sex}{Sex of patient (m = male, f = female)}

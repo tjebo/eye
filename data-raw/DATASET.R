@@ -38,7 +38,7 @@ dme <- dme %>%
   arrange(patID, eye, time) %>%
   mutate(patID = as.character(patID))
 dme$ethnicity <- lu_eth[dme$ethnicity]
-
+dme <- tidyr::as_tibble(dme)
 usethis::use_data(dme, overwrite = TRUE)
 ###  va conversion chart
 #Snellen converted to logmar = -1 * log10(Snellen fraction).

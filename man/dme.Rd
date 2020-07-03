@@ -5,7 +5,7 @@
 \alias{dme}
 \title{Real life data of patients with diabetic macular edema}
 \format{
-A data frame with 40281 rows and 8 variables:
+A data frame (tibble) with 40281 rows and 8 variables:
 \describe{
 \item{patID}{Anonymized patient identifier}
 \item{sex}{Sex of patient (m = male, f = female)}
