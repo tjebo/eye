@@ -97,7 +97,6 @@ test_that("warning", {
   expect_warning(va(mixed_VA1), "NA introduced")
 
   expect_warning(va(snellen_unplaus), "No conversion")
-  expect_warning(va(amd$VA_ETDRS_Letters), "implausible values")
   expect_warning(va(etdrs_unplaus), "implausible values")
   expect_warning(va(logmar_unplaus), "implausible values")
   expect_warning(va(logmar, to = "snellen", type = "random"), "Ignoring \"type", fixed = TRUE)
