@@ -10,6 +10,7 @@ Changes:
 * added url to original article for amd data to its documentation
 * Second data set: "dme". The data set curator of the first data set "amd" was quite excited about this package and asked if I wanted to include this second data set as well. The .rda file is 85kB in size, so should not have added much to the size of the package.
 * Update information about data sets in eye.Rd and in the vignette.
+* Update description field in DESCRIPTION to reflect this new source.
 
 ## Test environments
 * local OS X install, R 4.0.0

@@ -11,9 +11,11 @@ Description: A tool to facilitate common tasks in ophthalmic research:
     Conversion between different visual acuity notations (Snellen, logMAR 
     and ETDRS), counting of patients, recode right and left eyes and reshape 
     eye side specific variables between wide and long format. The 'eye' 
-    package also contains a real life data set of people with intravitreal 
-    injections with anti-vascular endothelial growth factor (anti-VEGF), 
-    made available by Fasler et al. (2019) <doi:10.1136/bmjopen-2018-027441>.  
+    package also contains two real life data sets of people with intravitreal 
+    injections with anti-vascular endothelial growth factor (anti-VEGF), due to
+    age-related macular degeneration 
+    (Fasler et al. (2019) <doi:10.1136/bmjopen-2018-027441>) or diabetic macular
+    edema (Kern et al. 2020, <doi:10.1038/s41433-020-1048-0>).
     Visual acuity conversion is based on 
     Schulze-Bonsel et al. (2006) <doi:10.1167/iovs.05-0981>, 
     Gregori et al. (2010) <doi:10.1097/iae.0b013e3181d87e04>, 

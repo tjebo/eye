@@ -47,7 +47,7 @@ Further, it provides tools for easy data summaries and calculations:
 
 ### DME
 `dme` is an anonymised real life data set from a large cohort of patients with diabetic macular edema (dme) who received intravitreal anti-VEGF therapy in Moorfields Eye Hospital, London, UK. Data was accessed on the 3rd July 2020 [from the source](https://doi.org/10.5061/dryad.pzgmsbcfw)</br>
-**Kindly reference this data by citing the corresponding publication**. (Fu and Keane 2020)
+**Kindly reference this data by citing the corresponding publication**. (Kern et al 2020) and (Fu and Keane 2020)
 
 ### Missing data
 `amd` and `dme` have two and 18 missing visual acuity entries. They result from data entry errors (ETDRS values above 100) in the original medical health records. Unfortunately, the correct VA value could not be retrieved and it was decided to assign missing values to those measurements.
@@ -575,5 +575,7 @@ Fu, Dun Jack, and Pearse Keane. 2020. Anti-Vegf Therapy in Diabetic Macular Oede
 Gregori, Ninel Z, William Feuer, and Philip J Rosenfeld. 2010. “Novel Method for Analyzing Snellen Visual Acuity Measurements.” Retina 30 (7). Ovid Technologies (Wolters Kluwer Health): 1046–50. https://doi.org/10.1097/iae.0b013e3181d87e04.
 
 Holladay, Jack T. 2004. “Visual Acuity Measurements.” Journal of Cataract and Refractive Surgery 30 (2): 287–90. https://doi.org/10.1016/j.jcrs.2004.01.014.
+
+Kern, Christoph, Dun Jack Fu, Josef Huemer, Livia Faes, Siegfried K. Wagner, Karsten Kortuem, Praveen J. Patel, et al. 2020. “An Open-Source Data Set of Anti-VEGF Therapy in Diabetic Macular Oedema Patients over 4 Years and Their Visual Acuity Outcomes.” Eye, June. Springer Science; Business Media LLC. https://doi.org/10.1038/s41433-020-1048-0.
 
 Schulze-Bonsel, Kilian, Nicolas Feltgen, Hermann Burau, Lutz Hansen, and Michael Bach. 2006. “Visual Acuities ‘Hand Motion’ and ‘Counting Fingers’ Can Be Quantified with the Freiburg Visual Acuity Test.” Investigative Ophthalmology & Visual Science 47 (3): 1236–40. https://doi.org/10.1167/iovs.05-0981.
