@@ -8,5 +8,5 @@ citEntry(
   address = "London, UK",
   note   = "version 0.1.1",
   url      = "https://github.com/tjebo/eye",
-  textVersion = "T.F.C. Heeren. The eye package for R: A tool for ophthalmic data analysis, London, UK, 2020.
+  textVersion = "T.F.C. Heeren. The eye package for R: A tool for ophthalmic data analysis, London, UK, 2020."
 )
