@@ -48,11 +48,12 @@ from github with devtools:
   - hyperop: [Make your eye data wide](#hyperop)
   - blink: [Perceive your data in a blink of an eye](#blink)
   - Visual acuity [conversion chart](#va-conversion)
-  - **AMD data**: [Anonymized real life
-    data](https://datadryad.org/stash/dataset/doi:10.5061/dryad.97r9289)
-    from a large cohort of patients with treatment-naive neovascular
-    age-related macular degeneration (AMD) who received intravitreal
-    anti-VEGF therapy in Moorfields Eye Hospital, London, UK. </br>
+  - **AMD data**: Anonymized real life data from a large cohort of
+    patients with treatment-naive neovascular age-related macular
+    degeneration (AMD) who received intravitreal anti-VEGF therapy in
+    Moorfields Eye Hospital, London, UK. [The data is also available
+    from source
+    online](https://datadryad.org/stash/dataset/doi:10.5061/dryad.97r9289)</br>
     **Kindly reference this data by citing the corresponding
     publication**. (Fasler et al. [2019](#ref-fasler))
 

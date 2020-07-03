@@ -1,8 +1,45 @@
+library(dplyr)
 
-## code to prepare `DATASET` dataset goes here
-amd <- readr::read_delim("data-raw/Moorfields_AMD_Database_1.csv", delim = ";")
+## AMD dataset
+amd_raw <- readr::read_delim("./data-raw/Moorfields_AMD_Database_1.csv", delim = ";")
+amd_raw$Id <- paste0("id_", as.integer(as.factor(amd_raw$Id)))
+amd <-
+  amd_raw %>%
+  rename(patID = Id, eye = Eye, va = VA_ETDRS_Letters,
+         inj_no = InjectionNumber, time = FollowupDays,
+         sex = Gender, age0 = BaselineAge) %>%
+  mutate(eye = recodeye(eye),
+         sex = if_else(sex == 0, "m", "f")) %>%
+  select(patID, sex, age0, everything())
+
 usethis::use_data(amd, overwrite = TRUE)
 
+### DME data
+dme_raw <- read.csv("./data-raw/200319_DMO_report1_anonymised.csv")
+## simplify patient code
+dme_raw$anon_id <- paste0("id_", as.integer(as.factor(dme_raw$anon_id)))
+dme_raw[["inj_num"]] <- NULL
+## replacing implausible ETDRS values with NA
+dme_raw$va[dme_raw$va>100] <- NA
+lu_eth <- c("asian", "unknown", "other",  "white", "black", "mixed")
+names(lu_eth) <- unique(dme_raw$ethnicity)
+
+dme <-
+  dme_raw %>%
+  select(patID = anon_id, sex = gender, ageStrat = baseline_age, ethnicity,
+         everything(), -X, -baseline_va) %>%
+  rename(inj = inj_given, time = follow_up_days) %>%
+  mutate(inj = inj == "y")
+
+sort_id <- paste0("id_", seq_along(unique(dme$patID)))
+
+dme <- dme %>%
+  mutate(patID = factor(patID, levels = sort_id)) %>%
+  arrange(patID, eye, time) %>%
+  mutate(patID = as.character(patID))
+dme$ethnicity <- lu_eth[dme$ethnicity]
+
+usethis::use_data(dme, overwrite = TRUE)
 ###  va conversion chart
 #Snellen converted to logmar = -1 * log10(Snellen fraction).
 snellen_ft <-

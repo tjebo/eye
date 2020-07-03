@@ -7,17 +7,17 @@
 \format{
 A data frame with 40764 rows and 7 variables:
 \describe{
-\item{Id}{Anonymized patient identifier}
-\item{Eye}{Left or right eye of patient (0 = right, 1 = left)}
-\item{FollowupDays}{Days after date of first appointment (0 = first appointment)}
-\item{BaselineAge}{Age (years) at day of first appointment}
-\item{Gender}{Gender of patient (0 = male, 1 = female)}
-\item{VA_ETDRS_Letters}{Visual acuity in Early Treatment Diabetic Retinopathy Study letters}
-\item{InjectionNumber}{Current number of injection at appointment date}
+\item{patID}{Anonymized patient identifier}
+\item{sex}{Sex of patient (m = male, f = female)}
+\item{age0}{Age (years) at day of first appointment}
+\item{eye}{Left or right eye of patient (r = right, l = left)}
+\item{time}{Time in days after date of first appointment (0 = first appointment)}
+\item{va}{Visual acuity in Early Treatment Diabetic Retinopathy Study letters}
+\item{inj_no}{Current number of injection at appointment date}
 }
 }
 \source{
-\url{https://datadryad.org/stash/dataset/doi:10.5061/dryad.97r9289}
+\url{https://doi.org/10.5061/dryad.97r9289}
 }
 \usage{
 data("amd")
@@ -42,4 +42,8 @@ medical health records. Unfortunately, the correct VA value could not be
 retrieved and it was decided to assign missing values to those measurements.
 }
 
+\seealso{
+Scientific article to which this data set was supplement:
+\url{https://doi.org/10.1136/bmjopen-2018-027441}
+}
 \keyword{datasets}
