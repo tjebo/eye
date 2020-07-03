@@ -24,9 +24,10 @@ research.
   - Calculating age of patients
 
 *eye* includes the [real life data sets](#data-sets) `amd` (Fasler et
-al. [2019](#ref-fasler)) and `dme` (Fu and Keane [2020](#ref-fu)), of
-people who received intravitreal injections due to age-related macular
-degeneration or diabetic macular edema in **Moorfields Eye Hospital**.
+al. [2019](#ref-fasler)) and `dme` (Kern et al. [2020](#ref-kern)) and
+(Fu and Keane [2020](#ref-fu)), of people who received intravitreal
+injections due to age-related macular degeneration or diabetic macular
+edema in **Moorfields Eye Hospital**.
 
 ## Installation
 
@@ -55,7 +56,8 @@ from github with devtools:
 `eye` contains two large anonymized real life data sets from patients
 treated in Moorfields Eye Hospital, London, UK. **Kindly reference those
 data sets by citing the corresponding publications** (Fasler et al.
-[2019](#ref-fasler)) and (Fu and Keane [2020](#ref-fu)).
+[2019](#ref-fasler)), (Kern et al. [2020](#ref-kern)) and (Fu and Keane
+[2020](#ref-fu)).
 
   - **amd**: Patients with treatment-naive neovascular age-related
     macular degeneration (AMD) who received intravitreal anti-VEGF
@@ -294,7 +296,7 @@ blink(wide_df)
 #> va_preop: from etdrs
 #> va_postop: from etdrs
 #> 
-#> ── blink ────────────────────────────────────────────────────────
+#> ── blink ──────────────────────────────────────────────────────────────────────────────
 #> ══ Data ════════════════════════════════
 #> # A tibble: 8 x 7
 #>   id    eye   surgery iop_preop iop_postop va_preop va_postop
@@ -650,6 +652,16 @@ Method for Analyzing Snellen Visual Acuity Measurements.” *Retina* 30
 Holladay, Jack T. 2004. “Visual Acuity Measurements.” *Journal of
 Cataract and Refractive Surgery* 30 (2): 287–90.
 <https://doi.org/10.1016/j.jcrs.2004.01.014>.
+
+</div>
+
+<div id="ref-kern">
+
+Kern, Christoph, Dun Jack Fu, Josef Huemer, Livia Faes, Siegfried K.
+Wagner, Karsten Kortuem, Praveen J. Patel, et al. 2020. “An Open-Source
+Data Set of Anti-VEGF Therapy in Diabetic Macular Oedema Patients over 4
+Years and Their Visual Acuity Outcomes.” *Eye*, June. Springer Science;
+Business Media LLC. <https://doi.org/10.1038/s41433-020-1048-0>.
 
 </div>
 

@@ -31,7 +31,7 @@ See more with *eye*
 - Summarizing data with common statistics (mean, sd, n, range)
 - Calculating age of patients
   
-*eye* includes the [real life data sets](#data-sets) `amd` [@fasler] and `dme` [@fu], of people who received intravitreal injections due to age-related macular degeneration or diabetic macular edema in **Moorfields Eye Hospital**. 
+*eye* includes the [real life data sets](#data-sets) `amd` [@fasler] and `dme` [@kern] and [@fu], of people who received intravitreal injections due to age-related macular degeneration or diabetic macular edema in **Moorfields Eye Hospital**. 
     
 ## Installation
 
@@ -55,7 +55,7 @@ devtools::install_github("tjebo/eye")
 
 ### Data sets
 `eye` contains two large anonymized real life data sets from patients treated in Moorfields Eye Hospital, London, UK. 
-**Kindly reference those data sets by citing the corresponding publications** [@fasler] and [@fu].
+**Kindly reference those data sets by citing the corresponding publications** [@fasler], [@kern] and [@fu].
 
 - **amd**: Patients with treatment-naive neovascular age-related macular degeneration (AMD) who received intravitreal anti-VEGF therapy.
 [data source](https://datadryad.org/stash/dataset/doi:10.5061/dryad.97r9289)
