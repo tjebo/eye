@@ -125,7 +125,7 @@
 #' A SQL database (SQL Server Reporting Service, Microsoft Corporation, Richmond, USA)
 #' containing all the information from the EMR is in place and regular updates
 #' are performed overnight to keep the data warehouse up-to-date.
-#' VA is reported in ETDRS letter score (and cataegories for ETDRS < 1). The highest value (independent of
+#' VA is reported in ETDRS letter score (and categories for ETDRS < 1). The highest value (independent of
 #' measurement method) available at each visit was chosen.
 #' @section OCT:
 #' Each voxel equates to 2.60 x 11.72 x 47.24 μm in the A-scan, B-scan, and
