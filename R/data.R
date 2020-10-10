@@ -96,6 +96,92 @@
 #' \url{https://doi.org/10.1038/s41433-020-1048-0}
 "dme"
 
+#' Real life OCT segmentation data of patients with AMD
+#' @docType data
+#' @name amd_oct
+#' @description
+#'
+#' * This CSV dataset (AMD_baseline_MEH_v1.csv) is associated with the paper Moraes et al
+#' Quantitative analysis of optical coherence tomography for neovascular age-related
+#' macular degeneration using deep learning. Ophthalmology. (2020).
+#' The dataset comprises anonymised metadata and OCT segmentation data of patients
+#' undergoing treatment for wet AMD at Moorfields Eye Hospital, London, United Kingdom.
+#'
+#' The dataset includes 2966 rows (2966 individual patients)
+#' @section Missing values:
+#' There are 233 missing visual acuity entries in this data set. They result
+#' from data entry errors (ETDRS values above 100) and missing data in the original
+#' medical health records.
+#' @section Study setting and design:
+#' Study setting and design: This study is a retrospective cohort study of
+#'  patients that commenced anti-VEGF therapy for neovascular AMD
+#'  between June 2012 and June 2017 at Moorfields Eye Hospital NHS Foundation Trust,
+#'  London, UK.
+#' Approval was granted by the Institutional Review Board of the hospital
+#' (ROAD17/031). The study complied with the Declaration of Helsinki
+#' @section Data source:
+#' All clinical information at Moorfields Eye Hospital is recorded within an
+#' electronic medical record (EMR) application (OpenEyes Foundation, London, UK).
+#' A SQL database (SQL Server Reporting Service, Microsoft Corporation, Richmond, USA)
+#' containing all the information from the EMR is in place and regular updates
+#' are performed overnight to keep the data warehouse up-to-date.
+#' VA is reported in ETDRS letter score (and cataegories for ETDRS < 1). The highest value (independent of
+#' measurement method) available at each visit was chosen.
+#' @section OCT:
+#' Each voxel equates to 2.60 x 11.72 x 47.24 μm in the A-scan, B-scan, and
+#' C-scan directions, respectively. All OCT data is captured using 3DOCT-2000
+#' devices (Topcon Corp., Tokyo, Japan). All images comprise 512*885*128 voxels
+#' covering a volume of 6x6x2.3mm. In this dataset, only one image is available
+#' per eye. The image with the lowest segmented artifacts was chosen if multiple
+#' scans were available at the same visit.
+#' @section Time (time variable):
+#' For first-treated eyes, time will generally equal 0. Where a scan at day 0
+#' was not available, a scan up to 14 days prior to the first
+#' injection (i.e. up to -14 days), is used for analysis.
+#' @section Segmentation:
+#' Segmentation data was output using a deep learning segmentation model described
+#' further in [De Fauw et al.](https://doi.org/10.1038/s41591-018-0107-6) and
+#' [Yim and Chopra et al.](https://doi.org/10.1038/s41591-020-0867-7)
+#'
+#' @usage data("amd_oct")
+#' @format A data frame (tibble) with 2966 rows and 24 variables:
+#' \describe{
+#'   \item{patID}{Anonymized patient identifier. ID 2773 is missing}
+#'   \item{sex}{Sex of patient (m = male, f = female)}
+#'   \item{ageStrat}{Age (years) stratified.
+#'        Labels are constructed using "(a,b]" interval notation, e.g., "(60,70]"
+#'        means x > 60 & x<= 70}
+#'   \item{ethnicity}{Ethnicity of patient following the categories from the
+#'        UK ETHNIC CATEGORY CODE 2001. (asian = Asian or Asian British,
+#'        white = White, black = Black or Black British,
+#'        other_unknown = Other ethnic group or unknown)}
+#'   \item{eye}{Left or right eye of patient (r = right, l = left)}
+#'   \item{first_eye}{Is the eye the first injected eye}
+#'   \item{va}{Visual acuity in Early Treatment Diabetic Retinopathy Study (ETDRS)
+#'     letters and categories hand motion (hm) or counting fingers (cf) for values <1.
+#'     One value = 0 was not specified in the original data set.}
+#'   \item{inj}{Injection given or not (TRUE = injection given, FALSE = no injection given)}
+#'   \item{time}{Time in days from baseline, i.e. injection number 1}
+#'   \item {Neurosensory_volume_voxels}	{Number of voxels segmented as the feature neurosensory retina (NSR)}
+#'   \item {RPE_volume_voxels		Number of voxels segmented as the feature retinal pigment epithelium (RPE)}
+#'   \item {IRF_volume_voxels}		{Number of voxels segmented as the feature intraretinal fluid (IRF)}
+#'   \item {SRF_volume_voxels}		{Number of voxels segmented as the feature subretinal fluid (SRF)}
+#'   \item {SHRM_volume_voxels}		{Number of voxels segmented as the feature subretinal hyperreflective material (SHRM)}
+#'   \item {Drusen_volume_voxels}		{Number of voxels segmented as the feature drusen}
+#'   \item {sPED_volume_voxels}		{Number of voxels segmented as the feature serous pigment epithelium detachment (sPED)}
+#'   \item {fvPED_volume_voxels}		{Number of voxels segmented as the feature fibrovascular pigment epithelium detachment (fvPED)}
+#'   \item {HRF_volume_voxels}		{Number of voxels segmented as the feature hyperreflective foci (HRF)}
+#'   \item {Neurosensory_thickness_um}	{Thickness (measured in μm) of the segmented feature neurosensory retina (NSR)}
+#'   \item {IRF_thickness_um}		{Thickness (measured in μm) of the segmented feature intraretinal fluid (IRF)}
+#'   \item {SRF_thickness_um}		{Thickness (measured in μm) of the segmented feature subretinal fluid (SRF)}
+#'   \item {SHRM_thickness_um}		{Thickness (measured in μm) of the segmented feature subretinal hyperreflective material (SHRM)}
+#'   \item {HRF_thickness_um}		{Thickness (measured in μm) of the segmented feature hyperreflective foci (HRF)}
+#'   \item {CST_um}				{Central subfield retinal thickness measured as the sum of NSR, IRF, SRF, SHRM, HRF thickness (measured in μm)}
+#' @source \url{https://doi.org/10.5061/dryad.2rbnzs7m4}
+#' @seealso
+#' Scientific article to which this data set was supplement:
+#' \url{https://doi.org/10.1016/j.ophtha.2020.09.025}
+"amd_oct"
 
 #' Visual acuity conversion chart
 #' @docType data

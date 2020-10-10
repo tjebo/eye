@@ -1,7 +1,8 @@
 library(dplyr)
+library(eye)
 
 ## AMD dataset
-amd_raw <- readr::read_delim("./data-raw/Moorfields_AMD_Database_1.csv", delim = ";")
+amd_raw <- readr::read_delim("./data-raw/fasler/Moorfields_AMD_Database_1.csv", delim = ";")
 amd_raw$Id <- paste0("id_", as.integer(as.factor(amd_raw$Id)))
 amd <-
   amd_raw %>%
@@ -15,14 +16,14 @@ amd <-
 usethis::use_data(amd, overwrite = TRUE)
 
 ### DME data
-dme_raw <- read.csv("./data-raw/200319_DMO_report1_anonymised.csv")
+dme_raw <- read.csv("./data-raw/kern/200319_DMO_report1_anonymised.csv")
 ## simplify patient code
 dme_raw$anon_id <- paste0("id_", as.integer(as.factor(dme_raw$anon_id)))
 dme_raw[["inj_num"]] <- NULL
 ## replacing implausible ETDRS values with NA
 dme_raw$va[dme_raw$va>100] <- NA
-lu_eth <- c("asian", "unknown", "other",  "white", "black", "mixed")
-names(lu_eth) <- unique(dme_raw$ethnicity)
+lu_eth_dme <- c("asian", "unknown", "other",  "white", "black", "mixed")
+names(lu_eth_dme) <- unique(dme_raw$ethnicity)
 
 dme <-
   dme_raw %>%
@@ -37,9 +38,40 @@ dme <- dme %>%
   mutate(patID = factor(patID, levels = sort_id)) %>%
   arrange(patID, eye, time) %>%
   mutate(patID = as.character(patID))
-dme$ethnicity <- lu_eth[dme$ethnicity]
+dme$ethnicity <- lu_eth_dme[dme$ethnicity]
 dme <- tidyr::as_tibble(dme)
+
 usethis::use_data(dme, overwrite = TRUE)
+
+## AMD OCT data
+amd_octraw <- read.csv("./data-raw/moraes/AMD_baseline.csv")
+
+# ID 675 had treatment both eyes as first eye. - considering as "first treated eye"
+# setdiff(1:2967,amd_octraw$ID) - ID 2773 is missing
+amd_oct <-
+  amd_octraw %>%
+  select(patID = ID, sex = Gender, ageStrat = Age_grouped,
+         ethnicity = Ethnicity_grouped, eye = Eye, first_eye = FirstTreatedEye,
+         va = VA_ETDRS, inj = InjectionGiven, time = DaysSinceBaseline,
+         everything(), -InjectionNumber, -First_or_Second_Treated_Eye,
+         -oct_shape, -segmentation_voxel_size_um) %>%
+  mutate(patID = paste0('id_', patID),
+         va = as.integer(va),
+         VAUnder1Letter = clean_va(VAUnder1Letter),
+         va = if_else(!is.na(VAUnder1Letter), VAUnder1Letter, as.character(va)),
+         first_eye = if_else(first_eye == "Both", eye, first_eye),
+         first_eye = eye == first_eye,
+         eye = recodeye(eye),
+         sex = if_else(sex == 0, "m", "f")) %>%
+  select(-VAUnder1Letter)
+
+## replacing implausible ETDRS values with NA and simplifying ethnicity codes
+amd_oct$va[as.integer(amd_oct$va)>100] <- NA
+lu_eth_amd <- c("white", "asian", "other_unknown",  "black")
+names(lu_eth_amd) <- unique(amd_oct$ethnicity)
+amd_oct$ethnicity <- lu_eth_amd[amd_oct$ethnicity]
+
+usethis::use_data(amd_oct, overwrite = TRUE)
 ###  va conversion chart
 #Snellen converted to logmar = -1 * log10(Snellen fraction).
 snellen_ft <-
@@ -80,6 +112,8 @@ va_chart$logmar <-  round(as.numeric(va_chart$logmar), 2)
 va_chart$etdrs <-  as.integer(va_chart$etdrs)
 
 usethis::use_data(va_chart, overwrite = TRUE)
+
+
 
 
 va_quali <- va_chart[!is.na(va_chart$quali), ]

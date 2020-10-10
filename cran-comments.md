@@ -1,16 +1,18 @@
-## Submission version 0.1.1
-This is a first patch for version 0.1
+## Submission version 0.2.0
 
-Changes:
+## Changes:
 
+### Documentation
 * Add CITATION file (add inst folder)
 * Add URLs to the description file, including bug report field
+* Add url to original article for amd data to its documentation
+* Update documentation eye.Rd and in the vignette about new data sets.
+* Update description field in DESCRIPTION 
+
+### Data sets
 * Update the inbuilt data set `amd`, because it was in the meanwhile updated by the data set curator (replaced erroneous entries with missing values). 
-* This also led to renaming and simplifying of given data
-* added url to original article for amd data to its documentation
-* Second data set: "dme". The data set curator of the first data set "amd" was quite excited about this package and asked if I wanted to include this second data set as well. The .rda file is 85kB in size, so should not have added much to the size of the package.
-* Update information about data sets in eye.Rd and in the vignette.
-* Update description field in DESCRIPTION to reflect this new source.
+* the data structure of `amd` was also slightly modified, to make it more accessible for immediate usage. (mainly renaming of variables)
+* Add three more eye-related open source data sets: "dme", "amd_oct"
 
 ## Test environments
 * local OS X install, R 4.0.0
