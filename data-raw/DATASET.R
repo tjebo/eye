@@ -62,7 +62,7 @@ amd_oct <-
          first_eye = if_else(first_eye == "Both", eye, first_eye),
          first_eye = eye == first_eye,
          eye = recodeye(eye),
-         sex = if_else(sex == 0, "m", "f")) %>%
+         sex = if_else(sex == "Male", "m", "f")) %>%
   select(-VAUnder1Letter)
 
 ## replacing implausible ETDRS values with NA and simplifying ethnicity codes
@@ -72,6 +72,28 @@ names(lu_eth_amd) <- unique(amd_oct$ethnicity)
 amd_oct$ethnicity <- lu_eth_amd[amd_oct$ethnicity]
 
 usethis::use_data(amd_oct, overwrite = TRUE)
+
+## AMD NV 10 year data
+amd10_raw <- read.csv("./data-raw/arpa/Moorfields_AMD_Database_10_years.csv")
+amd10_raw$anon_id <- paste0("id_", as.integer(as.factor(amd10_raw$anon_id)))
+
+amd10 <-
+  amd10_raw %>%
+  select(patID = anon_id, sex = gender, time = ttoinj_d,
+         everything(),
+         -va_inj1, -va_lastvisit, -crt_inj1,-crt_lastvisit,-X, -inj_given) %>%
+  mutate(sex = if_else(sex == "Male", "m", "f"),
+         across(where(function(x) all(unique(x) %in% 0:1)), as.logical))
+
+
+## replacing implausible ETDRS values with NA and simplifying ethnicity codes
+
+lu_eth_amd10 <- c("white", "other", "unknown", "asian",  "mixed")
+names(lu_eth_amd10) <- unique(amd10$ethnicity)
+amd10$ethnicity <- lu_eth_amd10[amd10$ethnicity]
+
+usethis::use_data(amd10, overwrite = TRUE)
+
 ###  va conversion chart
 #Snellen converted to logmar = -1 * log10(Snellen fraction).
 snellen_ft <-
