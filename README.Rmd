@@ -31,7 +31,7 @@ See more with *eye*
 - Summarizing data with common statistics (mean, sd, n, range)
 - Calculating age of patients
   
-*eye* includes the [real life data sets](#data-sets) `amd` [@fasler] and `dme` [@kern] and [@fu], of people who received intravitreal injections due to age-related macular degeneration or diabetic macular edema in **Moorfields Eye Hospital**. 
+*eye* includes four [real life data sets](#data-sets) of patients treated in **Moorfields Eye Hospital, London, UK**. 
     
 ## Installation
 
@@ -55,11 +55,13 @@ devtools::install_github("tjebo/eye")
 
 ### Data sets
 `eye` contains two large anonymized real life data sets from patients treated in Moorfields Eye Hospital, London, UK. 
-**Kindly reference those data sets by citing the corresponding publications** [@fasler], [@kern] and [@fu].
+**Kindly reference those data sets by citing the corresponding publications**.
 
-- **amd**: Patients with treatment-naive neovascular age-related macular degeneration (AMD) who received intravitreal anti-VEGF therapy.
-[data source](https://datadryad.org/stash/dataset/doi:10.5061/dryad.97r9289)
-- **dme**: Patients with diabetic macular edema (DME) who received intravitreal anti-VEGF therapy. [data source](https://doi.org/10.5061/dryad.pzgmsbcfw)
+- **amd**: [@fasler] Patients with treatment-naive neovascular age-related macular degeneration (AMD) who received intravitreal anti-VEGF therapy.
+[original data](https://datadryad.org/stash/dataset/doi:10.5061/dryad.97r9289)
+- **dme**: [@kern] and [@fu] Patients with diabetic macular edema (DME) who received intravitreal anti-VEGF therapy. [original data](https://doi.org/10.5061/dryad.pzgmsbcfw)
+- **amdoct**: [@moraes] OCT segmentation data of patients undergoing treatment for neovascular AMD. [original data](https://doi.org/10.5061/dryad.2rbnzs7m4) 
+- **amd10y**: [@arpa] Ten Year Survival Trends of Neovascular Age Related Macular Degeneration at First Presentation. [original data](https://doi.org/10.5061/dryad.9cnp5hqfm)
                   
 ### Beyond eyes
 - reveal: [Get common summary statistics](#reveal)

@@ -18,7 +18,7 @@ usethis::use_data(amd, overwrite = TRUE)
 ### DME data
 dme_raw <- read.csv("./data-raw/kern/200319_DMO_report1_anonymised.csv")
 ## simplify patient code
-dme_raw$anon_id <- paste0("id_", as.integer(as.factor(dme_raw$anon_id)))
+dme_raw$anon_id <- as.integer(as.factor(dme_raw$anon_id))
 dme_raw[["inj_num"]] <- NULL
 ## replacing implausible ETDRS values with NA
 dme_raw$va[dme_raw$va>100] <- NA
@@ -30,55 +30,59 @@ dme <-
   select(patID = anon_id, sex = gender, ageStrat = baseline_age, ethnicity,
          everything(), -X, -baseline_va) %>%
   rename(inj = inj_given, time = follow_up_days) %>%
-  mutate(inj = inj == "y")
-
-sort_id <- paste0("id_", seq_along(unique(dme$patID)))
+  mutate(inj = inj == "y",
+         ageStrat = factor(ageStrat, levels =
+           c("[20,30]", "(30,40]", "(40,50]", "(50,60]",
+             "(60,70]", "(70,80]", "(80,100]")))
 
 dme <- dme %>%
-  mutate(patID = factor(patID, levels = sort_id)) %>%
   arrange(patID, eye, time) %>%
-  mutate(patID = as.character(patID))
+  mutate(patID = paste("id", patID, sep = "_"))
+
 dme$ethnicity <- lu_eth_dme[dme$ethnicity]
 dme <- tidyr::as_tibble(dme)
 
 usethis::use_data(dme, overwrite = TRUE)
 
 ## AMD OCT data
-amd_octraw <- read.csv("./data-raw/moraes/AMD_baseline.csv")
+amdoctraw <- read.csv("./data-raw/moraes/AMD_baseline.csv")
 
 # ID 675 had treatment both eyes as first eye. - considering as "first treated eye"
-# setdiff(1:2967,amd_octraw$ID) - ID 2773 is missing
-amd_oct <-
-  amd_octraw %>%
+# setdiff(1:2967,amdoctraw$ID) - ID 2773 is missing
+amdoct <-
+  amdoctraw %>%
   select(patID = ID, sex = Gender, ageStrat = Age_grouped,
          ethnicity = Ethnicity_grouped, eye = Eye, first_eye = FirstTreatedEye,
          va = VA_ETDRS, inj = InjectionGiven, time = DaysSinceBaseline,
          everything(), -InjectionNumber, -First_or_Second_Treated_Eye,
          -oct_shape, -segmentation_voxel_size_um) %>%
-  mutate(patID = paste0('id_', patID),
+  mutate(patID = as.integer(as.factor(patID)),
          va = as.integer(va),
+         ageStrat = factor(ageStrat, levels = c("50-59", "60-69", "70-79",">80" )),
          VAUnder1Letter = clean_va(VAUnder1Letter),
          va = if_else(!is.na(VAUnder1Letter), VAUnder1Letter, as.character(va)),
          first_eye = if_else(first_eye == "Both", eye, first_eye),
          first_eye = eye == first_eye,
          eye = recodeye(eye),
          sex = if_else(sex == "Male", "m", "f")) %>%
-  select(-VAUnder1Letter)
+  select(-VAUnder1Letter) %>%
+  arrange(patID)
 
 ## replacing implausible ETDRS values with NA and simplifying ethnicity codes
-amd_oct$va[as.integer(amd_oct$va)>100] <- NA
+amdoct$va[as.integer(amdoct$va)>100] <- NA
 lu_eth_amd <- c("white", "asian", "other_unknown",  "black")
-names(lu_eth_amd) <- unique(amd_oct$ethnicity)
-amd_oct$ethnicity <- lu_eth_amd[amd_oct$ethnicity]
-
-usethis::use_data(amd_oct, overwrite = TRUE)
+names(lu_eth_amd) <- unique(amdoct$ethnicity)
+amdoct$ethnicity <- lu_eth_amd[amdoct$ethnicity]
+amdoct$patID <- paste("id", amdoct$patID, sep = "_")
+amdoct <- as_tibble(amdoct)
+usethis::use_data(amdoct, overwrite = TRUE)
 
 ## AMD NV 10 year data
-amd10_raw <- read.csv("./data-raw/arpa/Moorfields_AMD_Database_10_years.csv")
-amd10_raw$anon_id <- paste0("id_", as.integer(as.factor(amd10_raw$anon_id)))
+amd10y_raw <- read.csv("./data-raw/arpa/Moorfields_AMD_Database_10_years.csv")
+amd10y_raw$anon_id <- paste0("id_", as.integer(as.factor(amd10y_raw$anon_id)))
 
-amd10 <-
-  amd10_raw %>%
+amd10y<-
+  amd10y_raw %>%
   select(patID = anon_id, sex = gender, time = ttoinj_d,
          everything(),
          -va_inj1, -va_lastvisit, -crt_inj1,-crt_lastvisit,-X, -inj_given) %>%
@@ -88,11 +92,11 @@ amd10 <-
 
 ## replacing implausible ETDRS values with NA and simplifying ethnicity codes
 
-lu_eth_amd10 <- c("white", "other", "unknown", "asian",  "mixed")
-names(lu_eth_amd10) <- unique(amd10$ethnicity)
-amd10$ethnicity <- lu_eth_amd10[amd10$ethnicity]
+lu_eth_amd10y <- c("white", "other", "unknown", "asian",  "mixed")
+names(lu_eth_amd10y) <- unique(amd10y$ethnicity)
+amd10y$ethnicity <- lu_eth_amd10y[amd10y$ethnicity]
 
-usethis::use_data(amd10, overwrite = TRUE)
+usethis::use_data(amd10y, overwrite = TRUE)
 
 ###  va conversion chart
 #Snellen converted to logmar = -1 * log10(Snellen fraction).

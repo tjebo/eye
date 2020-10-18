@@ -10,7 +10,7 @@ A data frame (tibble) with 40281 rows and 8 variables:
 \item{patID}{Anonymized patient identifier}
 \item{sex}{Sex of patient (m = male, f = female)}
 \item{ageStrat}{Age (years) at day of first appointment, stratified.
-Labels are constructed using "(a,b]" interval notation, e.g., "(60,70]"
+Factor! Labels are constructed using "(a,b]" interval notation, e.g., "(60,70]"
 means x > 60 & x<= 70}
 \item{ethnicity}{Ethnicity of patient following the categories from the
 UK ETHNIC CATEGORY CODE 2001. (asian = Asian or Asian British,

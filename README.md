@@ -23,11 +23,8 @@ research.
   - Summarizing data with common statistics (mean, sd, n, range)
   - Calculating age of patients
 
-*eye* includes the [real life data sets](#data-sets) `amd` (Fasler et
-al. [2019](#ref-fasler)) and `dme` (Kern et al. [2020](#ref-kern)) and
-(Fu and Keane [2020](#ref-fu)), of people who received intravitreal
-injections due to age-related macular degeneration or diabetic macular
-edema in **Moorfields Eye Hospital**.
+*eye* includes four [real life data sets](#data-sets) of patients
+treated in **Moorfields Eye Hospital, London, UK**.
 
 ## Installation
 
@@ -55,17 +52,23 @@ from github with devtools:
 
 `eye` contains two large anonymized real life data sets from patients
 treated in Moorfields Eye Hospital, London, UK. **Kindly reference those
-data sets by citing the corresponding publications** (Fasler et al.
-[2019](#ref-fasler)), (Kern et al. [2020](#ref-kern)) and (Fu and Keane
-[2020](#ref-fu)).
+data sets by citing the corresponding publications**.
 
-  - **amd**: Patients with treatment-naive neovascular age-related
-    macular degeneration (AMD) who received intravitreal anti-VEGF
-    therapy. [data
-    source](https://datadryad.org/stash/dataset/doi:10.5061/dryad.97r9289)
-  - **dme**: Patients with diabetic macular edema (DME) who received
-    intravitreal anti-VEGF therapy. [data
-    source](https://doi.org/10.5061/dryad.pzgmsbcfw)
+  - **amd**: (Fasler et al. [2019](#ref-fasler)) Patients with
+    treatment-naive neovascular age-related macular degeneration (AMD)
+    who received intravitreal anti-VEGF therapy. [original
+    data](https://datadryad.org/stash/dataset/doi:10.5061/dryad.97r9289)
+  - **dme**: (Kern et al. [2020](#ref-kern)) and (Fu and Keane
+    [2020](#ref-fu)) Patients with diabetic macular edema (DME) who
+    received intravitreal anti-VEGF therapy. [original
+    data](https://doi.org/10.5061/dryad.pzgmsbcfw)
+  - **amdoct**: (Moraes et al. [2020](#ref-moraes)) OCT segmentation
+    data of patients undergoing treatment for neovascular AMD. [original
+    data](https://doi.org/10.5061/dryad.2rbnzs7m4)
+  - **amd10y**: (Arpa et al. [2020](#ref-arpa)) Ten Year Survival Trends
+    of Neovascular Age Related Macular Degeneration at First
+    Presentation. [original
+    data](https://doi.org/10.5061/dryad.9cnp5hqfm)
 
 ### Beyond eyes
 
@@ -79,8 +82,7 @@ data sets by citing the corresponding publications** (Fasler et al.
 Easy conversion from visual acuity notations in a single call to `va()`:
 Automatic detection of VA notation and convert to logMAR by default (but
 you can convert to snellen or ETDRS as well). For some more details see
-[VA
-conversion](#va-conversion)
+[VA conversion](#va-conversion)
 
 ``` r
 ## automatic detection of VA notation and converting to logMAR by default
@@ -296,7 +298,7 @@ blink(wide_df)
 #> va_preop: from etdrs
 #> va_postop: from etdrs
 #> 
-#> ── blink ──────────────────────────────────────────────────────────────────────────────
+#> ── blink ───────────────────────────────────────────────────────────────────────
 #> ══ Data ════════════════════════════════
 #> # A tibble: 8 x 7
 #>   id    eye   surgery iop_preop iop_postop va_preop va_postop
@@ -399,7 +401,7 @@ dob <- c("1984-10-16", "2000-01-01")
 
 ## If no second date given, the age today
 age(dob)
-#> [1] 35.7 20.5
+#> [1] 36.0 20.8
 age(dob, "2000-01-01")                                                    
 #> [1] 15.2  0.0
 ```
@@ -546,8 +548,7 @@ an unfortunate shape for which `eye` may not be suitable.
 
 ### VA conversion chart
 
-This chart is included in the package
-(`va_chart`)
+This chart is included in the package (`va_chart`)
 
 <div style="font-size:8 pt;">
 
@@ -609,12 +610,22 @@ This chart is included in the package
 
 <div id="refs" class="references">
 
+<div id="ref-arpa">
+
+Arpa, Cristina, Hagar Khalid, Shruti Chandra, Siegfried Wagner, Katrin
+Fasler, Livia Faes, Pakinee Pooprasert, et al. 2020. “Ten-Year Survival
+Trends of Neovascular Age-Related Macular Degeneration at First
+Presentation.” *British Journal of Ophthalmology*.
+<https://doi.org/10.1136/bjophthalmol-2020-317161>.
+
+</div>
+
 <div id="ref-beck">
 
 Beck, Roy W, Pamela S Moke, Andrew H Turpin, Frederick L Ferris, John
 Paul SanGiovanni, Chris A Johnson, Eileen E Birch, et al. 2003. “A
 Computerized Method of Visual Acuity Testing.” *American Journal of
-Ophthalmology* 135 (2). Elsevier BV: 194–205.
+Ophthalmology* 135 (2): 194–205.
 <https://doi.org/10.1016/s0002-9394(02)01825-1>.
 
 </div>
@@ -625,7 +636,7 @@ Fasler, Katrin, Gabriella Moraes, Siegfried Wagner, Karsten U Kortuem,
 Reena Chopra, Livia Faes, Gabriella Preston, et al. 2019. “One- and
 Two-Year Visual Outcomes from the Moorfields Age-Related Macular
 Degeneration Database: A Retrospective Cohort Study and an Open Science
-Resource.” *BMJ Open* 9 (6). British Medical Journal Publishing Group.
+Resource.” *BMJ Open* 9 (6).
 <https://doi.org/10.1136/bmjopen-2018-027441>.
 
 </div>
@@ -642,8 +653,7 @@ Macular Oedema Patients over Four Years*. Dryad.
 
 Gregori, Ninel Z, William Feuer, and Philip J Rosenfeld. 2010. “Novel
 Method for Analyzing Snellen Visual Acuity Measurements.” *Retina* 30
-(7). Ovid Technologies (Wolters Kluwer Health): 1046–50.
-<https://doi.org/10.1097/iae.0b013e3181d87e04>.
+(7): 1046–50. <https://doi.org/10.1097/iae.0b013e3181d87e04>.
 
 </div>
 
@@ -660,8 +670,18 @@ Cataract and Refractive Surgery* 30 (2): 287–90.
 Kern, Christoph, Dun Jack Fu, Josef Huemer, Livia Faes, Siegfried K.
 Wagner, Karsten Kortuem, Praveen J. Patel, et al. 2020. “An Open-Source
 Data Set of Anti-VEGF Therapy in Diabetic Macular Oedema Patients over 4
-Years and Their Visual Acuity Outcomes.” *Eye*, June. Springer Science;
-Business Media LLC. <https://doi.org/10.1038/s41433-020-1048-0>.
+Years and Their Visual Acuity Outcomes.” *Eye*, June.
+<https://doi.org/10.1038/s41433-020-1048-0>.
+
+</div>
+
+<div id="ref-moraes">
+
+Moraes, Gabriella, Dun Jack Fu, Marc Wilson, Hagar Khalid, Siegfried K.
+Wagner, Edward Korot, Daniel Ferraz, et al. 2020. “Quantitative Analysis
+of Optical Coherence Tomography for Neovascular Age-Related Macular
+Degeneration Using Deep Learning.” *Ophthalmology*.
+<https://doi.org/https://doi.org/10.1016/j.ophtha.2020.09.025>.
 
 </div>
 

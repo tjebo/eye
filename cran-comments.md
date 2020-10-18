@@ -11,8 +11,8 @@
 
 ### Data sets
 * Update the inbuilt data set `amd`, because it was in the meanwhile updated by the data set curator (replaced erroneous entries with missing values). 
-* the data structure of `amd` was also slightly modified, to make it more accessible for immediate usage. (mainly renaming of variables)
-* Add three more eye-related open source data sets: "dme", "amd_oct"
+* the data structure of `amd` was also slightly modified, to make it more accessible for immediate usage. (renaming of variables)
+* Add three more eye-related open source data sets: "dme", "amd_oct" and "amd10y"
 
 ## Test environments
 * local OS X install, R 4.0.0
