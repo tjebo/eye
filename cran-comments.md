@@ -7,6 +7,10 @@ In the opinion of the package maintainer the changes were substantial enough to 
 * rename `age()` to `getage()` in order to avoid potential and even likely clashes with the users environment, especially when using `age()` within the local environment of a data frame (e.g., using `with()`)
 * add message to `blink()` that this function will no longer be 
   maintained, but kept in the package. 
+* fix issue #15 (reveal: unused group levels are dropped)
+* fix issue #16 (eyes: accepting both quoted and unquoted arguments)
+* eyes: add stop() when main argument not a data frame
+* fix issue #19 (eyes returns meaningful result on empty data frames)
 
 ### Documentation
 * Add CITATION file (add inst folder)
