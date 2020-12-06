@@ -1,5 +1,6 @@
 context("test va")
 library(eye)
+library(eyedata)
 library(testthat)
 
 

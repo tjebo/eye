@@ -1,5 +1,6 @@
 context("test myop")
 library(eye)
+library(eyedata)
 library(testthat)
 
 set.seed(42)

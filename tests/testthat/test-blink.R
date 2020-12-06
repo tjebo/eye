@@ -1,5 +1,6 @@
 context("global tests")
 library(eye)
+library(eyedata)
 library(testthat)
 #abraham <- read.csv("./data-raw/share_vision_df.csv")
 

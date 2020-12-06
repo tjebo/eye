@@ -1,5 +1,6 @@
 context("internals")
 library(eye)
+library(eyedata)
 library(testthat)
 
 # test isNAstring

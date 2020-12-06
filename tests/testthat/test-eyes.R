@@ -1,5 +1,6 @@
 context("test eyes")
 library(eye)
+library(eyedata)
 library(testthat)
 
 iop_wide <- data.frame(id = letters[1:3], iop_r = 11:13, iop_l = 14:16)
