@@ -37,12 +37,12 @@ pigment epithelium detachment (sPED)}
 \item{fvPED_volume_voxels}{Number of voxels segmented as the feature
 fibrovascular pigment epithelium detachment (fvPED)}
 \item{HRF_volume_voxels}{Number of voxels segmented as the feature hyperreflective foci (HRF)}
-\item{Neurosensory_thickness_um}{Thickness (measured in μm) of the segmented feature neurosensory retina (NSR)}
-\item{IRF_thickness_um}{Thickness (measured in μm) of the segmented feature intraretinal fluid (IRF)}
-\item{SRF_thickness_um}{Thickness (measured in μm) of the segmented feature subretinal fluid (SRF)}
-\item{SHRM_thickness_um}{Thickness (measured in μm) of the segmented feature subretinal hyperreflective material (SHRM)}
-\item{HRF_thickness_um}{Thickness (measured in μm) of the segmented feature hyperreflective foci (HRF)}
-\item{CST_um}{Central subfield retinal thickness measured as the sum of NSR, IRF, SRF, SHRM, HRF thickness (measured in μm)}
+\item{Neurosensory_thickness_um}{Thickness (measured in microns) of the segmented feature neurosensory retina (NSR)}
+\item{IRF_thickness_um}{Thickness (measured in microns) of the segmented feature intraretinal fluid (IRF)}
+\item{SRF_thickness_um}{Thickness (measured in microns) of the segmented feature subretinal fluid (SRF)}
+\item{SHRM_thickness_um}{Thickness (measured in microns) of the segmented feature subretinal hyperreflective material (SHRM)}
+\item{HRF_thickness_um}{Thickness (measured in microns) of the segmented feature hyperreflective foci (HRF)}
+\item{CST_um}{Central subfield retinal thickness measured as the sum of NSR, IRF, SRF, SHRM, HRF thickness (measured in microns)}
 }
 }
 \source{
