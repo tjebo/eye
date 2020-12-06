@@ -1,45 +1,6 @@
 library(dplyr)
 library(eye)
 
-## amd2 dataset
-amd2_raw <- readr::read_delim("./data-raw/fasler/Moorfields_AMD_Database_1.csv", delim = ";")
-amd2_raw$Id <- paste0("id_", as.integer(as.factor(amd_raw$Id)))
-amd2 <-
-  amd_raw %>%
-  rename(patID = Id, eye = Eye, va = VA_ETDRS_Letters,
-         inj_no = InjectionNumber, time = FollowupDays,
-         sex = Gender, age0 = BaselineAge) %>%
-  mutate(eye = recodeye(eye),
-         sex = if_else(sex == 0, "m", "f")) %>%
-  select(patID, sex, age0, everything())
-
-usethis::use_data(amd2, overwrite = TRUE)
-
-## AMD data set (12year survival)
-amd_raw <- read.csv("./data-raw/fu/MEH_AMD_survivaloutcomes_database.csv")
-
-amd_raw$anon_id <- as.integer(as.factor(amd_raw$anon_id))
-
-amd <-
-  amd_raw %>%
-  mutate(loaded = if_else(loaded == "loaded", 1, 0),
-         pre2013 = if_else(date_inj1 == "Pre-2013", 1, 0),
-         regimen = if_else(regimen == "Ranabizumab only", "ranibizumab", "aflibercept"),
-         injgiven = !is.na(injgiven),
-         across(where(function(x) all(unique(x) %in% 0:1)), as.logical)) %>%
-  select(patID = anon_id, sex = gender, age = age_group, avdays_induc = mean_inj_interval,
-         everything(), -starts_with("X"), -contains("inj1"), -injnum) %>%
-  arrange(patID, time) %>%
-  mutate(patID = as.character(paste0("id_", patID)))
-
-
-## simplifying ethnicity codes
-lu_eth_amd <- c("asian", "caucasian", "unknown_other", "afrocarribean", "mixed" )
-names(lu_eth_amd) <- unique(amd$ethnicity)
-amd$ethnicity <- lu_eth_amd[amd$ethnicity]
-
-usethis::use_data(amd, overwrite = TRUE)
-
 ###  va conversion chart
 #Snellen converted to logmar = -1 * log10(Snellen fraction).
 snellen_ft <-
@@ -80,8 +41,6 @@ va_chart$logmar <-  round(as.numeric(va_chart$logmar), 2)
 va_chart$etdrs <-  as.integer(va_chart$etdrs)
 
 usethis::use_data(va_chart, overwrite = TRUE)
-
-
 
 
 va_quali <- va_chart[!is.na(va_chart$quali), ]

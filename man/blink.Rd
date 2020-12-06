@@ -112,7 +112,8 @@ fct_levels are removed because they are likely categorical codes.
 }
 
 \examples{
-blink(amd)
+library(eyedata)
+blink(amd2)
 
 messy_df <- data.frame( id = letters[1:3],
 iop_r_preop = sample(21:23), iop_r_postop = sample(11:13),

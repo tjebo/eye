@@ -19,8 +19,6 @@ in ophthalmic research.
 \item Summarizing data with common statistics (mean, sd, n, range)\code{\link{reveal}}
 \item Easy summary of your eye data in one blink \code{\link{blink}}
 }
-
-\emph{eye} contains the real life data sets \code{\link{amd}} and \code{\link{amd2}}
 }
 
 \section{Beyond ophthalmology}{

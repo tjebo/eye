@@ -45,7 +45,8 @@
 #' @family eye core functions
 #' @importFrom purrr quietly
 #' @examples
-#' eyes(amd)
+#' library(eyedata)
+#' eyes(amd2)
 #' @export
 #'
 eyes <- function(x, id = NULL, eye = NULL, report = FALSE, ...) {
@@ -119,6 +120,7 @@ count_eyes <- function(x, pat_col, eye) {
 #' @description `eyestr`: identical to `eyes(x, report = TRUE, ...)`
 #' @return `eyestr`: Character string - can be directly pasted into reports
 #' @examples
+#' library(eyedata)
 #' eyestr(amd, para = TRUE)
 #' @export
 eyestr <- function(x, id = NULL, eye = NULL, small_num = TRUE, para = FALSE, UK = FALSE){

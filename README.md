@@ -23,9 +23,6 @@ research.
   - Summarizing data with common statistics (mean, sd, n, range)
   - Calculating age of patients
 
-*eye* includes [real life data sets](#data-sets) of patients treated in
-**Moorfields Eye Hospital, London, UK**.
-
 ## Installation
 
 You can install eye from [CRAN](https://CRAN.R-project.org) using
@@ -47,21 +44,6 @@ from github with devtools:
   - hyperop: [Make your eye data wide](#hyperop)
   - blink: [Perceive your data in a blink of an eye](#blink)
   - Visual acuity [conversion chart](#va-conversion)
-
-### Data sets
-
-`eye` contains two large anonymized real life data sets from patients
-treated in Moorfields Eye Hospital, London, UK. **Kindly reference those
-data sets by citing the corresponding publications**.
-
-  - **amd2**: (Fu et al. [2020](#ref-fu2)) 12 year data of patients with
-    treatment-naive neovascular age-related macular degeneration (amd2)
-    who received intravitreal anti-VEGF therapy. [original
-    data](https://doi.org/10.5061/dryad.nvx0k6dqg)
-  - **amd22**: (Fasler et al. [2019](#ref-fasler)) Eyes with
-    treatment-naive neovascular age-related macular degeneration (amd2)
-    who received intravitreal anti-VEGF therapy. [original
-    data](https://datadryad.org/stash/dataset/doi:10.5061/dryad.97r9289)
 
 ### Beyond eyes
 
@@ -111,6 +93,7 @@ va(x, logmarstep = TRUE)
 Count patient and eyes (**eyes** or **eyestr**)
 
 ``` r
+library(eyedata)
 eyes(amd2)
 #> patients     eyes    right     left 
 #>     3357     3357     1681     1676
@@ -604,28 +587,6 @@ Paul SanGiovanni, Chris A Johnson, Eileen E Birch, et al. 2003. “A
 Computerized Method of Visual Acuity Testing.” *American Journal of
 Ophthalmology* 135 (2): 194–205.
 <https://doi.org/10.1016/s0002-9394(02)01825-1>.
-
-</div>
-
-<div id="ref-fasler">
-
-Fasler, Katrin, Gabriella Moraes, Siegfried Wagner, Karsten U Kortuem,
-Reena Chopra, Livia Faes, Gabriella Preston, et al. 2019. “One- and
-Two-Year Visual Outcomes from the Moorfields Age-Related Macular
-Degeneration Database: A Retrospective Cohort Study and an Open Science
-Resource.” *BMJ Open* 9 (6).
-<https://doi.org/10.1136/bmjopen-2018-027441>.
-
-</div>
-
-<div id="ref-fu2">
-
-Fu, Dun Jack, Tiarnan D. Keenan, Livia Faes, Ernest Lim, Siegfried K.
-Wagner, Gabriella Moraes, Josef Huemer, et al. 2020. “Insights From
-Survival Analyses During 12 Years of Anti–Vascular Endothelial Growth
-Factor Therapy for Neovascular Age-Related Macular Degeneration.” *JAMA
-Ophthalmology*, November.
-<https://doi.org/10.1001/jamaophthalmol.2020.5044>.
 
 </div>
 

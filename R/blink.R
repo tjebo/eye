@@ -81,7 +81,8 @@
 #' - [Rename columns 1](https://stackoverflow.com/questions/7531868/how-to-rename-a-single-column-in-a-data-frame)
 #' - [Rename columns 2](https://stackoverflow.com/questions/20987295/rename-multiple-columns-by-names/59567220#59567220)
 #' @examples
-#' blink(amd)
+#' library(eyedata)
+#' blink(amd2)
 #'
 #' messy_df <- data.frame( id = letters[1:3],
 #' iop_r_preop = sample(21:23), iop_r_postop = sample(11:13),

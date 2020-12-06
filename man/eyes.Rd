@@ -90,7 +90,9 @@ US style (American).
 }
 
 \examples{
-eyes(amd)
+library(eyedata)
+eyes(amd2)
+library(eyedata)
 eyestr(amd, para = TRUE)
 }
 \concept{eye core functions}

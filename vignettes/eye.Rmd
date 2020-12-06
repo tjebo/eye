@@ -19,6 +19,7 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(eye)
+library(eyedata)
 ```
 
 
@@ -36,16 +37,7 @@ Further, it provides tools for easy data summaries and calculations:
 - Summarize your data in a [blink of an eye](#blink)
 - [Calculating age](#age) of patients
 
-*eye* includes the [real life data sets](#data) `amd` (Fu et al. 2020) and `amd2` (Fasler et al 2019), of people who received intravitreal injections due to age-related macular degeneration or diabetic macular edema in **Moorfields Eye Hospital**. 
-
 *eye* includes a [visual acuity conversion chart](#va-conversion-chart).
-
-## AMD Data sets {#data}
-`amd` is an anonymised real life data set from a large cohort of patients with treatment-naive neovascular age-related macular degeneration (AMD) who received intravitreal anti-VEGF therapy in Moorfields Eye Hospital, London, UK. Data was accessed on the 25th May 2020 [from the source](https://doi.org/10.5061/dryad.nvx0k6dqg)</br>
-**Kindly reference this data by citing the corresponding publication**. (Fu et al. 2019)
-
-`amd2` is an anonymised real life data set from a large cohort of patients with treatment-naive neovascular age-related macular degeneration (AMD) who received intravitreal anti-VEGF therapy in Moorfields Eye Hospital, London, UK. Data was accessed on the 25th May 2020 [from the source](https://datadryad.org/stash/dataset/doi:10.5061/dryad.97r9289)</br>. `amd2` has two missing visual acuity entries. They result from data entry errors (ETDRS values above 100) in the original medical health records. Unfortunately, the correct VA value could not be retrieved and it was decided to assign missing values to those measurements.
-**Kindly reference this data by citing the corresponding publication**. (Fasler et al. 2019)
 
 ## Visual acuity conversion {#va}
 Easy conversion from visual acuity notations in a single call to `va()`:
@@ -562,10 +554,6 @@ This chart is included in the package as `va_chart`
 ## References
 
 Beck, Roy W, Pamela S Moke, Andrew H Turpin, Frederick L Ferris, John Paul SanGiovanni, Chris A Johnson, Eileen E Birch, et al. 2003. “A Computerized Method of Visual Acuity Testing.” American Journal of Ophthalmology 135 (2). Elsevier BV: 194–205. https://doi.org/10.1016/s0002-9394(02)01825-1.
-
-Fasler, Katrin, Gabriella Moraes, Siegfried Wagner, Karsten U Kortuem, Reena Chopra, Livia Faes, Gabriella Preston, et al. 2019. “One- and Two-Year Visual Outcomes from the Moorfields Age-Related Macular Degeneration Database: A Retrospective Cohort Study and an Open Science Resource.” BMJ Open 9 (6). British Medical Journal Publishing Group. https://doi.org/10.1136/bmjopen-2018-027441.
-
-Fu, Dun Jack, Tiarnan D. Keenan, Livia Faes, Ernest Lim, Siegfried K. Wagner, Gabriella Moraes, Josef Huemer, et al. 2020. “Insights From Survival Analyses During 12 Years of Anti–Vascular Endothelial Growth Factor Therapy for Neovascular Age-Related Macular Degeneration.” JAMA Ophthalmology, November. https://doi.org/10.1001/jamaophthalmol.2020.5044.
 
 Gregori, Ninel Z, William Feuer, and Philip J Rosenfeld. 2010. “Novel Method for Analyzing Snellen Visual Acuity Measurements.” Retina 30 (7). Ovid Technologies (Wolters Kluwer Health): 1046–50. https://doi.org/10.1097/iae.0b013e3181d87e04.
 
