@@ -89,7 +89,7 @@ measurement method) available at each visit was chosen.
 
 \section{OCT}{
 
-Each voxel equates to 2.60 x 11.72 x 47.24 μm in the A-scan, B-scan, and
+Each voxel equates to 2.60 x 11.72 x 47.24 microns in the A-scan, B-scan, and
 C-scan directions, respectively. All OCT data is captured using 3DOCT-2000
 devices (Topcon Corp., Tokyo, Japan). All images comprise 512 x 885 x 128 voxels
 covering a volume of 6x6x2.3mm. In this dataset, only one image is available
