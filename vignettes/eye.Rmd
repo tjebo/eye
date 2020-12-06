@@ -36,7 +36,7 @@ Further, it provides tools for easy data summaries and calculations:
 - Summarize your data in a [blink of an eye](#blink)
 - [Calculating age](#age) of patients
 
-*eye* includes the [real life data sets](#data) `amd` (Fasler et al 2019) and `dme` (Fu and Keane 2020), of people who received intravitreal injections due to age-related macular degeneration or diabetic macular edema in **Moorfields Eye Hospital**. 
+*eye* includes the [real life data sets](#data) `amd` (Fu et al. 2020) and `amd2` (Fasler et al 2019), of people who received intravitreal injections due to age-related macular degeneration or diabetic macular edema in **Moorfields Eye Hospital**. 
 
 *eye* includes a [visual acuity conversion chart](#va-conversion-chart).
 

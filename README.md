@@ -54,12 +54,12 @@ from github with devtools:
 treated in Moorfields Eye Hospital, London, UK. **Kindly reference those
 data sets by citing the corresponding publications**.
 
-  - **amd**: (Fu et al. [2020](#ref-fu2)) 12 year data of patients with
-    treatment-naive neovascular age-related macular degeneration (AMD)
+  - **amd2**: (Fu et al. [2020](#ref-fu2)) 12 year data of patients with
+    treatment-naive neovascular age-related macular degeneration (amd2)
     who received intravitreal anti-VEGF therapy. [original
     data](https://doi.org/10.5061/dryad.nvx0k6dqg)
-  - **amd2**: (Fasler et al. [2019](#ref-fasler)) Eyes with
-    treatment-naive neovascular age-related macular degeneration (AMD)
+  - **amd22**: (Fasler et al. [2019](#ref-fasler)) Eyes with
+    treatment-naive neovascular age-related macular degeneration (amd2)
     who received intravitreal anti-VEGF therapy. [original
     data](https://datadryad.org/stash/dataset/doi:10.5061/dryad.97r9289)
 
@@ -111,14 +111,9 @@ va(x, logmarstep = TRUE)
 Count patient and eyes (**eyes** or **eyestr**)
 
 ``` r
-eyes(amd)
-#> No eye column found: Counting patients only
-#> patients 
-#>     7802
-
-eyes(dme)
+eyes(amd2)
 #> patients     eyes    right     left 
-#>     1964     2614     1321     1293
+#>     3357     3357     1681     1676
 ```
 
 #### eyestr
@@ -126,15 +121,13 @@ eyes(dme)
 Same as `eyes`, but as text for reports
 
 ``` r
-eyestr(amd)
-#> [1] "7802 patients"
+eyestr(amd2)
+#> [1] "3357 eyes of 3357 patients"
 
-eyestr(dme)
-#> [1] "2614 eyes of 1964 patients"
  ## Numbers smaller than or equal to 12 will be real English
 
-eyestr(head(amd, 100))
-#> [1] "Twelve patients"
+eyestr(head(amd2, 100))
+#> [1] "Eleven eyes of eleven patients"
 ```
 
 ### recodeye

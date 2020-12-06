@@ -20,7 +20,7 @@ in ophthalmic research.
 \item Easy summary of your eye data in one blink \code{\link{blink}}
 }
 
-\emph{eye} contains the real life data sets \code{\link{amd}} and \code{\link{dme}}
+\emph{eye} contains the real life data sets \code{\link{amd}} and \code{\link{amd2}}
 }
 
 \section{Beyond ophthalmology}{
