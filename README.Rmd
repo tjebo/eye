@@ -31,7 +31,7 @@ See more with *eye*
 - Summarizing data with common statistics (mean, sd, n, range)
 - Calculating age of patients
   
-*eye* includes four [real life data sets](#data-sets) of patients treated in **Moorfields Eye Hospital, London, UK**. 
+*eye* includes [real life data sets](#data-sets) of patients treated in **Moorfields Eye Hospital, London, UK**. 
     
 ## Installation
 
