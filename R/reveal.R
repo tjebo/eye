@@ -116,7 +116,7 @@ reveal_split <- function(x, by){
   x_sym <- deparse(substitute(x))
   group <- paste0("interaction(",
                   paste0(x_sym, "$", by, collapse = ", "),
-                  ", sep = \"_\")")
+                  ", sep = \"_\", drop = TRUE)")
   ls_x <- split(x[base::setdiff(names(x), by)], eval(parse(text = group)))
   ls_x
 }
