@@ -1,10 +1,10 @@
 library(dplyr)
 library(eye)
 
-## AMD dataset
-amd_raw <- readr::read_delim("./data-raw/fasler/Moorfields_AMD_Database_1.csv", delim = ";")
-amd_raw$Id <- paste0("id_", as.integer(as.factor(amd_raw$Id)))
-amd <-
+## amd2 dataset
+amd2_raw <- readr::read_delim("./data-raw/fasler/Moorfields_AMD_Database_1.csv", delim = ";")
+amd2_raw$Id <- paste0("id_", as.integer(as.factor(amd_raw$Id)))
+amd2 <-
   amd_raw %>%
   rename(patID = Id, eye = Eye, va = VA_ETDRS_Letters,
          inj_no = InjectionNumber, time = FollowupDays,
@@ -13,7 +13,7 @@ amd <-
          sex = if_else(sex == 0, "m", "f")) %>%
   select(patID, sex, age0, everything())
 
-usethis::use_data(amd, overwrite = TRUE)
+usethis::use_data(amd2, overwrite = TRUE)
 
 ### DME data
 dme_raw <- read.csv("./data-raw/kern/200319_DMO_report1_anonymised.csv")
@@ -77,26 +77,30 @@ amdoct$patID <- paste("id", amdoct$patID, sep = "_")
 amdoct <- as_tibble(amdoct)
 usethis::use_data(amdoct, overwrite = TRUE)
 
-## AMD NV 10 year data
-amd10y_raw <- read.csv("./data-raw/arpa/Moorfields_AMD_Database_10_years.csv")
-amd10y_raw$anon_id <- paste0("id_", as.integer(as.factor(amd10y_raw$anon_id)))
+## AMD data set (12year survival)
+amd_raw <- read.csv("./data-raw/fu/MEH_AMD_survivaloutcomes_database.csv")
 
-amd10y<-
-  amd10y_raw %>%
-  select(patID = anon_id, sex = gender, time = ttoinj_d,
-         everything(),
-         -va_inj1, -va_lastvisit, -crt_inj1,-crt_lastvisit,-X, -inj_given) %>%
-  mutate(sex = if_else(sex == "Male", "m", "f"),
-         across(where(function(x) all(unique(x) %in% 0:1)), as.logical))
+amd_raw$anon_id <- as.integer(as.factor(amd_raw$anon_id))
+
+amd <-
+  amd_raw %>%
+  mutate(loaded = if_else(loaded == "loaded", 1, 0),
+         pre2013 = if_else(date_inj1 == "Pre-2013", 1, 0),
+         regimen = if_else(regimen == "Ranabizumab only", "ranibizumab", "aflibercept"),
+         injgiven = !is.na(injgiven),
+         across(where(function(x) all(unique(x) %in% 0:1)), as.logical)) %>%
+  select(patID = anon_id, sex = gender, age = age_group, avdays_induc = mean_inj_interval,
+         everything(), -starts_with("X"), -contains("inj1"), -injnum) %>%
+  arrange(patID, time) %>%
+  mutate(patID = as.character(paste0("id_", patID)))
 
 
-## replacing implausible ETDRS values with NA and simplifying ethnicity codes
+## simplifying ethnicity codes
+lu_eth_amd <- c("asian", "caucasian", "unknown_other", "afrocarribean", "mixed" )
+names(lu_eth_amd) <- unique(amd$ethnicity)
+amd$ethnicity <- lu_eth_amd[amd$ethnicity]
 
-lu_eth_amd10y <- c("white", "other", "unknown", "asian",  "mixed")
-names(lu_eth_amd10y) <- unique(amd10y$ethnicity)
-amd10y$ethnicity <- lu_eth_amd10y[amd10y$ethnicity]
-
-usethis::use_data(amd10y, overwrite = TRUE)
+usethis::use_data(amd, overwrite = TRUE)
 
 ###  va conversion chart
 #Snellen converted to logmar = -1 * log10(Snellen fraction).

@@ -44,7 +44,6 @@ fibrovascular pigment epithelium detachment (fvPED)}
 \item{HRF_thickness_um}{Thickness (measured in μm) of the segmented feature hyperreflective foci (HRF)}
 \item{CST_um}{Central subfield retinal thickness measured as the sum of NSR, IRF, SRF, SHRM, HRF thickness (measured in μm)}
 }
-}
 \source{
 \url{https://doi.org/10.5061/dryad.2rbnzs7m4}
 }

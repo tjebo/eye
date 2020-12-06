@@ -3,47 +3,74 @@
 \docType{data}
 \name{amd}
 \alias{amd}
-\title{Real life data of patients with neovascular AMD}
+\title{Twelve years neovascular AMD survival data}
 \format{
-A data frame (tibble) with 40764 rows and 7 variables:
+A data frame (tibble) with 6696 rows and 23 variables:
 \describe{
-\item{patID}{Anonymized patient identifier}
-\item{sex}{Sex of patient (m = male, f = female)}
-\item{age0}{Age (years) at day of first appointment}
-\item{eye}{Left or right eye of patient (r = right, l = left)}
-\item{time}{Time in days after date of first appointment (0 = first appointment)}
-\item{va}{Visual acuity in Early Treatment Diabetic Retinopathy Study letters}
-\item{inj_no}{Current number of injection at appointment date}
-}
+\item{anon_id}{anonymised patient number}
+\item{gender}{gender of patient (m = male, f = female)}
+\item{ethnicity}{ethnicity (asian \link{South East Asian}, Afro Caribbean, Mixed, unknown_other)}
+\item{age_group}{age at initiation of anti-VEGF therapy (50-59 years,
+60-69 years, 70-79 years, 80 years and above)}
+\item{va_inj1}{visual acuity at baseline (initiation of anti-VEGF therapy)
+in early treatment diabetic retinopathy study letter score}
+\item{pre2013}{ anti-VEGF therapy initiated before October 2013 (TRUE) or after (FALSE)
+i.e.  before or after the introduction of aflibercept, respectively}
+\item{avdays_induc}{arithmetical average of interval between injections in induction
+phase in days}
+\item{loaded}{induction phase was appropriately completed within 90 days (TRUE)
+or not (FALSE)}
+\item{time}{days following initiation of anti-VEGF therapy}
+\item{injnum}{cumulative number of injection at time}
+\item{injgiven}{whether injection was given at appointment time or not (TRUE = injections given , FALSE = injection not given)}
+\item{va}{visual acuity at time point in early treatment diabetic retinopathy study letter score}
+\item{regimen}{anti-VEGF drug given is ranibizumab only or aflibercept only }
 }
 \source{
-\url{https://doi.org/10.5061/dryad.97r9289}
+\url{https://doi.org/10.5061/dryad.nvx0k6dqg}
 }
 \usage{
 data("amd")
 }
 \description{
-A dataset containing anonymized real life human subjects data on eyes with
-treatment naive neovascular age-related macular degeneration (AMD),
-which underwent intravitreal anti-VEGF therapy with ranibizumab
-and/or aflibercept.
+To explore potential utility of survival analysis techniques for retrospective
+clinical practice visual outcomes in a retrospective cohort study with
+12-year observation period.
 }
-\details{
-The data was collected in Moorfields Eye Hospital, London, UK.
-(Information governance sign off Moorfields Eye Hospital 19/07/2018)
+\section{Study setting and design}{
 
-Data was accessed on the 25th May 2020
+Of 10,744 eyes with neovascular AMD receiving anti-VEGF therapy between
+October 2008 and February 2020, 7802 eyes met study criteria
+(treatment-naïve, first-treated eyes starting anti-VEGF therapy).
+Institution:	 Moorfields Eye Clinic, London, UK
+Approval was granted by the Institutional Review Board of the hospital
+(ROAD17/031). The study complied with the Declaration of Helsinki
 }
-\section{Missing values}{
 
-There are two missing visual acuity entries in this data set. They result
-from data entry errors (ETDRS values above 100) in the original
-medical health records. Unfortunately, the correct VA value could not be
-retrieved and it was decided to assign missing values to those measurements.
+\section{Data source}{
+
+All clinical information at Moorfields Eye Hospital is recorded within an
+electronic medical record (EMR) application (OpenEyes Foundation, London, UK).
+A SQL database (SQL Server Reporting Service, Microsoft Corporation, Richmond, USA)
+containing all the information from the EMR is in place and regular updates
+are performed overnight to keep the data warehouse up-to-date.
+VA is reported in ETDRS letter score (and categories for ETDRS < 1).
+The highest value (independent of measurement method)
+available at each visit was chosen.
+}
+
+\section{Data}{
+
+Types of data: de-identified human subjects data
+Information governance authorised Moorfields Eye Clinic 19/07/2018.
+age not provided as a continuous variable as in original analysis
+to facilitate de-identification
 }
 
 \seealso{
-Scientific article to which this data set was supplement:
-\url{https://doi.org/10.1136/bmjopen-2018-027441}
+Associated publication:
+„Insights from survival analyses during 12 years of anti-vascular endothelial
+growth factor therapy for neovascular age-related macular degeneration“
+\url{https://doi.org/10.1001/jamaophthalmol.2020.5044}
 }
 \keyword{datasets}

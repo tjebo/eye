@@ -1,6 +1,6 @@
 #' Real life data of patients with neovascular AMD
 #' @docType data
-#' @name amd
+#' @name amd2
 #' @description
 #' A dataset containing anonymized real life human subjects data on eyes with
 #' treatment naive neovascular age-related macular degeneration (AMD),
@@ -16,7 +16,7 @@
 #' from data entry errors (ETDRS values above 100) in the original
 #' medical health records. Unfortunately, the correct VA value could not be
 #' retrieved and it was decided to assign missing values to those measurements.
-#' @usage data("amd")
+#' @usage data("amd2")
 #' @format A data frame (tibble) with 40764 rows and 7 variables:
 #' \describe{
 #'   \item{patID}{Anonymized patient identifier}
@@ -26,12 +26,11 @@
 #'   \item{time}{Time in days after date of first appointment (0 = first appointment)}
 #'   \item{va}{Visual acuity in Early Treatment Diabetic Retinopathy Study letters}
 #'   \item{inj_no}{Current number of injection at appointment date}
-#' }
 #' @source \url{https://doi.org/10.5061/dryad.97r9289}
 #' @seealso
 #' Scientific article to which this data set was supplement:
 #' \url{https://doi.org/10.1136/bmjopen-2018-027441}
-"amd"
+"amd2"
 
 #' Real life data of patients with diabetic macular edema
 #' @docType data
@@ -89,7 +88,6 @@
 #'   \item{va}{Visual acuity in Early Treatment Diabetic Retinopathy Study (ETDRS) letters}
 #'   \item{time}{Time in days following baseline i.e. injection number 1}
 #'   \item{inj}{Injection given or not (TRUE = injection given, FALSE = no injection given)}
-#' }
 #' @source \url{https://doi.org/10.5061/dryad.pzgmsbcfw}
 #' @seealso
 #' Scientific article to which this data set was supplement:
@@ -179,26 +177,26 @@
 #'   \item{SHRM_thickness_um}{Thickness (measured in μm) of the segmented feature subretinal hyperreflective material (SHRM)}
 #'   \item{HRF_thickness_um}{Thickness (measured in μm) of the segmented feature hyperreflective foci (HRF)}
 #'   \item{CST_um}{Central subfield retinal thickness measured as the sum of NSR, IRF, SRF, SHRM, HRF thickness (measured in μm)}
-#' }
 #' @source \url{https://doi.org/10.5061/dryad.2rbnzs7m4}
 #' @seealso
 #' Scientific article to which this data set was supplement:
 #' \url{https://doi.org/10.1016/j.ophtha.2020.09.025}
 "amdoct"
 
-#' Ten year neovascular AMD survival data
+#' Twelve years neovascular AMD survival data
 #' @docType data
-#' @name amd10y
+#' @name amd
 #' @description
-#' Ten Year Survival Trends of Neovascular Age Related Macular Degeneration
-#' at First Presentation
-#' @section Missing values:
-#' To be added
+#' To explore potential utility of survival analysis techniques for retrospective
+#' clinical practice visual outcomes in a retrospective cohort study with
+#' 12-year observation period.
 #' @section Study setting and design:
-#' Retrospective cohort study of treatment-naïve, first-affected eyes with
-#' nAMD started on ranibizumab before January 1, 2009.
-#' Approval was granted by the Institutional Review Board of the hospital
-#' (ROAD17/031). The study complied with the Declaration of Helsinki
+#'     Of 10,744 eyes with neovascular AMD receiving anti-VEGF therapy between
+#'     October 2008 and February 2020, 7802 eyes met study criteria
+#'     (treatment-naïve, first-treated eyes starting anti-VEGF therapy).
+#'     Institution:	 Moorfields Eye Clinic, London, UK
+#'     Approval was granted by the Institutional Review Board of the hospital
+#'     (ROAD17/031). The study complied with the Declaration of Helsinki
 #' @section Data source:
 #' All clinical information at Moorfields Eye Hospital is recorded within an
 #' electronic medical record (EMR) application (OpenEyes Foundation, London, UK).
@@ -213,41 +211,35 @@
 #' Information governance authorised Moorfields Eye Clinic 19/07/2018.
 #' age not provided as a continuous variable as in original analysis
 #' to facilitate de-identification
-#' @usage data("amd10y")
+#' @usage data("amd")
 #' @format A data frame (tibble) with 6696 rows and 23 variables:
 #' \describe{
-#'   \item{patID}{Anonymized patient identifier.}
-#'   \item{sex}{Sex of patient (m = male, f = female)}
-#'   \item{time}{time in days after date of first injection (0 = first injection or baseline)}
-#'   \item{eye}{Left or right eye of patient (r = right, l = left)}
-#'   \item{ethnicity}{Ethnicity of patient following the categories from the
-#'        UK ETHNIC CATEGORY CODE 2001. (asian = Asian or Asian British,
-#'        white = White, black = Black or Black British,
-#'        other_unknown = Other ethnic group or unknown)}
-#'   \item{fellow}{fellow eye requires anti-VEGF within observation period}
-#'   \item{ttofellow_mo}{time between baseline and fellow eye involvement in months}
-#'   \item{drug_switch}{anti-VEGF drug agent is switched during observation period }
-#'   \item{ttodrugswitch_mo}{time between baseline and date of drug switch in months}
-#'   \item{ltfu}{patient is lost to follow-up during observation period }
-#'   \item{ltfu_stable}{of those lost to follow-up, are they stable prior to this timepoint }
-#'   \item{ltfu_outcome}{reason for lost to follow-up (discharged, dna (did not attend last appointment), dead, transferred)}
-#'   \item{ttoltfu_mo}{time between baseline and loss to follow-up in months}
-#'   \item{ten_y_stable}{patient is stable at ten year timepoint }
-#'   \item{irf}{presence of intraretinal fluid at last visit }
-#'   \item{srf}{presence of subretinal fluid at last visit }
-#'   \item{disciform}{presence of disciform scar at last visit (0 = no, 1a = type 1a, 1b = type 1b)}
-#'   \item{ga}{presence of geographic atrophy at last visit  }
-#'   \item{ga_foveal}{presence of foveal geographic atrophy at last visit}
-#'   \item{ttoga_mo}{time to geographic atrophy development in months}
-#'   \item{inj_num}{injection number}
-#'   \item{va}{visual acuity in Early Treatment Diabetic Retinopathy Study letters}
-#'   \item{crt}{foveal thickness in microns}
-#'   }
-#'   @source \url{https://doi.org/10.5061/dryad.9cnp5hqfm}
+#'   \item{anon_id}{anonymised patient number}
+#'   \item{gender}{gender of patient (m = male, f = female)}
+#'   \item{ethnicity}{ethnicity (asian [South East Asian], Afro Caribbean, Mixed, unknown_other)}
+#'   \item{age_group}{age at initiation of anti-VEGF therapy (50-59 years,
+#'       60-69 years, 70-79 years, 80 years and above)}
+#'   \item{va_inj1}{visual acuity at baseline (initiation of anti-VEGF therapy)
+#'       in early treatment diabetic retinopathy study letter score}
+#'   \item{pre2013}{ anti-VEGF therapy initiated before October 2013 (TRUE) or after (FALSE)
+#'       i.e.  before or after the introduction of aflibercept, respectively}
+#'   \item{avdays_induc}{arithmetical average of interval between injections in induction
+#'        phase in days}
+#'   \item{loaded}{induction phase was appropriately completed within 90 days (TRUE)
+#'        or not (FALSE)}
+#'   \item{time}{days following initiation of anti-VEGF therapy}
+#'   \item{injnum}{cumulative number of injection at time}
+#'   \item{injgiven}{whether injection was given at appointment time or not (TRUE = injections given , FALSE = injection not given)}
+#'   \item{va}{visual acuity at time point in early treatment diabetic retinopathy study letter score}
+#'   \item{regimen}{anti-VEGF drug given is ranibizumab only or aflibercept only }
+#' @source \url{https://doi.org/10.5061/dryad.nvx0k6dqg}
 #' @seealso
-#' Scientific article to which this data set was supplement:
-#' \url{https://doi.org/10.1136/bjophthalmol-2020-317161}
-"amd10y"
+#' Associated publication:
+#' „Insights from survival analyses during 12 years of anti-vascular endothelial
+#' growth factor therapy for neovascular age-related macular degeneration“
+#'   \url{https://doi.org/10.1001/jamaophthalmol.2020.5044}
+#'
+"amd"
 
 #' Visual acuity conversion chart
 #' @docType data
@@ -270,7 +262,7 @@
 #' @seealso
 #' - This chart and VA conversion formulas are based on charts in
 #' [Holladay et al.](https://doi.org/10.1016/j.jcrs.2004.01.014),
-#' [Beck et al.](https://doi.org/10.1016/s0002-9394(02)01825-1), and
+#' \href{https://doi.org/10.1016/s0002-9394(02)01825-1}{Beck et al.}, and
 #' [Gregori et al.](https://doi.org/10.1097/iae.0b013e3181d87e04).
 #'
 #' Categories **(no) light perception**,  **counting fingers**
