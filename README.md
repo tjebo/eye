@@ -48,7 +48,7 @@ from github with devtools:
 ### Beyond eyes
 
   - reveal: [Get common summary statistics](#reveal)
-  - age: [Calculate age](#age)
+  - age: [Calculate age](#getage)
 
 ## Details and examples
 
@@ -359,7 +359,7 @@ reveal(myop_df, by = c("eye", "surgery"))
 #> 16   r      TE  va_postop 45.5 0.7 2  45  46
 ```
 
-### age
+### getage
 
   - Calculate age in years, as [periods or
     durations](https://lubridate.tidyverse.org/articles/lubridate.html#time-intervals)
@@ -370,9 +370,9 @@ reveal(myop_df, by = c("eye", "surgery"))
 dob <- c("1984-10-16", "2000-01-01")
 
 ## If no second date given, the age today
-age(dob)
+getage(dob)
 #> [1] 36.1 20.9
-age(dob, "2000-01-01")                                                    
+getage(dob, "2000-01-01")                                                    
 #> [1] 15.2  0.0
 ```
 
@@ -565,7 +565,7 @@ This chart is included in the package (`va_chart`)
   - **Pearse Keane**, **Dun Jack Fu**, **Katrin Fasler** and **Christoph
     Kern** for their contribution of open source data
   - Thanks to [Antoine Fabri](https://github.com/moodymudskipper) for
-    his contribution to `age()`
+    his contribution to `getage()`
   - Thanks to Hadley Wickham and all developers of the `tidyverse`
     packages and the packages `roxygen2`, `usethis`, `testthis` and
     `devtools`, all on which `eye` heavily relies.

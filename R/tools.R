@@ -1,5 +1,5 @@
-#' age
-#' @name age
+#' getage
+#' @name getage
 #' @author Antoine Fabri and Tjebo Heeren
 #' @description calculates age in years, as durations or periods
 #' @param from_date start date
@@ -15,14 +15,14 @@
 #' [Read about periods and durations](
 #' https://lubridate.tidyverse.org/articles/lubridate.html#time-intervals)
 #' @examples
-#' age("1984-10-16")
+#' getage("1984-10-16")
 #'
 #' dob <-  c("1984-10-16", "2000-01-01")
 #' test_date <-  as.Date(dob) + c(15000, 20000)
-#' age(dob, test_date)
+#' getage(dob, test_date)
 #' @export
 #'
-age <- function(from_date,
+getage <- function(from_date,
                 to_date = lubridate::now(),
                 period = FALSE,
                 dec = 1) {
@@ -38,6 +38,19 @@ age <- function(from_date,
     round(age, dec)
   }
 }
+
+#' @rdname getage
+#' @description removed version from function now called "getage"
+#' @return message
+#' @family convenience functions
+#' @export
+#'
+age <- function() {
+  message("age() was removed in eye version 1.0.0 in order to avoid clashes of
+          namespace with environments. Please use getage() instead",
+          call. = FALSE)
+}
+
 
 
 #' Capitalize words

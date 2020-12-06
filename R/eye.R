@@ -14,7 +14,7 @@
 #' - Easy summary of your eye data in one blink [`blink`]
 #'
 #' @section Beyond ophthalmology:
-#' - [`age`]: Calculate age
+#' - [`getage`]: Calculate age
 #' @docType package
 #' @keywords internal
 #' @seealso

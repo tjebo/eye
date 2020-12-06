@@ -24,7 +24,7 @@ in ophthalmic research.
 \section{Beyond ophthalmology}{
 
 \itemize{
-\item \code{\link{age}}: Calculate age
+\item \code{\link{getage}}: Calculate age
 }
 }
 

@@ -53,7 +53,7 @@ devtools::install_github("tjebo/eye")
 
 ### Beyond eyes
 - reveal: [Get common summary statistics](#reveal)
-- age: [Calculate age](#age)
+- age: [Calculate age](#getage)
                           
 ## Details and examples
 ### va
@@ -196,15 +196,15 @@ reveal(myop_df, by = "eye")
 reveal(myop_df, by = c("eye", "surgery"))
 ```
 
-### age
+### getage
 - Calculate age in years, as [periods or durations](https://lubridate.tidyverse.org/articles/lubridate.html#time-intervals)
                                                                 
 ```{r age, warning=FALSE, message=FALSE}
 dob <- c("1984-10-16", "2000-01-01")
 
 ## If no second date given, the age today
-age(dob)
-age(dob, "2000-01-01")                                                    
+getage(dob)
+getage(dob, "2000-01-01")                                                    
 ```
 
 ## Names and codes
@@ -342,7 +342,7 @@ This chart is included in the package (`va_chart`)
 
 - Thanks to **Alasdair Warwick**, **Aaron Lee**, **Tim Yap**, **Siegfried Wagner** and **Abraham Olvera** for great suggestions, testing and code review.  
 - **Pearse Keane**, **Dun Jack Fu**, **Katrin Fasler** and **Christoph Kern** for their contribution of open source data
-- Thanks to [Antoine Fabri](https://github.com/moodymudskipper) for his contribution to `age()`
+- Thanks to [Antoine Fabri](https://github.com/moodymudskipper) for his contribution to `getage()`
 - Thanks to Hadley Wickham and all developers of the `tidyverse` packages and the packages `roxygen2`, `usethis`, `testthis` and `devtools`, all on which `eye` heavily relies.
 
 ## Resources
