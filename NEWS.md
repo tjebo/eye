@@ -1,3 +1,15 @@
+# eye 1.0.0
+Major version upgrade of eye 0.1.0!
+
+## Functions
+* rename `age()` to `getage()` in order to avoid potential and even likely clashes with the users environment, especially when using `age()` within the local environment of a data frame (e.g., using `with()`)
+* The lifecycle of `blink()` has expired. `blink` will no longer be 
+  maintained, but kept in the package. 
+
+## Data sets
+* `amd` was removed - it will be now part of the dedicated ophthalmic data
+set package "eyedata" (currently in submission to CRAN)
+
 # eye 0.1.0
 the eye package is online!
 eye is a tool to facilitate common tasks in ophthalmic research.

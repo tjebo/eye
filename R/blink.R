@@ -97,6 +97,10 @@
 blink <- function(x, va_to = "logmar",
                   va_cols = NULL, iop_cols = NULL,
                   fct_level = 0:4) {
+
+  message("The lifecycle of blink() has expired. It will no longer be
+  maintained, but will be kept in the package.")
+
   if(!rlang::quo_is_null(rlang::enquo(va_cols))){
       x_exp <- rlang::enquo(va_cols)
       va_index <- unname(tidyselect::eval_select(x_exp, x))

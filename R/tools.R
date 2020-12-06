@@ -47,10 +47,8 @@ getage <- function(from_date,
 #'
 age <- function() {
   message("age() was removed in eye version 1.0.0 in order to avoid clashes of
-          namespace with environments. Please use getage() instead",
-          call. = FALSE)
+          namespace with environments. Please use getage() instead")
 }
-
 
 
 #' Capitalize words
