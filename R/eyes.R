@@ -67,7 +67,7 @@ eyes <- function(x, id = NULL, eye = NULL, report = FALSE, ...) {
     return(NULL)
   }
   if (is.null(eye)) {
-    eye <- whole_str(c("eyes", "eye"))(colnames(x))
+    eye <- getElem_eyecol(x)
   }
   if (length(eye) > 1) {
     warning("Which is the eye column? Use argument \"eye\"", call. = FALSE)

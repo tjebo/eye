@@ -3,12 +3,15 @@
 \name{getElem}
 \alias{getElem}
 \alias{getElem_id}
+\alias{getElem_eyecol}
 \alias{getElem_eye}
 \alias{getElem_va}
 \alias{getElem_iop}
 \title{Find element based or strings}
 \usage{
 getElem_id(obj, id_chr)
+
+getElem_eyecol(obj)
 
 getElem_eye(obj, eye_chr)
 
@@ -32,6 +35,8 @@ names have to be "whole" and "part"!}
 }
 \value{
 vector
+
+vector
 }
 \description{
 Finds the element in an object for one of the following:
@@ -42,8 +47,24 @@ Finds the element in an object for one of the following:
 }
 
 \code{getElem} search a vector, the column names (data frame) or the names (list)
+
+Finds the element in an object for one of the following:
+\itemize{
+\item ID column
+\item eye column
+\item columns that contain information for right/left eyes
+\item Visual acuity
+}
+
+\code{getElem} search a vector, the column names (data frame) or the names (list)
 }
 \seealso{
+Other string matching functions: 
+\code{\link{recodeye}()},
+\code{\link{set_codes}()},
+\code{\link{sort_substr}()},
+\code{\link{str_func_facs}}
+
 Other string matching functions: 
 \code{\link{recodeye}()},
 \code{\link{set_codes}()},
