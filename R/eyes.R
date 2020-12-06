@@ -2,8 +2,8 @@
 #' @name eyes
 #' @description Counts number of patients and eyes (right and left).
 #' @param x required. (data frame)
-#' @param id Patient identifying column
-#' @param eye Eye identifying column.
+#' @param id Patient identifying column, can be quoted or unquoted
+#' @param eye Eye identifying column, can be quoted or unquoted
 #' @param report if TRUE, text returned for report
 #' @param ... passed to [eyes_to_string]
 #' @inheritParams eyes_to_string
@@ -53,7 +53,7 @@ eyes <- function(x, id = NULL, eye = NULL, report = FALSE, ...) {
   if (is.null(id)) {
     pat_col <- getElem_id(x)
   } else {
-    pat_col <- id
+    pat_col <- as.character(substitute(id))
   }
   if (length(pat_col) != 1) {
     warning("Did not find the ID column - use argument \"id\"",
@@ -71,6 +71,7 @@ eyes <- function(x, id = NULL, eye = NULL, report = FALSE, ...) {
     message("No eye column found: Counting patients only")
     res <- c(patients = length(unique(x[[pat_col]])))
   } else if (length(eye) == 1) {
+    eye <- as.character(substitute(eye))
     quiet_recode <- purrr::quietly(recodeye)
     recode_eye <- quiet_recode(x[[eye]])
     if(length(recode_eye$warnings)>0){

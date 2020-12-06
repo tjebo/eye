@@ -12,9 +12,9 @@ eyestr(x, id = NULL, eye = NULL, small_num = TRUE, para = FALSE, UK = FALSE)
 \arguments{
 \item{x}{required. (data frame)}
 
-\item{id}{Patient identifying column}
+\item{id}{Patient identifying column, can be quoted or unquoted}
 
-\item{eye}{Eye identifying column.}
+\item{eye}{Eye identifying column, can be quoted or unquoted}
 
 \item{report}{if TRUE, text returned for report}
 
