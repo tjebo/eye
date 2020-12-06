@@ -15,6 +15,7 @@ A data frame (tibble) with 40764 rows and 7 variables:
 \item{va}{Visual acuity in Early Treatment Diabetic Retinopathy Study letters}
 \item{inj_no}{Current number of injection at appointment date}
 }
+}
 \source{
 \url{https://doi.org/10.5061/dryad.97r9289}
 }

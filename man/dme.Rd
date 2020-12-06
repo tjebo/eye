@@ -21,6 +21,7 @@ mixed = Mixed, other = Other ethnic group, unknown = Unknown)}
 \item{time}{Time in days following baseline i.e. injection number 1}
 \item{inj}{Injection given or not (TRUE = injection given, FALSE = no injection given)}
 }
+}
 \source{
 \url{https://doi.org/10.5061/dryad.pzgmsbcfw}
 }

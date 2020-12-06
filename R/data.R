@@ -26,6 +26,7 @@
 #'   \item{time}{Time in days after date of first appointment (0 = first appointment)}
 #'   \item{va}{Visual acuity in Early Treatment Diabetic Retinopathy Study letters}
 #'   \item{inj_no}{Current number of injection at appointment date}
+#'   }
 #' @source \url{https://doi.org/10.5061/dryad.97r9289}
 #' @seealso
 #' Scientific article to which this data set was supplement:
@@ -88,6 +89,7 @@
 #'   \item{va}{Visual acuity in Early Treatment Diabetic Retinopathy Study (ETDRS) letters}
 #'   \item{time}{Time in days following baseline i.e. injection number 1}
 #'   \item{inj}{Injection given or not (TRUE = injection given, FALSE = no injection given)}
+#'   }
 #' @source \url{https://doi.org/10.5061/dryad.pzgmsbcfw}
 #' @seealso
 #' Scientific article to which this data set was supplement:
@@ -177,6 +179,7 @@
 #'   \item{SHRM_thickness_um}{Thickness (measured in μm) of the segmented feature subretinal hyperreflective material (SHRM)}
 #'   \item{HRF_thickness_um}{Thickness (measured in μm) of the segmented feature hyperreflective foci (HRF)}
 #'   \item{CST_um}{Central subfield retinal thickness measured as the sum of NSR, IRF, SRF, SHRM, HRF thickness (measured in μm)}
+#'   }
 #' @source \url{https://doi.org/10.5061/dryad.2rbnzs7m4}
 #' @seealso
 #' Scientific article to which this data set was supplement:
@@ -216,22 +219,26 @@
 #' \describe{
 #'   \item{anon_id}{anonymised patient number}
 #'   \item{gender}{gender of patient (m = male, f = female)}
-#'   \item{ethnicity}{ethnicity (asian [South East Asian], Afro Caribbean, Mixed, unknown_other)}
+#'   \item{ethnicity}{ethnicity (asian [South East Asian],
+#'       Afro Caribbean, Mixed, unknown_other)}
 #'   \item{age_group}{age at initiation of anti-VEGF therapy (50-59 years,
 #'       60-69 years, 70-79 years, 80 years and above)}
 #'   \item{va_inj1}{visual acuity at baseline (initiation of anti-VEGF therapy)
 #'       in early treatment diabetic retinopathy study letter score}
 #'   \item{pre2013}{ anti-VEGF therapy initiated before October 2013 (TRUE) or after (FALSE)
-#'       i.e.  before or after the introduction of aflibercept, respectively}
+#'       i.e. before or after the introduction of aflibercept, respectively}
 #'   \item{avdays_induc}{arithmetical average of interval between injections in induction
 #'        phase in days}
 #'   \item{loaded}{induction phase was appropriately completed within 90 days (TRUE)
 #'        or not (FALSE)}
 #'   \item{time}{days following initiation of anti-VEGF therapy}
 #'   \item{injnum}{cumulative number of injection at time}
-#'   \item{injgiven}{whether injection was given at appointment time or not (TRUE = injections given , FALSE = injection not given)}
-#'   \item{va}{visual acuity at time point in early treatment diabetic retinopathy study letter score}
-#'   \item{regimen}{anti-VEGF drug given is ranibizumab only or aflibercept only }
+#'   \item{injgiven}{whether injection was given at appointment time or
+#'       not (TRUE = injections given , FALSE = injection not given)}
+#'   \item{va}{visual acuity at time point in early treatment diabetic
+#'       retinopathy study letter score}
+#'   \item{regimen}{anti-VEGF drug given is ranibizumab only or aflibercept only}
+#'   }
 #' @source \url{https://doi.org/10.5061/dryad.nvx0k6dqg}
 #' @seealso
 #' Associated publication:
