@@ -62,13 +62,6 @@ data sets by citing the corresponding publications**.
     treatment-naive neovascular age-related macular degeneration (AMD)
     who received intravitreal anti-VEGF therapy. [original
     data](https://datadryad.org/stash/dataset/doi:10.5061/dryad.97r9289)
-  - **dme**: (Kern et al. [2020](#ref-kern)) and (Fu and Keane
-    [2020](#ref-fu)) Patients with diabetic macular edema (DME) who
-    received intravitreal anti-VEGF therapy. [original
-    data](https://doi.org/10.5061/dryad.pzgmsbcfw)
-  - **amdoct**: (Moraes et al. [2020](#ref-moraes)) OCT segmentation
-    data of patients undergoing treatment for neovascular AMD. [original
-    data](https://doi.org/10.5061/dryad.2rbnzs7m4)
 
 ### Beyond eyes
 
@@ -632,14 +625,6 @@ Resource.” *BMJ Open* 9 (6).
 
 </div>
 
-<div id="ref-fu">
-
-Fu, Dun Jack, and Pearse Keane. 2020. *Anti-Vegf Therapy in Diabetic
-Macular Oedema Patients over Four Years*. Dryad.
-<https://doi.org/10.5061/dryad.pzgmsbcfw>.
-
-</div>
-
 <div id="ref-fu2">
 
 Fu, Dun Jack, Tiarnan D. Keenan, Livia Faes, Ernest Lim, Siegfried K.
@@ -664,26 +649,6 @@ Method for Analyzing Snellen Visual Acuity Measurements.” *Retina* 30
 Holladay, Jack T. 2004. “Visual Acuity Measurements.” *Journal of
 Cataract and Refractive Surgery* 30 (2): 287–90.
 <https://doi.org/10.1016/j.jcrs.2004.01.014>.
-
-</div>
-
-<div id="ref-kern">
-
-Kern, Christoph, Dun Jack Fu, Josef Huemer, Livia Faes, Siegfried K.
-Wagner, Karsten Kortuem, Praveen J. Patel, et al. 2020. “An Open-Source
-Data Set of Anti-VEGF Therapy in Diabetic Macular Oedema Patients over 4
-Years and Their Visual Acuity Outcomes.” *Eye*, June.
-<https://doi.org/10.1038/s41433-020-1048-0>.
-
-</div>
-
-<div id="ref-moraes">
-
-Moraes, Gabriella, Dun Jack Fu, Marc Wilson, Hagar Khalid, Siegfried K.
-Wagner, Edward Korot, Daniel Ferraz, et al. 2020. “Quantitative Analysis
-of Optical Coherence Tomography for Neovascular Age-Related Macular
-Degeneration Using Deep Learning.” *Ophthalmology*.
-<https://doi.org/https://doi.org/10.1016/j.ophtha.2020.09.025>.
 
 </div>
 
