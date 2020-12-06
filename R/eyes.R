@@ -50,6 +50,12 @@
 #' @export
 #'
 eyes <- function(x, id = NULL, eye = NULL, report = FALSE, ...) {
+  if(!inherits(x, "data.frame")){
+    stop("x must be a data frame", call. = FALSE)
+  }
+  if(nrow(x) < 1){
+    return("0 eyes of 0 patients")
+  }
   if (is.null(id)) {
     pat_col <- getElem_id(x)
   } else {
