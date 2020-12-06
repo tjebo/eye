@@ -217,27 +217,24 @@
 #' @usage data("amd")
 #' @format A data frame (tibble) with 6696 rows and 23 variables:
 #' \describe{
-#'   \item{anon_id}{anonymised patient number}
-#'   \item{gender}{gender of patient (m = male, f = female)}
-#'   \item{ethnicity}{ethnicity (asian [South East Asian],
-#'       Afro Caribbean, Mixed, unknown_other)}
-#'   \item{age_group}{age at initiation of anti-VEGF therapy (50-59 years,
+#'   \item{patID}{anonymised patient number}
+#'   \item{sex}{gender of patient (m = male, f = female)}
+#'   \item{age}{age at initiation of anti-VEGF therapy (50-59 years,
 #'       60-69 years, 70-79 years, 80 years and above)}
-#'   \item{va_inj1}{visual acuity at baseline (initiation of anti-VEGF therapy)
-#'       in early treatment diabetic retinopathy study letter score}
-#'   \item{pre2013}{ anti-VEGF therapy initiated before October 2013 (TRUE) or after (FALSE)
-#'       i.e. before or after the introduction of aflibercept, respectively}
 #'   \item{avdays_induc}{arithmetical average of interval between injections in induction
 #'        phase in days}
+#'   \item{ethnicity}{ethnicity of patient: asian (South East Asian), caucasian
+#'       Afro Caribbean, Mixed, unknown_other)}
 #'   \item{loaded}{induction phase was appropriately completed within 90 days (TRUE)
 #'        or not (FALSE)}
 #'   \item{time}{days following initiation of anti-VEGF therapy}
-#'   \item{injnum}{cumulative number of injection at time}
 #'   \item{injgiven}{whether injection was given at appointment time or
 #'       not (TRUE = injections given , FALSE = injection not given)}
 #'   \item{va}{visual acuity at time point in early treatment diabetic
 #'       retinopathy study letter score}
 #'   \item{regimen}{anti-VEGF drug given is ranibizumab only or aflibercept only}
+#'   \item{pre2013}{ anti-VEGF therapy initiated before October 2013 (TRUE) or after (FALSE)
+#'       i.e. before or after the introduction of aflibercept, respectively}
 #'   }
 #' @source \url{https://doi.org/10.5061/dryad.nvx0k6dqg}
 #' @seealso
