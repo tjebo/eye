@@ -12,7 +12,7 @@
 ### Data sets
 * Update the inbuilt data set `amd` and renamed to `amd2`, because it was in the meanwhile updated by the data set curator (replaced erroneous entries with missing values). 
 * some variables of `amd2` are renamed to make it more accessible for immediate usage.
-* Add three more eye-related open source data sets: "amd" (replacing the previous amd data frame), "dme", "amd_oct"
+* Add one more eye-related open source data set: "amd" (replacing the previous amd data frame)
 
 ## Test environments
 * local OS X install, R 4.0.0
