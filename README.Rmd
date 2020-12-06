@@ -57,11 +57,11 @@ devtools::install_github("tjebo/eye")
 `eye` contains two large anonymized real life data sets from patients treated in Moorfields Eye Hospital, London, UK. 
 **Kindly reference those data sets by citing the corresponding publications**.
 
-- **amd**: [@fasler] Patients with treatment-naive neovascular age-related macular degeneration (AMD) who received intravitreal anti-VEGF therapy.
+- **amd**: [@fu2] 12 year data of patients with treatment-naive neovascular age-related macular degeneration (AMD) who received intravitreal anti-VEGF therapy. [original data](https://doi.org/10.5061/dryad.nvx0k6dqg)
+- **amd2**: [@fasler] Eyes with treatment-naive neovascular age-related macular degeneration (AMD) who received intravitreal anti-VEGF therapy.
 [original data](https://datadryad.org/stash/dataset/doi:10.5061/dryad.97r9289)
 - **dme**: [@kern] and [@fu] Patients with diabetic macular edema (DME) who received intravitreal anti-VEGF therapy. [original data](https://doi.org/10.5061/dryad.pzgmsbcfw)
 - **amdoct**: [@moraes] OCT segmentation data of patients undergoing treatment for neovascular AMD. [original data](https://doi.org/10.5061/dryad.2rbnzs7m4) 
-- **amd10y**: [@arpa] Ten Year Survival Trends of Neovascular Age Related Macular Degeneration at First Presentation. [original data](https://doi.org/10.5061/dryad.9cnp5hqfm)
                   
 ### Beyond eyes
 - reveal: [Get common summary statistics](#reveal)

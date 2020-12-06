@@ -54,7 +54,11 @@ from github with devtools:
 treated in Moorfields Eye Hospital, London, UK. **Kindly reference those
 data sets by citing the corresponding publications**.
 
-  - **amd**: (Fasler et al. [2019](#ref-fasler)) Patients with
+  - **amd**: (Fu et al. [2020](#ref-fu2)) 12 year data of patients with
+    treatment-naive neovascular age-related macular degeneration (AMD)
+    who received intravitreal anti-VEGF therapy. [original
+    data](https://doi.org/10.5061/dryad.nvx0k6dqg)
+  - **amd2**: (Fasler et al. [2019](#ref-fasler)) Eyes with
     treatment-naive neovascular age-related macular degeneration (AMD)
     who received intravitreal anti-VEGF therapy. [original
     data](https://datadryad.org/stash/dataset/doi:10.5061/dryad.97r9289)
@@ -65,10 +69,6 @@ data sets by citing the corresponding publications**.
   - **amdoct**: (Moraes et al. [2020](#ref-moraes)) OCT segmentation
     data of patients undergoing treatment for neovascular AMD. [original
     data](https://doi.org/10.5061/dryad.2rbnzs7m4)
-  - **amd10y**: (Arpa et al. [2020](#ref-arpa)) Ten Year Survival Trends
-    of Neovascular Age Related Macular Degeneration at First
-    Presentation. [original
-    data](https://doi.org/10.5061/dryad.9cnp5hqfm)
 
 ### Beyond eyes
 
@@ -119,8 +119,9 @@ Count patient and eyes (**eyes** or **eyestr**)
 
 ``` r
 eyes(amd)
-#> patients     eyes    right     left 
-#>     3357     3357     1681     1676
+#> No eye column found: Counting patients only
+#> patients 
+#>     7802
 
 eyes(dme)
 #> patients     eyes    right     left 
@@ -133,14 +134,14 @@ Same as `eyes`, but as text for reports
 
 ``` r
 eyestr(amd)
-#> [1] "3357 eyes of 3357 patients"
+#> [1] "7802 patients"
 
 eyestr(dme)
 #> [1] "2614 eyes of 1964 patients"
  ## Numbers smaller than or equal to 12 will be real English
 
 eyestr(head(amd, 100))
-#> [1] "Eleven eyes of eleven patients"
+#> [1] "Twelve patients"
 ```
 
 ### recodeye
@@ -401,7 +402,7 @@ dob <- c("1984-10-16", "2000-01-01")
 
 ## If no second date given, the age today
 age(dob)
-#> [1] 36.0 20.8
+#> [1] 36.1 20.9
 age(dob, "2000-01-01")                                                    
 #> [1] 15.2  0.0
 ```
@@ -610,16 +611,6 @@ This chart is included in the package (`va_chart`)
 
 <div id="refs" class="references">
 
-<div id="ref-arpa">
-
-Arpa, Cristina, Hagar Khalid, Shruti Chandra, Siegfried Wagner, Katrin
-Fasler, Livia Faes, Pakinee Pooprasert, et al. 2020. “Ten-Year Survival
-Trends of Neovascular Age-Related Macular Degeneration at First
-Presentation.” *British Journal of Ophthalmology*.
-<https://doi.org/10.1136/bjophthalmol-2020-317161>.
-
-</div>
-
 <div id="ref-beck">
 
 Beck, Roy W, Pamela S Moke, Andrew H Turpin, Frederick L Ferris, John
@@ -646,6 +637,17 @@ Resource.” *BMJ Open* 9 (6).
 Fu, Dun Jack, and Pearse Keane. 2020. *Anti-Vegf Therapy in Diabetic
 Macular Oedema Patients over Four Years*. Dryad.
 <https://doi.org/10.5061/dryad.pzgmsbcfw>.
+
+</div>
+
+<div id="ref-fu2">
+
+Fu, Dun Jack, Tiarnan D. Keenan, Livia Faes, Ernest Lim, Siegfried K.
+Wagner, Gabriella Moraes, Josef Huemer, et al. 2020. “Insights From
+Survival Analyses During 12 Years of Anti–Vascular Endothelial Growth
+Factor Therapy for Neovascular Age-Related Macular Degeneration.” *JAMA
+Ophthalmology*, November.
+<https://doi.org/10.1001/jamaophthalmol.2020.5044>.
 
 </div>
 
