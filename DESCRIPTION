@@ -35,6 +35,7 @@ Imports:
     cli (>= 2.2.0),
     dplyr (>= 1.0.2),
     english (>= 1.2-5),
+    eyedata (>= 0.1.0),
     lubridate (>= 1.7.9.2),
     magrittr (>= 2.0.1),
     purrr (>= 0.3.4),
