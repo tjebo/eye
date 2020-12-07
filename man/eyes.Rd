@@ -5,7 +5,7 @@
 \alias{eyestr}
 \title{Count patients and eyes}
 \usage{
-eyes(x, id = NULL, eye = NULL, report = FALSE, ...)
+eyes(x, id = NULL, eye = NULL, report = FALSE, dropunknown = TRUE, ...)
 
 eyestr(x, id = NULL, eye = NULL, small_num = TRUE, para = FALSE, UK = FALSE)
 }
@@ -17,6 +17,8 @@ eyestr(x, id = NULL, eye = NULL, small_num = TRUE, para = FALSE, UK = FALSE)
 \item{eye}{Eye identifying column, can be quoted or unquoted}
 
 \item{report}{if TRUE, text returned for report}
+
+\item{dropunknown}{passed to \link{recodeye}}
 
 \item{...}{passed to \link{eyes_to_string}}
 
@@ -60,7 +62,9 @@ or "id"
 
 \strong{eye variable column}:
 \itemize{
-\item \code{eyes} looks for columns called either "eye" or "eyes"
+\item \code{eyes} primarily looks for columns called either "eye" or "eyes",
+and if they are not present, columns containing string "eye"
+(e.g., EyeName will be recognized)
 }
 }
 

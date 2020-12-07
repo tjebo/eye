@@ -4,23 +4,19 @@
 \alias{recodeye}
 \title{Recode eyes}
 \usage{
-recodeye(
-  x,
-  to = c("r", "l"),
-  eyecodes = list(c("r", "re", "od", "right"), c("l", "le", "os", "left")),
-  numcode = NULL
-)
+recodeye(x, to = NULL, eyecodes = NULL, numcode = NULL, dropunknown = TRUE)
 }
 \arguments{
 \item{x}{vector of strings}
 
-\item{to}{to which codes. Right coded first.}
+\item{to}{named vector to which eye codes. If unnamed, this order: c(r, l, b)}
 
-\item{eyecodes}{list of substrings which should be converted to
-right and left eyes - first vector for right, then for left eyes}
+\item{eyecodes}{named list of substrings which should be converted to
+right and left eyes - if passed unnamed, this order: list(r, l, b)}
 
-\item{numcode}{if you have numeric coding which is not 0:1 or 1:2 for
-right:left, specify it here.}
+\item{numcode}{specify if you have numeric coding which is not 0:1 or 1:2}
+
+\item{dropunknown}{introduces NA for values that are not part of eyecodes}
 }
 \value{
 Character vector
@@ -28,6 +24,32 @@ Character vector
 \description{
 recoding eyes to "r" and "l"
 }
+\section{string detection}{
+
+recodeye will automatically detect the following strings:
+right = c("r", "re", "od", "right"),
+left = c("l", "le", "os", "left"),
+both = c("b","both","ou")
+}
+
+\section{to and eyecode arguments}{
+
+If passed, should ideally be of same length, and have the respective eyes
+at the same index (or with the same name!). If the lengths are not equal,
+e.g., if only "to" is passed with n elements, the shorter argument will be
+will be cut down to the first n elements of the longer argument.
+
+Note that all unique strings which are part of the column should be contained
+in the "eyecode" argument.
+}
+
+\section{numeric coding}{
+
+Currently numeric coding only accepts binary
+coding (right and left eye). In order to use numeric coding for "both eyes"
+as well, a workaround using the eyecodes argument is suggested.
+}
+
 \examples{
 x <- c("r", "re", "od", "right", "l", "le", "os", "left")
 recodeye(x)

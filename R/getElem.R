@@ -49,7 +49,8 @@ getElem_eyecol <- function(obj) {
     obj <- colnames(obj)
   }
 
-  if (any(grepl("^eye$", obj, ignore.case = TRUE))){
+  if (any(grepl("(?<![a-z])(eye|eyes)(?![a-z])", obj, perl = TRUE,
+                ignore.case = TRUE))){
     eye_col <- whole_str(c("eye","eyes"))(obj)
   } else {
     eye_col <- part_str("eye")(obj)

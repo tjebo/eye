@@ -5,6 +5,7 @@
 #' @param id Patient identifying column, can be quoted or unquoted
 #' @param eye Eye identifying column, can be quoted or unquoted
 #' @param report if TRUE, text returned for report
+#' @param dropunknown passed to [recodeye]
 #' @param ... passed to [eyes_to_string]
 #' @inheritParams eyes_to_string
 #' @details
@@ -24,7 +25,9 @@
 #' or "id"
 #'
 #' **eye variable column**:
-#' - `eyes` looks for columns called either "eye" or "eyes"
+#' - `eyes` primarily looks for columns called either "eye" or "eyes",
+#' and if they are not present, columns containing string "eye"
+#' (e.g., EyeName will be recognized)
 #'
 #' @section Eye coding:
 #' - `eyes` recognizes integer coding 0:1 and 1:2, with right being
@@ -49,7 +52,8 @@
 #' eyes(amd2)
 #' @export
 #'
-eyes <- function(x, id = NULL, eye = NULL, report = FALSE, ...) {
+eyes <- function(x, id = NULL, eye = NULL,
+                 report = FALSE, dropunknown = TRUE, ...) {
   if(!inherits(x, "data.frame")){
     stop("x must be a data frame", call. = FALSE)
   }
@@ -68,22 +72,21 @@ eyes <- function(x, id = NULL, eye = NULL, report = FALSE, ...) {
   }
   if (is.null(eye)) {
     eye <- getElem_eyecol(x)
+  } else {
+    eye <- as.character(substitute(eye))
   }
   if (length(eye) > 1) {
-    warning("Which is the eye column? Use argument \"eye\"", call. = FALSE)
+    warning("Please define eye column", call. = FALSE)
     return(NULL)
   }
   if (length(eye) < 1) {
     message("No eye column found: Counting patients only")
     res <- c(patients = length(unique(x[[pat_col]])))
   } else if (length(eye) == 1) {
-    eye <- as.character(substitute(eye))
-    quiet_recode <- purrr::quietly(recodeye)
-    recode_eye <- quiet_recode(x[[eye]])
-    if(length(recode_eye$warnings)>0){
-      warning(paste("Unclear eye coding! Not recoded. Please clean data.
-            Your values:", paste(unique(x[[eye]]), collapse = ", ")), call. = FALSE)
-      return(NULL)
+    quiet_recode <- purrr::quietly(~ recodeye(x = .x, dropunknown = .y))
+    recode_eye <- quiet_recode(.x = x[[eye]], .y = dropunknown)
+    if(length(recode_eye$warnings) > 0){
+      message(recode_eye$warnings)
     }
     if(length(recode_eye$messages)>0){
         message(gsub("\\\n", "", recode_eye$messages))
@@ -114,9 +117,19 @@ eyes <- function(x, id = NULL, eye = NULL, report = FALSE, ...) {
 #'   for [`eyes()`]
 count_eyes <- function(x, pat_col, eye) {
   n_pat <- length(unique(x[[pat_col]]))
+
   eye_tab <- table(unique(x[, c(pat_col, eye)]))
-  n_r <- unname(colSums(eye_tab[, colnames(eye_tab) == "r", drop = FALSE]))
-  n_l <- unname(colSums(eye_tab[, colnames(eye_tab) == "l", drop = FALSE]))
+  if(any(grepl("b", colnames(eye_tab)))){
+    if(any(grepl("r", colnames(eye_tab)))){
+      eye_tab[, "r"][eye_tab[, "b"] == 1] <- 0
+    }
+    if(any(grepl("l", colnames(eye_tab)))){
+      eye_tab[, "l"][eye_tab[, "b"] == 1] <- 0
+    }
+  }
+  n_b <- unname(colSums(eye_tab[, colnames(eye_tab) == "b", drop = FALSE]))
+  n_r <- sum(unname(colSums(eye_tab[, colnames(eye_tab) == "r", drop = FALSE])), n_b)
+  n_l <- sum(unname(colSums(eye_tab[, colnames(eye_tab) == "l", drop = FALSE])), n_b)
   n_eyes <- n_r + n_l
   res <- c(patients = n_pat, eyes = n_eyes, right = n_r, left = n_l)
   res
