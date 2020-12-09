@@ -3,12 +3,12 @@
 \name{warnings}
 \alias{warnings}
 \alias{warn_recode}
-\alias{warn_NA}
+\alias{messageNA}
 \title{recode warnings}
 \usage{
 warn_recode(x)
 
-warn_NA(x, eyecodes)
+messageNA(x, eyecodes)
 }
 \description{
 recode warnings

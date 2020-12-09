@@ -4,17 +4,23 @@ In the opinion of the package maintainer the changes were substantial enough to 
 
 ## Changes:
 ### Functions
-* `recodeye()` recognises "both/ou/b" for both eyes. 
-* `recodeye()`: dropunknown unclear codings are converted to NA by default (with warning)
-* rename `age()` to `getage()` in order to avoid potential and even likely clashes with the users environment, especially when using `age()` within the local environment of a data frame (e.g., using `with()`)
-* add message to `blink()` that this function will no longer be 
-  maintained, but kept in the package. 
-* fix issue #15 (reveal: unused group levels are dropped)
-* fix issue #16 (eyes: accepting both quoted and unquoted arguments)
-* eyes: add stop() when main argument not a data frame
-* fix issue #17 `eyes()` now also deals with "both eye cases"
-* fix issue #18 (eyes also finding eye columns with funny names, e.g. EyeName)
-* fix issue #19 (eyes returns meaningful result on empty data frames)
+* `recodeye()`:
+    * recognises "both/ou/b" for both eyes. 
+    * dropunknown unclear codings are converted to NA by default (with warning)
+    * removed numcode argument (other numeric codes can be passed via "to")
+* `eyes()`:
+    * fix issue #16 (eyes: accepting both quoted and unquoted arguments)
+    * add stop() when main argument not a data frame
+    * fix issue #17 `eyes()` now also deals with "both eye cases"
+    * fix issue #18 (now also finding eye columns with funny names, e.g. EyeName)
+    * fix issue #19 (now returns meaningful result on empty data frames)
+* `age()` 
+    rename to getage() in order to avoid potential and even likely clashes with the         users environment, especially when using age() within the local environment of a        data frame (e.g., using with())
+* `blink()` 
+    message that this function will no longer be 
+    maintained, but kept in the package. 
+* `reveal():`
+    fix issue #15 (reveal: unused group levels are dropped)
 
 ### Documentation
 * Add CITATION file (add inst folder)

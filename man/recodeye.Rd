@@ -4,7 +4,7 @@
 \alias{recodeye}
 \title{Recode eyes}
 \usage{
-recodeye(x, to = NULL, eyecodes = NULL, numcode = NULL, dropunknown = TRUE)
+recodeye(x, to = NULL, eyecodes = NULL, dropunknown = TRUE)
 }
 \arguments{
 \item{x}{vector of strings}
@@ -13,8 +13,6 @@ recodeye(x, to = NULL, eyecodes = NULL, numcode = NULL, dropunknown = TRUE)
 
 \item{eyecodes}{named list of substrings which should be converted to
 right and left eyes - if passed unnamed, this order: list(r, l, b)}
-
-\item{numcode}{specify if you have numeric coding which is not 0:1 or 1:2}
 
 \item{dropunknown}{introduces NA for values that are not part of eyecodes}
 }

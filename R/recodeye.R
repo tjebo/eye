@@ -5,7 +5,6 @@
 #' @param to named vector to which eye codes. If unnamed, this order: c(r, l, b)
 #' @param eyecodes named list of substrings which should be converted to
 #' right and left eyes - if passed unnamed, this order: list(r, l, b)
-#' @param numcode specify if you have numeric coding which is not 0:1 or 1:2
 #' @param dropunknown introduces NA for values that are not part of eyecodes
 #' @section string detection:
 #' recodeye will automatically detect the following strings:
@@ -39,32 +38,27 @@
 #' @export
 recodeye <- function(x, to = NULL,
                      eyecodes = NULL,
-                     numcode = NULL,
                      dropunknown = TRUE) {
-  if(!is.atomic(x)) {
-    stop("x needs to be atomic", call. = FALSE)
-  }
+  if (!is.atomic(x)) stop("x needs to be atomic", call. = FALSE)
+
   if (is.null(to)) {
     to <- c(r = "r", l = "l", b = "b")
-  } else {
-    if (is.null(names(to))) {
-      names(to) <- c("r", "l", "b")[1:length(to)]
-    }
+  } else if (is.null(names(to))) {
+    names(to) <- c("r", "l", "b")[1:length(to)]
   }
+  to_r <- unname(to[names(to) == "r"])
+  to_l <- unname(to[names(to) == "l"])
 
-  if (!is.null(eyecodes)) {
-    if (!inherits(eyecodes, "list")) {
-      stop("eyecodes needs to be list", call. = FALSE)
-    }
-    if (is.null(names(eyecodes))) {
-      names(eyecodes) <- c("r", "l", "b")[1:length(eyecodes)]
-    }
-  } else {
+  if (is.null(eyecodes)) {
     eyecodes <- list(
       r = c("r", "re", "od", "right"),
       l = c("l", "le", "os", "left"),
       b = c("b", "both", "ou")
     )
+  } else if (!inherits(eyecodes, "list")) {
+    stop("eyecodes needs to be list")
+  } else if (is.null(names(eyecodes))) {
+    names(eyecodes) <- c("r", "l", "b")[1:length(eyecodes)]
   }
 
   if (length(eyecodes) > length(to)) {
@@ -77,78 +71,36 @@ recodeye <- function(x, to = NULL,
 
   x[isNAstring(x)] <- NA
   if (sum(is.na(x) > 0)) {
-    message("Not all eyes are identified (contains NA)")
+    message("Missing values and/or meaningless strings contained")
   }
   eyeInt <- suppressWarnings(unique(as.integer(x[!is.na(x)])))
   eyeInt_noNA <- eyeInt[!is.na(eyeInt)]
   eyeChar <- as.logical(sum(is.na(eyeInt)))
 
-  if (!(is.null(numcode) | eyeChar)) {
-    if (length(numcode) != 2) {
-      stop("numcode needs to be two numerics only", call. = FALSE)
-    }
-    if (!all(eyeInt_noNA %in% numcode)) {
-      warn_recode(x)
-      return(x)
-    } else {
-      message(paste0(
-        "Eyes coded ", paste(numcode, collapse = ":"),
-        " with r = ", numcode[1]
-      ))
-      x[x == numcode[1]] <- to[1]
-      x[x == numcode[2]] <- to[2]
-      return(x)
-    }
-  } else if (eyeChar) {
-    if (length(eyeInt_noNA > 0)) {
+  if (eyeChar) {
+    if (!all(tolower(unique(x)) %in% c(NA, unname(unlist(eyecodes))))) {
       if (!dropunknown) {
         warn_recode(x)
         return(x)
       } else {
-        warn_NA(x, eyecodes)
+        messageNA(x, eyecodes)
         x[!(x %in% unique(unname(unlist(eyecodes))))] <- NA_character_
-        return(x)
-      }
-    } else if (!all(tolower(unique(x)) %in% c(NA, unname(unlist(eyecodes))))) {
-      warn_recode(x)
-      if (!dropunknown) {
-        warn_recode(x)
-        return(x)
-      } else {
-        x[!x %in% unique(unname(unlist(eyecodes)))] <- NA
-        warn_NA(x, eyecodes)
       }
     }
-  } else if (length(eyeInt_noNA) > 2 | length(eyeInt_noNA) == 1) {
+  } else if (!(all(eyeInt_noNA %in% 0:1) | all(eyeInt_noNA %in% 1:2))) {
     warn_recode(x)
     return(x)
-  } else if (length(eyeInt_noNA) == 2) {
-    if (!(all(eyeInt_noNA %in% 0:1) | all(eyeInt_noNA %in% 1:2))) {
-      warn_recode(x)
+  } else {
+    if (all(eyeInt_noNA %in% 0:1)) {
+      message("Eyes coded 0:1. Interpreting r = 0")
+      recode_lookup <- c("0" = to_r, "1" = to_l)
+      x <- unname(recode_lookup[as.character(x)])
       return(x)
-    } else {
-      if (all(eyeInt_noNA %in% 0:1)) {
-        message("Eyes coded 0:1. Interpreting r = 0")
-        recode_lookup <- c("0" = to[1], "1" = to[2])
-        x <- unname(recode_lookup[as.character(x)])
-        return(x)
-      } else if (all(eyeInt_noNA %in% 1:2)) {
-        message("Eyes coded 1:2. Interpreting r = 1")
-        recode_lookup <- c("1" = to[1], "2" = to[2])
-        x <- unname(recode_lookup[as.character(x)])
-        return(x)
-      }
-    }
-  } else if (eyeChar) {
-    if (!all(tolower(unique(x)) %in% c(NA, unname(unlist(eyecodes))))) {
-      warn_recode(x)
-      if (!dropunknown) {
-        warn_recode(x)
-        return(x)
-      } else {
-        x[!x %in% unique(unname(unlist(eyecodes)))] <- NA
-        warn_NA(x, eyecodes)
-      }
+    } else if (all(eyeInt_noNA %in% 1:2)) {
+      message("Eyes coded 1:2. Interpreting r = 1")
+      recode_lookup <- c("1" = to_r, "2" = to_l)
+      x <- unname(recode_lookup[as.character(x)])
+      return(x)
     }
   }
 
@@ -164,18 +116,17 @@ recodeye <- function(x, to = NULL,
 #' @name warnings
 #' @keywords internal
 warn_recode <- function(x){
-  warning(paste("Unclear eye coding! Your values:",
+  warning(paste("NOT RECODED - unclear eye coding! Your values:",
                 paste(unique(x), collapse = ", "),
                 "\nCheck ?recodeye how to specify coding."),
           call. = FALSE)
-}
+  }
 
 #' @rdname warnings
 #' @keywords internal
-warn_NA <- function(x, eyecodes){
-  warning(paste("Introduced NA for unclear values:",
+messageNA <- function(x, eyecodes){
+  message(paste("Introduced NA for unclear values:",
                 paste(unique(x[!x %in% c(NA_character_, unique(unname(unlist(eyecodes))))]),
-                      collapse = ", ")),
-          call. = FALSE)
-}
+                      collapse = ", ")))
+  }
 

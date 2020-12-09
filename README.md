@@ -25,9 +25,11 @@ research.
 
 ## Installation
 
-You can install eye from [CRAN](https://CRAN.R-project.org) using
-`install.packages("eye")` or you can install the development version
-from github with devtools:
+You can install eye from
+[CRAN](https://cran.r-project.org/web/packages/eye/index.html) using
+`install.packages("eye")`
+
+Or you can install the development version from github:
 
     # install.packages("devtools")
     devtools::install_github("tjebo/eye")
@@ -123,32 +125,32 @@ x <- c("r", "re", "od", "right", "l", "le", "os", "left")
 recodeye(x)
 #> [1] "r" "r" "r" "r" "l" "l" "l" "l"
 
+## or with "both eyes"
+x <- c(x, "both", "ou")
+recodeye(x)
+#>  [1] "r" "r" "r" "r" "l" "l" "l" "l" "b" "b"
+
+## chose the resulting codes
+recodeye(x, to = c("od", "os", "ou"))
+#>  [1] "od" "od" "od" "od" "os" "os" "os" "os" "ou" "ou"
+
 ## Numeric codes 0:1/ 1:2 are recognized 
 x <- 1:2
 recodeye(x)
 #> Eyes coded 1:2. Interpreting r = 1
 #> [1] "r" "l"
 
-## chose the resulting codes
-recodeye(x, to = c("right", "left"))
-#> Eyes coded 1:2. Interpreting r = 1
-#> [1] "right" "left"
-
-## or, if right is coded with 2)
-recodeye(x, numcode = 2:1)
-#> Eyes coded 2:1 with r = 2
-#> [1] "l" "r"
-
 ## with weird missing values
 x <- c(1:2, ".", NA, "", "    ")
 recodeye(x)
+#> Missing values and/or meaningless strings contained
 #> Eyes coded 1:2. Interpreting r = 1
 #> [1] "r" "l" NA  NA  NA  NA
 
 ## Or if you have weird codes for eyes
 x <- c("alright", "righton", "lefty","leftover")
 
-recodeye(x, eyecodes = list(c("alright","righton"), c("lefty","leftover")))
+recodeye(x, eyecodes = list(r = c("alright","righton"), l = c("lefty","leftover")))
 #> [1] "r" "r" "l" "l"
 ```
 
@@ -265,6 +267,8 @@ codes**](#names-and-codes)
 
 ``` r
 blink(wide_df)
+#> The lifecycle of blink() has expired. It will no longer be
+#>   maintained, but will be kept in the package.
 #> va_preop: from etdrs
 #> va_postop: from etdrs
 #> 
@@ -371,7 +375,7 @@ dob <- c("1984-10-16", "2000-01-01")
 
 ## If no second date given, the age today
 getage(dob)
-#> [1] 36.1 20.9
+#> [1] 36.2 20.9
 getage(dob, "2000-01-01")                                                    
 #> [1] 15.2  0.0
 ```

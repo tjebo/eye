@@ -32,9 +32,9 @@ See more with *eye*
 - Calculating age of patients
   
 ## Installation
+You can install eye from [CRAN](https://cran.r-project.org/web/packages/eye/index.html) using `install.packages("eye")` 
 
-You can install eye from [CRAN](https://CRAN.R-project.org) using `install.packages("eye")` or you can install the development version from github with devtools:
-
+Or you can install the development version from github:
 ```
 # install.packages("devtools")
 devtools::install_github("tjebo/eye")
@@ -102,15 +102,16 @@ Makes recoding eye variables very easy. It deals with weird missing entries like
 x <- c("r", "re", "od", "right", "l", "le", "os", "left")
 recodeye(x)
 
-## Numeric codes 0:1/ 1:2 are recognized 
-x <- 1:2
+## or with "both eyes"
+x <- c(x, "both", "ou")
 recodeye(x)
 
 ## chose the resulting codes
-recodeye(x, to = c("right", "left"))
+recodeye(x, to = c("od", "os", "ou"))
 
-## or, if right is coded with 2)
-recodeye(x, numcode = 2:1)
+## Numeric codes 0:1/ 1:2 are recognized 
+x <- 1:2
+recodeye(x)
 
 ## with weird missing values
 x <- c(1:2, ".", NA, "", "    ")
@@ -119,7 +120,7 @@ recodeye(x)
 ## Or if you have weird codes for eyes
 x <- c("alright", "righton", "lefty","leftover")
 
-recodeye(x, eyecodes = list(c("alright","righton"), c("lefty","leftover")))
+recodeye(x, eyecodes = list(r = c("alright","righton"), l = c("lefty","leftover")))
 ```
 
 ### myop - Make your data long {#myop}
