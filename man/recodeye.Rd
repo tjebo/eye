@@ -61,9 +61,6 @@ recodeye(x, to = c("od", "os", "ou"))
 
 x <- 1:2
 recodeye(x)
-## or, if right is coded with 2)
-recodeye(x, numcode = 2:1)
-
 }
 \seealso{
 Other string matching functions: 

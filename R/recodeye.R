@@ -38,9 +38,6 @@
 #'
 #' x <- 1:2
 #' recodeye(x)
-#' ## or, if right is coded with 2)
-#' recodeye(x, numcode = 2:1)
-#'
 #' @export
 recodeye <- function(x, to = NULL,
                      eyecodes = NULL,
