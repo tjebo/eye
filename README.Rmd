@@ -39,9 +39,9 @@ Or you can install the development version from github:
 # install.packages("devtools")
 devtools::install_github("tjebo/eye")
 ```
+Installing eye will also install [eyedata](https://github.com/tjebo/eyedata/), a package collating open source ophthalmic data sets.
 
-## Features 
-### Only eye
+## eye Features 
 - va: [Conversion of visual acuity notations](#va) 
 - eyes: [Easy count of patients and eyes](#eyes)
 - eyestr: [return eye count as text for your report](#eyestr)
@@ -50,8 +50,6 @@ devtools::install_github("tjebo/eye")
 - hyperop: [Make your eye data wide](#hyperop)
 - blink: [Perceive your data in a blink of an eye](#blink)
 - Visual acuity [conversion chart](#va-conversion)
-
-### Beyond eyes
 - reveal: [Get common summary statistics](#reveal)
 - age: [Calculate age](#getage)
                           
@@ -123,6 +121,26 @@ x <- c("alright", "righton", "lefty","leftover")
 recodeye(x, eyecodes = list(r = c("alright","righton"), l = c("lefty","leftover")))
 ```
 
+### reveal
+Show common statistics for all numeric columns, for the entire cohort or aggregated by group(s):
+```{r stats, warning=FALSE, message=FALSE}
+reveal(iris)
+
+reveal(iris, by = "Species") #can be several groups
+```
+
+### getage
+- Calculate age in years, as [periods or durations](https://lubridate.tidyverse.org/articles/lubridate.html#time-intervals)
+                                                                
+```{r age, warning=FALSE, message=FALSE}
+dob <- c("1984-10-16", "2000-01-01")
+
+## If no second date given, the age today
+getage(dob)
+getage(dob, "2000-01-01")                                                    
+```
+
+
 ### myop - Make your data long {#myop}
 Often enough, there are right eye / left eye columns for more than one variable, e.g., for both IOP and VA. This may be a necessary data formal for specific questions. However, "eye" is also variable (a dimension of your observation), and it can also be stored in a separate column. The data would be "longer". 
 
@@ -185,27 +203,6 @@ See your data in a blink of an eye - wrapper around [`myop`](#myop), [`eyes`](#e
 
 ```{r}
 blink(wide_df)
-```
-
-### reveal
-Show common statistics for all numeric columns, for the entire cohort or aggregated by group(s):
-```{r stats, warning=FALSE, message=FALSE}
-reveal(myop_df)
-
-reveal(myop_df, by = "eye")
-
-reveal(myop_df, by = c("eye", "surgery"))
-```
-
-### getage
-- Calculate age in years, as [periods or durations](https://lubridate.tidyverse.org/articles/lubridate.html#time-intervals)
-                                                                
-```{r age, warning=FALSE, message=FALSE}
-dob <- c("1984-10-16", "2000-01-01")
-
-## If no second date given, the age today
-getage(dob)
-getage(dob, "2000-01-01")                                                    
 ```
 
 ## Names and codes

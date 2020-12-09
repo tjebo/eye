@@ -34,9 +34,11 @@ Or you can install the development version from github:
     # install.packages("devtools")
     devtools::install_github("tjebo/eye")
 
-## Features
+Installing eye will also install
+[eyedata](https://github.com/tjebo/eyedata/), a package collating open
+source ophthalmic data sets.
 
-### Only eye
+## eye Features
 
   - va: [Conversion of visual acuity notations](#va)
   - eyes: [Easy count of patients and eyes](#eyes)
@@ -46,9 +48,6 @@ Or you can install the development version from github:
   - hyperop: [Make your eye data wide](#hyperop)
   - blink: [Perceive your data in a blink of an eye](#blink)
   - Visual acuity [conversion chart](#va-conversion)
-
-### Beyond eyes
-
   - reveal: [Get common summary statistics](#reveal)
   - age: [Calculate age](#getage)
 
@@ -152,6 +151,53 @@ x <- c("alright", "righton", "lefty","leftover")
 
 recodeye(x, eyecodes = list(r = c("alright","righton"), l = c("lefty","leftover")))
 #> [1] "r" "r" "l" "l"
+```
+
+### reveal
+
+Show common statistics for all numeric columns, for the entire cohort or
+aggregated by group(s):
+
+``` r
+reveal(iris)
+#>            var mean  sd   n min max
+#> 1 Sepal.Length  5.8 0.8 150 4.3 7.9
+#> 2  Sepal.Width  3.1 0.4 150 2.0 4.4
+#> 3 Petal.Length  3.8 1.8 150 1.0 6.9
+#> 4  Petal.Width  1.2 0.8 150 0.1 2.5
+#> 5      Species  2.0 0.8 150 1.0 3.0
+
+reveal(iris, by = "Species") #can be several groups
+#>       Species          var mean  sd  n min max
+#> 1      setosa Sepal.Length  5.0 0.4 50 4.3 5.8
+#> 2      setosa  Sepal.Width  3.4 0.4 50 2.3 4.4
+#> 3      setosa Petal.Length  1.5 0.2 50 1.0 1.9
+#> 4      setosa  Petal.Width  0.2 0.1 50 0.1 0.6
+#> 5  versicolor Sepal.Length  5.9 0.5 50 4.9 7.0
+#> 6  versicolor  Sepal.Width  2.8 0.3 50 2.0 3.4
+#> 7  versicolor Petal.Length  4.3 0.5 50 3.0 5.1
+#> 8  versicolor  Petal.Width  1.3 0.2 50 1.0 1.8
+#> 9   virginica Sepal.Length  6.6 0.6 50 4.9 7.9
+#> 10  virginica  Sepal.Width  3.0 0.3 50 2.2 3.8
+#> 11  virginica Petal.Length  5.6 0.6 50 4.5 6.9
+#> 12  virginica  Petal.Width  2.0 0.3 50 1.4 2.5
+```
+
+### getage
+
+  - Calculate age in years, as [periods or
+    durations](https://lubridate.tidyverse.org/articles/lubridate.html#time-intervals)
+
+<!-- end list -->
+
+``` r
+dob <- c("1984-10-16", "2000-01-01")
+
+## If no second date given, the age today
+getage(dob)
+#> [1] 36.2 20.9
+getage(dob, "2000-01-01")                                                    
+#> [1] 15.2  0.0
 ```
 
 ### myop - Make your data long
@@ -317,67 +363,6 @@ blink(wide_df)
 #> 2   l iop_postop 12.5 1.3 4  11  14
 #> 3   r  iop_preop 22.5 1.3 4  21  24
 #> 4   r iop_postop 12.5 1.3 4  11  14
-```
-
-### reveal
-
-Show common statistics for all numeric columns, for the entire cohort or
-aggregated by group(s):
-
-``` r
-reveal(myop_df)
-#>          var mean  sd n min max
-#> 1  iop_preop 27.5 5.5 8  21  34
-#> 2 iop_postop 12.5 1.2 8  11  14
-#> 3   va_preop 42.5 1.2 8  41  44
-#> 4  va_postop 46.5 1.2 8  45  48
-
-reveal(myop_df, by = "eye")
-#>   eye        var mean  sd n min max
-#> 1   l  iop_preop 32.5 1.3 4  31  34
-#> 2   l iop_postop 12.5 1.3 4  11  14
-#> 3   l   va_preop 42.5 1.3 4  41  44
-#> 4   l  va_postop 46.5 1.3 4  45  48
-#> 5   r  iop_preop 22.5 1.3 4  21  24
-#> 6   r iop_postop 12.5 1.3 4  11  14
-#> 7   r   va_preop 42.5 1.3 4  41  44
-#> 8   r  va_postop 46.5 1.3 4  45  48
-
-reveal(myop_df, by = c("eye", "surgery"))
-#>    eye surgery        var mean  sd n min max
-#> 1    l     SLT  iop_preop 34.0  NA 1  34  34
-#> 2    l     SLT iop_postop 14.0  NA 1  14  14
-#> 3    l     SLT   va_preop 44.0  NA 1  44  44
-#> 4    l     SLT  va_postop 48.0  NA 1  48  48
-#> 5    r     SLT  iop_preop 23.5 0.7 2  23  24
-#> 6    r     SLT iop_postop 13.5 0.7 2  13  14
-#> 7    r     SLT   va_preop 43.5 0.7 2  43  44
-#> 8    r     SLT  va_postop 47.5 0.7 2  47  48
-#> 9    l      TE  iop_preop 32.0 1.0 3  31  33
-#> 10   l      TE iop_postop 12.0 1.0 3  11  13
-#> 11   l      TE   va_preop 42.0 1.0 3  41  43
-#> 12   l      TE  va_postop 46.0 1.0 3  45  47
-#> 13   r      TE  iop_preop 21.5 0.7 2  21  22
-#> 14   r      TE iop_postop 11.5 0.7 2  11  12
-#> 15   r      TE   va_preop 41.5 0.7 2  41  42
-#> 16   r      TE  va_postop 45.5 0.7 2  45  46
-```
-
-### getage
-
-  - Calculate age in years, as [periods or
-    durations](https://lubridate.tidyverse.org/articles/lubridate.html#time-intervals)
-
-<!-- end list -->
-
-``` r
-dob <- c("1984-10-16", "2000-01-01")
-
-## If no second date given, the age today
-getage(dob)
-#> [1] 36.2 20.9
-getage(dob, "2000-01-01")                                                    
-#> [1] 15.2  0.0
 ```
 
 ## Names and codes
