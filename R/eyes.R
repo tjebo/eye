@@ -91,11 +91,8 @@ eyes <- function(x, id = NULL, eye = NULL,
     if(length(recode_eye$messages)>0){
         message(gsub("\\\n", "", recode_eye$messages))
     }
+    # return(recode_eye$result)
     x[[eye]] <- recode_eye$result
-
-    if (sum(is.na(x[[eye]]) > 0)) {
-      message("Not all eyes are identified (contains NA)")
-    }
     res <- count_eyes(x = x, pat_col = pat_col, eye = eye)
   }
   if (report) {
@@ -118,23 +115,24 @@ eyes <- function(x, id = NULL, eye = NULL,
 count_eyes <- function(x, pat_col, eye) {
   n_pat <- length(unique(x[[pat_col]]))
 
+  rl <- c("r", "l")
+  x[[eye]] <- factor(x[[eye]], levels = union(c("b", rl), unique(x[[eye]])))
   eye_tab <- table(unique(x[, c(pat_col, eye)]))
-  if(any(grepl("b", colnames(eye_tab)))){
-    if(any(grepl("r", colnames(eye_tab)))){
-      eye_tab[, "r"][eye_tab[, "b"] == 1] <- 0
-    }
-    if(any(grepl("l", colnames(eye_tab)))){
-      eye_tab[, "l"][eye_tab[, "b"] == 1] <- 0
-    }
-  }
-  n_b <- unname(colSums(eye_tab[, colnames(eye_tab) == "b", drop = FALSE]))
-  n_r <- sum(unname(colSums(eye_tab[, colnames(eye_tab) == "r", drop = FALSE])), n_b)
-  n_l <- sum(unname(colSums(eye_tab[, colnames(eye_tab) == "l", drop = FALSE])), n_b)
-  n_eyes <- n_r + n_l
-  res <- c(patients = n_pat, eyes = n_eyes, right = n_r, left = n_l)
-  res
-}
 
+  if(any(grepl("b", colnames(eye_tab)))){
+      if(any(grepl(paste(rl, collapse="|"), colnames(eye_tab)))){
+        eye_tab[, rl][eye_tab[, "b"] == 1] <- 0
+      }
+    }
+
+  out <- colSums(eye_tab)
+  outfinal <- out[rl] + out["b"]
+  n_eyes <- sum(outfinal)
+  nr <- unname(outfinal["r"])
+  nl <- unname(outfinal["l"])
+
+  return(c(patients = n_pat, eyes = n_eyes, right = nr, left = nl))
+}
 #' Eye count to string
 #' @rdname eyes
 #' @description `eyestr`: identical to `eyes(x, report = TRUE, ...)`

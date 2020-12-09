@@ -30,6 +30,15 @@ foo19 <- data.frame(id, eyes = c(1,3))
 foo20 <- data.frame(id , eyes = c("e", "f"))
 foo21 <- data.frame(id , eyes = c("r", "f"))
 
+# sample data
+id <- letters[sample(11, replace = TRUE)]
+foo31 <- data.frame(id, eye = sample(c("r", "l", "b"), 11, replace = TRUE))
+foo32 <- data.frame(id, eye = "r")
+foo33 <- foo2
+foo33$eye[1:5] <- NA
+foo34 <- data.frame(id, eye = "b")
+
+
 test_that("messages",{
   expect_message(eyes(foo1), regexp = "Not all eyes are identified \\(contains NA\\)")
   # expect_message(eyes(foo6), "Eye coding somewhat messy")
@@ -49,37 +58,32 @@ test_that("No warning",{
   expect_warning(eyes(foo11), regexp = NA)
 })
 
-test_that("warning",{
-  expect_warning(eyes(foo13), "Unclear eye coding!")
-  expect_warning(eyes(foo0), "Unclear eye coding!")
-  expect_warning(eyes(foo3), "Unclear eye coding!")
+test_that("warning/warning",{
+  expect_message(eyes(foo0), "Unclear eye coding!")
+  expect_message(eyes(foo3), "Unclear eye coding!")
   expect_warning(eyes(foo7), "Did not find")
-  expect_warning(eyes(foo9), "Which is the eye column? Use argument \"eye\"", fixed = TRUE)
-  expect_warning(eyes(foo12), "Unclear eye coding!")
-  expect_warning(eyes(foo15), "Unclear eye coding!")
+  expect_warning(eyes(foo9), "Please define eye column", fixed = TRUE)
   expect_warning(eyes(foo18), "Did not find")
-  expect_warning(eyes(foo19), "Unclear eye coding!")
-  expect_warning(eyes(foo20), "Unclear eye coding!")
-  expect_warning(eyes(foo21), "Unclear eye coding!")
-  expect_warning(eyes(foo16), "Unclear eye coding!")
-  expect_warning(eyes(foo14), "Unclear eye coding! ")
+  expect_message(eyes(foo19), "Unclear eye coding!")
+  expect_message(eyes(foo20), "Unclear eye coding!")
+  expect_message(eyes(foo21), "Unclear eye coding!")
+  expect_message(eyes(foo14), "Introduced NA for unclear values")
+  expect_message(eyes(foo0), "Unclear eye coding!")
+  expect_message(eyes(foo3), "Unclear eye coding!")
+  expect_message(eyes(foo19), "Unclear eye coding!")
+  expect_message(eyes(foo20), "Unclear eye coding!")
+  expect_message(eyes(foo21), "Unclear eye coding!")
+  expect_message(eyes(foo16), "Introduced NA for unclear values")
+  expect_message(eyes(foo13), "Introduced NA for unclear values")
+  expect_message(eyes(foo12), "Introduced NA for unclear values")
+  expect_message(eyes(foo15), "Introduced NA for unclear values")
 })
 
 
 test_that("NULL", {
-expect_null(eyes(foo13))
-expect_null(eyes(foo0))
-expect_null(eyes(foo3))
 expect_null(eyes(foo7))
 expect_null(eyes(foo9))
-expect_null(eyes(foo12))
-expect_null(eyes(foo15))
 expect_null(eyes(foo18))
-expect_null(eyes(foo19))
-expect_null(eyes(foo20))
-expect_null(eyes(foo21))
-expect_null(eyes(foo16))
-expect_null(eyes(foo14))
 }
 )
 

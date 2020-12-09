@@ -41,66 +41,54 @@ recodeye <- function(x, to = NULL,
                      eyecodes = NULL,
                      numcode = NULL,
                      dropunknown = TRUE) {
-
-  warn_recode <- function(){
-    warning(paste("Unclear eye coding! Your values:",
-                paste(unique(x), collapse = ", "),
-                "\nCheck ?recodeye how to specify coding."),
-          call. = FALSE)
+  if(!is.atomic(x)) {
+    stop("x needs to be atomic", call. = FALSE)
   }
-
-  if(is.null(to)){
+  if (is.null(to)) {
     to <- c(r = "r", l = "l", b = "b")
   } else {
-    if(is.null(names(to))){
+    if (is.null(names(to))) {
       names(to) <- c("r", "l", "b")[1:length(to)]
     }
   }
 
-  if(!is.null(eyecodes)){
+  if (!is.null(eyecodes)) {
     if (!inherits(eyecodes, "list")) {
       stop("eyecodes needs to be list", call. = FALSE)
     }
-    if(is.null(names(eyecodes))){
+    if (is.null(names(eyecodes))) {
       names(eyecodes) <- c("r", "l", "b")[1:length(eyecodes)]
     }
-
   } else {
     eyecodes <- list(
       r = c("r", "re", "od", "right"),
       l = c("l", "le", "os", "left"),
-      b = c("b","both","ou")
+      b = c("b", "both", "ou")
     )
   }
 
-  if(length(eyecodes) > length(to)){
+  if (length(eyecodes) > length(to)) {
     eyecodes <- eyecodes[1:length(to)]
-  } else if (length(eyecodes) < length(to)){
+  } else if (length(eyecodes) < length(to)) {
     to <- to[1:length(eyecodes)]
   }
 
   names(eyecodes) <- to[match(names(eyecodes), names(to))]
 
   x[isNAstring(x)] <- NA
-
-  if(dropunknown & sum(!x %in% unique(unname(unlist(eyecodes)))) > 0){
-    warning(paste("Introduced NA for unclear values:",
-                  paste(unique(x[!x %in% unique(unname(unlist(eyecodes)))]),
-                        collapse = ", ")),
-            call. = FALSE)
-    x[!x %in% unique(unname(unlist(eyecodes)))] <- NA
+  if (sum(is.na(x) > 0)) {
+    message("Not all eyes are identified (contains NA)")
   }
-
   eyeInt <- suppressWarnings(unique(as.integer(x[!is.na(x)])))
   eyeInt_noNA <- eyeInt[!is.na(eyeInt)]
   eyeChar <- as.logical(sum(is.na(eyeInt)))
 
-  if (!is.null(numcode)) {
+  if (!(is.null(numcode) | eyeChar)) {
     if (length(numcode) != 2) {
-      stop("numcode needs to be numerics only", call. = FALSE)
+      stop("numcode needs to be two numerics only", call. = FALSE)
     }
     if (!all(eyeInt_noNA %in% numcode)) {
-      warn_recode()
+      warn_recode(x)
       return(x)
     } else {
       message(paste0(
@@ -111,18 +99,32 @@ recodeye <- function(x, to = NULL,
       x[x == numcode[2]] <- to[2]
       return(x)
     }
-  }
-
-  if (eyeChar & length(eyeInt_noNA > 0)) {
-    warn_recode()
-    return(x)
-  }
-  if (length(eyeInt_noNA) > 2 | length(eyeInt_noNA) == 1) {
-    warn_recode()
+  } else if (eyeChar) {
+    if (length(eyeInt_noNA > 0)) {
+      if (!dropunknown) {
+        warn_recode(x)
+        return(x)
+      } else {
+        warn_NA(x, eyecodes)
+        x[!(x %in% unique(unname(unlist(eyecodes))))] <- NA_character_
+        return(x)
+      }
+    } else if (!all(tolower(unique(x)) %in% c(NA, unname(unlist(eyecodes))))) {
+      warn_recode(x)
+      if (!dropunknown) {
+        warn_recode(x)
+        return(x)
+      } else {
+        x[!x %in% unique(unname(unlist(eyecodes)))] <- NA
+        warn_NA(x, eyecodes)
+      }
+    }
+  } else if (length(eyeInt_noNA) > 2 | length(eyeInt_noNA) == 1) {
+    warn_recode(x)
     return(x)
   } else if (length(eyeInt_noNA) == 2) {
     if (!(all(eyeInt_noNA %in% 0:1) | all(eyeInt_noNA %in% 1:2))) {
-      warn_recode()
+      warn_recode(x)
       return(x)
     } else {
       if (all(eyeInt_noNA %in% 0:1)) {
@@ -139,15 +141,41 @@ recodeye <- function(x, to = NULL,
     }
   } else if (eyeChar) {
     if (!all(tolower(unique(x)) %in% c(NA, unname(unlist(eyecodes))))) {
-      warn_recode()
-      return(x)
+      warn_recode(x)
+      if (!dropunknown) {
+        warn_recode(x)
+        return(x)
+      } else {
+        x[!x %in% unique(unname(unlist(eyecodes)))] <- NA
+        warn_NA(x, eyecodes)
+      }
     }
-    lookups <- data.frame(
-      match = rep(names(eyecodes), lengths(eyecodes)),
-      token = unlist(eyecodes)
-    )
-    match_lookups <- lookups$match[match(tolower(x), lookups$token)]
-    match_lookups
   }
+
+  lookups <- data.frame(
+    match = rep(names(eyecodes), lengths(eyecodes)),
+    token = unlist(eyecodes)
+  )
+  match_lookups <- lookups$match[match(tolower(x), lookups$token)]
+  match_lookups
+}
+
+#' recode warnings
+#' @name warnings
+#' @keywords internal
+warn_recode <- function(x){
+  warning(paste("Unclear eye coding! Your values:",
+                paste(unique(x), collapse = ", "),
+                "\nCheck ?recodeye how to specify coding."),
+          call. = FALSE)
+}
+
+#' @rdname warnings
+#' @keywords internal
+warn_NA <- function(x, eyecodes){
+  warning(paste("Introduced NA for unclear values:",
+                paste(unique(x[!x %in% c(NA_character_, unique(unname(unlist(eyecodes))))]),
+                      collapse = ", ")),
+          call. = FALSE)
 }
 
