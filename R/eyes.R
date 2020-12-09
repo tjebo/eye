@@ -94,8 +94,8 @@ eyes <- function(x, id = NULL, eye = NULL, dropunknown = TRUE) {
     if (length(recode_eye$messages) > 0) {
       message(gsub("\\\n", "", recode_eye$messages))
     }
-    if(any(unique(recode_eye$result)) == "b"){
-      message("rows found with information for both eyes. Is that correct?")
+    if(any(unique(recode_eye$result) %in% "b")){
+      message("Some rows contain information for both eyes. Correct?")
     }
     x[[eye]] <- recode_eye$result
     res <- count_eyes(x = x, pat_col = pat_col, eye = eye)

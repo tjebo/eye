@@ -40,12 +40,13 @@ foo34 <- data.frame(id, eye = "b")
 
 
 test_that("messages",{
-  expect_message(eyes(foo1), regexp = "Not all eyes are identified \\(contains NA\\)")
+  expect_message(eyes(foo1), regexp = "Missing values and")
   # expect_message(eyes(foo6), "Eye coding somewhat messy")
   # expect_message(eyes(foo8), "Eye coding somewhat messy")
   expect_message(eyes(foo10), "Eyes coded 0:1")
   expect_message(eyes(foo11), regexp = "Eyes coded 1:2")
   expect_message(eyes(foo17), regexp = "No eye column found")
+  expect_message(eyes(foo34), regexp = "Some rows")
   })
 
 test_that("No warning",{
@@ -59,20 +60,17 @@ test_that("No warning",{
 })
 
 test_that("warning/warning",{
-  expect_message(eyes(foo0), "Unclear eye coding!")
-  expect_message(eyes(foo3), "Unclear eye coding!")
+  expect_message(eyes(foo0), "NOT RECODED")
+  expect_message(eyes(foo3), "Introduced NA for unclear values")
   expect_warning(eyes(foo7), "Did not find")
   expect_warning(eyes(foo9), "Please define eye column", fixed = TRUE)
   expect_warning(eyes(foo18), "Did not find")
-  expect_message(eyes(foo19), "Unclear eye coding!")
-  expect_message(eyes(foo20), "Unclear eye coding!")
-  expect_message(eyes(foo21), "Unclear eye coding!")
+  expect_message(eyes(foo19), "NOT RECODED")
   expect_message(eyes(foo14), "Introduced NA for unclear values")
-  expect_message(eyes(foo0), "Unclear eye coding!")
-  expect_message(eyes(foo3), "Unclear eye coding!")
-  expect_message(eyes(foo19), "Unclear eye coding!")
-  expect_message(eyes(foo20), "Unclear eye coding!")
-  expect_message(eyes(foo21), "Unclear eye coding!")
+  expect_message(eyes(foo0), "NOT RECODED")
+  expect_message(eyes(foo19), "NOT RECODED")
+  expect_message(eyes(foo20), "Introduced NA for unclear values")
+  expect_message(eyes(foo21), "Introduced NA for unclear values")
   expect_message(eyes(foo16), "Introduced NA for unclear values")
   expect_message(eyes(foo13), "Introduced NA for unclear values")
   expect_message(eyes(foo12), "Introduced NA for unclear values")
@@ -81,12 +79,13 @@ test_that("warning/warning",{
 
 
 test_that("NULL", {
-expect_null(eyes(foo7))
-expect_null(eyes(foo9))
-expect_null(eyes(foo18))
+expect_null(suppressWarnings(eyes(foo7)))
+expect_null(suppressWarnings(eyes(foo9)))
+expect_null(suppressWarnings(eyes(foo18)))
 }
 )
 
 test_that("return", {
   expect_true(length(eyestr(iop_wide)) == 1)
+  expect_true(length(suppressWarnings(eyes(foo3, dropunknown = FALSE))) == 1)
 })

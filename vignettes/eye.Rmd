@@ -182,9 +182,6 @@ recodeye(x)
 
 ## chose the resulting codes
 recodeye(x, to = c("right", "left"))
-
-## or, if right is coded with 2)
-recodeye(x, numcode = 2:1)
 ```               
 
 ## Counting patients and eyes {#eyes}
@@ -239,19 +236,19 @@ The beauty of this report is of course that the numbers will always update with 
 
 ### Examples
 ```{r eyestr}
-eyes(amd)
+eyes(amd2)
 
 ## or as text for a report
-eyestr(amd)
+eyestr(amd2)
 
 ## Complying with journal standards when at beginning of paragraph
-eyestr(amd, para = TRUE)
+eyestr(amd2, para = TRUE)
  
 ## Numbers smaller than or equal to 12 will be real English
-eyestr(head(amd, 100))
+eyestr(head(amd2, 100))
 
 ## But you can turn this off
-eyestr(head(amd, 100), small_num = FALSE)
+eyestr(head(amd2, 100), small_num = FALSE)
 ```
 
 ## Reshape eye data 
