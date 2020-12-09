@@ -28,8 +28,14 @@
 #' @examples
 #' x <- c("r", "re", "od", "right", "l", "le", "os", "left")
 #' recodeye(x)
+#'
+#' ## or with "both eyes"
+#' x <- c(x, "both", "ou")
+#' recodeye(x)
+#'
 #' ## chose the resulting codes
-#' recodeye(x, to = c("right", "left"))
+#' recodeye(x, to = c("od", "os", "ou"))
+#'
 #' x <- 1:2
 #' recodeye(x)
 #' ## or, if right is coded with 2)

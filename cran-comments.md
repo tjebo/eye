@@ -14,6 +14,10 @@ In the opinion of the package maintainer the changes were substantial enough to 
     * fix issue #17 `eyes()` now also deals with "both eye cases"
     * fix issue #18 (now also finding eye columns with funny names, e.g. EyeName)
     * fix issue #19 (now returns meaningful result on empty data frames)
+    * removed "report" argument 
+* `eyestr()`:
+    * moved eyes_to_str step from eyes() to eyestr()
+  
 * `age()` 
     rename to getage() in order to avoid potential and even likely clashes with the         users environment, especially when using age() within the local environment of a        data frame (e.g., using with())
 * `blink()` 

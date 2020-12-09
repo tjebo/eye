@@ -5,9 +5,9 @@
 \alias{eyestr}
 \title{Count patients and eyes}
 \usage{
-eyes(x, id = NULL, eye = NULL, report = FALSE, dropunknown = TRUE, ...)
+eyes(x, id = NULL, eye = NULL, dropunknown = TRUE)
 
-eyestr(x, id = NULL, eye = NULL, small_num = TRUE, para = FALSE, UK = FALSE)
+eyestr(x, ..., small_num = TRUE, para = FALSE, UK = FALSE)
 }
 \arguments{
 \item{x}{required. (data frame)}
@@ -16,11 +16,9 @@ eyestr(x, id = NULL, eye = NULL, small_num = TRUE, para = FALSE, UK = FALSE)
 
 \item{eye}{Eye identifying column, can be quoted or unquoted}
 
-\item{report}{if TRUE, text returned for report}
+\item{dropunknown}{introduces NA for values not recognized by \link{recodeye}}
 
-\item{dropunknown}{passed to \link{recodeye}}
-
-\item{...}{passed to \link{eyes_to_string}}
+\item{...}{passed to \link{eyes}}
 
 \item{small_num}{If TRUE: writing numbers <= 12 as words}
 
@@ -36,12 +34,8 @@ USA (American) style (FALSE).}
 \code{eyestr}: Character string - can be directly pasted into reports
 }
 \description{
-Counts number of patients and eyes (right and left).
-
-\code{eyestr}: identical to \code{eyes(x, report = TRUE, ...)}
-}
-\details{
-\code{eyes} guesses columns that identify patients and eyes.
+Counts number of patients and right and left eyes. Columns are
+guessed.
 }
 \section{Guessing}{
 
@@ -70,19 +64,24 @@ and if they are not present, columns containing string "eye"
 
 \section{Eye coding}{
 
+The following codes are recognized:
 \itemize{
-\item \code{eyes} recognizes integer coding 0:1 and 1:2, with right being
-the lower number. For strings coding it recognizes
-right eyes: c("r", "re", "od", "right") and
-left eyes: c("l", "le", "os", "left")
-}
+\item integer coding 0:1 and 1:2, right eye being the lower number.
+\item right eyes: c("r", "re", "od", "right") and
+\item left eyes: c("l", "le", "os", "left") and
+\item both eyes: c("b", "both", "ou")
 }
 
-\section{Report}{
+If your eye column contains other values, they will be dropped to
+NA (dropunknown) or kept (and then only patients will be counted, because
+coding remains unclear). Recommend then to recode with \link{recodeye}
+}
 
-Using \link{eyes_to_string} to parse the output of \code{eyes} into
-a text which you can use for reports. Arguments to \code{eyes_to_string}
-are passed via \strong{...}:
+\section{eyestr}{
+
+eyestr is a wrapper around eyes. It parses the result into meaningful text,
+which can be #'  readily pasted into reports with \link{eyes_to_string} under the hood.
+Arguments to \code{eyes_to_string} are passed via \strong{...}:
 \itemize{
 \item \strong{small_num} If TRUE (default): numbers <= 12 as words
 \item \strong{para} If TRUE (not default): Adding "A total of" to
@@ -97,6 +96,6 @@ US style (American).
 library(eyedata)
 eyes(amd2)
 library(eyedata)
-eyestr(amd, para = TRUE)
+eyestr(amd2, para = TRUE)
 }
 \concept{eye core functions}
