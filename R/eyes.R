@@ -3,15 +3,15 @@
 #' @description Counts number of patients and right and left eyes. Columns are
 #'     guessed.
 #' @param x required. (data frame)
-#' @param id Patient identifying column, can be quoted or unquoted
-#' @param eye Eye identifying column, can be quoted or unquoted
+#' @param id Patient identifying column, passed as (quoted) character
+#' @param eye Eye identifying column, passed as (quoted) character
 #' @param dropunknown introduces NA for values not recognized by [recodeye]
 #' @section Guessing:
-#' For any below, **cases are always ignored** (you can write in
-#' upper or lower case, as you please)
-#'
 #' **id** and **eye** arguments overrule the name guessing for
-#' the respective columns.
+#' the respective columns (here, cases need to match)
+#'
+#' For any below, **cases are always ignored** (column names can be in upper or
+#'    lower case, as you please)
 #'
 #' **patient ID columns**:
 #' - First, `eyes` is looking for names that contain both strings
@@ -63,9 +63,8 @@ eyes <- function(x, id = NULL, eye = NULL, dropunknown = TRUE) {
   }
   if (is.null(id)) {
     pat_col <- getElem_id(x)
-  } else {
-    pat_col <- as.character(substitute(id))
   }
+
   if (length(pat_col) != 1) {
     warning("Did not find the ID column - use argument \"id\"",
       call. = FALSE
@@ -74,9 +73,8 @@ eyes <- function(x, id = NULL, eye = NULL, dropunknown = TRUE) {
   }
   if (is.null(eye)) {
     eye <- getElem_eyecol(x)
-  } else {
-    eye <- as.character(substitute(eye))
   }
+
   if (length(eye) > 1) {
     warning("Please define eye column", call. = FALSE)
     return(NULL)

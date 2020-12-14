@@ -12,9 +12,9 @@ eyestr(x, ..., small_num = TRUE, para = FALSE, UK = FALSE)
 \arguments{
 \item{x}{required. (data frame)}
 
-\item{id}{Patient identifying column, can be quoted or unquoted}
+\item{id}{Patient identifying column, passed as (quoted) character}
 
-\item{eye}{Eye identifying column, can be quoted or unquoted}
+\item{eye}{Eye identifying column, passed as (quoted) character}
 
 \item{dropunknown}{introduces NA for values not recognized by \link{recodeye}}
 
@@ -39,11 +39,11 @@ guessed.
 }
 \section{Guessing}{
 
-For any below, \strong{cases are always ignored} (you can write in
-upper or lower case, as you please)
-
 \strong{id} and \strong{eye} arguments overrule the name guessing for
-the respective columns.
+the respective columns (here, cases need to match)
+
+For any below, \strong{cases are always ignored} (column names can be in upper or
+lower case, as you please)
 
 \strong{patient ID columns}:
 \itemize{
