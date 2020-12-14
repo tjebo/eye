@@ -92,6 +92,7 @@ convert_VA returns a vector of three classes:
 
 \seealso{
 Other VA converter: 
+\code{\link{VAclassConversion}},
 \code{\link{snellen_steps}},
 \code{\link{va_dissect}()},
 \code{\link{va}()},

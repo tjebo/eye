@@ -34,6 +34,7 @@ prepared with \link{clean_va}
 }
 \seealso{
 Other VA converter: 
+\code{\link{VAclassConversion}},
 \code{\link{snellen_steps}},
 \code{\link{va_dissect}()},
 \code{\link{va_methods}},
