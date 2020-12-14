@@ -23,6 +23,8 @@ research.
   - Summarizing data with common statistics (mean, sd, n, range)
   - Calculating age of patients
 
+**eye is used for the visual acuity conversion tool http://va-converter.org/ (a shiny app)**
+
 ## Installation
 
 You can install eye from
