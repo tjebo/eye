@@ -4,6 +4,7 @@ In the opinion of the package maintainer the changes were substantial enough to 
 
 ## Changes:
 ### Functions
+* issue #6: introduce new verbs to convert to specific VA class (simple wrapper for `va(x, to = ...)`)
 * `recodeye()`:
     * recognises "both/ou/b" for both eyes. 
     * dropunknown unclear codings are converted to NA by default (with warning)
@@ -17,7 +18,6 @@ In the opinion of the package maintainer the changes were substantial enough to 
     * removed "report" argument 
 * `eyestr()`:
     * moved eyes_to_str step from eyes() to eyestr()
-  
 * `age()` 
     rename to getage() in order to avoid potential and even likely clashes with the         users environment, especially when using age() within the local environment of a        data frame (e.g., using with())
 * `blink()` 
@@ -25,6 +25,8 @@ In the opinion of the package maintainer the changes were substantial enough to 
     maintained, but kept in the package. 
 * `reveal():`
     fix issue #15 (reveal: unused group levels are dropped)
+* `isNAstring` now also converts "-" string to NA
+* new exported function: `tidyNA()` cleans NA entries
 
 ### Documentation
 * Add CITATION file (add inst folder)

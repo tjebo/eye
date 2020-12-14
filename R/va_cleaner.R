@@ -13,8 +13,7 @@
 #' @family VA cleaner
 #' @export
 clean_va <- function(x, quali = c("nlp", "lp", "hm", "cf")) {
-  x <- tolower(x)
-  x[isNAstring(x, tolower = FALSE)] <- NA_character_
+  x <- tolower(tidyNA(x))
   x <- gsub("\\s", "", x)
   x <- convert_NLP(x, tolower = FALSE)
 
@@ -37,17 +36,4 @@ convert_NLP <- function(x, replace_PL = c(pl = "lp", npl = "nlp"),
     }
   new_vec <- replace_PL[x]
   unname(ifelse(is.na(new_vec), x, new_vec))
-}
-
-#' @rdname clean_va
-#' @param full vector of full strings to be replaced by NA
-#' @param tolower if TRUE, x will be converted to lower first
-isNAstring <- function(x, full = c("\\.+", "", "\\s+", "n/a", "na", "null", "^-$"),
-                       tolower = TRUE) {
-  if(tolower){
-    x <- tolower(x)
-  }
-  full <- paste0("^", paste(full, collapse = "$|^"), "$")
-  ismissing <- grepl(full, x)
-  ismissing
 }

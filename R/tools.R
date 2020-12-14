@@ -50,7 +50,6 @@ age <- function() {
           namespace with environments. Please use getage() instead")
 }
 
-
 #' Capitalize words
 #' @name tocapital
 #' @description capitalises single words
@@ -62,3 +61,33 @@ tocapital <- function(x) {
   paste(toupper(substring(x, 1,1)), substring(x, 2),
         sep="", collapse=" ")
 }
+
+#' Tidy NA entries to actual NA values
+#' @name tidyNA
+#' @description Creates tidy NA entries - NA equivalent strings are tidied to
+#'   actual NA values
+#' @param x Vector
+#' @param ... passed to [isNAstring]
+#' @return character vector
+#' @export
+#'
+tidyNA <- function(x, ...){
+  y <- tolower(x)
+  x[isNAstring(y, ...)] <- NA_character_
+  x
+}
+
+#' @rdname tidyNA
+#' @param string vector of full strings to be replaced by NA
+#' @param defaultstrings by default (TRUE), the following strings will be replaced by
+#'   NA values: c("\\.+", "", "\\s+", "n/a", "na", "null", "^-$").
+#' @keywords internal
+isNAstring <- function(x, string = NULL, defaultstrings = TRUE) {
+  if(defaultstrings){
+    full <- c(c("\\.+", "", "\\s+", "n/a", "na", "null", "^-$"), string)
+  }
+  fullpaste <- paste0("^", paste(full, collapse = "$|^"), "$")
+  isNA <- grepl(fullpaste, x)
+  isNA
+}
+
