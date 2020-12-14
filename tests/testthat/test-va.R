@@ -41,7 +41,7 @@ va_vec6 <- c("6/9", "6/6", "6/5", "6/12", "6/7.5", "6/18", "PL", "6/4",
              "6/7")
 va_vec7 <- structure(c(NA, "6/9", "6/6", "6/18", "6/12", "6/5",
              "6/24", "6/36", "6/60", "3/60" ),class = c("snellen",
-                                                      "va", "integer"))
+                                                      "va", "character"))
 va_vec8 <- structure(quali,class = c("quali", "va", "integer"))
 
 
@@ -57,7 +57,6 @@ va_vec8 <- structure(quali,class = c("quali", "va", "integer"))
 # [1] NA  "CF""NA""HM""6/9"  "6/6"  "6/18" "6/12" "6/5"  "6/24" "6/36" "6/60" "3/60"
 # $va_vec5 (length 5)
 # [1] "20/200"  "20/200 + 3" "20/200+3""20/200-4""20/200 -4"
-
 test_that("error", {
   expect_error(va(logmar, to = c("logmar, etdrs")), "\"to\": Pick one of")
 })
@@ -170,7 +169,7 @@ test_that("NA", {
   expect_equal(sum(is.na(eye:::convertVA(va_vec3, to = "etdrs", "ft"))),0) #class etdrs
   expect_equal(sum(is.na(eye:::convertVA(va_vec3, to = "snellen", "ft"))),0) #class etdrs
   expect_equal(sum(is.na(eye:::convertVA(va_vec3, to = "logmar", "ft"))),0) #class etdrs
-  expect_equal(sum(is.na(eye:::convertVA(va_vec7, logmarstep = FALSE, to = "snellen", "dec")))-1,1) #class snellen
+  expect_equal(sum(is.na(eye:::convertVA(va_vec7, logmarstep = FALSE, to = "snellen", "dec"))), 1) #class snellen
   expect_equal(sum(is.na(eye:::convertVA(va_vec7,  logmarstep = FALSE,to = "etdrs", "ft"))),1) #class snellen
   expect_equal(sum(is.na(eye:::convertVA(va_vec7, logmarstep = FALSE, to = "logmar", "ft"))),1) #class snellen
   expect_equal(sum(is.na(eye:::convertVA(va_vec8, to = "snellen", "ft"))),26) #class quali
@@ -183,5 +182,7 @@ test_that("NA", {
   expect_equal(suppressWarnings(sum(is.na(va(mixed_VA2)))), 2)
   }
 )
+
+
 
 

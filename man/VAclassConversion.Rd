@@ -5,7 +5,6 @@
 \alias{to_logmar}
 \alias{to_etdrs}
 \alias{to_snellen}
-\alias{to_quali}
 \title{VA class conversion}
 \usage{
 to_logmar(x, ...)
@@ -13,8 +12,6 @@ to_logmar(x, ...)
 to_etdrs(x, ...)
 
 to_snellen(x, ...)
-
-to_quali(x, ...)
 }
 \arguments{
 \item{x}{vector of visual acuities}

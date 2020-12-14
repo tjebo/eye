@@ -24,8 +24,3 @@ to_snellen <- function(x, ...){
   va(x, to = "snellen", ...)
 }
 
-#' @rdname VAclassConversion
-#' @export
-to_quali <- function(x, ...){
-  va(x, to = "quali", ...)
-}
