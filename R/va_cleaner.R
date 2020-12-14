@@ -42,7 +42,7 @@ convert_NLP <- function(x, replace_PL = c(pl = "lp", npl = "nlp"),
 #' @rdname clean_va
 #' @param full vector of full strings to be replaced by NA
 #' @param tolower if TRUE, x will be converted to lower first
-isNAstring <- function(x, full = c("\\.+", "", "\\s+", "n/a", "na", "null"),
+isNAstring <- function(x, full = c("\\.+", "", "\\s+", "n/a", "na", "null", "^-$"),
                        tolower = TRUE) {
   if(tolower){
     x <- tolower(x)

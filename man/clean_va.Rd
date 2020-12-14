@@ -12,7 +12,7 @@ convert_NLP(x, replace_PL = c(pl = "lp", npl = "nlp"), tolower = TRUE)
 
 isNAstring(
   x,
-  full = c("\\\\.+", "", "\\\\s+", "n/a", "na", "null"),
+  full = c("\\\\.+", "", "\\\\s+", "n/a", "na", "null", "^-$"),
   tolower = TRUE
 )
 }
