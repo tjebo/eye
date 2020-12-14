@@ -80,8 +80,8 @@ test_that("no error / no warning", {
 })
 
 test_that("message", {
-  expect_message(va(mixed_VA), "Mixed object")
-  expect_message(va(mixed_VA1), "Mixed object")
+  expect_message(suppressWarnings(va(mixed_VA)), "Mixed object")
+  expect_message(suppressWarnings(va(mixed_VA1)), "Mixed object")
   expect_message(va(mixed_VA2), "Mixed object")
   expect_message(va(etdrs), regexp = "from etdrs")
   expect_message(va(snellen_dec, from_logmar = FALSE), "from snellen")
@@ -130,10 +130,10 @@ test_that("return", {
   expect_length(va(va_vec4), length(va_vec4))
   expect_length(va(va_vec5), length(va_vec5))
   expect_true(all(grepl("20/", va(logmar, to = "snellen"))))
-  expect_true(all(grepl("20/", va(logmar, to = "snellen", type = "random"))))
+  expect_true(suppressWarnings(all(grepl("20/", va(logmar, to = "snellen", type = "random")))))
+  expect_true(suppressWarnings(inherits(va(mixed_VA), "logmar")))
   expect_true(all(grepl("6/", va(logmar, to = "snellen", type = "m"))))
   expect_true(all(va(logmar, to = "snellen", type = "dec") %in% va_chart$snellen_dec))
-  expect_true(inherits(va(mixed_VA), "logmar"))
 })
 
 
@@ -157,7 +157,7 @@ test_that("No error / no warning", {
 
 test_that("NA", {
   expect_equal(sum(is.na(va(va_vec))), 2)
-  expect_equal(sum(is.na(va(va_vecNA))), 2)
+  expect_equal(suppressWarnings(sum(is.na(va(va_vecNA)))), 2)
   expect_equal(sum(is.na(va(va_vec1))), 0)
   expect_equal(sum(is.na(va(va_vec2))), 0)
   expect_equal(sum(is.na(va(va_vec3))), 0)
@@ -178,9 +178,9 @@ test_that("NA", {
   expect_equal(sum(is.na(eye:::convertVA(va_vec8, to = "logmar", "ft"))),26) #class quali
   expect_equal(sum(is.na(va(c(25, 23, 0.4), to = "snellen", from_logmar = FALSE))),1) #class quali
   expect_equal(sum(is.na(va(c(25, 23, 0.4), to = "snellen"))), 2) #class quali
-  expect_equal(sum(is.na(va(mixed_VA))), 4)
-  expect_equal(sum(is.na(va(mixed_VA1))), 3)
-  expect_equal(sum(is.na(va(mixed_VA2))), 2)
+  expect_equal(suppressWarnings(sum(is.na(va(mixed_VA)))), 4)
+  expect_equal(suppressWarnings(sum(is.na(va(mixed_VA1)))), 3)
+  expect_equal(suppressWarnings(sum(is.na(va(mixed_VA2)))), 2)
   }
 )
 
