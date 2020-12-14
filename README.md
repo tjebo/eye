@@ -23,8 +23,6 @@ research.
   - Summarizing data with common statistics (mean, sd, n, range)
   - Calculating age of patients
 
-**eye is used for the visual acuity conversion tool http://va-converter.org/ (a shiny app)**
-
 ## Installation
 
 You can install eye from
@@ -73,11 +71,11 @@ va(x, to = "snellen") ## ... or convert to snellen
 #> x: from etdrs
 #> [1] "20/320" "20/80"  "20/32"  "20/70"
 
-## A mix of notations
-x <- c("NLP", "0.8", "34", "3/60", "2/200", "20/50")
+## A mix of notations, and weird NA entries
+x <- c("NLP", "0.8", "34", "3/60", "2/200", "20/50", "  ", ".", "-", "NULL")
 va(x)
 #> Mixed object (x) - converting one by one
-#> [1] 3.00 0.80 1.02 1.30 2.00 0.40
+#>  [1] 3.00 0.80 1.02 1.30 2.00 0.40   NA   NA   NA   NA
 
 ## "plus/minus" entries are converted to the most probable threshold (any spaces allowed)
 x <- c("20/200", "20/200 - 1", "6/6", "6/6-2", "20/50 + 3", "20/50 -2")
@@ -197,7 +195,7 @@ dob <- c("1984-10-16", "2000-01-01")
 
 ## If no second date given, the age today
 getage(dob)
-#> [1] 36.2 20.9
+#> [1] 36.2 21.0
 getage(dob, "2000-01-01")                                                    
 #> [1] 15.2  0.0
 ```

@@ -64,8 +64,8 @@ va(x)
 
 va(x, to = "snellen") ## ... or convert to snellen
 
-## A mix of notations
-x <- c("NLP", "0.8", "34", "3/60", "2/200", "20/50")
+## A mix of notations, and weird NA entries
+x <- c("NLP", "0.8", "34", "3/60", "2/200", "20/50", "  ", ".", "-", "NULL")
 va(x)
 
 ## "plus/minus" entries are converted to the most probable threshold (any spaces allowed)

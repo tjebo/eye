@@ -72,7 +72,7 @@ recodeye <- function(x, to = NULL,
 
   names(eyecodes) <- to[match(names(eyecodes), names(to))]
 
-  x[isNAstring(x)] <- NA
+  x <- tidyNA(x)
   if (sum(is.na(x) > 0)) {
     message("Missing values and/or meaningless strings contained")
   }
