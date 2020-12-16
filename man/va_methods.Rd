@@ -5,6 +5,7 @@
 \alias{convertVA}
 \alias{convertVA.quali}
 \alias{convertVA.snellen}
+\alias{convertVA.snellendec}
 \alias{convertVA.logmar}
 \alias{convertVA.etdrs}
 \alias{convertVA.default}
@@ -15,6 +16,8 @@ convertVA(x, to, ...)
 \method{convertVA}{quali}(x, to, snellnot, ...)
 
 \method{convertVA}{snellen}(x, to, snellnot, logmarstep, ...)
+
+\method{convertVA}{snellendec}(x, to, snellnot, logmarstep, ...)
 
 \method{convertVA}{logmar}(x, to, snellnot, ...)
 
@@ -93,8 +96,8 @@ convert_VA returns a vector of three classes:
 \seealso{
 Other VA converter: 
 \code{\link{VAwrapper}},
+\code{\link{plausibility_methods}},
 \code{\link{snellen_steps}},
-\code{\link{va_dissect}()},
 \code{\link{va}()},
 \code{\link{which_va}()}
 }

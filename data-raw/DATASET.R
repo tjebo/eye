@@ -19,33 +19,25 @@ etdrs <- round(85 + 50 * log10(dec_sn), 0)
 
 va_chart1 <- data.frame(snellen_ft,
                              snellen_m,
-                            snellen_dec = formatC(round(dec_sn, 3)),
+                            snellendec = formatC(round(dec_sn, 3)),
                             logmar = formatC(logmar),
                             etdrs = as.integer(etdrs),
                        quali = rep(NA, length(logmar)))
 quali <- data.frame(snellen_ft = c("20/20000", "20/10000", "20/4000", "20/2000"),
                     snellen_m = c("6/6000", "6/3000", "6/1200", "6/600"),
-                    snellen_dec = c(0.001, 0.002, 0.005, 0.01),
+                    snellendec = c(0.001, 0.002, 0.005, 0.01),
                     logmar = c(3.0, 2.7, 2.3, 1.9),
                     etdrs = c(0, 0, 0, 2),
-                    quali = c("NLP", "LP", "HM", "CF"))
+                    quali = c("nlp", "lp", "hm", "cf"))
 
 va_chart <- rbind(quali, va_chart1)
 va_chart$etdrs[va_chart$etdrs %in% 94] <- 95L
 logmar_replace <- c("1", "-0", "-0.19")
 va_chart$logmar[va_chart$logmar %in% logmar_replace] <- c("1.0", "0.0", "-0.2")
 snell_dec_replace <- c("0.286", "0.317", "0.333", "0.667", "1", "1.333", "1.538", "2")
-va_chart$snellen_dec[va_chart$snellen_dec %in% snell_dec_replace] <-
+va_chart$snellendec[va_chart$snellendec %in% snell_dec_replace] <-
   c("0.3", '0.32', '0.33', '0.66', '1.0', '1.33', '1.5', '2.0')
 va_chart$logmar <-  round(as.numeric(va_chart$logmar), 2)
 va_chart$etdrs <-  as.integer(va_chart$etdrs)
 
 usethis::use_data(va_chart, overwrite = TRUE)
-
-
-va_quali <- va_chart[!is.na(va_chart$quali), ]
-va_quali$quali <- tolower(va_quali$quali )
-names(va_quali) <- tolower(names(va_quali))
-va_quali$logmar <- round(as.numeric(va_quali$logmar),1)
-va_quali$etdrs <- as.integer(c(0, 0, 0, 2))
-usethis::use_data(va_quali, internal = TRUE, overwrite = TRUE)

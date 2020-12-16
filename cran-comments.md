@@ -4,10 +4,13 @@ In the opinion of the package maintainer the changes were substantial enough to 
 
 ## Changes:
 ### Functions
+* `va`
+    * add argument "from", removed "from_logmar". If mixed notation guessed, 
+    VA notation guessing is not done by single element any more, but will be 
+    forced choice either by most likely or with argument "from"
 * issue #6: introduce 6 new verbs to convert to specific VA class (simple wrapper for `va(x, to = ...)`)
 * issue #21 weird snellen values (e.g., 20/41) can now also converted to other snellen values. 
-* `which_va`
-    * NA vectors are no assigned the result NULL
+
 * `recodeye()`:
     * recognises "both/ou/b" for both eyes. 
     * dropunknown unclear codings are converted to NA by default (with warning)
@@ -30,6 +33,8 @@ In the opinion of the package maintainer the changes were substantial enough to 
     maintained, but kept in the package. 
 * `isNAstring` now also converts "-" string to NA
 * new exported function: `tidyNA()` cleans NA entries
+* `clean_va` returns numeric vector if all entries are numeric
+* removed functions va_dissect() and which_va_dissect()
 
 ### Documentation
 * Add CITATION file (add inst folder)
@@ -42,6 +47,7 @@ In the opinion of the package maintainer the changes were substantial enough to 
 ### Data sets
 * Removed data set amd - this will be now part of the dedicated ophthalmic data
 set package "eyedata" (currently in submission to CRAN)
+* removed data set 'va_quali'
 
 ## Test environments
 * local OS X install, R 4.0.0

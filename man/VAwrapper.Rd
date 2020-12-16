@@ -41,8 +41,8 @@ For details see \link{va} and \link{convertVA}
 
 \seealso{
 Other VA converter: 
+\code{\link{plausibility_methods}},
 \code{\link{snellen_steps}},
-\code{\link{va_dissect}()},
 \code{\link{va_methods}},
 \code{\link{va}()},
 \code{\link{which_va}()}

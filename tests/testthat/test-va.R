@@ -184,5 +184,12 @@ test_that("NA", {
 )
 
 
+xtry <- c(NA, "nlp", 1:2, 1.1, -1, "20/40", "4/6", "6/1000")
+checkVA.logmar(xtry, "logmar")
+checkVA.etdrs(xtry, "etdrs")
+checkVA.snellen(xtry, "snellen", type = "ft")
+checkVA.snellendec(xtry, "snellendec")
+checkVA.quali(xtry, "quali")
+checkVA.default(xtry)
 
 

@@ -47,7 +47,7 @@ https://en.wikipedia.org/wiki/Psychometric_function
 
 Other VA converter: 
 \code{\link{VAwrapper}},
-\code{\link{va_dissect}()},
+\code{\link{plausibility_methods}},
 \code{\link{va_methods}},
 \code{\link{va}()},
 \code{\link{which_va}()}

@@ -2,21 +2,14 @@
 % Please edit documentation in R/which_va.R
 \name{which_va}
 \alias{which_va}
-\alias{which_va_dissect}
 \title{Guessing the VA class}
 \usage{
 which_va(x, quali = c("nlp", "lp", "hm", "cf"))
-
-which_va_dissect(elem, from_logmar)
 }
 \arguments{
 \item{x}{Vector with VA entries}
 
 \item{quali}{strings for qualitative visual acuity entries}
-
-\item{elem}{element of vector to convert}
-
-\item{from_logmar}{chose logmar when guessing between two notations}
 }
 \value{
 character vector indicating guessed VA notation
@@ -27,16 +20,12 @@ prepared with \link{clean_va}
 \itemize{
 \item \code{which_va}: guessing VA class for entire vector
 }
-
-\itemize{
-\item \code{which_va_dissect}: guessing VA class for each vector element
-}
 }
 \seealso{
 Other VA converter: 
 \code{\link{VAwrapper}},
+\code{\link{plausibility_methods}},
 \code{\link{snellen_steps}},
-\code{\link{va_dissect}()},
 \code{\link{va_methods}},
 \code{\link{va}()}
 }

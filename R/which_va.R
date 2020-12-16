@@ -1,4 +1,3 @@
-
 #' Guessing the VA class
 #' @name which_va
 #' @param x Vector with VA entries
@@ -13,62 +12,38 @@
 #'
 which_va <- function(x, quali = c("nlp", "lp", "hm", "cf")) {
   if (all(is.na(x))) {
-    return(NULL)
+    return("NA")
   }
   if (all(x[!is.na(x)] %in% quali)) {
     return("quali")
   }
   x_noquali <- x[!x %in% quali]
   x_num <- suppressWarnings(as.numeric(x_noquali))
+  x_numval <- x_num[!is.na(x_num)]
 
   if (all(grepl("/", x_noquali[!is.na(x_noquali)]))) {
     return("snellen")
   } else if (any(grepl("/", x_noquali[!is.na(x_noquali)]))) {
-    return("mixed")
+    if (any(x_numval %in% 0:100)) {
+      return(c("snellen", "logmar", "etdrs"))
+    } else {
+      return(c("snellen", "logmar"))
+    }
   } else if (all(is.na(x_num))) {
     return("failed")
   }
 
-  x_numval <- x_num[!is.na(x_num)]
-
-  if (length(x_numval) < length(x_noquali[!is.na(x_noquali)])) {
-    return("mixed")
-  } else if (all(x_numval == as.integer(x_numval)) &
-             all(x_numval > 3) & all(x_numval <= 100)) {
+  if (all(x_numval == as.integer(x_numval))) {
+    if (all(x_numval > 3) & all(x_numval <= 100)) {
       return("etdrs")
-  } else if (all(x_numval %in% 0:3)){
+    } else {
+      return(c("etdrs", "logmar", "snellen"))
+    }
+  } else if (any(x_numval %in% 0:3)) {
     return(c("logmar", "snellen", "etdrs"))
-  } else if(all(round(x_numval, 3) %in% as.numeric(va_chart$snellen_dec))) {
+  } else if (all(round(x_numval, 3) %in% as.numeric(va_chart$snellen_dec))) {
     return(c("logmar", "snellen"))
   } else {
-    return(c("logmar", "snellen", "etdrs"))
+    return(c("logmar", "snellen"))
   }
-}
-
-#' @rdname which_va
-#' @param elem element of vector to convert
-#' @param from_logmar chose logmar when guessing between two notations
-#' @description * `which_va_dissect`: guessing VA class for each vector element
-which_va_dissect <- function(elem, from_logmar) {
-  guess_va <- which_va(elem)
-
-  if (length(guess_va) == 2) {
-    if (any(guess_va %in% "implaus")) {
-      warning("NA introduced (implausible values)", call. = FALSE)
-    }
-    if(isTRUE(from_logmar)){
-      from <- "logmar"
-    } else {
-      from <- guess_va[!guess_va %in% "logmar"]
-    }
-    class_va <- from
-  } else if (guess_va == "failed") {
-    warning("NA introduced (character only). See ?va for help",
-            call. = FALSE
-    )
-    class_va <- "NA"
-  } else {
-    class_va <- guess_va
-  }
-  class_va
 }

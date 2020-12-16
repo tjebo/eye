@@ -6,19 +6,25 @@
 \usage{
 va(
   x,
-  to = "logmar",
+  from = NULL,
+  to = NULL,
   type = NULL,
   from_logmar = TRUE,
-  logmarstep = FALSE,
-  mixed = FALSE
+  logmarstep = FALSE
 )
 }
 \arguments{
 \item{x}{Vector with visual acuity entries. Must be atomic.
 Snellen fractions need to be entered with "/"}
 
+\item{from}{will force to evaluate from which notation to convert -
+only really required if weird snellen decimal entries
+or in rare cases with only few low ETDRS (0 to 3). Must be either
+"etdrs", "logmar" or "snellen"}
+
 \item{to}{To which class to convert. "etdrs", "logmar" or "snellen" -
-any case allowed}
+any case allowed. If NULL (default), will simply "clean up" VA entries.
+This may then result in a vector of "mixed" VA notations.}
 
 \item{type}{To which Snellen notation to convert: "m", "dec" or "ft"}
 
@@ -29,8 +35,7 @@ vs. snellen decimal or logmar vs. etdrs)}
 increase/decrease Snellen fractions by lines. TRUE: plus/minus
 entries equivalent to 0.02 logmar or 1 ETDRS letter}
 
-\item{mixed}{TRUE Elements will be converted one by one.
-Most plausibility checks will be overruled!}
+\item{mixed}{TRUE Elements will be converted one by one. see also "mixed entries"}
 }
 \value{
 vector of \code{va} class. See also "VA classes"
@@ -141,6 +146,15 @@ equivalent to 0.02 logmar or 1 ETDRS letter (assuming 5 letters
 in a row in a chart)
 }
 
+\section{Mixed entries}{
+
+If Snellen entries (containing "/") and numeric values are found, the notation
+will be guessed as "mixed". This behaviour can be turned off with "mixed =
+FALSE". In this case, "snellen" will be chosen as default unless otherwise
+specified with the from argument.
+Note that some plausibility checks may be overruled with mixed notation.
+}
+
 \section{VA cleaning}{
 
 For more details see \code{\link[=clean_va]{clean_va()}}
@@ -155,8 +169,8 @@ For more details see \code{\link[=clean_va]{clean_va()}}
 convert_VA returns a vector of three classes:
 \enumerate{
 \item \code{va}
-\item One of \code{snellen}, \code{logmar}, \code{etdrs} or \code{quali}.
-\item Either of \code{character} (for Snellen and qualitative),
+\item One of snellen, snellendec, logmar, etdrs or quali.
+\item Either of \code{character} (for Snellen, snellendec, and qualitative),
 \code{numeric} (for logMAR), or \code{integer} (for ETDRS).
 }
 }
@@ -189,8 +203,8 @@ va(x, to="snellen", type = "m")
 \seealso{
 Other VA converter: 
 \code{\link{VAwrapper}},
+\code{\link{plausibility_methods}},
 \code{\link{snellen_steps}},
-\code{\link{va_dissect}()},
 \code{\link{va_methods}},
 \code{\link{which_va}()}
 
