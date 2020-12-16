@@ -188,7 +188,7 @@ va(x, to="snellen", type = "m")
 }
 \seealso{
 Other VA converter: 
-\code{\link{VAclassConversion}},
+\code{\link{VAwrapper}},
 \code{\link{snellen_steps}},
 \code{\link{va_dissect}()},
 \code{\link{va_methods}},

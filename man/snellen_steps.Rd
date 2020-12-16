@@ -46,7 +46,7 @@ entries.
 https://en.wikipedia.org/wiki/Psychometric_function
 
 Other VA converter: 
-\code{\link{VAclassConversion}},
+\code{\link{VAwrapper}},
 \code{\link{va_dissect}()},
 \code{\link{va_methods}},
 \code{\link{va}()},

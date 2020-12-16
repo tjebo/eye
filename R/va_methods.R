@@ -194,7 +194,6 @@ convertVA.default <- function(x, to, snellnot, ...){
 NA
 }
 
-
 #' Convert plus minus entries
 #' @name snellen_steps
 #' @param y Vector with VA entries of class snellen - needs to be in

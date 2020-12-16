@@ -23,7 +23,7 @@ be prepared with \code{\link[=clean_va]{clean_va()}} first.
 }
 \seealso{
 Other VA converter: 
-\code{\link{VAclassConversion}},
+\code{\link{VAwrapper}},
 \code{\link{snellen_steps}},
 \code{\link{va_methods}},
 \code{\link{va}()},
