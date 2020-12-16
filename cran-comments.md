@@ -4,11 +4,16 @@ In the opinion of the package maintainer the changes were substantial enough to 
 
 ## Changes:
 ### Functions
-* issue #6: introduce new verbs to convert to specific VA class (simple wrapper for `va(x, to = ...)`)
+* issue #6: introduce 6 new verbs to convert to specific VA class (simple wrapper for `va(x, to = ...)`)
+* issue #21 weird snellen values (e.g., 20/41) can now also converted to other snellen values. 
+* `which_va`
+    * NA vectors are no assigned the result NULL
 * `recodeye()`:
     * recognises "both/ou/b" for both eyes. 
     * dropunknown unclear codings are converted to NA by default (with warning)
     * removed numcode argument (other numeric codes can be passed via "to")
+* `reveal():`
+    fix issue #13 (reveal: unused group levels are dropped)
 * `eyes()`:
     * fix issue #16 (eyes: accepting both quoted and unquoted arguments)
     * add stop() when main argument not a data frame
@@ -23,8 +28,6 @@ In the opinion of the package maintainer the changes were substantial enough to 
 * `blink()` 
     message that this function will no longer be 
     maintained, but kept in the package. 
-* `reveal():`
-    fix issue #15 (reveal: unused group levels are dropped)
 * `isNAstring` now also converts "-" string to NA
 * new exported function: `tidyNA()` cleans NA entries
 
