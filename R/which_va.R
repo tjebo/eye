@@ -13,7 +13,7 @@
 #'
 which_va <- function(x, quali = c("nlp", "lp", "hm", "cf")) {
   if (all(is.na(x))) {
-    return("NA")
+    return(NULL)
   }
   if (all(x[!is.na(x)] %in% quali)) {
     return("quali")
@@ -30,33 +30,18 @@ which_va <- function(x, quali = c("nlp", "lp", "hm", "cf")) {
   }
 
   x_numval <- x_num[!is.na(x_num)]
+
   if (length(x_numval) < length(x_noquali[!is.na(x_noquali)])) {
     return("mixed")
-  }
-
-  if (all(x_numval == as.integer(x_numval))) {
-    if (all(x_numval %in% 0:3)) {
-      return(c("logmar", "etdrs"))
-    } else if (all(x_numval >= 0) & all(x_numval <= 100)) {
+  } else if (all(x_numval == as.integer(x_numval)) &
+             all(x_numval > 3) & all(x_numval <= 100)) {
       return("etdrs")
-    } else {
-      return(c("etdrs", "implaus"))
-    }
-  }
-
-  if (all(round(x_numval, 3) %in% as.numeric(va_chart$snellen_dec))) {
+  } else if (all(x_numval %in% 0:3)){
+    return(c("logmar", "snellen", "etdrs"))
+  } else if(all(round(x_numval, 3) %in% as.numeric(va_chart$snellen_dec))) {
     return(c("logmar", "snellen"))
-  } else if (any(x_numval < -0.3 )) {
-    return(c("logmar", "implaus"))
-  } else if(any(x_numval > 3)){
-    x_bigint <- x_numval[x_numval > 3]
-    if (all(x_bigint== as.integer(x_bigint))){
-      return(c("logmar", "etdrs"))
-    } else {
-      return(c("logmar", "implaus"))
-    }
-    } else {
-    return("logmar")
+  } else {
+    return(c("logmar", "snellen", "etdrs"))
   }
 }
 
