@@ -51,15 +51,34 @@ convertVA <- function (x, to, ...) {
 #' @param snellnot which snellen notation. One of "ft", "m" or "dec"
 #' @export
 #'
-convertVA.quali <- function(x, to, snellnot, ...){
-  x <- tolower(x)
-  if(to == "snellen"){
-  col <- paste(to, snellnot, sep = "_")
-  new_va <- va_quali[[col]][match(x, va_quali$quali)]
-  } else {
-  new_va <- va_quali[[to]][match(x, va_quali$quali)]
-  }
-  class(new_va) <- c(to, "va", class(new_va))
+convertVA.quali <- function(x, to, type, ...){
+  matchcol <- paste0(to, type)
+  new_va <- va_chart[[matchcol]][match(x, va_chart$quali[1:4])]
+  class(new_va) <- c(to, "va", "character")
+  new_va
+}
+
+#' @rdname va_methods
+#' @param logmarstep how plus/minus entries are evaluated. Default to
+#'   increase/decrease snellen fractions by lines. If TRUE, each snellen
+#'   optotype will be considered equivalent to 0.02 logmar or 1 ETDRS
+#'   letter (assuming 5 letters in a row in a chart)
+#' @export
+convertVA.snellendec <- function(x, to, type, ...){
+    if(to == "logmar"){
+      new_va <- -1*log10(x)
+    } else if (to == "snellen"){
+      matchcol <- paste0(to, type)
+      new_va <- va_chart[[matchcol]][match(round(x, 1), round(va_chart$snellendec, 1))]
+    } else if (to == "etdrs"){
+      new_va <- round(85 + 50 * log10(x), 0)
+      new_va[x <= 0.02 & x > 0.005] <- 2
+      new_va[x <= 0.005] <- 0
+      new_va <- as.integer(new_va)
+    } else {
+      new_va <- x
+    }
+  class(new_va) <- c(class(new_va), to)
   new_va
 }
 
@@ -70,45 +89,24 @@ convertVA.quali <- function(x, to, snellnot, ...){
 #'   letter (assuming 5 letters in a row in a chart)
 #' @export
 #'
-convertVA.snellen <- function(x, to, snellnot, logmarstep, ...) {
+convertVA.snellen <- function(x, to, type, logmarstep, ...) {
   if (to == "snellen" & logmarstep) {
-    message("removing plus/minus entries with to \"snellen\" and logmarstep TRUE")
+    message("ignoring +/- entries when converting to snellen with logmarstep TRUE")
   }
-  if (any(x %in% c("nlp", "lp", "hm", "cf"))) {
-    x_quali <- va_quali$snellen_ft[match(x, va_quali$quali)]
-    x <- ifelse(!is.na(x_quali), x_quali, x)
-  }
-  x_num <- suppressWarnings(as.numeric(x))
-
-  # snellen decimals
-  if (any(!is.na(x_num))) {
-    snellenfrac <- x_num
-    log_snellenfrac <- ifelse(!is.na(snellenfrac), log10(snellenfrac), x)
-
-  } else {
     x_split <- strsplit(x, "(?<=.)(?=[-\\+])", perl = TRUE)
 
     if (!logmarstep) {
       x <- snellensteps(x_split)
     } else {
       x <- sapply(x_split, function(x) x[[1]])
-      plussplit <- sapply(
-        x_split,
-        function(x) suppressWarnings(as.integer(x[2]))
-      )
+      plussplit <- sapply(x_split, function(x) suppressWarnings(as.integer(x[2])))
       plussplit[is.na(plussplit)] <- 0
     }
-    parse_snellen <- strsplit(x, "/")
 
-    snellen_frac <- sapply(
-      parse_snellen,
-      function(x) {
-        x <- suppressWarnings(as.numeric(x))
-        x[1] / x[2]
-      }
-    )
+    snellen_parsed <- strsplit(x, "/")
+    snellen_frac <- parse_snellen(snellen_parsed)
     log_snellenfrac <- log10(snellen_frac)
-  }
+
   if (to == "logmar") {
     new_va <- as.numeric(round(-1 * log_snellenfrac, 2))
     if (logmarstep) {
@@ -122,103 +120,31 @@ convertVA.snellen <- function(x, to, snellnot, logmarstep, ...) {
     if (logmarstep) {
       new_va <- new_va + plussplit
     }
-  } else if (to == "snellen") {
+  } else if (grepl("snellen", to)) {
+    matchcol <- paste0(to, type)
     # rounding to nearest logMAR
     x_num <- -1*round(log_snellenfrac, 1)
     b <- 100*sort(va_chart$logmar)
     round_logmar <-
       as.integer(b[findInterval(100*x_num, (b[-length(b)] + b[-1]) / 2) + 1])
-    col <- paste(to, snellnot, sep = "_")
-    new_va <- va_chart[[col]][match(round(round_logmar/100, 1),
+    new_va <- va_chart[[matchcol]][match(round(round_logmar/100, 1),
                                     as.numeric(va_chart$logmar))]
-  }
-  class(new_va) <- c(to, "va", class(new_va))
-  new_va
-}
-
-#' @rdname va_methods
-#' @param logmarstep how plus/minus entries are evaluated. Default to
-#'   increase/decrease snellen fractions by lines. If TRUE, each snellen
-#'   optotype will be considered equivalent to 0.02 logmar or 1 ETDRS
-#'   letter (assuming 5 letters in a row in a chart)
-#' @export
-#'
-convertVA.snellendec <- function(x, to, snellnot, logmarstep, ...) {
-  if (to == "snellendec" & logmarstep) {
-    message("removing plus/minus entries with
-            to \"snellendec\" and logmarstep TRUE")
-  }
-
-  x_num <- suppressWarnings(as.numeric(x))
-
-  # snellen decimals
-  if (any(!is.na(x_num))) {
-    snellenfrac <- x_num
-    log_snellenfrac <- ifelse(!is.na(snellenfrac), log10(snellenfrac), x)
-
   } else {
-    x_split <- strsplit(x, "(?<=.)(?=[-\\+])", perl = TRUE)
-
-    if (!logmarstep) {
-      x <- snellensteps(x_split)
-    } else {
-      x <- sapply(x_split, function(x) x[[1]])
-      plussplit <- sapply(
-        x_split,
-        function(x) suppressWarnings(as.integer(x[2]))
-      )
-      plussplit[is.na(plussplit)] <- 0
-    }
-    parse_snellen <- strsplit(x, "/")
-
-    snellen_frac <- sapply(
-      parse_snellen,
-      function(x) {
-        x <- suppressWarnings(as.numeric(x))
-        x[1] / x[2]
-      }
-    )
-    log_snellenfrac <- log10(snellen_frac)
-  }
-  if (to == "logmar") {
-    new_va <- as.numeric(round(-1 * log_snellenfrac, 2))
-    if (logmarstep) {
-      new_va <- new_va + 0.02 * plussplit
-    }
-  } else if (to == "etdrs") {
-    new_va <- round(85 + 50 * log_snellenfrac, 0)
-    new_va[snellen_frac <= 0.02 & snellen_frac > 0.005] <- 2
-    new_va[snellen_frac <= 0.005] <- 0
-    new_va <- as.integer(new_va)
-    if (logmarstep) {
-      new_va <- new_va + plussplit
-    }
-  } else if (to == "snellen") {
-    # rounding to nearest logMAR
-    x_num <- -1*round(log_snellenfrac, 1)
-    b <- 100*sort(va_chart$logmar)
-    round_logmar <-
-      as.integer(b[findInterval(100*x_num, (b[-length(b)] + b[-1]) / 2) + 1])
-    col <- paste(to, snellnot, sep = "_")
-    new_va <- va_chart[[col]][match(round(round_logmar/100, 1),
-                                    as.numeric(va_chart$logmar))]
+    new_va <- x
   }
   class(new_va) <- c(to, "va", class(new_va))
   new_va
 }
-
 
 #' @rdname va_methods
 #' @export
 #'
-convertVA.logmar <- function(x, to, snellnot, ...){
-  if(to == "snellen"){
-    col <- paste(to, snellnot, sep = "_")
-    new_va <- va_chart[[col]][match(round(x_num, 1), as.numeric(va_chart$logmar))]
-  } else if(to == "etdrs"){
-  new_va <- va_chart[[to]][match(round(x_num, 1), as.numeric(va_chart$logmar))]
-  } else{
-    new_va <- x_num
+convertVA.logmar <- function(x, to, type, ...){
+  if(to != "logmar"){
+  matchcol <- paste0(to, type)
+  new_va <- va_chart[[matchcol]][match(round(x, 1), as.numeric(va_chart$logmar))]
+  } else {
+    new_va <- as.numeric(x)
   }
   class(new_va) <- c(to, "va", class(new_va))
   new_va
@@ -226,17 +152,19 @@ convertVA.logmar <- function(x, to, snellnot, ...){
 
 #' @rdname va_methods
 #' @export
-convertVA.etdrs <- function(x, to, snellnot, ...){
+convertVA.etdrs <- function(x, to, type, ...){
   if(to == "snellen"){
-    col <- paste(to, snellnot, sep = "_")
+    matchcol <- paste0(to, type)
     b <- va_chart$etdrs[!is.na(va_chart$etdrs)]
-    round_etdrs <- as.integer(b[findInterval(x_int, (b[-length(b)] + b[-1]) / 2) + 1])
-    new_va <- va_chart[[col]][match(round_etdrs, as.integer(va_chart$etdrs))]
+    round_etdrs <- as.integer(b[findInterval(x, (b[-length(b)] + b[-1]) / 2) + 1])
+    new_va <- va_chart[[matchcol]][match(round_etdrs, va_chart$etdrs)]
   } else if(to == "logmar"){
-    new_va <- (-0.02 * x_int) + 1.7
+    new_va <- (-0.02 * x) + 1.7
     new_va <- round(as.numeric(new_va), 2)
   } else if(to == "etdrs"){
-    new_va <- x_int
+    new_va <- x
+  } else {
+    new_va <- x
   }
   class(new_va) <- c(to, "va", class(new_va))
   new_va
@@ -244,7 +172,7 @@ convertVA.etdrs <- function(x, to, snellnot, ...){
 
 #' @rdname va_methods
 #' @export
-convertVA.default <- function(x, to, snellnot, ...){
+convertVA.default <- function(x, to, ...){
 NA
 }
 
@@ -300,5 +228,17 @@ snellensteps <- function(y){
     new_elem
   })
   parsed_elem
+}
+
+#' parsing snellen fractions to numeric values
+#' @keywords internals
+parse_snellen <- function(y) {
+  sapply(
+    y,
+    function(x) {
+      x <- suppressWarnings(as.numeric(x))
+      x[1] / x[2]
+    }
+  )
 }
 

@@ -10,7 +10,7 @@
 #' @family VA helper
 #' @family VA converter
 #'
-which_va <- function(x, quali = c("nlp", "lp", "hm", "cf")) {
+which_va <- function(x, quali = c("nlp", "npl", "pl", "lp", "hm", "cf")) {
   if (all(is.na(x))) {
     return("NA")
   }

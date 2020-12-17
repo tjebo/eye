@@ -4,7 +4,7 @@
 \alias{which_va}
 \title{Guessing the VA class}
 \usage{
-which_va(x, quali = c("nlp", "lp", "hm", "cf"))
+which_va(x, quali = c("nlp", "npl", "pl", "lp", "hm", "cf"))
 }
 \arguments{
 \item{x}{Vector with VA entries}

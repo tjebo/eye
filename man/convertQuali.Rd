@@ -4,7 +4,7 @@
 \alias{convertQuali}
 \title{convert quali entries}
 \usage{
-convertQuali(x, va_class, type = NULL)
+convertQuali(x, to_class)
 }
 \arguments{
 \item{x}{vector}

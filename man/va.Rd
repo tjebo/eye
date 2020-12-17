@@ -8,7 +8,7 @@ va(
   x,
   from = NULL,
   to = NULL,
-  type = NULL,
+  type = "ft",
   from_logmar = TRUE,
   logmarstep = FALSE
 )

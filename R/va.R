@@ -146,29 +146,27 @@
 #' x <- c("3/60", "2/200", "6/60", "20/200", "6/9")
 #' va(x, to="snellen", type = "m")
 #' @export
-va <- function(x, from = NULL, to = NULL, type = NULL,
+va <- function(x, from = NULL, to = NULL, type = "ft",
                from_logmar = TRUE,
                logmarstep = FALSE) {
   if (!is.atomic(x)) {
     stop("x must be atomic", call. = FALSE)
   }
-  x <- clean_va(x)
 
   if (is.null(to)) {
-    return(x)
+    return(clean_va(x))
   } else {
     to <- tolower(to)
     if (length(to) != 1 | !to %in% c("etdrs", "logmar", "snellen")) {
-      message("'to' must be 'etdrs', 'logmar' or 'snellen'")
+      message("'to' must be 'etdrs', 'logmar', or 'snellen'")
       return(x)
-    }
-    if (to == "snellen") {
-      if (is.null(type)) {
-        type <- "ft"
-      } else if (!type %in% c("ft", "m")) {
-        message("'type' must be 'ft' or 'm'. Converting to ft")
+    } else if (to == "snellen"){
+      if(!type %in% c("ft", "m", "dec")) {
+        message("'type' must be 'ft', 'm' or 'dec'. picking ft")
         type <- "ft"
       }
+    } else {
+      type <- NULL
     }
   }
   if (inherits(x, "va")) {
@@ -213,13 +211,16 @@ va <- function(x, from = NULL, to = NULL, type = NULL,
       }
     }
   }
-  x <- convertQuali(x, to, va_class)
-  return(x)
-  x <- checkVA(x)
-  convertVA(x, to = to, snellnot = type, logmarstep = logmarstep)
+  # unifying nlp/npl etc (because we haven't used clean_va yet)
+  x <- clean_short(x)
+
+  x_noquali <- convertQuali(x, to_class = va_class)
+  class(x_noquali) <- va_class
+  x_plausible <- checkVA(x_noquali)
+  x_final <- convertVA(x_plausible, to = to, type = type, logmarstep = logmarstep)
+  # return(list(va_class, to, type, x_final))
+  x_final
 }
-
-
 
 
 #' VA classes

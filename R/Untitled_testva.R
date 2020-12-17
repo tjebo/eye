@@ -1,5 +1,5 @@
-#
-# # x <- c("NLP", "0.8", "34", "3/60", "2/200", "20/50", "  ", ".", "-", "NULL")
+# library(eye)
+# x <- c("NLP", "NPL", "0.8", "34", "3/60", "2/200", "20/50", "  ", ".", "-", "NULL")
 # va(x, to = "logmar")
 # va(c("20/50"), to = "logmar")
 # va(1:100, to = "logmar")
@@ -28,12 +28,29 @@
 # x <- c("20/200", "20/200 - 1", "6/6", "6/6-2", "20/50 + 3", "20/50 -2")
 # va(x)
 #
+#
+#
+#
+#
+# # x <- c("NLP", "NPL", "0.8", "34", "3/60", "2/200", "20/50", "  ", ".", "-", "NULL")
+# va(x, to = "logmar")
+# # va(x, to = "snellen", type = "m")
+# # va(x, to = "etdrs")
+# va(x, from = "logmar", to = "snellen")
+# va(x, from = "logmar", to = "etdrs")
+# va(x, to = "etdrs")
+#
 # ## or evaluating them as logmar values
 # va(x, logmarstep = TRUE)
+# va(x, logmarstep = FALSE)
 #
-
-
-
-# va("nlp", to = "logmar")
-
-
+#
+#
+#
+#
+#
+# va(c("nlp", NA, "npl"), to = "logmar")
+# va(x, to = "etdrs")
+# va(x, to = "logmar")
+# va(x, to = "snellendec")
+#

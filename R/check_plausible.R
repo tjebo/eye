@@ -32,14 +32,13 @@ checkVA <- function (x, ...) {
 checkVA.quali <- function(x, ...){
   test <- is.na(x) | x %in% c("nlp", "lp", "hm", "cf")
   x[!test] <- NA
-  introduceNA(x, test)
+  introduceNA(x, !test)
   x
 }
 
 #' @rdname plausibility_methods
 #' @export
 checkVA.snellen <- function(x, ...){
-  x <- convertQuali(x, ...)
   test <- is.na(x) | grepl("/", x)
   x_old <- x
   x[!test] <- NA
@@ -50,39 +49,39 @@ checkVA.snellen <- function(x, ...){
 #' @rdname plausibility_methods
 #' @export
 checkVA.snellendec <- function(x, ...){
-  x <- convertQuali(x, ...)
   x_num <- suppressWarnings(as.numeric(x))
   newna <- as.logical(is.na(x_num) - is.na(x))
   test <- x_num >= 0 & x_num <= 2
   newtest <- ifelse(is.na(test), newna, !test)
   x_num[!test] <- NA
   introduceNA(x, newtest)
+  class(x_num) <- c(class(x_num), "snellendec")
   x_num
 }
 
 #' @rdname plausibility_methods
 #' @export
 checkVA.logmar <- function(x, ...){
-  x <- convertQuali(x, ...)
   x_num <- suppressWarnings(as.numeric(x))
   newna <- as.logical(is.na(x_num) - is.na(x))
   test <- x_num >= -0.3 & x_num <= 3
   newtest <- ifelse(is.na(test), newna, !test)
   x_num[!test] <- NA
   introduceNA(x, newtest)
+  class(x_num) <- c(class(x_num), "logmar")
   x_num
 }
 
 #' @rdname plausibility_methods
 #' @export
 checkVA.etdrs <- function(x, ...){
-  x <- convertQuali(x, ...)
   x_int <- suppressWarnings(as.integer(x))
   newna <- as.logical(is.na(x_int) - is.na(x))
   test <- x == x_int & x_int >= 0 & x_int <= 100
   newtest <- ifelse(is.na(test), newna, !test)
   x_int[!test] <- NA
   introduceNA(x, newtest)
+  class(x_num) <- c(class(x_num), "etdrs")
   x_int
 }
 
@@ -92,19 +91,7 @@ checkVA.default <- function(x, ...){
   x
 }
 
-#' introduce NA for implausible VA entries
-#' @name introduceNA
-#' @param x vector
-#' @param test plausibility test
-#' @return vector
-#' @keywords internal
-introduceNA <- function(x, test){
-  if(any(test)){
-    message(paste0(" NA introduced (", sum(test, na.rm = TRUE),
-                   "x) for values: ",
-                   paste(unique(x[test]), collapse = ", ")))
-  }
-}
+
 
 #' convert quali entries
 #' @name convertQuali
@@ -112,12 +99,12 @@ introduceNA <- function(x, test){
 #' @param va_class to which class
 #' @return vector
 #' @keywords internal
-convertQuali <- function(x, va_class, type = NULL){
-  if(!is.null(type)){
-    va_class <- paste(va_class, type, sep = "_")
+convertQuali <- function(x, to_class){
+  if(to_class == "snellen"){
+    to_class <- "snellenft"
   }
   if (any(x %in% c("nlp", "lp", "hm", "cf"))) {
-    x_quali <- va_chart[[va_class]][match(x, va_chart$quali[1:4])]
+    x_quali <- va_chart[[to_class]][match(x, va_chart$quali[1:4])]
     x <- ifelse(!is.na(x_quali), x_quali, x)
   }
   x
