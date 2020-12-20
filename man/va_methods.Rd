@@ -32,12 +32,12 @@ convertVA(x, to, ...)
 
 \item{...}{further arguments passed to methods}
 
+\item{type}{which snellen notation. One of "ft", "m" or "dec"}
+
 \item{logmarstep}{how plus/minus entries are evaluated. Default to
 increase/decrease snellen fractions by lines. If TRUE, each snellen
 optotype will be considered equivalent to 0.02 logmar or 1 ETDRS
 letter (assuming 5 letters in a row in a chart)}
-
-\item{snellnot}{which snellen notation. One of "ft", "m" or "dec"}
 }
 \value{
 vector with visual acuity of class \code{va}. See also "VA classes"

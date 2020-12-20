@@ -4,10 +4,10 @@
 #' @param quali strings for qualitative visual acuity entries
 #' @param message message for replaced NA values
 #' @description VA cleaning:
-#' 1. [isNAstring()]:
+#' 1. [tidyNA]:
 #'   Replacing empty placeholders (".","", "(any number of empty space)",
 #'   "NULL", "NA", "N/A" , "-") - any cases - with NA
-#' 1. [convert_NLP()] Simplifying the notation for qualitative
+#' 1. Simplifying the notation for qualitative
 #' VA notation (NPL becomes NLP, PL becomes LP)
 #' 1. Removing non-Snellen character strings
 #' @return character vector

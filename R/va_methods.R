@@ -48,7 +48,7 @@ convertVA <- function (x, to, ...) {
 }
 
 #' @rdname va_methods
-#' @param snellnot which snellen notation. One of "ft", "m" or "dec"
+#' @param type which snellen notation. One of "ft", "m" or "dec"
 #' @export
 #'
 convertVA.quali <- function(x, to, type, ...){
