@@ -217,11 +217,14 @@ va <- function(x, from = NULL, to = NULL, type = "ft",
   x_noquali <- convertQuali(x, to_class = va_class)
   class(x_noquali) <- va_class
   x_plausible <- checkVA(x_noquali)
+  # return(list(x_noquali, x_plausible))
   x_final <- convertVA(x_plausible, to = to, type = type, logmarstep = logmarstep)
   # return(list(va_class, to, type, x_final))
   x_final
 }
-
+# va(x, to = "logmar")
+# va(x, to = "snellen", from = "etdrs")
+# xx <- va(x, to = "snellen", from = "snellendec")
 
 #' VA classes
 #' @name VAclasses

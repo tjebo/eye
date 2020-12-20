@@ -19,6 +19,8 @@ library(eye)
 [![Travis build status](https://travis-ci.com/tjebo/eye.svg?branch=master)](https://travis-ci.com/tjebo/eye)
 <!-- badges: end -->
 
+WARNING - eye is currenty under heavy development - would recommend currently to install eye from CRAN
+
 See more with *eye*
 
 ## Purpose
@@ -60,20 +62,24 @@ Easy conversion from visual acuity notations in a single call to `va()`: Automat
 ```{r va}
 ## automatic detection of VA notation and converting to logMAR by default
 x <- c(23, 56, 74, 58) ## ETDRS letters
-va(x)
+va(x, to = "logmar")
 
 va(x, to = "snellen") ## ... or convert to snellen
 
+# or with the wrapper 
+to_logmar(x)
+to_snellen(x)
+
 ## A mix of notations, and weird NA entries
 x <- c("NLP", "0.8", "34", "3/60", "2/200", "20/50", "  ", ".", "-", "NULL")
-va(x)
+va(x, to = "snellen", type = "m")
 
-## "plus/minus" entries are converted to the most probable threshold (any spaces allowed)
+## "plus/minus" entries are converted to the most probable threshold (any spaces allowed) (currently not stable, will be fixed)
 x <- c("20/200", "20/200 - 1", "6/6", "6/6-2", "20/50 + 3", "20/50 -2")
-va(x)
+va(x, to = "snellen")
 
 ## or evaluating them as logmar values 
-va(x, logmarstep = TRUE)
+to_snellen(x, logmarstep = TRUE)
 
 ```
                             

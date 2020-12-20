@@ -81,7 +81,7 @@ checkVA.etdrs <- function(x, ...){
   newtest <- ifelse(is.na(test), newna, !test)
   x_int[!test] <- NA
   introduceNA(x, newtest)
-  class(x_num) <- c(class(x_num), "etdrs")
+  class(x_int) <- c(class(x_int), "etdrs")
   x_int
 }
 

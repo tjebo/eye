@@ -23,12 +23,8 @@ which_va <- function(x, quali = c("nlp", "npl", "pl", "lp", "hm", "cf")) {
 
   if (all(grepl("/", x_noquali[!is.na(x_noquali)]))) {
     return("snellen")
-  } else if (any(grepl("/", x_noquali[!is.na(x_noquali)]))) {
-    if (any(x_numval %in% 0:100)) {
-      return(c("snellen", "logmar", "etdrs"))
-    } else {
-      return(c("snellen", "logmar"))
-    }
+  } else if (any(grepl("/", x_noquali[!is.na(x_noquali)])) & any(x_num <= 100)) {
+      return(c("snellen", "logmar", "snellendec", "etdrs"))
   } else if (all(is.na(x_num))) {
     return("failed")
   }
@@ -37,13 +33,13 @@ which_va <- function(x, quali = c("nlp", "npl", "pl", "lp", "hm", "cf")) {
     if (all(x_numval > 3) & all(x_numval <= 100)) {
       return("etdrs")
     } else {
-      return(c("etdrs", "logmar", "snellen"))
+      return(c("etdrs", "logmar", "snellendec"))
     }
   } else if (any(x_numval %in% 0:3)) {
-    return(c("logmar", "snellen", "etdrs"))
+    return(c("logmar", "snellendec", "etdrs"))
   } else if (all(round(x_numval, 3) %in% as.numeric(va_chart$snellen_dec))) {
-    return(c("logmar", "snellen"))
+    return(c("logmar", "snellendec"))
   } else {
-    return(c("logmar", "snellen"))
+    return(c("logmar", "snellendec"))
   }
 }

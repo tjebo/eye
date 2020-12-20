@@ -64,20 +64,28 @@ convertVA.quali <- function(x, to, type, ...){
 #'   optotype will be considered equivalent to 0.02 logmar or 1 ETDRS
 #'   letter (assuming 5 letters in a row in a chart)
 #' @export
-convertVA.snellendec <- function(x, to, type, ...){
-    if(to == "logmar"){
-      new_va <- -1*log10(x)
-    } else if (to == "snellen"){
-      matchcol <- paste0(to, type)
-      new_va <- va_chart[[matchcol]][match(round(x, 1), round(va_chart$snellendec, 1))]
-    } else if (to == "etdrs"){
-      new_va <- round(85 + 50 * log10(x), 0)
-      new_va[x <= 0.02 & x > 0.005] <- 2
-      new_va[x <= 0.005] <- 0
-      new_va <- as.integer(new_va)
-    } else {
-      new_va <- x
-    }
+convertVA.snellendec <- function(x, to, type, ...) {
+  if (to == "logmar") {
+    new_va <- -1 * log10(x)
+  } else if (to == "snellen") {
+    matchcol <- paste0(to, type)
+    # rounding to nearest snellen decimal
+    b <- 1000 * sort(as.numeric(va_chart$snellendec))
+    round_dec <-
+      as.integer(b[findInterval(1000 * x, (b[-length(b)] + b[-1]) / 2) + 1])
+
+    new_va <- va_chart[[matchcol]][match(
+      round_dec / 1000,
+      as.numeric(va_chart$snellendec)
+    )]
+  } else if (to == "etdrs") {
+    new_va <- round(85 + 50 * log10(x), 0)
+    new_va[x <= 0.02 & x > 0.005] <- 2
+    new_va[x <= 0.005] <- 0
+    new_va <- as.integer(new_va)
+  } else {
+    new_va <- x
+  }
   class(new_va) <- c(class(new_va), to)
   new_va
 }

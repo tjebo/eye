@@ -9,6 +9,9 @@ eye
 status](https://travis-ci.com/tjebo/eye.svg?branch=master)](https://travis-ci.com/tjebo/eye)
 <!-- badges: end -->
 
+WARNING - eye is currenty under heavy development - would recommend
+currently to install eye from CRAN
+
 See more with *eye*
 
 ## Purpose
@@ -63,30 +66,41 @@ you can convert to snellen or ETDRS as well). For some more details see
 ``` r
 ## automatic detection of VA notation and converting to logMAR by default
 x <- c(23, 56, 74, 58) ## ETDRS letters
-va(x)
-#> x: from etdrs
+va(x, to = "logmar")
+#> From etdrs
 #> [1] 1.24 0.58 0.22 0.54
 
 va(x, to = "snellen") ## ... or convert to snellen
-#> x: from etdrs
+#> From etdrs
+#> [1] "20/320" "20/80"  "20/32"  "20/70"
+
+# or with the wrapper 
+to_logmar(x)
+#> From etdrs
+#> [1] 1.24 0.58 0.22 0.54
+to_snellen(x)
+#> From etdrs
 #> [1] "20/320" "20/80"  "20/32"  "20/70"
 
 ## A mix of notations, and weird NA entries
 x <- c("NLP", "0.8", "34", "3/60", "2/200", "20/50", "  ", ".", "-", "NULL")
-va(x)
-#> Mixed object (x) - converting one by one
-#>  [1] 3.00 0.80 1.02 1.30 2.00 0.40   NA   NA   NA   NA
+va(x, to = "snellen", type = "m")
+#> From snellen. Could be snellen, logmar, snellendec, etdrs
+#> 6x NA introduced for: 0.8, 34, , ., -, null
+#>  [1] "6/6000" NA       NA       "6/120"  "6/600"  "6/15"   NA       NA      
+#>  [9] NA       NA
 
-## "plus/minus" entries are converted to the most probable threshold (any spaces allowed)
+## "plus/minus" entries are converted to the most probable threshold (any spaces allowed) (currently not stable, will be fixed)
 x <- c("20/200", "20/200 - 1", "6/6", "6/6-2", "20/50 + 3", "20/50 -2")
-va(x)
-#> x: from snellen
-#> [1] 1.00 1.00 0.00 0.10 0.40 0.48
+va(x, to = "snellen")
+#> From snellen
+#> [1] "20/200" "20/200" "20/20"  "20/20"  "20/50"  "20/50"
 
 ## or evaluating them as logmar values 
-va(x, logmarstep = TRUE)
-#> x: from snellen
-#> [1]  1.00  0.98  0.00 -0.04  0.46  0.36
+to_snellen(x, logmarstep = TRUE)
+#> From snellen
+#> ignoring +/- entries when converting to snellen with logmarstep TRUE
+#> [1] "20/200" "20/200" "20/20"  "20/20"  "20/50"  "20/50"
 ```
 
 ### eyes
@@ -315,8 +329,8 @@ codes**](#names-and-codes)
 blink(wide_df)
 #> The lifecycle of blink() has expired. It will no longer be
 #>   maintained, but will be kept in the package.
-#> va_preop: from etdrs
-#> va_postop: from etdrs
+#> From etdrs
+#> From etdrs
 #> 
 #> ── blink ───────────────────────────────────────────────────────────────────────
 #> ══ Data ════════════════════════════════
