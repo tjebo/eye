@@ -12,12 +12,9 @@
 #'   any case allowed. If NULL (default), will simply "clean up" VA entries.
 #'   This may then result in a vector of "mixed" VA notations.
 #' @param type To which Snellen notation to convert: "m", "dec" or "ft"
-#' @param from_logmar chose logmar when guessing between two notations (logmar
-#'   vs. snellen decimal or logmar vs. etdrs)
 #' @param logmarstep how +/- entries are evaluated. FALSE:
 #'   increase/decrease Snellen fractions by lines. TRUE: plus/minus
 #'   entries equivalent to 0.02 logmar or 1 ETDRS letter
-#' @param mixed TRUE Elements will be converted one by one. see also "mixed entries"
 #' @name va
 #' @details Each class can be converted from one to another, and va()
 #' converts to logMAR by default. In case of ambiguous detection,
@@ -146,9 +143,7 @@
 #' x <- c("3/60", "2/200", "6/60", "20/200", "6/9")
 #' va(x, to="snellen", type = "m")
 #' @export
-va <- function(x, from = NULL, to = NULL, type = "ft",
-               from_logmar = TRUE,
-               logmarstep = FALSE) {
+va <- function(x, from = NULL, to = NULL, type = "ft", logmarstep = FALSE) {
   if (!is.atomic(x)) {
     stop("x must be atomic", call. = FALSE)
   }
@@ -178,6 +173,7 @@ va <- function(x, from = NULL, to = NULL, type = "ft",
       va_class <- set_va
     }
   } else {
+    x <- clean_va(x, message = FALSE)
     guess_va <- which_va(x)
 
     if (all(guess_va %in% "NA")) {
@@ -211,9 +207,6 @@ va <- function(x, from = NULL, to = NULL, type = "ft",
       }
     }
   }
-  # unifying nlp/npl etc (because we haven't used clean_va yet)
-  x <- clean_short(x)
-
   x_noquali <- convertQuali(x, to_class = va_class)
   class(x_noquali) <- va_class
   x_plausible <- checkVA(x_noquali)

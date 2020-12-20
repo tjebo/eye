@@ -4,14 +4,7 @@
 \alias{va}
 \title{Visual acuity notation conversion}
 \usage{
-va(
-  x,
-  from = NULL,
-  to = NULL,
-  type = "ft",
-  from_logmar = TRUE,
-  logmarstep = FALSE
-)
+va(x, from = NULL, to = NULL, type = "ft", logmarstep = FALSE)
 }
 \arguments{
 \item{x}{Vector with visual acuity entries. Must be atomic.
@@ -28,14 +21,9 @@ This may then result in a vector of "mixed" VA notations.}
 
 \item{type}{To which Snellen notation to convert: "m", "dec" or "ft"}
 
-\item{from_logmar}{chose logmar when guessing between two notations (logmar
-vs. snellen decimal or logmar vs. etdrs)}
-
 \item{logmarstep}{how +/- entries are evaluated. FALSE:
 increase/decrease Snellen fractions by lines. TRUE: plus/minus
 entries equivalent to 0.02 logmar or 1 ETDRS letter}
-
-\item{mixed}{TRUE Elements will be converted one by one. see also "mixed entries"}
 }
 \value{
 vector of \code{va} class. See also "VA classes"

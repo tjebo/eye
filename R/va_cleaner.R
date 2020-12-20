@@ -2,6 +2,7 @@
 #' @name clean_va
 #' @param x Vector with VA entries
 #' @param quali strings for qualitative visual acuity entries
+#' @param message message for replaced NA values
 #' @description VA cleaning:
 #' 1. [isNAstring()]:
 #'   Replacing empty placeholders (".","", "(any number of empty space)",
@@ -12,7 +13,7 @@
 #' @return character vector
 #' @family VA cleaner
 #' @export
-clean_va <- function(x, quali = c("nlp", "lp", "hm", "cf")) {
+clean_va <- function(x, quali = c("nlp", "lp", "hm", "cf"), message = TRUE) {
   originalNA <- is.na(x)
   x_tidied <- tolower(tidyNA(x))
   x_tidied <- gsub("\\s", "", x_tidied)
@@ -27,7 +28,10 @@ clean_va <- function(x, quali = c("nlp", "lp", "hm", "cf")) {
   x_num <- !is.na(suppressWarnings(as.numeric(x_tidied)))
   x_keep <- as.logical(x_quali + x_snell + x_num + originalNA)
 
+  if(message){
   introduceNA(x, !x_keep)
+  }
+  x_tidied[!x_keep] <- NA
 
   if (sum(x_quali, x_snell) == 0) {
     return(as.numeric(x_tidied))
@@ -48,14 +52,4 @@ introduceNA <- function(x, test){
       paste(unique(x[test]), collapse = ", ")
     ))
   }
-}
-
-#' Internal clean for va()
-#' @keywords internal
-clean_short <- function(x) {
-  x_tidied <- gsub("\\s", "", tolower(x))
-  replace_PL <- c(pl = "lp", npl = "nlp")
-  new_vec <- replace_PL[x_tidied]
-  x <- unname(ifelse(is.na(new_vec), x_tidied, new_vec))
-  x
 }

@@ -1,13 +1,12 @@
 context("test va")
 library(eye)
-library(eyedata)
 library(testthat)
 
-
+xtry <- c(NA, "nlp", 1:2, 1.1, -1, "20/40", "4/6", "6/1000")
 logmar <- va_chart$logmar
-snellen_ft <- va_chart$snellen_ft
-snellen_m <- va_chart$snellen_m
-snellen_dec <- va_chart$snellen_dec
+snellenft <- va_chart$snellenft
+snellenm <- va_chart$snellenm
+snellendec <- va_chart$snellendec
 etdrs <- va_chart$etdrs
 etdrs_unplaus <- seq(-1,30,1)
 logmar_unplaus <- seq(-4.4,2.0, 0.1)
@@ -15,14 +14,14 @@ snellen_unplaus <- letters[1:20]
 quali <- va_chart$quali
 quali_logmar <- c(logmar, quali)
 quali_etdrs<- c(etdrs, quali)
-quali_snellen_ft <- c(snellen_ft, quali)
-quali_snellen_m <- c(snellen_m, quali)
+quali_snellen_ft <- c(snellenft, quali)
+quali_snellen_m <- c(snellenm, quali)
 mixed_VA <- c(32, "20/40",3, NA, "1.1", 0.2, -0.3, "NA", "eye", -0.4, "NLP", "PL")
 mixed_VA1 <- c(32, "20/40",3, NA, "1.1", 0.2, -0.3, "NA",  -0.4, "NLP", "PL")
 mixed_VA2 <- c(32, "20/40",3, NA, "1.1", 0.2, -0.3, "NA",   "NLP", "PL")
 etdrs_logmar <- 0:1
 etdrs_logmar_na <- c(0:1, NA)
-snellen_logmar <- intersect(as.numeric(va_chart$snellen_dec), va_chart$logmar)
+snellen_logmar <- intersect(as.numeric(va_chart$snellendec), va_chart$logmar)
 snellen_logmar_na <- c(snellen_logmar, NA)
 va_vecNA <- c(NA, NA)
 va_vec <- c("NLP", "LP", "HM", "CF", "6/60", "NA", NA, "20/40")
@@ -57,19 +56,35 @@ va_vec8 <- structure(quali,class = c("quali", "va", "integer"))
 # [1] NA  "CF""NA""HM""6/9"  "6/6"  "6/18" "6/12" "6/5"  "6/24" "6/36" "6/60" "3/60"
 # $va_vec5 (length 5)
 # [1] "20/200"  "20/200 + 3" "20/200+3""20/200-4""20/200 -4"
-test_that("error", {
-  expect_error(va(logmar, to = c("logmar, etdrs")), "\"to\": Pick one of")
+
+test_that("output", {
+  expect_equal(va(logmar), logmar)
+  expect_equal(va(etdrs), etdrs)
+  expect_equal(va(snellendec), as.double(snellendec))
+  expect_equal(va(snellenft), snellenft)
+  expect_equal(va(snellenm), snellenm)
+  expect_equal(va(va_vec4), c(NA, "cf", NA, "hm", "6/9", "6/6", "6/18", "6/12", "6/5", "6/24",
+                              "6/36", "6/60", "3/60"))
+  expect_equal(va(va_vec5), c("20/200", "20/200+3", "20/200+3", "20/200-4", "20/200-4"))
+  expect_equal(va(va_vec6), c("6/9", "6/6", "6/5", "6/12", "6/7.5", "6/18", "lp", "6/4",
+                              "6/24", "6/36", "hm", "6/60", NA, "cf", NA, "6/2", "nlp", NA,
+                              NA, "6/3", NA, "6/7"))
+  expect_equal(sum(is.na(va(va_vec7))), 1)
+  expect_equal(sum(is.na(va(va_vec))), 2)
+  expect_equal(sum(is.na(va(va_vec1))), 0)
+  expect_true(all(is.numeric(va(va_vec2))))
+  expect_equal(sum(is.na(va(etdrs_unplaus, to = "logmar"))), sum(etdrs_unplaus <0))
+  expect_equal(sum(is.na(va(logmar_unplaus, to = "logmar"))), sum(logmar_unplaus< -0.3))
 })
 
 test_that("no error / no warning", {
-
   expect_error(va(logmar, to = "etdrs"), regexp = NA)
   expect_error(va(etdrs), regexp = NA)
-  expect_error(va(snellen_dec), regexp = NA)
+  expect_error(va(snellendec), regexp = NA)
   expect_error(va(logmar, to = "logmar"), regexp = NA)
   expect_warning(va(logmar, to = "logmar"), regexp = NA)
-  expect_error(va(snellen_m), regexp = NA)
-  expect_error(va(snellen_ft), regexp = NA)
+  expect_error(va(snellenm), regexp = NA)
+  expect_error(va(snellenft), regexp = NA)
   expect_warning(va(quali_logmar, to = "etdrs"), regexp = NA)
   expect_warning(va(quali_snellen_ft, to = "etdrs"), regexp = NA)
   expect_warning(va(va_vec), regexp = NA)
@@ -79,49 +94,41 @@ test_that("no error / no warning", {
 })
 
 test_that("message", {
-  expect_message(suppressWarnings(va(mixed_VA)), "Mixed object")
-  expect_message(suppressWarnings(va(mixed_VA1)), "Mixed object")
-  expect_message(va(mixed_VA2), "Mixed object")
-  expect_message(va(etdrs), regexp = "from etdrs")
-  expect_message(va(snellen_dec, from_logmar = FALSE), "from snellen")
-  expect_message(va(quali_snellen_ft), "from snellen")
-  expect_message(va(logmar), "from logmar")
-  expect_message(va(etdrs_logmar_na), "Notation ambiguous - logMAR picked.")
-  expect_message(va(snellen_logmar), "Notation ambiguous - logMAR picked.")
-  expect_message(va(snellen_logmar_na), "Notation ambiguous - logMAR picked.")
-  expect_message(va(etdrs_logmar), "Notation ambiguous - logMAR picked.")
+  expect_message(suppressWarnings(va(mixed_VA)), "2x NA introduced for: NA, eye")
+  expect_message(suppressWarnings(va(mixed_VA1)), "1x NA introduced for: NA")
+  expect_message(va(mixed_VA2), "1x NA introduced for: NA")
+  expect_message(va(etdrs, to = "logmar"), regexp = "From etdrs")
+  expect_message(va(snellendec, from = "snellendec", to = "logmar"), regexp = NA)
+  expect_message(va(quali_snellen_ft, to = "logmar"), "From snellen")
+  expect_message(va(logmar, to = "etdrs"), "From logmar")
+  expect_message(va(etdrs_logmar, to = "logmar"), "From logmar")
+  expect_message(va(etdrs_logmar_na, to = "logmar"), "From logmar")
+  expect_message(va(snellen_logmar, to = "etdrs"), "From logmar")
+  expect_message(va(snellen_logmar_na, to = "etdrs"), "From logmar")
+  expect_message(va(snellen_unplaus), "20x NA introduced for")
+  expect_message(va(etdrs_unplaus, to = "logmar"), "1x NA introduced for: -1")
+  expect_message(va(etdrs_unplaus, to = "logmar"), "From etdrs")
+  expect_message(va(logmar_unplaus, to = "logmar"), "From logmar")
+  expect_message(va(logmar_unplaus, to = "logmar"), "41x NA introduced for")
 })
 
-test_that("warning", {
-  expect_warning(va(mixed_VA), "NA introduced")
-  expect_warning(va(mixed_VA1), "NA introduced")
-
-  expect_warning(va(snellen_unplaus), "No conversion")
-  expect_warning(va(etdrs_unplaus), "implausible values")
-  expect_warning(va(logmar_unplaus), "implausible values")
-  expect_warning(va(logmar, to = "snellen", type = "random"), "Ignoring \"type", fixed = TRUE)
-  expect_warning(va(mixed_VA), "implausible values")
-  expect_warning(va(mixed_VA1), "NA introduced")
-
-})
 
 test_that("return", {
-  expect_identical(eye:::which_va(etdrs), "etdrs")
-  expect_identical(eye:::which_va(snellen_dec), c("logmar","snellen"))
-  expect_identical(eye:::which_va(snellen_m), "snellen")
-  expect_identical(eye:::which_va(snellen_ft), "snellen")
-  expect_identical(eye:::which_va(logmar), "logmar")
+  expect_identical(eye:::which_va(etdrs), c("etdrs", "logmar", "snellendec"))
+  expect_identical(eye:::which_va(etdrs_unplaus), c("etdrs", "logmar", "snellendec"))
+  expect_identical(eye:::which_va(snellendec), c("logmar","snellendec"))
+  expect_identical(eye:::which_va(snellenm), "snellen")
+  expect_identical(eye:::which_va(snellenft), "snellen")
+  expect_identical(eye:::which_va(logmar), c("logmar", "snellendec"))
+  expect_identical(eye:::which_va(logmar_unplaus), c("logmar", "snellendec"))
   expect_identical(eye:::which_va(clean_va(quali)), "quali")
-  expect_identical(eye:::which_va(etdrs_unplaus), c("etdrs", "implaus"))
-  expect_identical(eye:::which_va(logmar_unplaus), c("logmar", "implaus"))
   expect_identical(eye:::which_va(snellen_unplaus), "failed")
-  expect_identical(eye:::which_va(clean_va(quali_logmar)), "logmar")
+  expect_identical(eye:::which_va(clean_va(quali_logmar)), c("logmar", "snellendec"))
   expect_identical(eye:::which_va(clean_va(quali_snellen_ft)), "snellen")
   expect_identical(eye:::which_va(clean_va(quali_snellen_m)), "snellen")
-  expect_identical(eye:::which_va(etdrs_logmar), c("logmar","etdrs"))
-  expect_identical(eye:::which_va(snellen_logmar), c("logmar","snellen"))
+  expect_identical(eye:::which_va(etdrs_logmar), c("logmar", "snellendec", "etdrs"))
+  expect_identical(eye:::which_va(snellen_logmar), c("logmar","snellendec"))
   expect_true(inherits(va(va_vec2, to = "etdrs"), "etdrs"))
-  expect_true(inherits(va(va_vec), "logmar"))
   expect_length(va(va_vec), length(va_vec))
   expect_length(va(va_vec1), length(va_vec1))
   expect_length(va(va_vec2), length(va_vec2))
@@ -130,9 +137,10 @@ test_that("return", {
   expect_length(va(va_vec5), length(va_vec5))
   expect_true(all(grepl("20/", va(logmar, to = "snellen"))))
   expect_true(suppressWarnings(all(grepl("20/", va(logmar, to = "snellen", type = "random")))))
-  expect_true(suppressWarnings(inherits(va(mixed_VA), "logmar")))
   expect_true(all(grepl("6/", va(logmar, to = "snellen", type = "m"))))
-  expect_true(all(va(logmar, to = "snellen", type = "dec") %in% va_chart$snellen_dec))
+  expect_true(all(va(logmar, to = "snellen", type = "dec") %in% va_chart$snellendec))
+  expect_true(inherits(va(va_vec, to = "logmar"), "logmar"))
+  expect_true(suppressWarnings(inherits(va(mixed_VA, to = "logmar"), "logmar")))
 })
 
 
@@ -150,7 +158,6 @@ test_that("No error / no warning", {
   expect_error(va(va_vec3), regexp = NA)
   expect_error(va(va_vec5), regexp = NA)
   expect_warning(va(mixed_VA2), regexp = NA)
-
 }
 )
 
@@ -163,8 +170,9 @@ test_that("NA", {
   expect_equal(sum(is.na(va(va_vec4))), 2)
   expect_equal(sum(is.na(va(va_vec5))), 0)
   expect_equal(sum(is.na(va(va_vec6))), 5)
+  expect_equal(sum(is.na(va(va_vec8, to = "etdrs"))), 26)
+  expect_equal(sum(is.na(va(va_vec8, to = "snellen", type = "dec"))), 26)
   expect_equal(sum(is.na(eye:::convertVA(va_vec2, to = "snellen", "ft"))),0) #class logmar
-  expect_equal(sum(is.na(eye:::convertVA(va_vec2, to = "etdrs", "ft"))),0) #class logmar
   expect_equal(sum(is.na(eye:::convertVA(va_vec2, to = "logmar", "ft"))),0) #class logmar
   expect_equal(sum(is.na(eye:::convertVA(va_vec3, to = "etdrs", "ft"))),0) #class etdrs
   expect_equal(sum(is.na(eye:::convertVA(va_vec3, to = "snellen", "ft"))),0) #class etdrs
@@ -173,23 +181,19 @@ test_that("NA", {
   expect_equal(sum(is.na(eye:::convertVA(va_vec7,  logmarstep = FALSE,to = "etdrs", "ft"))),1) #class snellen
   expect_equal(sum(is.na(eye:::convertVA(va_vec7, logmarstep = FALSE, to = "logmar", "ft"))),1) #class snellen
   expect_equal(sum(is.na(eye:::convertVA(va_vec8, to = "snellen", "ft"))),26) #class quali
-  expect_equal(sum(is.na(eye:::convertVA(va_vec8, to = "etdrs", "ft"))),26) #class quali
-  expect_equal(sum(is.na(eye:::convertVA(va_vec8, to = "logmar", "ft"))),26) #class quali
-  expect_equal(sum(is.na(va(c(25, 23, 0.4), to = "snellen", from_logmar = FALSE))),1) #class quali
   expect_equal(sum(is.na(va(c(25, 23, 0.4), to = "snellen"))), 2) #class quali
-  expect_equal(suppressWarnings(sum(is.na(va(mixed_VA)))), 4)
-  expect_equal(suppressWarnings(sum(is.na(va(mixed_VA1)))), 3)
   expect_equal(suppressWarnings(sum(is.na(va(mixed_VA2)))), 2)
+  expect_equal(suppressWarnings(sum(is.na(va(mixed_VA)))), 3)
+  expect_equal(suppressWarnings(sum(is.na(va(mixed_VA1)))), 2)
+  expect_equal(sum(is.na(va(xtry, to = "snellen", from = "logmar"))), 6)
+  expect_equal(sum(is.na(va(xtry, to = "snellen", from = "etdrs"))), 6)
+  expect_equal(sum(is.na(va(xtry, to = "snellen", from = "snellen"))), 5)
+  expect_equal(sum(is.na(va(xtry, to = "snellen", from = "snellendec"))), 5)
   }
 )
 
 
-xtry <- c(NA, "nlp", 1:2, 1.1, -1, "20/40", "4/6", "6/1000")
-checkVA.logmar(xtry, "logmar")
-checkVA.etdrs(xtry, "etdrs")
-checkVA.snellen(xtry, "snellen", type = "ft")
-checkVA.snellendec(xtry, "snellendec")
-checkVA.quali(xtry, "quali")
-checkVA.default(xtry)
+
+
 
 

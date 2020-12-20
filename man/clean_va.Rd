@@ -4,12 +4,14 @@
 \alias{clean_va}
 \title{Cleaning up Visual acuity entries}
 \usage{
-clean_va(x, quali = c("nlp", "lp", "hm", "cf"))
+clean_va(x, quali = c("nlp", "lp", "hm", "cf"), message = TRUE)
 }
 \arguments{
 \item{x}{Vector with VA entries}
 
 \item{quali}{strings for qualitative visual acuity entries}
+
+\item{message}{message for replaced NA values}
 }
 \value{
 character vector

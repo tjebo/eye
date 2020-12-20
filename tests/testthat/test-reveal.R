@@ -16,7 +16,7 @@ mylist <- list(x = x, y = y, z = z)
  test_that("no error",{
    expect_error(reveal(x), regexp = NA)
    expect_error(reveal(1:10), regexp = NA)
-   expect_error(reveal(mydf), regexp = NA)
+   expect_error(suppressWarnings(reveal(mydf)), regexp = NA)
    expect_error(reveal(mydf, by = "group"), regexp = NA)
    expect_error(reveal(mylist), regexp = NA)
  })

@@ -82,17 +82,30 @@ to_snellen(x)
 #> From etdrs
 #> [1] "20/320" "20/80"  "20/32"  "20/70"
 
-## A mix of notations, and weird NA entries
+## A mix of notations, and weird NA entries - depending on the VA choice, implausible entries will be replaced by NA
 x <- c("NLP", "0.8", "34", "3/60", "2/200", "20/50", "  ", ".", "-", "NULL")
+
 va(x, to = "snellen", type = "m")
 #> From snellen. Could be snellen, logmar, snellendec, etdrs
-#> 6x NA introduced for: 0.8, 34, , ., -, null
+#> 2x NA introduced for: 0.8, 34
 #>  [1] "6/6000" NA       NA       "6/120"  "6/600"  "6/15"   NA       NA      
+#>  [9] NA       NA
+va(x, to = "snellen", from = "etdrs", type = "m")
+#> 4x NA introduced for: 0.8, 3/60, 2/200, 20/50
+#>  [1] "6/6000" NA       "6/60"   NA       NA       NA       NA       NA      
+#>  [9] NA       NA
+va(x, to = "snellen", from = "snellendec", type = "m")
+#> 4x NA introduced for: 34, 3/60, 2/200, 20/50
+#>  [1] "6/6000" "6/7.5"  NA       NA       NA       NA       NA       NA      
+#>  [9] NA       NA
+va(x, to = "snellen", from = "logmar", type = "m")
+#> 4x NA introduced for: 34, 3/60, 2/200, 20/50
+#>  [1] "6/6000" "6/38"   NA       NA       NA       NA       NA       NA      
 #>  [9] NA       NA
 
 ## "plus/minus" entries are converted to the most probable threshold (any spaces allowed) (currently not stable, will be fixed)
 x <- c("20/200", "20/200 - 1", "6/6", "6/6-2", "20/50 + 3", "20/50 -2")
-va(x, to = "snellen")
+to_snellen(x)
 #> From snellen
 #> [1] "20/200" "20/200" "20/20"  "20/20"  "20/50"  "20/50"
 

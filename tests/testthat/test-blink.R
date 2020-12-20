@@ -24,8 +24,8 @@ test <- structure(list(VA_ETDRS_Letters = c(44, 81, 50, 40, 32, 34)), row.names 
 
 test_that("no error", {
   #expect_error(myop(abraham), regexp = NA)
-  expect_error(myop(amd), regexp = NA)
-  expect_error(blink(amd), regexp = NA)
+  expect_error(suppressWarnings(myop(amd)), regexp = NA)
+  expect_error(suppressWarnings(blink(amd)), regexp = NA)
   #expect_error(blink(abraham), regexp = NA)
 })
 
