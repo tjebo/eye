@@ -42,7 +42,7 @@ VA can be snellen (fraction: feet/meter), snellen decimal, logMAR, ETDRS, or
 "qualitative" (Counting fingers, etc.)
 \itemize{
 \item Snellen fractions need to be either form 6/x or 20/x
-\item Snellen decimal must be >= 0 and <= 2
+\item Snellen decimal must be > 0 and <= 2
 \item ETDRS must be between 0 and 100
 \item logMAR must be between -0.3 and 3.0
 \item Qualitative must be PL, LP, NLP, NPL, HM, CF (any case allowed)

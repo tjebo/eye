@@ -10,9 +10,9 @@
 #' @usage data("va_chart")
 #' @format A data frame with 29 rows and 5 variables:
 #' \describe{
-#'   \item{snellen_ft}{snellen VA in feet}
-#'   \item{snellen_m}{snellen VA in meter}
-#'   \item{snellen_dec}{decimal snellen VA}
+#'   \item{snellenft}{snellen VA in feet}
+#'   \item{snellenm}{snellen VA in meter}
+#'   \item{snellendec}{decimal snellen VA}
 #'   \item{logmar}{logMAR VA}
 #'   \item{etdrs}{VA in ETDRS letters}
 #'   \item{quali}{VA categories}

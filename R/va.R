@@ -55,8 +55,6 @@
 #' - logMAR must be between -0.3 and 3.0
 #' - Qualitative must be either of PL, LP, NLP, NPL, HM, CF (any case allowed)
 #' - Any element which is not recognized will be converted to NA
-#' - Vectors containing several notations ("mixed") are guessed and converted
-#'   element by element with [which_va_dissect] and [va_dissect]
 #'
 #' @section VA detection:
 #'   - Internally done with [which_va()] based on the following rules
@@ -65,17 +63,8 @@
 #'   - if x numeric and -0.3 <= x <= 3: `logmar`
 #'   - if x numeric and all x in intersection(va_chart$logMAR, va_chart$snellen_dec):
 #'     `logmar`, but you can choose `snellen`
-#'   - *non-mixed class*: if all x in va_chart$snellen_dec: `snellen`
-#'   - *mixed class* ([which_va_dissect]): snellen_dec not supported.
-#'   - if character and format x/y: `snellen` (fraction)
-#'   - if one of "CF", "HM", "LP", "PL", "NLP", or "NPL": `quali`
-#'   - if numeric x beyond the ranges from above: `NA`
-#'   - Any other string or NA: NA
 #'
-#' Detection and conversion is on a vector as a whole by [which_va()]. If a
-#' "mixed" VA notation
-#' is found, [which_va_dissect()] and [va_dissect()] will be called instead
-#' for each VA vector element individually.
+#' Detection and conversion is on a vector as a whole by [which_va()].
 #'
 #' @section Problematic cases:
 #' There can be ambiguous cases for detection (detection defaults to logmar):

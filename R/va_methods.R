@@ -239,6 +239,7 @@ snellensteps <- function(y){
 }
 
 #' parsing snellen fractions to numeric values
+#' @param y vector
 #' @keywords internals
 parse_snellen <- function(y) {
   sapply(

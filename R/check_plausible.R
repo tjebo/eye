@@ -8,7 +8,7 @@
 #' "qualitative" (Counting fingers, etc.)
 #'
 #'   - Snellen fractions need to be either form 6/x or 20/x
-#'   - Snellen decimal must be >= 0 and <= 2
+#'   - Snellen decimal must be > 0 and <= 2
 #'   - ETDRS must be between 0 and 100
 #'   - logMAR must be between -0.3 and 3.0
 #'   - Qualitative must be PL, LP, NLP, NPL, HM, CF (any case allowed)
@@ -51,7 +51,7 @@ checkVA.snellen <- function(x, ...){
 checkVA.snellendec <- function(x, ...){
   x_num <- suppressWarnings(as.numeric(x))
   newna <- as.logical(is.na(x_num) - is.na(x))
-  test <- x_num >= 0 & x_num <= 2
+  test <- x_num > 0 & x_num <= 2
   newtest <- ifelse(is.na(test), newna, !test)
   x_num[!test] <- NA
   introduceNA(x, newtest)

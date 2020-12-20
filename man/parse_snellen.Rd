@@ -6,6 +6,9 @@
 \usage{
 parse_snellen(y)
 }
+\arguments{
+\item{y}{vector}
+}
 \description{
 parsing snellen fractions to numeric values
 }

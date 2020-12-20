@@ -80,8 +80,6 @@ means, it can also be a character vector)
 \item logMAR must be between -0.3 and 3.0
 \item Qualitative must be either of PL, LP, NLP, NPL, HM, CF (any case allowed)
 \item Any element which is not recognized will be converted to NA
-\item Vectors containing several notations ("mixed") are guessed and converted
-element by element with \link{which_va_dissect} and \link{va_dissect}
 }
 }
 
@@ -94,18 +92,9 @@ element by element with \link{which_va_dissect} and \link{va_dissect}
 \item if x numeric and -0.3 <= x <= 3: \code{logmar}
 \item if x numeric and all x in intersection(va_chart$logMAR, va_chart$snellen_dec):
 \code{logmar}, but you can choose \code{snellen}
-\item \emph{non-mixed class}: if all x in va_chart$snellen_dec: \code{snellen}
-\item \emph{mixed class} (\link{which_va_dissect}): snellen_dec not supported.
-\item if character and format x/y: \code{snellen} (fraction)
-\item if one of "CF", "HM", "LP", "PL", "NLP", or "NPL": \code{quali}
-\item if numeric x beyond the ranges from above: \code{NA}
-\item Any other string or NA: NA
 }
 
-Detection and conversion is on a vector as a whole by \code{\link[=which_va]{which_va()}}. If a
-"mixed" VA notation
-is found, \code{\link[=which_va_dissect]{which_va_dissect()}} and \code{\link[=va_dissect]{va_dissect()}} will be called instead
-for each VA vector element individually.
+Detection and conversion is on a vector as a whole by \code{\link[=which_va]{which_va()}}.
 }
 
 \section{Problematic cases}{
