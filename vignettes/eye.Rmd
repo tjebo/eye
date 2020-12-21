@@ -96,7 +96,7 @@ the chart.
 - **ETDRS to logMAR**: logMAR = -0.02 * etdrs + 1.7
 [Beck et al.](https://doi.org/10.1016/s0002-9394(02)01825-1)
 - **Hand movements and counting fingers** are converted following
-[Schulze-Bonsel et al.](https://iovs.arvojournals.org/article.aspx?articleid=2183308)
+Schulze-Bonsel et al. (https://doi.org/10.1167/iovs.05-0981)
 - **(No) light perception** are converted following the suggestions by
 [Michael Bach](https://michaelbach.de/sci/acuity.html)
 - **To Snellen**:

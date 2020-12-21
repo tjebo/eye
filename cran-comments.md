@@ -21,11 +21,15 @@ There were no ERRORs or WARNINGs or NOTEs.
 ### win-builder
 There were no ERRORs or WARNINGs or NOTEs. 
 ### R-hub
-There was one NOTE: Found (possibly) invalid url / DOI
+There was one NOTE: 
+Found the following (possibly) invalid DOIs: 
+From: DESCRIPTION
 
-- https://doi.org/10.1167/iovs.05-0981
+    Status: Forbidden
+  DOI: 10.1167/iovs.05-0981
 
-I checked this url, and it seemed valid 
+Comment: 
+I am sorry, but I cannot help it :( This is the doi to this article! 
 
 ## Downstream dependencies
 There are currently no downstream dependencies for this package.

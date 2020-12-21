@@ -25,7 +25,7 @@
 #'
 #' Categories **(no) light perception**,  **counting fingers**
 #' and **hand movements** are converted following
-#' [Schulze-Bonsel et al.](https://iovs.arvojournals.org/article.aspx?articleid=2183308)
+#' Schulze-Bonsel et al. (https://doi.org/10.1167/iovs.05-0981)
 #' and [Michael Bach's suggestions](https://michaelbach.de/sci/acuity.html)
 #'
 "va_chart"
