@@ -5,11 +5,15 @@ In the opinion of the package maintainer the changes were substantial enough to 
 ## Changes:
 ### Functions
 * `va`
-    * add argument "from", removed "from_logmar". If mixed notation guessed, 
-    VA notation guessing is not done by single element any more, but will be 
-    forced choice either by most likely or with argument "from"
-* issue #6: introduce 6 new verbs to convert to specific VA class (simple wrapper for `va(x, to = ...)`)
-* issue #21 weird snellen values (e.g., 20/41) can now also converted to other snellen values. 
+    * add arguments "from", "noplus" and "smallstep"
+    * removed "from_logmar" and "logmarstep"
+    * VA notation guessing is not done by single element any more, but will be 
+      forced choice either by most likely or with argument "from". Any implausible            values will be forced to NA.
+    * issue #6: introduce new verbs to convert to specific VA class (simple wrapper for       `va(x, to = ...)`)
+    * issue #21 weird snellen values (e.g., 20/41) can now also converted to other
+      snellen values. 
+    * New S3 methods introduced to check plausibility of entries by VA class. 
+    * Adding plus/minus entries is now done by actual logmar values rather than via           lookup in the VA chart (rewrite of `snellen_steps` function)
 
 * `recodeye()`:
     * recognises "both/ou/b" for both eyes. 

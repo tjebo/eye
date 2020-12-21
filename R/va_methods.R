@@ -172,7 +172,7 @@ NA
 
 #' Convert plus minus entries
 #' @name snellen_steps
-#' @param y Vector with VA entries of class snellen - needs to be in
+#' @param x Vector with VA entries of class snellen - needs to be in
 #' format xx/yy
 #' @param smallstep if plusminus shall be considered as logmar equivalent
 #' @description used in conversion method for class snellen

@@ -8,10 +8,10 @@
 snellensteps(x, smallstep)
 }
 \arguments{
-\item{smallstep}{if plusminus shall be considered as logmar equivalent}
-
-\item{y}{Vector with VA entries of class snellen - needs to be in
+\item{x}{Vector with VA entries of class snellen - needs to be in
 format xx/yy}
+
+\item{smallstep}{if plusminus shall be considered as logmar equivalent}
 }
 \value{
 character vector of Snellen entries
