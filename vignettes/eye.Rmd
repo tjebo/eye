@@ -59,13 +59,13 @@ The user can specify the original VA notation, but va will check that and ignore
 (".", "", "{any number of spaces}", "N/A", "NA", "NULL")
 1. Notation for qualitative entries is simplified (NPL becomes NLP, PL becomes LP).
 1. "plus" and "minus" from Snellen entries are converted: 
-    - if entry -1 to +3 : take same Snellen value
-    - if <= -2 : take Snellen value one line below
-    - if >+3 (unlikely, but unfortunately not impossible): Snellen value one line above
+    - if entry -2 to +2 : take same Snellen value
+    - if < -2 : take Snellen value one line below
+    - if >+2 : Snellen value one line above
 
 Snellen are unfortunately often entered with "+/-", which is a violation of psychophysical methods designed to assign one (!) unambiguous value to visual acuity, with non-arbitrary thresholds based on psychometric functions. Therefore, transforming "+/-" notation to actual results is in itself problematic and the below suggestion to convert it will remain an approximation to the most likely "true" result. Even more so, as the given conditions should work for charts with 4 or 5 optotypes in a line, and visual acuity is not always tested on such charts. Yet, I believe that the approach is still better than just omitting the letters or (worse) assigning a missing value to those entries. 
 
-If the argument `logmarstep = TRUE`, the entries will be converted to logmar values or or ETDRS letters (0.02 logmar or 1 letter for each optotype). This is based on the assumption of 5 optotypes in a row. The argument should not be set `TRUE` when conversion to Snellen is desired - this does not make sense. However, if you still decide to do that, you will get the values just without +/- entries. 
+If the argument `smallstep = TRUE`, the entries will be converted to logmar values (0.02 logmar for each optotype). This is based on the assumption of 5 optotypes in a row. This argument can be overriden with `noplus = TRUE`, ignoring the plus minus entries entirely and simply returning the nearest Snellen values.
 
 ### Detection
  - Internally done with `which_va()` based on the following rules
@@ -133,28 +133,34 @@ E.g., check the values with `unique(x)`.
 ```{r va}
 ## automatic detection of VA notation and converting to logMAR by default
 x <- c(23, 56, 74, 58) ## ETDRS letters
-va(x)
+to_logmar(x) # wrapper of va(x, to = "logmar")
 
-va(x, to = "snellen") ## ... or convert to snellen
+## ... or convert to snellen
+to_snellen(x) # wrapper of va(x, to = "snellen") 
 
-## A mix of notations
-x <- c("NLP", "0.8", "34", "3/60", "2/200", "20/50")
-va(x)
+## eye knows metric as well 
+to_snellen(x, type = "m") 
 
-## "plus/minus" entries are converted to the most probable threshold (any spaces allowed)
-x <- c("20/200", "20/200 - 1", "6/6", "6/6-2", "20/50 + 3", "20/50 -2")
-va(x)
+## And the decimal snellen notation, so much loved in Germany
+to_snellen(x, type = "dec") 
 
-## or evaluating them as logmar values 
-va(x, logmarstep = TRUE)
+## Remove weird entries and implausible entries depending on the VA choice
+x <- c("NLP", "0.8", "34", "3/60", "2/200", "20/50", "  ", ".", "-", "NULL")
 
-## Any fraction is possible, and empty values
-x <- c("CF", "3/60", "2/200", "", "20/40+3", ".", "      ")
-va(x)
+to_snellen(x)
+to_snellen(x, from = "snellendec")
+to_snellen(x, from = "etdrs")
+to_snellen(x, from = "logmar")
 
-## but not when converting from one class to the other
-x <- c("3/60", "2/200", "6/60", "20/200", "6/9")
-va(x, to="snellen", type = "m")
+## "plus/minus" entries are converted to the most probable threshold (any spaces allowed) 
+x <- c("20/200 - 1", "6/6-2", "20/50 + 3", "6/6-4", "20/33 + 4")
+to_logmar(x)
+
+## or evaluating them as logmar values (each optotype equals 0.02 logmar)
+to_logmar(x, smallstep = TRUE)
+
+## or you can also decide to completely ignore them (converting them to the nearest snellen value in the VA chart)
+to_snellen(x, noplus = TRUE)
 ```
 ## recodeye {#recode}
 Makes recoding eye variables very easy.

@@ -43,7 +43,7 @@
 #' @return vector with visual acuity of class `va`. See also "VA classes"
 #' @family VA converter
 #' @export
-convertVA <- function (x, to, ...) {
+convertVA <- function (x, ...) {
   UseMethod("convertVA", x)
 }
 
@@ -59,7 +59,7 @@ convertVA.quali <- function(x, to, type, ...){
 }
 
 #' @rdname va_methods
-#' @param logmarstep how plus/minus entries are evaluated. Default to
+#' @param smallstep how plus/minus entries are evaluated. Default to
 #'   increase/decrease snellen fractions by lines. If TRUE, each snellen
 #'   optotype will be considered equivalent to 0.02 logmar or 1 ETDRS
 #'   letter (assuming 5 letters in a row in a chart)
@@ -91,47 +91,33 @@ convertVA.snellendec <- function(x, to, type, ...) {
 }
 
 #' @rdname va_methods
-#' @param logmarstep how plus/minus entries are evaluated. Default to
+#' @param smallstep how plus/minus entries are evaluated. Default to
 #'   increase/decrease snellen fractions by lines. If TRUE, each snellen
 #'   optotype will be considered equivalent to 0.02 logmar or 1 ETDRS
 #'   letter (assuming 5 letters in a row in a chart)
+#' @param noplus ignoring plus/minus entries and just returning the
+#'     snellen fraction. This overrides the smallstep argument.
 #' @export
 #'
-convertVA.snellen <- function(x, to, type, logmarstep, ...) {
-  if (to == "snellen" & logmarstep) {
-    message("ignoring +/- entries when converting to snellen with logmarstep TRUE")
-  }
+convertVA.snellen <- function(x, to, type, smallstep, noplus, ...) {
+  if(noplus) {
     x_split <- strsplit(x, "(?<=.)(?=[-\\+])", perl = TRUE)
-
-    if (!logmarstep) {
-      x <- snellensteps(x_split)
-    } else {
-      x <- sapply(x_split, function(x) x[[1]])
-      plussplit <- sapply(x_split, function(x) suppressWarnings(as.integer(x[2])))
-      plussplit[is.na(plussplit)] <- 0
-    }
-
-    snellen_parsed <- strsplit(x, "/")
-    snellen_frac <- parse_snellen(snellen_parsed)
-    log_snellenfrac <- log10(snellen_frac)
-
+    snellenfrac <- sapply(x_split, `[[`, 1)
+    logmarval <- -log10(parse_snellen(snellenfrac))
+  } else {
+  logmarval <- snellensteps(x, smallstep)
+  }
   if (to == "logmar") {
-    new_va <- as.numeric(round(-1 * log_snellenfrac, 2))
-    if (logmarstep) {
-      new_va <- new_va + 0.02 * plussplit
-    }
+      new_va <- logmarval
   } else if (to == "etdrs") {
-    new_va <- round(85 + 50 * log_snellenfrac, 0)
-    new_va[snellen_frac <= 0.02 & snellen_frac > 0.005] <- 2
-    new_va[snellen_frac <= 0.005] <- 0
+    new_va <- round(85 - 50 * logmarval, 0)
+    new_va[logmarval >= 1.7 & logmarval < 2.3] <- 2
+    new_va[logmarval >= 2.3] <- 0
     new_va <- as.integer(new_va)
-    if (logmarstep) {
-      new_va <- new_va + plussplit
-    }
   } else if (grepl("snellen", to)) {
     matchcol <- paste0(to, type)
     # rounding to nearest logMAR
-    x_num <- -1*round(log_snellenfrac, 1)
+    x_num <- round(logmarval, 1)
     b <- 100*sort(va_chart$logmar)
     round_logmar <-
       as.integer(b[findInterval(100*x_num, (b[-length(b)] + b[-1]) / 2) + 1])
@@ -188,11 +174,12 @@ NA
 #' @name snellen_steps
 #' @param y Vector with VA entries of class snellen - needs to be in
 #' format xx/yy
+#' @param smallstep if plusminus shall be considered as logmar equivalent
 #' @description used in conversion method for class snellen
 #' - Removing "plus" and "minus" from snellen notation
-#'     - if entry -1 to +3 : take same Snellen value
-#'     - if <= -2 : take Snellen value one line below
-#'     - if >+3 (unlikely, but unfortunately not impossible):
+#'     - if entry -2 to +2 : take same Snellen value
+#'     - if < -2 : take Snellen value one line below
+#'     - if > +2:
 #'     Snellen value one line above
 #' @section snellen_steps:
 #' Snellen are unfortunately often entered with "+/-", which is a
@@ -212,42 +199,35 @@ NA
 #' @seealso
 #' https://en.wikipedia.org/wiki/Psychometric_function
 
-snellensteps <- function(y){
-  parsed_elem <- sapply(y, function(x) {
-    snellen_split <- x[1]
-    plusminus <- suppressWarnings(as.integer(x[2]))
-    snellen_type <- if (snellen_split %in% va_chart$snellen_ft) {
-      "snellen_ft"
-    } else if (snellen_split %in% va_chart$snellen_m) {
-      "snellen_m"
-    } else {
-      NA
-    }
-    if (plusminus <= 3 & plusminus >= -1 |
-        is.na(plusminus) | is.na(snellen_type)) {
-      new_elem <- snellen_split
-    } else if (plusminus <- 1) {
-      ind <- match(snellen_split, va_chart[[snellen_type]]) - 1
-      new_elem <- va_chart[[snellen_type]][ind]
-    } else if (plusminus > 3) {
-      ind <- match(snellen_split, va_chart[[snellen_type]]) + 1
-      new_elem <- va_chart[[snellen_type]][ind]
-    }
-    new_elem
-  })
-  parsed_elem
+snellensteps <- function(x, smallstep) {
+  # x <- gsub(" ", "", x)
+  x_split <- strsplit(x, "(?<=.)(?=[-\\+])", perl = TRUE)
+  snellenfrac <- sapply(x_split, `[[`, 1)
+  plusminus <- sapply(x_split, function(x) as.integer(x[2]))
+  plusminus[is.na(plusminus)] <- 0
+  logmar <- -log10(parse_snellen(snellenfrac))
+
+  if (!smallstep) {
+    newlogmar <- round(logmar, 1)
+    cond1 <- plusminus < (-2) | is.na(newlogmar)
+    cond2 <- plusminus > 2 | is.na(newlogmar)
+    newlogmar[cond1] <- newlogmar[cond1] + 0.1
+    newlogmar[cond2] <- newlogmar[cond2] - 0.1
+  } else {
+    newlogmar <- round(logmar, 2) - (0.02 * plusminus)
+  }
+  return(newlogmar)
 }
 
 #' parsing snellen fractions to numeric values
 #' @param y vector
 #' @keywords internals
 parse_snellen <- function(y) {
-  sapply(
-    y,
-    function(x) {
-      x <- suppressWarnings(as.numeric(x))
-      x[1] / x[2]
-    }
+  snellenfrac_ls <- strsplit(y, "/")
+  sapply(snellenfrac_ls, function(x) {
+    x <- suppressWarnings(as.numeric(x))
+    x[1] / x[2]
+  }
   )
 }
 

@@ -4,7 +4,7 @@
 \alias{va}
 \title{Visual acuity notation conversion}
 \usage{
-va(x, from = NULL, to = NULL, type = "ft", logmarstep = FALSE)
+va(x, from = NULL, to = NULL, type = "ft", smallstep = FALSE, noplus = FALSE)
 }
 \arguments{
 \item{x}{Vector with visual acuity entries. Must be atomic.
@@ -21,9 +21,12 @@ This may then result in a vector of "mixed" VA notations.}
 
 \item{type}{To which Snellen notation to convert: "m", "dec" or "ft"}
 
-\item{logmarstep}{how +/- entries are evaluated. FALSE:
+\item{smallstep}{how +/- entries are evaluated. FALSE:
 increase/decrease Snellen fractions by lines. TRUE: plus/minus
 entries equivalent to 0.02 logmar or 1 ETDRS letter}
+
+\item{noplus}{ignoring plus/minus entries and just returning the
+snellen fraction. This overrides the smallstep argument.}
 }
 \value{
 vector of \code{va} class. See also "VA classes"
@@ -118,7 +121,7 @@ test design: Snellen fractions increase/decrease only by lines.\preformatted{- i
 - if >+3 (unlikely, but unfortunately not impossible):
 }
 
-If logmarstep = TRUE, each snellen optotype will be considered
+If smallstep = TRUE, each snellen optotype will be considered
 equivalent to 0.02 logmar or 1 ETDRS letter (assuming 5 letters
 in a row in a chart)
 }

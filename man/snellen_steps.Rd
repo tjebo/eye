@@ -5,9 +5,11 @@
 \alias{snellensteps}
 \title{Convert plus minus entries}
 \usage{
-snellensteps(y)
+snellensteps(x, smallstep)
 }
 \arguments{
+\item{smallstep}{if plusminus shall be considered as logmar equivalent}
+
 \item{y}{Vector with VA entries of class snellen - needs to be in
 format xx/yy}
 }
@@ -19,9 +21,9 @@ used in conversion method for class snellen
 \itemize{
 \item Removing "plus" and "minus" from snellen notation
 \itemize{
-\item if entry -1 to +3 : take same Snellen value
-\item if <= -2 : take Snellen value one line below
-\item if >+3 (unlikely, but unfortunately not impossible):
+\item if entry -2 to +2 : take same Snellen value
+\item if < -2 : take Snellen value one line below
+\item if > +2:
 Snellen value one line above
 }
 }

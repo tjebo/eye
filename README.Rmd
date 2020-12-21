@@ -19,16 +19,14 @@ library(eye)
 [![Travis build status](https://travis-ci.com/tjebo/eye.svg?branch=master)](https://travis-ci.com/tjebo/eye)
 <!-- badges: end -->
 
-WARNING - eye is currenty under heavy development - would recommend currently to install eye from CRAN
-
 See more with *eye*
 
 ## Purpose
 *eye* is dedicated to facilitate very common tasks in ophthalmic research. 
   
-- Visual acuity conversion for snellen, logMAR and ETDRS
+- Visual acuity conversion for Snellen, logMAR and ETDRS
 - Counting patients and eyes
-- Recode eye strings
+- Recoding eye strings
 - Reshape eye specific variables  
 - Summarizing data with common statistics (mean, sd, n, range)
 - Calculating age of patients
@@ -51,40 +49,44 @@ Installing eye will also install [eyedata](https://github.com/tjebo/eyedata/), a
 - myop: [Make your eye data long](#myop)
 - hyperop: [Make your eye data wide](#hyperop)
 - blink: [Perceive your data in a blink of an eye](#blink)
-- Visual acuity [conversion chart](#va-conversion)
 - reveal: [Get common summary statistics](#reveal)
-- age: [Calculate age](#getage)
+- getage: [Calculate age](#getage)
                           
 ## Details and examples
-### va
-Easy conversion from visual acuity notations in a single call to `va()`: Automatic detection of VA notation and convert to logMAR by default (but you can convert to snellen or ETDRS as well). For some more details see [VA conversion](#va-conversion)
 
+### va
+Easy conversion from visual acuity notations in a single call to `va()`. The notation will automatically be detected and converted to the desired notation. For some more details see [VA conversion](#va-conversion)
 ```{r va}
 ## automatic detection of VA notation and converting to logMAR by default
 x <- c(23, 56, 74, 58) ## ETDRS letters
-va(x, to = "logmar")
+to_logmar(x) # wrapper of va(x, to = "logmar")
 
-va(x, to = "snellen") ## ... or convert to snellen
+## ... or convert to snellen
+to_snellen(x) # wrapper of va(x, to = "snellen") 
 
-# or with the wrapper 
-to_logmar(x)
-to_snellen(x)
+## eye knows metric as well 
+to_snellen(x, type = "m") 
 
-## A mix of notations, and weird NA entries - depending on the VA choice, implausible entries will be replaced by NA
+## And the decimal snellen notation, so much loved in Germany
+to_snellen(x, type = "dec") 
+
+## Remove weird entries and implausible entries depending on the VA choice
 x <- c("NLP", "0.8", "34", "3/60", "2/200", "20/50", "  ", ".", "-", "NULL")
 
-va(x, to = "snellen", type = "m")
-va(x, to = "snellen", from = "etdrs", type = "m")
-va(x, to = "snellen", from = "snellendec", type = "m")
-va(x, to = "snellen", from = "logmar", type = "m")
-
-## "plus/minus" entries are converted to the most probable threshold (any spaces allowed) (currently not stable, will be fixed)
-x <- c("20/200", "20/200 - 1", "6/6", "6/6-2", "20/50 + 3", "20/50 -2")
 to_snellen(x)
+to_snellen(x, from = "snellendec")
+to_snellen(x, from = "etdrs")
+to_snellen(x, from = "logmar")
 
-## or evaluating them as logmar values 
-to_snellen(x, logmarstep = TRUE)
+## "plus/minus" entries are converted to the most probable threshold (any spaces allowed) 
+x <- c("20/200 - 1", "6/6-2", "20/50 + 3", "6/6-4", "20/33 + 4")
+to_logmar(x)
 
+## or evaluating them as logmar values (each optotype equals 0.02 logmar)
+to_logmar(x, smallstep = TRUE)
+
+## or you can also decide to completely ignore them (converting them to the nearest snellen value in the VA chart)
+to_snellen(x, noplus = TRUE)
 ```
                             
 ### eyes

@@ -9,9 +9,6 @@ eye
 status](https://travis-ci.com/tjebo/eye.svg?branch=master)](https://travis-ci.com/tjebo/eye)
 <!-- badges: end -->
 
-WARNING - eye is currenty under heavy development - would recommend
-currently to install eye from CRAN
-
 See more with *eye*
 
 ## Purpose
@@ -19,9 +16,9 @@ See more with *eye*
 *eye* is dedicated to facilitate very common tasks in ophthalmic
 research.
 
-  - Visual acuity conversion for snellen, logMAR and ETDRS
+  - Visual acuity conversion for Snellen, logMAR and ETDRS
   - Counting patients and eyes
-  - Recode eye strings
+  - Recoding eye strings
   - Reshape eye specific variables  
   - Summarizing data with common statistics (mean, sd, n, range)
   - Calculating age of patients
@@ -50,70 +47,75 @@ source ophthalmic data sets.
   - myop: [Make your eye data long](#myop)
   - hyperop: [Make your eye data wide](#hyperop)
   - blink: [Perceive your data in a blink of an eye](#blink)
-  - Visual acuity [conversion chart](#va-conversion)
   - reveal: [Get common summary statistics](#reveal)
-  - age: [Calculate age](#getage)
+  - getage: [Calculate age](#getage)
 
 ## Details and examples
 
 ### va
 
-Easy conversion from visual acuity notations in a single call to `va()`:
-Automatic detection of VA notation and convert to logMAR by default (but
-you can convert to snellen or ETDRS as well). For some more details see
-[VA conversion](#va-conversion)
+Easy conversion from visual acuity notations in a single call to `va()`.
+The notation will automatically be detected and converted to the desired
+notation. For some more details see [VA conversion](#va-conversion)
 
 ``` r
 ## automatic detection of VA notation and converting to logMAR by default
 x <- c(23, 56, 74, 58) ## ETDRS letters
-va(x, to = "logmar")
+to_logmar(x) # wrapper of va(x, to = "logmar")
 #> From etdrs
 #> [1] 1.24 0.58 0.22 0.54
 
-va(x, to = "snellen") ## ... or convert to snellen
+## ... or convert to snellen
+to_snellen(x) # wrapper of va(x, to = "snellen") 
 #> From etdrs
 #> [1] "20/320" "20/80"  "20/32"  "20/70"
 
-# or with the wrapper 
-to_logmar(x)
+## eye knows metric as well 
+to_snellen(x, type = "m") 
 #> From etdrs
-#> [1] 1.24 0.58 0.22 0.54
-to_snellen(x)
-#> From etdrs
-#> [1] "20/320" "20/80"  "20/32"  "20/70"
+#> [1] "6/96"  "6/24"  "6/9.6" "6/21"
 
-## A mix of notations, and weird NA entries - depending on the VA choice, implausible entries will be replaced by NA
+## And the decimal snellen notation, so much loved in Germany
+to_snellen(x, type = "dec") 
+#> From etdrs
+#> [1] "0.062" "0.25"  "0.625" "0.3"
+
+## Remove weird entries and implausible entries depending on the VA choice
 x <- c("NLP", "0.8", "34", "3/60", "2/200", "20/50", "  ", ".", "-", "NULL")
 
-va(x, to = "snellen", type = "m")
+to_snellen(x)
 #> From snellen. Could be snellen, logmar, snellendec, etdrs
 #> 2x NA introduced for: 0.8, 34
-#>  [1] "6/6000" NA       NA       "6/120"  "6/600"  "6/15"   NA       NA      
-#>  [9] NA       NA
-va(x, to = "snellen", from = "etdrs", type = "m")
+#>  [1] "20/20000" NA         NA         "20/400"   "20/2000"  "20/50"   
+#>  [7] NA         NA         NA         NA
+to_snellen(x, from = "snellendec")
+#> 4x NA introduced for: 34, 3/60, 2/200, 20/50
+#>  [1] "20/20000" "20/25"    NA         NA         NA         NA        
+#>  [7] NA         NA         NA         NA
+to_snellen(x, from = "etdrs")
 #> 4x NA introduced for: 0.8, 3/60, 2/200, 20/50
-#>  [1] "6/6000" NA       "6/60"   NA       NA       NA       NA       NA      
-#>  [9] NA       NA
-va(x, to = "snellen", from = "snellendec", type = "m")
+#>  [1] "20/20000" NA         "20/200"   NA         NA         NA        
+#>  [7] NA         NA         NA         NA
+to_snellen(x, from = "logmar")
 #> 4x NA introduced for: 34, 3/60, 2/200, 20/50
-#>  [1] "6/6000" "6/7.5"  NA       NA       NA       NA       NA       NA      
-#>  [9] NA       NA
-va(x, to = "snellen", from = "logmar", type = "m")
-#> 4x NA introduced for: 34, 3/60, 2/200, 20/50
-#>  [1] "6/6000" "6/38"   NA       NA       NA       NA       NA       NA      
-#>  [9] NA       NA
+#>  [1] "20/20000" "20/125"   NA         NA         NA         NA        
+#>  [7] NA         NA         NA         NA
 
-## "plus/minus" entries are converted to the most probable threshold (any spaces allowed) (currently not stable, will be fixed)
-x <- c("20/200", "20/200 - 1", "6/6", "6/6-2", "20/50 + 3", "20/50 -2")
-to_snellen(x)
+## "plus/minus" entries are converted to the most probable threshold (any spaces allowed) 
+x <- c("20/200 - 1", "6/6-2", "20/50 + 3", "6/6-4", "20/33 + 4")
+to_logmar(x)
 #> From snellen
-#> [1] "20/200" "20/200" "20/20"  "20/20"  "20/50"  "20/50"
+#> [1] 1.0 0.0 0.3 0.1 0.1
 
-## or evaluating them as logmar values 
-to_snellen(x, logmarstep = TRUE)
+## or evaluating them as logmar values (each optotype equals 0.02 logmar)
+to_logmar(x, smallstep = TRUE)
 #> From snellen
-#> ignoring +/- entries when converting to snellen with logmarstep TRUE
-#> [1] "20/200" "20/200" "20/20"  "20/20"  "20/50"  "20/50"
+#> [1] 1.02 0.04 0.34 0.08 0.14
+
+## or you can also decide to completely ignore them (converting them to the nearest snellen value in the VA chart)
+to_snellen(x, noplus = TRUE)
+#> From snellen
+#> [1] "20/200" "20/20"  "20/50"  "20/20"  "20/32"
 ```
 
 ### eyes

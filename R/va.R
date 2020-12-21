@@ -12,9 +12,11 @@
 #'   any case allowed. If NULL (default), will simply "clean up" VA entries.
 #'   This may then result in a vector of "mixed" VA notations.
 #' @param type To which Snellen notation to convert: "m", "dec" or "ft"
-#' @param logmarstep how +/- entries are evaluated. FALSE:
+#' @param smallstep how +/- entries are evaluated. FALSE:
 #'   increase/decrease Snellen fractions by lines. TRUE: plus/minus
 #'   entries equivalent to 0.02 logmar or 1 ETDRS letter
+#' @param noplus ignoring plus/minus entries and just returning the
+#'     snellen fraction. This overrides the smallstep argument.
 #' @name va
 #' @details Each class can be converted from one to another, and va()
 #' converts to logMAR by default. In case of ambiguous detection,
@@ -84,7 +86,7 @@
 #'     - if <= -2 : take Snellen value one line below
 #'     - if >+3 (unlikely, but unfortunately not impossible):
 #'
-#' If logmarstep = TRUE, each snellen optotype will be considered
+#' If smallstep = TRUE, each snellen optotype will be considered
 #' equivalent to 0.02 logmar or 1 ETDRS letter (assuming 5 letters
 #' in a row in a chart)
 #' @section Mixed entries:
@@ -132,7 +134,8 @@
 #' x <- c("3/60", "2/200", "6/60", "20/200", "6/9")
 #' va(x, to="snellen", type = "m")
 #' @export
-va <- function(x, from = NULL, to = NULL, type = "ft", logmarstep = FALSE) {
+va <- function(x, from = NULL, to = NULL, type = "ft",
+               smallstep = FALSE, noplus = FALSE) {
   if (!is.atomic(x)) {
     stop("x must be atomic", call. = FALSE)
   }
@@ -200,7 +203,9 @@ va <- function(x, from = NULL, to = NULL, type = "ft", logmarstep = FALSE) {
   class(x_noquali) <- va_class
   x_plausible <- checkVA(x_noquali)
   # return(list(x_noquali, x_plausible))
-  x_final <- convertVA(x_plausible, to = to, type = type, logmarstep = logmarstep)
+  x_final <-
+    convertVA(x_plausible, to = to, type = type,
+              smallstep = smallstep, noplus = noplus)
   # return(list(va_class, to, type, x_final))
   x_final
 }

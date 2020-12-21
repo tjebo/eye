@@ -177,9 +177,9 @@ test_that("NA", {
   expect_equal(sum(is.na(eye:::convertVA(va_vec3, to = "etdrs", "ft"))),0) #class etdrs
   expect_equal(sum(is.na(eye:::convertVA(va_vec3, to = "snellen", "ft"))),0) #class etdrs
   expect_equal(sum(is.na(eye:::convertVA(va_vec3, to = "logmar", "ft"))),0) #class etdrs
-  expect_equal(sum(is.na(eye:::convertVA(va_vec7, logmarstep = FALSE, to = "snellen", "dec"))), 1) #class snellen
-  expect_equal(sum(is.na(eye:::convertVA(va_vec7,  logmarstep = FALSE,to = "etdrs", "ft"))),1) #class snellen
-  expect_equal(sum(is.na(eye:::convertVA(va_vec7, logmarstep = FALSE, to = "logmar", "ft"))),1) #class snellen
+  expect_equal(sum(is.na(eye:::convertVA(va_vec7, smallstep = FALSE, noplus = FALSE, to = "snellen", "dec"))), 1) #class snellen
+  expect_equal(sum(is.na(eye:::convertVA(va_vec7,  smallstep = FALSE,noplus = FALSE,to = "etdrs", "ft"))),1) #class snellen
+  expect_equal(sum(is.na(eye:::convertVA(va_vec7, smallstep = FALSE, noplus = FALSE,to = "logmar", "ft"))),1) #class snellen
   expect_equal(sum(is.na(eye:::convertVA(va_vec8, to = "snellen", "ft"))),26) #class quali
   expect_equal(sum(is.na(va(c(25, 23, 0.4), to = "snellen"))), 2) #class quali
   expect_equal(suppressWarnings(sum(is.na(va(mixed_VA2)))), 2)
