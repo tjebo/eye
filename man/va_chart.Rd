@@ -35,7 +35,7 @@ counting fingers). Further details for conversion used can be found in
 
 Categories \strong{(no) light perception},  \strong{counting fingers}
 and \strong{hand movements} are converted following
-\href{https://doi.org/10.1167/iovs.05-0981}{Schulze-Bonsel et al.}
+\href{https://iovs.arvojournals.org/article.aspx?articleid=2183308}{Schulze-Bonsel et al.}
 and \href{https://michaelbach.de/sci/acuity.html}{Michael Bach's suggestions}
 }
 \keyword{datasets}

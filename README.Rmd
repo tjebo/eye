@@ -358,7 +358,7 @@ This chart is included in the package (`va_chart`)
 ## Resources
 
 - [Michael Bach's homepage](https://michaelbach.de/sci/acuity.html)
-- [Michael Bach on NLP and LP](https://michaelbach.de/sci/pubs/Bach2007IOVS%20eLetter%20FrACT.pdf)
+- [Michael Bach on NLP and LP](https://michaelbach.de/sci/pubs/Bach2007IOVS_eLetter_FrACT.pdf)
 
 ## References
 

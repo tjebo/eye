@@ -85,19 +85,19 @@ x <- c("NLP", "0.8", "34", "3/60", "2/200", "20/50", "  ", ".", "-", "NULL")
 
 to_snellen(x)
 #> From snellen. Could be snellen, logmar, snellendec, etdrs
-#> 2x NA introduced for: 0.8, 34
+#> 6x NA introduced for: 0.8, 34,   , ., -, NULL
 #>  [1] "20/20000" NA         NA         "20/400"   "20/2000"  "20/50"   
 #>  [7] NA         NA         NA         NA
 to_snellen(x, from = "snellendec")
-#> 4x NA introduced for: 34, 3/60, 2/200, 20/50
+#> 8x NA introduced for: 34, 3/60, 2/200, 20/50,   , ., -, NULL
 #>  [1] "20/20000" "20/25"    NA         NA         NA         NA        
 #>  [7] NA         NA         NA         NA
 to_snellen(x, from = "etdrs")
-#> 4x NA introduced for: 0.8, 3/60, 2/200, 20/50
+#> 8x NA introduced for: 0.8, 3/60, 2/200, 20/50,   , ., -, NULL
 #>  [1] "20/20000" NA         "20/200"   NA         NA         NA        
 #>  [7] NA         NA         NA         NA
 to_snellen(x, from = "logmar")
-#> 4x NA introduced for: 34, 3/60, 2/200, 20/50
+#> 8x NA introduced for: 34, 3/60, 2/200, 20/50,   , ., -, NULL
 #>  [1] "20/20000" "20/125"   NA         NA         NA         NA        
 #>  [7] NA         NA         NA         NA
 
@@ -592,7 +592,7 @@ This chart is included in the package (`va_chart`)
 
   - [Michael Bach’s homepage](https://michaelbach.de/sci/acuity.html)
   - [Michael Bach on NLP and
-    LP](https://michaelbach.de/sci/pubs/Bach2007IOVS%20eLetter%20FrACT.pdf)
+    LP](https://michaelbach.de/sci/pubs/Bach2007IOVS_eLetter_FrACT.pdf)
 
 ## References
 

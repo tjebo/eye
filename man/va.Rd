@@ -45,7 +45,7 @@ the visual acuity chart \link{va_chart}.
 \item \strong{ETDRS to logMAR}: logMAR = -0.02 * etdrs + 1.7
 \href{https://doi.org/10.1016/s0002-9394(02)01825-1}{Beck et al.}
 \item \strong{Hand movements and counting fingers} are converted following
-\href{https://doi.org/10.1167/iovs.05-0981}{Schulze-Bonsel et al.}
+\href{https://iovs.arvojournals.org/article.aspx?articleid=2183308}{Schulze-Bonsel et al.}
 \item \strong{(No) light perception} are converted following the suggestions by
 \href{https://michaelbach.de/sci/acuity.html}{Michael Bach}
 \item \strong{To Snellen}:

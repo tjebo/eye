@@ -11,7 +11,7 @@ In the opinion of the package maintainer the changes were substantial enough to 
   - Windows Server 2008 R2 SP1, R-devel, 32/64 bit
   - Fedora Linux, R-devel, clang, gfortran
   
-`devtools::check_rhub(env_vars=c(R_COMPILE_AND_INSTALL_PACKAGES = "always"))`
+`devtools::check_rhub(platform = "windows-x86_64-devel", env_vars=c(R_COMPILE_AND_INSTALL_PACKAGES = "always"))`
 
 ## CHECK RESULTS
 ### R CMD check (local)

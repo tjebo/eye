@@ -112,7 +112,7 @@ the chart.
 - **ETDRS to logMAR**: logMAR = -0.02 * etdrs + 1.7
 [Beck et al.](https://doi.org/10.1016/s0002-9394(02)01825-1)
 - **Hand movements and counting fingers** are converted following
-[Schulze-Bonsel et al.](https://doi.org/10.1167/iovs.05-0981)
+[Schulze-Bonsel et al.](https://iovs.arvojournals.org/article.aspx?articleid=2183308)
 - **(No) light perception** are converted following the suggestions by
 [Michael Bach](https://michaelbach.de/sci/acuity.html)
 - **To Snellen**:
@@ -560,7 +560,7 @@ This chart is included in the package as `va_chart`
 ## Resources
 
 - [Michael Bach's homepage](https://michaelbach.de/sci/acuity.html)
-- [Michael Bach on NLP and LP](https://michaelbach.de/sci/pubs/Bach2007IOVS%20eLetter%20FrACT.pdf)
+- [Michael Bach on NLP and LP](https://michaelbach.de/sci/pubs/Bach2007IOVS_eLetter_FrACT.pdf)
 
 ## References
 
