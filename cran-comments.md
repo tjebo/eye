@@ -1,9 +1,7 @@
-## Submission version 1.0.0
+## Submission eye 1.0.0
+This is a major version upgrade to eye 0.1.0 (for details see below). 
 
-In the opinion of the package maintainer the changes were substantial enough to justify a major version change (for details see below). 
-
-## CHECKS
-### Test environments
+## CHECK ENVIRONMENTS
 * local OS X install, R 4.0.3
 * ubuntu Ubuntu 16.04.6 LTS (on travis-ci), R 4.0.2 (2020-06-22)
 * win-builder (devel and release), R 4.0.3 
@@ -16,17 +14,22 @@ In the opinion of the package maintainer the changes were substantial enough to 
 ## CHECK RESULTS
 ### R CMD check (local)
 There were no ERRORs or WARNINGs or NOTEs. 
+
 ### Travis
 There were no ERRORs or WARNINGs or NOTEs. 
+
 ### win-builder
 There were no ERRORs or WARNINGs or NOTEs. 
+
 ### R-hub
 There was one NOTE: 
-Found the following (possibly) invalid DOIs: 
-From: DESCRIPTION
 
-    Status: Forbidden
-  DOI: 10.1167/iovs.05-0981
+#> Found the following (possibly) invalid DOIs: 
+#> From: DESCRIPTION
+#> 
+#>     Status: Forbidden
+#>   DOI: 10.1167/iovs.05-0981
+#> 
 
 Comment: 
 I am sorry, but I cannot help it :( This is the doi to this article! 
@@ -34,7 +37,7 @@ I am sorry, but I cannot help it :( This is the doi to this article!
 ## Downstream dependencies
 There are currently no downstream dependencies for this package.
 
-## CHANGES
+## CHANGES - details
 ### DESCRIPTION and CITATION file
 * Add CITATION file (add inst folder)
 * Add URLs to the description file, including bug report field
