@@ -17,11 +17,13 @@ See more with *eye*
 research.
 
   - Visual acuity conversion for Snellen, logMAR and ETDRS
+  - Tidy visual acuity entries
   - Counting patients and eyes
   - Recoding eye strings
   - Reshape eye specific variables  
   - Summarizing data with common statistics (mean, sd, n, range)
   - Calculating age of patients
+  - Tidy NA entries
 
 ## Installation
 
@@ -41,6 +43,7 @@ source ophthalmic data sets.
 ## eye Features
 
   - va: [Conversion of visual acuity notations](#va)
+  - cleanVA: clean visual acuity entries
   - eyes: [Easy count of patients and eyes](#eyes)
   - eyestr: [return eye count as text for your report](#eyestr)
   - recodeye: [recode eye variable](#recodeye)
@@ -49,6 +52,7 @@ source ophthalmic data sets.
   - blink: [Perceive your data in a blink of an eye](#blink)
   - reveal: [Get common summary statistics](#reveal)
   - getage: [Calculate age](#getage)
+  - tidyNA: [Tidy NA equivalent entries](#tidyNA)
 
 ## Details and examples
 
@@ -180,6 +184,24 @@ x <- c("alright", "righton", "lefty","leftover")
 
 recodeye(x, eyecodes = list(r = c("alright","righton"), l = c("lefty","leftover")))
 #> [1] "r" "r" "l" "l"
+```
+
+### tidyNA
+
+Super easy tidying of NA equivalent values often found in data.
+
+``` r
+x <- c("a", "   ", ".", "-", "NULL")
+tidyNA(x)
+#> [1] "a" NA  NA  NA  NA
+
+# in addition to the default strings, a new string can be added
+tidyNA(x, string = "a")
+#> [1] NA NA NA NA NA
+
+# or just remove the strings you want
+tidyNA(x, string = "a", defaultstrings = FALSE)
+#> [1] NA     "   "  "."    "-"    "NULL"
 ```
 
 ### reveal
