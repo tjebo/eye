@@ -10,10 +10,9 @@ va(x, from = NULL, to = NULL, type = "ft", smallstep = FALSE, noplus = FALSE)
 \item{x}{Vector with visual acuity entries. Must be atomic.
 Snellen fractions need to be entered with "/"}
 
-\item{from}{will force to evaluate from which notation to convert -
-only really required if weird snellen decimal entries
-or in rare cases with only few low ETDRS (0 to 3). Must be either
-"etdrs", "logmar" or "snellen"}
+\item{from}{will force to evaluate from which notation to convert - Must be
+"etdrs", "logmar", "snellen" or "snellendec".
+Ignored if the value should not be plausible.}
 
 \item{to}{To which class to convert. "etdrs", "logmar" or "snellen" -
 any case allowed. If NULL (default), will simply "clean up" VA entries.
@@ -23,7 +22,7 @@ This may then result in a vector of "mixed" VA notations.}
 
 \item{smallstep}{how +/- entries are evaluated. FALSE:
 increase/decrease Snellen fractions by lines. TRUE: plus/minus
-entries equivalent to 0.02 logmar or 1 ETDRS letter}
+entries equivalent to 0.02 logmar}
 
 \item{noplus}{ignoring plus/minus entries and just returning the
 snellen fraction. This overrides the smallstep argument.}
@@ -34,19 +33,12 @@ vector of \code{va} class. See also "VA classes"
 \description{
 Cleans and converts visual acuity notations (classes)
 between Snellen (decimal, meter and feet), ETDRS, and logMAR.
-\code{va} detects the VA class and will convert to logMAR as default.
-}
-\details{
-Each class can be converted from one to another, and va()
-converts to logMAR by default. In case of ambiguous detection,
-logMAR is selected as default, or the other alternative is selected with
-\code{from_logmar = FALSE}.
 }
 \section{VA conversion}{
 
 \itemize{
 \item \strong{logMAR to ETDRS}: logMAR rounded to the first digit and converted with
-the chart.
+the visual acuity chart \link{va_chart}.
 \item \strong{Snellen to logMAR}: logMAR = -1 * log10(snellen_frac)
 \item \strong{Snellen to ETDRS}: ETDRS = 85 + 50 * log10(snellen_frac)
 \href{https://doi.org/10.1097/iae.0b013e3181d87e04}{Gregori et al.}.
@@ -68,71 +60,33 @@ the \link{va_chart} are used.
 }
 }
 
-\section{Accepted VA formats}{
+\section{Accepted VA formats / Plausibility checks}{
 
 \itemize{
 \item Snellen fractions (meter/ feet) need to be entered as fraction with
-"/".
-\item \strong{when converting to ETDRS or logMAR}: any fraction is allowed ,
-e.g. 3/60 and 2/200 will also be recognized.
-\item \strong{When converting between Snellen fractions}:
-\emph{has to be either 6/ or 20/}. Other fractions will not be recognized -
+"/". Any fractions allowed. You can get creative with your snellens.
 see \strong{"Examples"}
 \item ETDRS must be integer-equivalent between 0 and 100 (integer equivalent
 means, it can also be a character vector)
-\item logMAR must be between -0.3 and 3.0
+\item logMAR must be -0.3 <= x <= 3.0
+\item Snellen decimal must be 0 < x <= 2
 \item Qualitative must be either of PL, LP, NLP, NPL, HM, CF (any case allowed)
-\item Any element which is not recognized will be converted to NA
+\item Plausibility checks are performed for the automatically or manually defined
+notation.
+\item Any element which is implausible/ not recognized will be converted to NA
 }
-}
-
-\section{VA detection}{
-
-\itemize{
-\item Internally done with \code{\link[=which_va]{which_va()}} based on the following rules
-\item if x integer and 3 < x <= 100: \code{etdrs}
-\item if x integer and 0 <= x <= 3: \code{logmar}, but you can choose \code{etdrs}
-\item if x numeric and -0.3 <= x <= 3: \code{logmar}
-\item if x numeric and all x in intersection(va_chart$logMAR, va_chart$snellen_dec):
-\code{logmar}, but you can choose \code{snellen}
-}
-
-Detection and conversion is on a vector as a whole by \code{\link[=which_va]{which_va()}}.
-}
-
-\section{Problematic cases}{
-
-There can be ambiguous cases for detection (detection defaults to logmar):
-x is one of 0,1,2,3 - This can be ETDRS and logMAR.
-x is one of c(1.5, 1, 0.8, 0.5, 0.4, 0.3, 0.2, 0.1, 0) - This can be
-snellen decimal or logMAR.
-
-\strong{snellen decimals} are a particular challenge and \code{va} may wrongly
-assign  logMAR - this could happen if there are unusual snellen decimal
-values in the data which are not part of \link{va_chart}. E.g., check the
-values with \code{unique(x)}.
 }
 
 \section{Snellen "+/-" entries}{
 
 By default, plus/minus entries are evaluated as intended by the
-test design: Snellen fractions increase/decrease only by lines.\preformatted{- if entry -1 to +3 : take same Snellen value
-- if <= -2 : take Snellen value one line below
-- if >+3 (unlikely, but unfortunately not impossible):
+test design: Snellen fractions increase/decrease only by lines.\preformatted{- if entry -2 to +2 : take same Snellen value
+- if < -2 : take Snellen value one line below
+- if > +2 : take Snellen value one line above
 }
 
 If smallstep = TRUE, each snellen optotype will be considered
-equivalent to 0.02 logmar or 1 ETDRS letter (assuming 5 letters
-in a row in a chart)
-}
-
-\section{Mixed entries}{
-
-If Snellen entries (containing "/") and numeric values are found, the notation
-will be guessed as "mixed". This behaviour can be turned off with "mixed =
-FALSE". In this case, "snellen" will be chosen as default unless otherwise
-specified with the from argument.
-Note that some plausibility checks may be overruled with mixed notation.
+equivalent to 0.02 logmar (assuming 5 letters in a row in a chart)
 }
 
 \section{VA cleaning}{
@@ -146,7 +100,7 @@ For more details see \code{\link[=clean_va]{clean_va()}}
 
 \section{VA classes}{
 
-convert_VA returns a vector of three classes:
+convertVA returns a vector of three classes:
 \enumerate{
 \item \code{va}
 \item One of snellen, snellendec, logmar, etdrs or quali.

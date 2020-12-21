@@ -2,9 +2,12 @@
 % Please edit documentation in R/va_cleaner.R
 \name{clean_va}
 \alias{clean_va}
+\alias{cleanVA}
 \title{Cleaning up Visual acuity entries}
 \usage{
 clean_va(x, quali = c("nlp", "lp", "hm", "cf"), message = TRUE)
+
+cleanVA(x, quali = c("nlp", "lp", "hm", "cf"), message = TRUE)
 }
 \arguments{
 \item{x}{Vector with VA entries}

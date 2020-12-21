@@ -39,6 +39,17 @@ Simple convenience wrapper around \link{va} to get desired VA class
 For details see \link{va} and \link{convertVA}
 }
 
+\examples{
+x <- c(23, 56, 74, 58) ## ETDRS letters
+to_logmar(x)
+to_snellen(x)
+to_snellen(x, type = "dec")
+
+x <- c("NLP", "0.8", "34", "3/60", "2/200", "20/50", "  ", ".", "-", "NULL")
+to_snellen(x, from = "snellendec")
+to_snellen(x, from = "etdrs")
+to_snellen(x, from = "logmar")
+}
 \seealso{
 Other VA converter: 
 \code{\link{plausibility_methods}},

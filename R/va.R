@@ -1,30 +1,24 @@
 #' Visual acuity notation conversion
 #' @description Cleans and converts visual acuity notations (classes)
 #'   between Snellen (decimal, meter and feet), ETDRS, and logMAR.
-#'   `va` detects the VA class and will convert to logMAR as default.
 #' @param x Vector with visual acuity entries. Must be atomic.
 #' Snellen fractions need to be entered with "/"
-#' @param from will force to evaluate from which notation to convert -
-#'   only really required if weird snellen decimal entries
-#'   or in rare cases with only few low ETDRS (0 to 3). Must be either
-#'   "etdrs", "logmar" or "snellen"
+#' @param from will force to evaluate from which notation to convert - Must be
+#'   "etdrs", "logmar", "snellen" or "snellendec".
+#'   Ignored if the value should not be plausible.
 #' @param to To which class to convert. "etdrs", "logmar" or "snellen" -
 #'   any case allowed. If NULL (default), will simply "clean up" VA entries.
 #'   This may then result in a vector of "mixed" VA notations.
 #' @param type To which Snellen notation to convert: "m", "dec" or "ft"
 #' @param smallstep how +/- entries are evaluated. FALSE:
 #'   increase/decrease Snellen fractions by lines. TRUE: plus/minus
-#'   entries equivalent to 0.02 logmar or 1 ETDRS letter
+#'   entries equivalent to 0.02 logmar
 #' @param noplus ignoring plus/minus entries and just returning the
 #'     snellen fraction. This overrides the smallstep argument.
 #' @name va
-#' @details Each class can be converted from one to another, and va()
-#' converts to logMAR by default. In case of ambiguous detection,
-#' logMAR is selected as default, or the other alternative is selected with
-#' `from_logmar = FALSE`.
 #' @section VA conversion:
 #' - **logMAR to ETDRS**: logMAR rounded to the first digit and converted with
-#' the chart.
+#' the visual acuity chart [va_chart].
 #' - **Snellen to logMAR**: logMAR = -1 * log10(snellen_frac)
 #' - **Snellen to ETDRS**: ETDRS = 85 + 50 * log10(snellen_frac)
 #' [Gregori et al.](https://doi.org/10.1097/iae.0b013e3181d87e04).
@@ -44,63 +38,35 @@
 #' Therefore, Snellen matching the nearest ETDRS and logMAR value in
 #' the [va_chart] are used.
 #'
-#' @section Accepted VA formats:
+#' @section Accepted VA formats / Plausibility checks:
 #' - Snellen fractions (meter/ feet) need to be entered as fraction with
-#' "/".
-#' - **when converting to ETDRS or logMAR**: any fraction is allowed ,
-#' e.g. 3/60 and 2/200 will also be recognized.
-#' - **When converting between Snellen fractions**:
-#' *has to be either 6/ or 20/*. Other fractions will not be recognized -
+#' "/". Any fractions allowed. You can get creative with your snellens.
 #' see **"Examples"**
 #' - ETDRS must be integer-equivalent between 0 and 100 (integer equivalent
 #' means, it can also be a character vector)
-#' - logMAR must be between -0.3 and 3.0
+#' - logMAR must be -0.3 <= x <= 3.0
+#' - Snellen decimal must be 0 < x <= 2
 #' - Qualitative must be either of PL, LP, NLP, NPL, HM, CF (any case allowed)
-#' - Any element which is not recognized will be converted to NA
-#'
-#' @section VA detection:
-#'   - Internally done with [which_va()] based on the following rules
-#'   - if x integer and 3 < x <= 100: `etdrs`
-#'   - if x integer and 0 <= x <= 3: `logmar`, but you can choose `etdrs`
-#'   - if x numeric and -0.3 <= x <= 3: `logmar`
-#'   - if x numeric and all x in intersection(va_chart$logMAR, va_chart$snellen_dec):
-#'     `logmar`, but you can choose `snellen`
-#'
-#' Detection and conversion is on a vector as a whole by [which_va()].
-#'
-#' @section Problematic cases:
-#' There can be ambiguous cases for detection (detection defaults to logmar):
-#' x is one of 0,1,2,3 - This can be ETDRS and logMAR.
-#' x is one of c(1.5, 1, 0.8, 0.5, 0.4, 0.3, 0.2, 0.1, 0) - This can be
-#' snellen decimal or logMAR.
-#'
-#' **snellen decimals** are a particular challenge and `va` may wrongly
-#'   assign  logMAR - this could happen if there are unusual snellen decimal
-#'   values in the data which are not part of [va_chart]. E.g., check the
-#'   values with `unique(x)`.
+#' - Plausibility checks are performed for the automatically or manually defined
+#' notation.
+#' - Any element which is implausible/ not recognized will be converted to NA
+
 #' @section Snellen "+/-" entries:
 #' By default, plus/minus entries are evaluated as intended by the
 #' test design: Snellen fractions increase/decrease only by lines.
 #'
-#'     - if entry -1 to +3 : take same Snellen value
-#'     - if <= -2 : take Snellen value one line below
-#'     - if >+3 (unlikely, but unfortunately not impossible):
+#'     - if entry -2 to +2 : take same Snellen value
+#'     - if < -2 : take Snellen value one line below
+#'     - if > +2 : take Snellen value one line above
 #'
 #' If smallstep = TRUE, each snellen optotype will be considered
-#' equivalent to 0.02 logmar or 1 ETDRS letter (assuming 5 letters
-#' in a row in a chart)
-#' @section Mixed entries:
-#' If Snellen entries (containing "/") and numeric values are found, the notation
-#' will be guessed as "mixed". This behaviour can be turned off with "mixed =
-#' FALSE". In this case, "snellen" will be chosen as default unless otherwise
-#' specified with the from argument.
-#' Note that some plausibility checks may be overruled with mixed notation.
+#' equivalent to 0.02 logmar (assuming 5 letters in a row in a chart)
 #' @section VA cleaning:
 #' For more details see [clean_va()]
 #' 1. `NA` is assigned to strings such as "." or "", "n/a" or "   "
 #' 1. notation for qualitative entries is simplified.
 #' @section VA classes:
-#' convert_VA returns a vector of three classes:
+#' convertVA returns a vector of three classes:
 #'   1. `va`
 #'   1. One of snellen, snellendec, logmar, etdrs or quali.
 #'   1. Either of `character` (for Snellen, snellendec, and qualitative),
@@ -147,8 +113,8 @@ va <- function(x, from = NULL, to = NULL, type = "ft",
     if (length(to) != 1 | !to %in% c("etdrs", "logmar", "snellen")) {
       message("'to' must be 'etdrs', 'logmar', or 'snellen'")
       return(x)
-    } else if (to == "snellen"){
-      if(!type %in% c("ft", "m", "dec")) {
+    } else if (to == "snellen") {
+      if (!type %in% c("ft", "m", "dec")) {
         message("'type' must be 'ft', 'm' or 'dec'. picking ft")
         type <- "ft"
       }
@@ -157,16 +123,13 @@ va <- function(x, from = NULL, to = NULL, type = "ft",
     }
   }
   if (inherits(x, "va")) {
-    set_va <- class(x)[class(x) %in% VAclasses]
-    if (to == set_va) {
-      message("VA already in desired class. No conversion made")
-      return(x)
+    conVA <- convertVA(x, to = to, type = type,
+                       smallstep = smallstep, noplus = noplus
+    )
+      return(conVA)
     } else {
-      va_class <- set_va
-    }
-  } else {
-    x <- clean_va(x, message = FALSE)
-    guess_va <- which_va(x)
+    x_clean <- clean_va(x, message = FALSE)
+    guess_va <- which_va(x_clean)
 
     if (all(guess_va %in% "NA")) {
       message("No conversion - vector of NA")
@@ -188,7 +151,7 @@ va <- function(x, from = NULL, to = NULL, type = "ft",
       }
     } else {
       if (length(guess_va) == 1 &
-          all(guess_va %in% VAclasses)) {
+        all(guess_va %in% VAclasses)) {
         message(paste("From", guess_va))
         va_class <- guess_va
       } else if (length(guess_va) > 1) {
@@ -199,28 +162,21 @@ va <- function(x, from = NULL, to = NULL, type = "ft",
       }
     }
   }
-  x_noquali <- convertQuali(x, to_class = va_class)
+  x_noquali <- convertQuali(x_clean, to_class = va_class)
   class(x_noquali) <- va_class
   x_plausible <- checkVA(x_noquali)
-  # return(list(x_noquali, x_plausible))
-  x_final <-
-    convertVA(x_plausible, to = to, type = type,
-              smallstep = smallstep, noplus = noplus)
-  # return(list(va_class, to, type, x_final))
+
+  newNA <- as.logical(is.na(x_plausible) - is.na(x))
+  introduceNA(x, newNA)
+
+  x_final <- convertVA(x_plausible,
+    to = to, type = type,
+    smallstep = smallstep, noplus = noplus
+  )
   x_final
 }
-# va(x, to = "logmar")
-# va(x, to = "snellen", from = "etdrs")
-# xx <- va(x, to = "snellen", from = "snellendec")
 
 #' VA classes
 #' @name VAclasses
-#' @description eye introduces classes for VA notation.
-#' If the class is not manually attributed to the vectors (not advised!), they
-#' will have (at least) three classes:
-#'   1. class "va"
-#'   1. One of class 'snellen', 'snellendec', 'logmar', 'etdrs' or 'quali'
-#'   1. Either of 'character' (for Snellen, snellendec, and qualitative),
-#'       'numeric' (for logMAR), or 'integer' (for ETDRS).
 #' @keywords internal
 VAclasses <- c("logmar", "snellen", "snellendec", "etdrs", "quali")

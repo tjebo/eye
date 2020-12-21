@@ -69,6 +69,15 @@ tocapital <- function(x) {
 #' @param x Vector
 #' @param ... passed to [isNAstring]
 #' @return character vector
+#' @examples
+#' x <- c("a", "   ", ".", "-", "NULL")
+#' tidyNA(x)
+#'
+#' # in addition to the default strings, a new string can be added
+#' tidyNA(x, string = "a")
+#'
+#' # or just remove the strings you want
+#' tidyNA(x, string = "a", defaultstrings = FALSE)
 #' @export
 #'
 tidyNA <- function(x, ...){
@@ -85,6 +94,8 @@ tidyNA <- function(x, ...){
 isNAstring <- function(x, string = NULL, defaultstrings = TRUE) {
   if(defaultstrings){
     full <- c(c("\\.+", "", "\\s+", "n/a", "na", "null", "^-$"), string)
+  } else {
+    full <- string
   }
   fullpaste <- paste0("^", paste(full, collapse = "$|^"), "$")
   isNA <- grepl(fullpaste, x)

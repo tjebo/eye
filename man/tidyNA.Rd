@@ -26,4 +26,14 @@ character vector
 Creates tidy NA entries - NA equivalent strings are tidied to
 actual NA values
 }
+\examples{
+x <- c("a", "   ", ".", "-", "NULL")
+tidyNA(x)
+
+# in addition to the default strings, a new string can be added
+tidyNA(x, string = "a")
+
+# or just remove the strings you want
+tidyNA(x, string = "a", defaultstrings = FALSE)
+}
 \keyword{internal}

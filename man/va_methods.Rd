@@ -96,6 +96,29 @@ convert_VA returns a vector of three classes:
 }
 }
 
+\section{plus/minus entries}{
+
+The following rules for plus minus notations will be applied:
+\itemize{
+\item if entry -2 to +2 : take same Snellen value
+\item if < -2 : take Snellen value one line below
+\item if > +2: Snellen value one line above
+}
+
+Snellen are unfortunately often entered with "+/-", which is a
+violation of a psychophysical method designed to assign one
+unambiguous value to visual acuity, with
+non-arbitrary thresholds based on psychometric functions. Therefore,
+transforming "+/-" notation to actual results is in itself
+problematic and the below suggestion to convert it will remain an
+approximation to the most likely "true" result. Even more so, as the
+given conditions should work for charts with
+4 or 5 optotypes in a line, and visual acuity is not always tested
+on such charts. Yet, I believe that the approach is still better than
+just omitting the letters or (worse) assigning a missing value to those
+entries.
+}
+
 \seealso{
 Other VA converter: 
 \code{\link{VAwrapper}},

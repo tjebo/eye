@@ -9,17 +9,11 @@
 #'
 #'   - Snellen fractions need to be either form 6/x or 20/x
 #'   - Snellen decimal must be > 0 and <= 2
-#'   - ETDRS must be between 0 and 100
-#'   - logMAR must be between -0.3 and 3.0
+#'   - ETDRS must be >= 0 and <= 100
+#'   - logMAR must be >= -0.3 and <= 3.0
 #'   - Qualitative must be PL, LP, NLP, NPL, HM, CF (any case allowed)
 #'
-#' Any element which is not recognized will be converted to NA
-#' @section VA classes:
-#' convert_VA returns a vector of three classes:
-#'   1. `va`
-#'   1. One of `snellen`, `logmar`, `etdrs` or `quali`.
-#'   1. Either of `character` (for Snellen and qualitative),
-#'       `numeric` (for logMAR), or `integer` (for ETDRS).
+#' Any element which is implausible / not recognized will be converted to NA
 #' @return vector with visual acuity of class `va`. See also "VA classes"
 #' @family VA converter
 #' @export
@@ -32,7 +26,6 @@ checkVA <- function (x, ...) {
 checkVA.quali <- function(x, ...){
   test <- is.na(x) | x %in% c("nlp", "lp", "hm", "cf")
   x[!test] <- NA
-  introduceNA(x, !test)
   x
 }
 
@@ -42,7 +35,6 @@ checkVA.snellen <- function(x, ...){
   test <- is.na(x) | grepl("/", x)
   x_old <- x
   x[!test] <- NA
-  introduceNA(x_old, !test)
   x
 }
 
@@ -54,7 +46,6 @@ checkVA.snellendec <- function(x, ...){
   test <- x_num > 0 & x_num <= 2
   newtest <- ifelse(is.na(test), newna, !test)
   x_num[!test] <- NA
-  introduceNA(x, newtest)
   class(x_num) <- c(class(x_num), "snellendec")
   x_num
 }
@@ -67,7 +58,7 @@ checkVA.logmar <- function(x, ...){
   test <- x_num >= -0.3 & x_num <= 3
   newtest <- ifelse(is.na(test), newna, !test)
   x_num[!test] <- NA
-  introduceNA(x, newtest)
+  # introduceNA(x, newtest)
   class(x_num) <- c(class(x_num), "logmar")
   x_num
 }
@@ -80,7 +71,6 @@ checkVA.etdrs <- function(x, ...){
   test <- x == x_int & x_int >= 0 & x_int <= 100
   newtest <- ifelse(is.na(test), newna, !test)
   x_int[!test] <- NA
-  introduceNA(x, newtest)
   class(x_int) <- c(class(x_int), "etdrs")
   x_int
 }

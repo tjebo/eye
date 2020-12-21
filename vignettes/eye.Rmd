@@ -42,16 +42,17 @@ Further, it provides tools for easy data summaries and calculations:
 ## Visual acuity conversion {#va}
 Easy conversion from visual acuity notations in a single call to `va()`:
 
-`va()` cleans and converts visual acuity notations (classes) between Snellen (decimal, meter and feet), ETDRS, and logMAR. Each class can be converted from one to another, but `va()` converts to logMAR by default. `va()` will detect the class automatically based on specific rules detailed below.
+`va()` cleans and converts visual acuity notations (classes) between Snellen (decimal, meter and feet), ETDRS, and logMAR. Each class can be converted from one to another. `va()` will detect the class automatically based on specific rules detailed below. Calling va() without specifying the "to" argument will simply clean the visual acuity entries - any notations will be accepted, no plausibility 
+checks yet performed. This is then bascially a wrapper around `clean_va`.
 
-It takes an (atomic) vector with visual acuity entries as the only required argument. 
-The user can specify the original VA notation, but va will check that and ignore the argument if implausible.
+It takes an (atomic) vector with visual acuity entries as the only required argument. The user can specify the original VA notation, but va will check that and ignore the argument if implausible.
 
 ### Conversion steps
 `va()` basically runs three main steps: 
 
 1. [Entry cleaning](#cleaning) with `clean_va()` 
 1. [Notation detection](#detection) with `which_va()`
+1. [Plausibility checks](#plausibility) with `checkVA()`
 1. [Conversion](#conversion) with the S3 generic `convertVA()`
 
 ### Cleaning
@@ -70,30 +71,21 @@ If the argument `smallstep = TRUE`, the entries will be converted to logmar valu
 ### Detection
  - Internally done with `which_va()` based on the following rules
  - if x integer and 3 < x <= 100: `etdrs`
- - if x integer and 0 <= x <= 3: `logmar`, but you can choose `etdrs`
- - if x numeric and -0.3 <= x <= 3: `logmar`
- - if x numeric and all x in `intersection(va_chart$logMAR, va_chart$snellen_dec)`:
-   default to `logmar`, but you can choose `snellen` (then snellen decimal)
- - *non-mixed class*: if all x in va_chart$snellen_dec: `snellen`
- - *mixed class* ([which_va_dissect]): snellen_dec not supported.
+ - if x integer and 0 <= x <= 3: `logmar`, `snellendec` or `etdrs`
+ - if x numeric and -0.3 <= x <= 3: `logmar` or `snellendec`
  - if character and format x/y: `snellen` (fraction)
  - if one of "CF", "HM", "LP", "PL", "NLP", or "NPL": `quali`
- - if numeric x beyond the ranges from above: `NA` (with a warning that values outside the range were found)
- - Any other string or NA: NA
  
-#### Accepted VA formats
+#### Accepted VA formats / Plausibility checks [#plausibility]
 - Snellen fractions (meter/ feet) need to be entered as fraction with
-"/".
-- **converting Snellen to ETDRS or logMAR**: any fraction is allowed ,
+"/". **any fraction is allowed**
 e.g. 3/60 and 2/200 will also be recognized.
-- **converting between Snellen fractions**:
-*has to be either 6/ or 20/*. Other fractions will not be recognized.
-See also **"Examples"**
 - ETDRS must be integer-equivalent between 0 and 100 (integer equivalent
 means, it can also be a character vector)
 - logMAR must be between -0.3 and 3.0
+- snellendec must be greater than 0 and smaller or equal to 2
 - Qualitative must be either of PL, LP, NLP, NPL, HM, CF (any case allowed)
-- Any element which is not recognized will be converted to NA
+- Any element which is implausible / not recognized will be converted to NA
 
 ### Conversion
 - **logMAR to ETDRS**: logMAR rounded to the first digit and converted with
@@ -116,18 +108,6 @@ considered an exact science and any attempt to use formulas will result
 in very weird Snellen values that have no correspondence to common charts.
 Therefore, Snellen matching the nearest ETDRS and logMAR value in
 [the VA conversion chart](#va-conversion-chart) are used.
-
-Detection and conversion is on a vector as a whole by `which_va()`. If a "mixed" VA notation is found, `which_va_dissect()` and `va_dissect()` will be called instead for each VA vector element individually.
-
-### Problematic cases:
-There can be ambiguous cases for detection (detection defaults to logmar):
-
-- x is one of 0,1,2,3 - This can be both ETDRS and logMAR.
-- x is one of c(1.5, 1, 0.8, 0.5, 0.4, 0.3, 0.2, 0.1, 0) - This can be Snellen decimal or logMAR.
-
-**Snellen decimals** are a particular challenge and `va` may wrongly assign  logMAR - this could happen if there are unusual snellen decimal values in the data which are not part of the [VA conversion chart](#va-conversion-chart). 
-
-E.g., check the values with `unique(x)`.
 
 ### Examples
 ```{r va}
@@ -165,30 +145,38 @@ to_snellen(x, noplus = TRUE)
 ## recodeye {#recode}
 Makes recoding eye variables very easy.
 
-- `recodeye` recognizes integer coding 0:1 and 1:2, with right being the lower number. 
-- For character coding the following codes are recognized as a default: 
-`c("r", "re", "od", "right")` and
-   left eyes: `c("l", "le", "os", "left")`.
+The following codes are recognized:
+
+- integer coding 0:1 and 1:2, right eye being the lower number.
+- right eyes: c("r", "re", "od", "right") and
+- left eyes: c("l", "le", "os", "left") and
+- both eyes: c("b", "both", "ou")
    
-If you have different codes, you can change the recognized strings with the `eyecodes` argument, which needs to be a list. But remember to put the strings for right eyes first!
+If you have different codes, you can change the recognized strings with the `eyecodes` argument, which needs to be a list. But remember to put the strings for right eyes first, or pass a *named list*. 
 ```{r}
 x <- c("r", "re", "od", "right", "l", "le", "os", "left")
 recodeye(x)
 
-## chose the resulting codes
-recodeye(x, to = c("right", "left"))
+## or with "both eyes"
+x <- c(x, "both", "ou")
+recodeye(x)
 
-## Or if you have weird codes for eyes
-x <- c("alright", "righton", "lefty","leftover")
-recodeye(x, eyecodes = list(c("alright","righton"), c("lefty","leftover")))
+## chose the resulting codes
+recodeye(x, to = c("od", "os", "ou"))
 
 ## Numeric codes 0:1/ 1:2 are recognized 
 x <- 1:2
 recodeye(x)
 
-## chose the resulting codes
-recodeye(x, to = c("right", "left"))
-```               
+## with weird missing values
+x <- c(1:2, ".", NA, "", "    ")
+recodeye(x)
+
+## Or if you have weird codes for eyes
+x <- c("alright", "righton", "lefty","leftover")
+
+recodeye(x, eyecodes = list(r = c("alright","righton"), l = c("lefty","leftover")))
+```
 
 ## Counting patients and eyes {#eyes}
 `eyes` offers a very simple tool for counting patients and eyes. 
@@ -209,16 +197,19 @@ or "id"
 
 #### eye variable column:
 - names can be in any case.
-- `eyes` looks for columns called either "eye" or "eyes"
+- `eyes` looks for columns that contain the string either "eye" or "eyes"
+- columns will full string "eye" or "eyes" will be given precedence
 
 ### Counting 
 For counting eyes, eyes need to be coded in commonly used ways. You can use [recodeye](#recode) for very convenient recoding.
 
 - `eyes` recognizes integer coding 0:1 and 1:2, with right being
    the lower number. 
-- Or, arguably more appropriate in R, character coding for a categorical variable: `eyes` recognizes right eyes: 
-`c("r", "re", "od", "right")` and
-   left eyes: `c("l", "le", "os", "left")`.
+- Or, arguably more appropriate in R, character coding for a categorical variable: 
+  
+  - right eyes: c("r", "re", "od", "right") 
+  - left eyes: c("l", "le", "os", "left") 
+  - both eyes: c("b", "both", "ou")
 
 ### Report:
  `eyes` also include a convenience function to turn the count into a text. This is intended for integration into rmarkdown reports, or for easy copy / pasting. `eyes_to_string()` parses the output of `eyes` into text under the hood. Arguments to `eyes_to_string` are passed via **...**:
@@ -344,6 +335,8 @@ hyperop(myop_df, cols = matches("va|iop"))
 ```
 
 ## blink
+Although kind of nice, blink is more a nerdy extra and is not likely to be used much. Therefore I decided to stop the work on it. It will be left in the package as such.
+
 **See your data in a blink of an eye**
 
 `blink()` is more than just a wrapper around `myop()`, `eyes()`, `va()` and `reveal()`. It will look for VA and for IOP columns and provide the summary stats for the entire cohort and for right and left eyes for each VA and IOP variable. 

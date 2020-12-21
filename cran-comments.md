@@ -1,20 +1,55 @@
 ## Submission version 1.0.0
 
-In the opinion of the package maintainer the changes were substantial enough to justify a major version change. 
+In the opinion of the package maintainer the changes were substantial enough to justify a major version change (for details see below). 
 
-## Changes:
-### Functions
+## CHECKS
+### Test environments
+* local OS X install, R 4.0.3
+* ubuntu Ubuntu 16.04.6 LTS (on travis-ci), R 4.0.2 (2020-06-22)
+* win-builder (devel and release), R 4.0.3 
+* R-hub (Windows Server 2008 R2 SP1, R-devel, 32/64 bit)
+`devtools::check_rhub(platform="windows-x86_64-devel", env_vars=c(R_COMPILE_AND_INSTALL_PACKAGES = "always"))`
+
+## CHECK RESULTS
+### R CMD check (local)
+There were no ERRORs or WARNINGs or NOTEs. 
+### Travis
+There were no ERRORs or WARNINGs or NOTEs. 
+### win-builder
+There were no ERRORs or WARNINGs or NOTEs. 
+### R-hub
+There were two NOTEs: Found (possibly) invalid url / DOI
+
+- https://doi.org/10.1167/iovs.05-0981
+- DOI: 10.1001/jamaophthalmol.2020.5044
+- DOI: 10.1136/bmjopen-2018-027441
+- DOI: 10.1167/iovs.05-0981
+
+I checked those urls and dois, all seem valid. 
+
+## Downstream dependencies
+There are currently no downstream dependencies for this package.
+
+## CHANGES
+### DESCRIPTION and CITATION file
+* Add CITATION file (add inst folder)
+* Add URLs to the description file, including bug report field
+* Update description field in DESCRIPTION 
+* Update import field description: add package "eyedata"
+
+### Functions and objects (details)
 * `va`
     * add arguments "from", "noplus" and "smallstep"
     * removed "from_logmar" and "logmarstep"
     * VA notation guessing is not done by single element any more, but will be 
-      forced choice either by most likely or with argument "from". Any implausible            values will be forced to NA.
-    * issue #6: introduce new verbs to convert to specific VA class (simple wrapper for       `va(x, to = ...)`)
+      forced choice either by most likely or with argument "from". Any implausible  
+      values will be forced to NA.
+    * issue #6: introduce new verbs to convert to specific VA class (simple wrapper       for `va(x, to = ...)`)
     * issue #21 weird snellen values (e.g., 20/41) can now also converted to other
       snellen values. 
     * New S3 methods introduced to check plausibility of entries by VA class. 
-    * Adding plus/minus entries is now done by actual logmar values rather than via           lookup in the VA chart (rewrite of `snellen_steps` function)
-
+    * Adding plus/minus entries is now done by actual logmar values rather than via 
+      lookup in the VA chart (rewrite of `snellen_steps` function)
 * `recodeye()`:
     * recognises "both/ou/b" for both eyes. 
     * dropunknown unclear codings are converted to NA by default (with warning)
@@ -31,7 +66,9 @@ In the opinion of the package maintainer the changes were substantial enough to 
 * `eyestr()`:
     * moved eyes_to_str step from eyes() to eyestr()
 * `age()` 
-    rename to getage() in order to avoid potential and even likely clashes with the         users environment, especially when using age() within the local environment of a        data frame (e.g., using with())
+    rename to getage() in order to avoid potential and even likely clashes with the
+    users environment, especially when using age() within the local environment 
+    of a data frame (e.g., using with())
 * `blink()` 
     message that this function will no longer be 
     maintained, but kept in the package. 
@@ -40,27 +77,9 @@ In the opinion of the package maintainer the changes were substantial enough to 
 * `clean_va` returns numeric vector if all entries are numeric
 * removed functions va_dissect() and which_va_dissect()
 
-### Documentation
-* Add CITATION file (add inst folder)
-* Add URLs to the description file, including bug report field
-* Update documentation eye.Rd and in the vignette about removed data sets.
-* add more details to recodeye() documentation
-* Update description field in DESCRIPTION 
-* Update import field description: add package "eyedata"
-
 ### Data sets
 * Removed data set amd - this will be now part of the dedicated ophthalmic data
 set package "eyedata" (currently in submission to CRAN)
 * removed data set 'va_quali'
 
-## Test environments
-* local OS X install, R 4.0.0
-* ubuntu Ubuntu 16.04 (on travis-ci), R 4.0.0
-* win-builder (devel and release), R 4.0.0
-* R-hub
 
-## R CMD check results
-There were no ERRORs or WARNINGs or NOTEs. 
-
-## Downstream dependencies
-There are currently no downstream dependencies for this package.

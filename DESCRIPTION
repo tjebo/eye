@@ -1,22 +1,22 @@
 Package: eye
 Title: Analysis of Eye Data
-Version: 0.1.9000
+Version: 1.0.0
 Authors@R: c(
     person("Tjebo", "Heeren",
            role = c("aut", "cre"),
            email = "tjebo@gmx.de",
            comment = c(ORCID = "0000-0001-5297-2301")),
     person("Antoine", "Fabri", role = "ctb"))
-Description: A tool to facilitate common tasks in ophthalmic research: 
-    Easy and fully automated conversion between different visual acuity notations 
-    (Snellen, logMAR and ETDRS), counting of patients, recode right and left eyes and reshape 
-    eye side specific variables between wide and long format. The 'eye' 
-    package also contains four real life data sets of people with intravitreal 
-    injections with anti-vascular endothelial growth factor (anti-VEGF) due to
-    age-related macular degeneration 
-    [Fu et al. (2020) <doi:10.1001/jamaophthalmol.2020.5044>, 
-    Fasler et al. (2019) <doi:10.1136/bmjopen-2018-027441>].
-    Visual acuity conversion is based on 
+Description: There is no ophthalmic researcher who has not had headaches from 
+    the conversion between visual acuity notations. This shall now 
+    be a thing of the past. Eye makes it as easy as pie to convert between 
+    Snellen, logMAR (logarithm of the minimum angle of resolution) 
+    and Early Treatment for Diabetic Retinopathy Study (ETDRS) 
+    letters, and qualitative visual acuities shall never pester you again. 
+    The eye package automates the pesky task to count number of patients and eyes, 
+    and can help to clean data with easy recoding for right and left eyes. It 
+    also contains functions to help reshaping eye side specific variables 
+    between wide and long format. Visual acuity conversion is based on 
     Schulze-Bonsel et al. (2006) <doi:10.1167/iovs.05-0981>, 
     Gregori et al. (2010) <doi:10.1097/iae.0b013e3181d87e04>, 
     Beck et al. (2003) <doi:10.1016/s0002-9394(02)01825-1> and 

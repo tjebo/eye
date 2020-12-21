@@ -40,6 +40,27 @@
 #'   1. One of `snellen`, `logmar`, `etdrs` or `quali`.
 #'   1. Either of `character` (for Snellen and qualitative),
 #'       `numeric` (for logMAR), or `integer` (for ETDRS).
+#'
+#' @section plus/minus entries:
+#' The following rules for plus minus notations will be applied:
+#'
+#' - if entry -2 to +2 : take same Snellen value
+#' - if < -2 : take Snellen value one line below
+#' - if > +2: Snellen value one line above
+#'
+#' Snellen are unfortunately often entered with "+/-", which is a
+#' violation of a psychophysical method designed to assign one
+#' unambiguous value to visual acuity, with
+#' non-arbitrary thresholds based on psychometric functions. Therefore,
+#' transforming "+/-" notation to actual results is in itself
+#' problematic and the below suggestion to convert it will remain an
+#' approximation to the most likely "true" result. Even more so, as the
+#' given conditions should work for charts with
+#' 4 or 5 optotypes in a line, and visual acuity is not always tested
+#' on such charts. Yet, I believe that the approach is still better than
+#' just omitting the letters or (worse) assigning a missing value to those
+#' entries.
+#'
 #' @return vector with visual acuity of class `va`. See also "VA classes"
 #' @family VA converter
 #' @export
@@ -66,7 +87,7 @@ convertVA.quali <- function(x, to, type, ...){
 #' @export
 convertVA.snellendec <- function(x, to, type, ...) {
   if (to == "logmar") {
-    new_va <- -1 * log10(x)
+    new_va <- round(-1 * log10(x), 2)
   } else if (to == "snellen") {
     matchcol <- paste0(to, type)
     # rounding to nearest snellen decimal
@@ -175,27 +196,9 @@ NA
 #' @param x Vector with VA entries of class snellen - needs to be in
 #' format xx/yy
 #' @param smallstep if plusminus shall be considered as logmar equivalent
-#' @description used in conversion method for class snellen
-#' - Removing "plus" and "minus" from snellen notation
-#'     - if entry -2 to +2 : take same Snellen value
-#'     - if < -2 : take Snellen value one line below
-#'     - if > +2:
-#'     Snellen value one line above
-#' @section snellen_steps:
-#' Snellen are unfortunately often entered with "+/-", which is a
-#' violation of a psychophysical method designed to assign one
-#' unambiguous value to visual acuity, with
-#' non-arbitrary thresholds based on psychometric functions. Therefore,
-#' transforming "+/-" notation to actual results is in itself
-#' problematic and the below suggestion to convert it will remain an
-#' approximation to the most likely "true" result. Even more so, as the
-#' given conditions should work for charts with
-#' 4 or 5 optotypes in a line, and visual acuity is not always tested
-#' on such charts. Yet, I believe that the approach is still better than
-#' just omitting the letters or (worse) assigning a missing value to those
-#' entries.
 #' @family VA converter
 #' @return character vector of Snellen entries
+#' @keywords internals
 #' @seealso
 #' https://en.wikipedia.org/wiki/Psychometric_function
 

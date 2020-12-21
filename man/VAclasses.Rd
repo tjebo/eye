@@ -11,14 +11,6 @@ An object of class \code{character} of length 5.
 VAclasses
 }
 \description{
-eye introduces classes for VA notation.
-If the class is not manually attributed to the vectors (not advised!), they
-will have (at least) three classes:
-\enumerate{
-\item class "va"
-\item One of class 'snellen', 'snellendec', 'logmar', 'etdrs' or 'quali'
-\item Either of 'character' (for Snellen, snellendec, and qualitative),
-'numeric' (for logMAR), or 'integer' (for ETDRS).
-}
+VA classes
 }
 \keyword{internal}

@@ -39,6 +39,10 @@ clean_va <- function(x, quali = c("nlp", "lp", "hm", "cf"), message = TRUE) {
   x_tidied
 }
 
+#' @rdname clean_va
+#' @export
+cleanVA <- clean_va
+
 #' introduce NA for implausible VA entries
 #' @name introduceNA
 #' @param x vector

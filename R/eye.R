@@ -7,6 +7,7 @@
 #'   in ophthalmic research.
 #'
 #' - Visual acuity conversion for snellen, logMAR and ETDRS [`va`]
+#' and the wrapper [to_snellen], [to_etdrs] and [to_logmar]
 #' - Counting patients and eyes [`eyes`]
 #' - Recode eye strings [`recodeye`]
 #' - Reshape eye specific variables [`myop`] and [`hyperop`]

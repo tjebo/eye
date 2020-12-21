@@ -43,23 +43,12 @@ VA can be snellen (fraction: feet/meter), snellen decimal, logMAR, ETDRS, or
 \itemize{
 \item Snellen fractions need to be either form 6/x or 20/x
 \item Snellen decimal must be > 0 and <= 2
-\item ETDRS must be between 0 and 100
-\item logMAR must be between -0.3 and 3.0
+\item ETDRS must be >= 0 and <= 100
+\item logMAR must be >= -0.3 and <= 3.0
 \item Qualitative must be PL, LP, NLP, NPL, HM, CF (any case allowed)
 }
 
-Any element which is not recognized will be converted to NA
-}
-
-\section{VA classes}{
-
-convert_VA returns a vector of three classes:
-\enumerate{
-\item \code{va}
-\item One of \code{snellen}, \code{logmar}, \code{etdrs} or \code{quali}.
-\item Either of \code{character} (for Snellen and qualitative),
-\code{numeric} (for logMAR), or \code{integer} (for ETDRS).
-}
+Any element which is implausible / not recognized will be converted to NA
 }
 
 \seealso{

@@ -13,6 +13,7 @@ See more with \emph{eye}
 in ophthalmic research.
 \itemize{
 \item Visual acuity conversion for snellen, logMAR and ETDRS \code{\link{va}}
+and the wrapper \link{to_snellen}, \link{to_etdrs} and \link{to_logmar}
 \item Counting patients and eyes \code{\link{eyes}}
 \item Recode eye strings \code{\link{recodeye}}
 \item Reshape eye specific variables \code{\link{myop}} and \code{\link{hyperop}}
