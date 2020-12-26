@@ -4,6 +4,7 @@ Major version upgrade of eye 0.1.0!
 
 ### Functions and objects (details)
 * introduced new verbs for class conversion for nice integration into known R grammar (issue #6) - simple wrapper for `va(x, to = ...)`
+* new function `va_mixed` for vectors of mixed VA notations (replaced `va_dissect`)
 * `va`
     * add arguments "from", "noplus" and "smallstep"
     * removed "from_logmar" and "logmarstep"

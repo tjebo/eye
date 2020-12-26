@@ -77,6 +77,11 @@ notation.
 }
 }
 
+\section{Entries with mixed VA notations}{
+
+Use \link{va_mixed} instead.
+}
+
 \section{Snellen "+/-" entries}{
 
 By default, plus/minus entries are evaluated as intended by the
@@ -135,11 +140,15 @@ x <- c("3/60", "2/200", "6/60", "20/200", "6/9")
 va(x, to="snellen", type = "m")
 }
 \seealso{
+Other Ophthalmic functions: 
+\code{\link{va_mixed}()}
+
 Other VA converter: 
 \code{\link{VAwrapper}},
 \code{\link{plausibility_methods}},
 \code{\link{snellen_steps}},
 \code{\link{va_methods}},
+\code{\link{va_mixed}()},
 \code{\link{which_va}()}
 
 Other VA cleaner: 

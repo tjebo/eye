@@ -58,6 +58,7 @@ There are currently no downstream dependencies for this package.
     * New S3 methods introduced to check plausibility of entries by VA class. 
     * Adding plus/minus entries is now done by actual logmar values rather than via 
       lookup in the VA chart (rewrite of `snellen_steps` function)
+* new function `va_mixed` for vectors of mixed VA notations
 * `recodeye()`:
     * recognises "both/ou/b" for both eyes. 
     * dropunknown unclear codings are converted to NA by default (with warning)

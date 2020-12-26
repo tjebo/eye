@@ -2,7 +2,7 @@ context("test va")
 library(eye)
 library(testthat)
 
-xtry <- c(NA, "nlp", 1:2, 1.1, -1, "20/40", "4/6", "6/1000")
+xtry <- c(NA, "nlp", 1:2, 1.1, -1, "20/40", "4/6", "6/1000", 34)
 logmar <- va_chart$logmar
 snellenft <- va_chart$snellenft
 snellenm <- va_chart$snellenm
@@ -187,8 +187,8 @@ test_that("NA", {
   expect_equal(suppressWarnings(sum(is.na(va(mixed_VA1)))), 2)
   expect_equal(sum(is.na(va(xtry, to = "snellen", from = "logmar"))), 6)
   expect_equal(sum(is.na(va(xtry, to = "snellen", from = "etdrs"))), 6)
-  expect_equal(sum(is.na(va(xtry, to = "snellen", from = "snellen"))), 5)
-  expect_equal(sum(is.na(va(xtry, to = "snellen", from = "snellendec"))), 5)
+  expect_equal(sum(is.na(va(xtry, to = "snellen", from = "snellen"))), 6)
+  expect_equal(sum(is.na(va(xtry, to = "snellen", from = "snellendec"))), 6)
   }
 )
 

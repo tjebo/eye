@@ -157,7 +157,12 @@ convertVA.snellen <- function(x, to, type, smallstep, noplus, ...) {
 convertVA.logmar <- function(x, to, type, ...){
   if(to != "logmar"){
   matchcol <- paste0(to, type)
-  new_va <- va_chart[[matchcol]][match(round(x, 1), as.numeric(va_chart$logmar))]
+  x_num <- round(x, 1)
+  b <- 100*sort(va_chart$logmar)
+  round_logmar <-
+    as.integer(b[findInterval(100*x_num, (b[-length(b)] + b[-1]) / 2) + 1])
+  new_va <- va_chart[[matchcol]][match(round(round_logmar/100, 1),
+                                       as.numeric(va_chart$logmar))]
   } else {
     new_va <- as.numeric(x)
   }

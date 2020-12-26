@@ -60,7 +60,8 @@ source ophthalmic data sets.
 
 Easy conversion from visual acuity notations in a single call to `va()`.
 The notation will automatically be detected and converted to the desired
-notation. For some more details see [VA conversion](#va-conversion)
+notation. For some more details see [VA conversion](#va-conversion). For
+entries with mixed notation, use `va_mixed` instead.
 
 ``` r
 ## automatic detection of VA notation and converting to logMAR by default
@@ -120,6 +121,22 @@ to_logmar(x, smallstep = TRUE)
 to_snellen(x, noplus = TRUE)
 #> From snellen
 #> [1] "20/200" "20/20"  "20/50"  "20/20"  "20/32"
+
+# terribly mixed notations
+x <- c(NA, "nlp", 1:2, 1.1, -1, "20/40", "4/6", "6/1000", 34)
+va_mixed(x, to = "snellen")
+#>  [1] NA         "20/20000" "20/2000"  "20/2000"  "20/250"   NA        
+#>  [7] "20/40"    "20/32"    "20/4000"  "20/200"
+
+# "I only have snellen and snellen decimal notation in my data"
+va_mixed(x, to = "snellen", possible = c("snellen", "snellendec"))
+#>  [1] NA         "20/20000" "20/20"    "20/10"    "20/20"    NA        
+#>  [7] "20/40"    "20/32"    "20/4000"  NA
+
+# "I have snellen, logmar and etdrs in my data, and there is no etdrs value less than 4"
+va_mixed(x, to = "snellen", possible = c("snellen", "logmar", "etdrs"))
+#>  [1] NA         "20/20000" "20/200"   "20/2000"  "20/250"   NA        
+#>  [7] "20/40"    "20/32"    "20/4000"  "20/200"
 ```
 
 ### eyes
