@@ -56,6 +56,7 @@ Other VA converter:
 \code{\link{VAwrapper}},
 \code{\link{snellen_steps}},
 \code{\link{va_methods}},
+\code{\link{va_mixed}()},
 \code{\link{va}()},
 \code{\link{which_va}()}
 }

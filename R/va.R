@@ -50,7 +50,8 @@
 #' - Plausibility checks are performed for the automatically or manually defined
 #' notation.
 #' - Any element which is implausible/ not recognized will be converted to NA
-
+#' @section Entries with mixed VA notations:
+#' Use [va_mixed] instead.
 #' @section Snellen "+/-" entries:
 #' By default, plus/minus entries are evaluated as intended by the
 #' test design: Snellen fractions increase/decrease only by lines.
@@ -177,6 +178,56 @@ va <- function(x, from = NULL, to = NULL, type = "ft",
 }
 
 #' VA classes
+#' @name va_mixed
+#' @param x vector with mixed VA entries
+#' @param to to which notation to be converted
+#' @param possible which possible VA notations - and the precedence given,
+#'     see details
+#' @description va_mixed is a wrapper around [va] on all possible VA notations.
+#'   By default, c("snellen", "etdrs", "logmar", "snellendec") will be converted -
+#'   in that order! For tricky cases see details and examples. Note
+#'   that va_mixed will not give nice messages which values are transformed
+#'   from which notation, and which values were replaced with NA.
+#' @details Mixed entries are challenging, but unfortunately seem to occur in
+#'   real life data. It will be fairly individual what you have in yours, but
+#'   it should hopefully not happen that you have *all* possible notations.
+#'   Snellen fractions are usually not challenging because they contain a "/",
+#'   thus are easy to recognize.
+#'
+#'   **Most problematic are values between 0 and 3**,
+#'   in particular full integers - this can be EDTRS, snellen decimal notation
+#'   or logmar. If your data doesn't have snellen decimal notation,
+#'   specify this with "possible", e.g. with
+#'   `possible = c("snellen", "etdrs", "logmar")`. If you know that you don't
+#'   have any ETDRS value less than 4, you can safely give precedence to logmar
+#'   instead, like this: `possible = c("snellen", "logmar", "etdrs")`
+#'   @examples
+#'   # awfully mixed notation!! (and note the wrong -1 value)
+#'   x <- c(NA, "nlp", 1:2, 1.1, -1, "20/40", "4/6", "6/1000", 34)
+#'   va_mixed(x, to = "snellen")
+#'
+#'   # "I only have snellen and snellen decimal notation in my data"
+#'   va_mixed(x, to = "snellen", possible = c("snellen", "snellendec"))
+#'
+#'   # "I have snellen, logmar and etdrs in my data, and there is no etdrs value
+#'   less than 4"
+#'   va_mixed(x, to = "snellen", possible = c("snellen", "logmar", "etdrs"))
+#' @family Ophthalmic functions
+#' @family VA converter
+#' @export
+va_mixed <- function(x, to, possible) {
+  if (missing(possible)) {
+    possible <- VAclasses[1:4]
+  } else {
+    possible <- tolower(possible)
+  }
+  a <- sapply(possible, function(vaclass) {
+    suppressMessages(va(x, to = to, from = vaclass))
+  })
+  apply(a, 1, function(z) z[!is.na(z)][1])
+}
+
+#' VA classes
 #' @name VAclasses
 #' @keywords internal
-VAclasses <- c("logmar", "snellen", "snellendec", "etdrs", "quali")
+VAclasses <- c( "snellen", "etdrs", "logmar", "snellendec", "quali")

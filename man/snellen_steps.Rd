@@ -26,6 +26,7 @@ Other VA converter:
 \code{\link{VAwrapper}},
 \code{\link{plausibility_methods}},
 \code{\link{va_methods}},
+\code{\link{va_mixed}()},
 \code{\link{va}()},
 \code{\link{which_va}()}
 }
