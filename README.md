@@ -16,14 +16,17 @@ See more with *eye*
 *eye* is dedicated to facilitate very common tasks in ophthalmic
 research.
 
-  - Visual acuity conversion for Snellen, logMAR and ETDRS
-  - Tidy visual acuity entries
-  - Counting patients and eyes
-  - Recoding eye strings
-  - Reshape eye specific variables  
-  - Summarizing data with common statistics (mean, sd, n, range)
-  - Calculating age of patients
-  - Tidy NA entries
+## Features
+
+  - [Handling of visual acuity notations](#visual-acuity)
+  - [Easy count of patients and eyes](#count-patients-and-eyes), return
+    a vector or a text for your report
+  - [Easy recoding of your eye variable](#recoding-the-eye-variable)
+  - Reshape your eye data - [long](#myop) or [wide](#hyperop)
+  - [Quick summary of your eye data](#blink)
+  - [Get common summary statistics](#reveal)
+  - [Calculate age](#getage)
+  - [Clean NA equivalent entries](#clean-na-entries)
 
 ## Installation
 
@@ -40,38 +43,29 @@ Installing eye will also install
 [eyedata](https://github.com/tjebo/eyedata/), a package collating open
 source ophthalmic data sets.
 
-## eye Features
-
-  - va: [Conversion of visual acuity notations](#va)
-  - cleanVA: clean visual acuity entries
-  - eyes: [Easy count of patients and eyes](#eyes)
-  - eyestr: [return eye count as text for your report](#eyestr)
-  - recodeye: [recode eye variable](#recodeye)
-  - myop: [Make your eye data long](#myop)
-  - hyperop: [Make your eye data wide](#hyperop)
-  - blink: [Perceive your data in a blink of an eye](#blink)
-  - reveal: [Get common summary statistics](#reveal)
-  - getage: [Calculate age](#getage)
-  - tidyNA: [Tidy NA equivalent entries](#tidyNA)
-
 ## Details and examples
 
-### va
+### Visual acuity
 
-Easy conversion from visual acuity notations in a single call to `va()`.
-The notation will automatically be detected and converted to the desired
+Pesky visual acuity notations are now a matter of the past. Convert
+between any of Snellen (meter/ feet/ decimal\!), logMAR and ETDRS. The
+notation will be detected automatically and converted to the desired
 notation. For some more details see [VA conversion](#va-conversion). For
 entries with mixed notation, use `va_mixed` instead.
 
+You can also decide to simply “clean” your VA vector with `cleanVA(x)`.
+This will remove all entries that are certainly no VA.
+
+#### Examples
+
 ``` r
-## automatic detection of VA notation and converting to logMAR by default
 x <- c(23, 56, 74, 58) ## ETDRS letters
 to_logmar(x) # wrapper of va(x, to = "logmar")
 #> From etdrs
 #> [1] 1.24 0.58 0.22 0.54
 
 ## ... or convert to snellen
-to_snellen(x) # wrapper of va(x, to = "snellen") 
+to_snellen(x) 
 #> From etdrs
 #> [1] "20/320" "20/80"  "20/32"  "20/70"
 
@@ -139,32 +133,27 @@ va_mixed(x, to = "snellen", possible = c("snellen", "logmar", "etdrs"))
 #>  [7] "20/40"    "20/32"    "20/4000"  "20/200"
 ```
 
-### eyes
+### Count patients and eyes
 
-Count patient and eyes (**eyes** or **eyestr**)
+Use `eyes` to return a vector, and `eyestr` to return a string for your
+report.
 
 ``` r
 library(eyedata)
 eyes(amd2)
 #> patients     eyes    right     left 
 #>     3357     3357     1681     1676
-```
 
-#### eyestr
-
-Same as `eyes`, but as text for reports
-
-``` r
+# Same as `eyes`, but as text for reports
 eyestr(amd2)
 #> [1] "3357 eyes of 3357 patients"
 
- ## Numbers smaller than or equal to 12 will be real English
-
+## Numbers smaller than or equal to 12 will be real English
 eyestr(head(amd2, 100))
 #> [1] "Eleven eyes of eleven patients"
 ```
 
-### recodeye
+### Recoding the eye variable
 
 Makes recoding eye variables very easy. It deals with weird missing
 entries like `"."` and `""`, or `"N/A"`
@@ -203,9 +192,7 @@ recodeye(x, eyecodes = list(r = c("alright","righton"), l = c("lefty","leftover"
 #> [1] "r" "r" "l" "l"
 ```
 
-### tidyNA
-
-Super easy tidying of NA equivalent values often found in data.
+### Clean NA entries
 
 ``` r
 x <- c("a", "   ", ".", "-", "NULL")
@@ -268,7 +255,7 @@ getage(dob, "2000-01-01")
 #> [1] 15.2  0.0
 ```
 
-### myop - Make your data long
+### myop
 
 Often enough, there are right eye / left eye columns for more than one
 variable, e.g., for both IOP and VA. This may be a necessary data formal
@@ -572,47 +559,6 @@ an unfortunate shape for which `eye` may not be suitable.
     following (Schulze-Bonsel et al. [2006](#ref-bach))
   - Categories **(no) light perception** are converted following the
     suggestions by Michael Bach
-
-### VA conversion chart
-
-This chart is included in the package (`va_chart`)
-
-<div style="font-size:8 pt;">
-
-| Snellen feet | Snellen meter | Snellen decimal | logMAR | ETDRS | Categories |
-| ------------ | ------------- | --------------- | ------ | ----- | ---------- |
-| 20/20000     | 6/6000        | 0.001           | 3      | 0     | NLP        |
-| 20/10000     | 6/3000        | 0.002           | 2.7    | 0     | LP         |
-| 20/4000      | 6/1200        | 0.005           | 2.3    | 0     | HM         |
-| 20/2000      | 6/600         | 0.01            | 1.9    | 2     | CF         |
-| 20/800       | 6/240         | 0.025           | 1.6    | 5     | NA         |
-| 20/630       | 6/190         | 0.032           | 1.5    | 10    | NA         |
-| 20/500       | 6/150         | 0.04            | 1.4    | 15    | NA         |
-| 20/400       | 6/120         | 0.05            | 1.3    | 20    | NA         |
-| 20/320       | 6/96          | 0.062           | 1.2    | 25    | NA         |
-| 20/300       | 6/90          | 0.067           | 1.18   | 26    | NA         |
-| 20/250       | 6/75          | 0.08            | 1.1    | 30    | NA         |
-| 20/200       | 6/60          | 0.1             | 1.0    | 35    | NA         |
-| 20/160       | 6/48          | 0.125           | 0.9    | 40    | NA         |
-| 20/125       | 6/38          | 0.16            | 0.8    | 45    | NA         |
-| 20/120       | 6/36          | 0.167           | 0.78   | 46    | NA         |
-| 20/100       | 6/30          | 0.2             | 0.7    | 50    | NA         |
-| 20/80        | 6/24          | 0.25            | 0.6    | 55    | NA         |
-| 20/70        | 6/21          | 0.29            | 0.54   | 58    | NA         |
-| 20/63        | 6/19          | 0.32            | 0.5    | 60    | NA         |
-| 20/60        | 6/18          | 0.33            | 0.48   | 61    | NA         |
-| 20/50        | 6/15          | 0.4             | 0.4    | 65    | NA         |
-| 20/40        | 6/12          | 0.5             | 0.3    | 70    | NA         |
-| 20/32        | 6/9.6         | 0.625           | 0.2    | 75    | NA         |
-| 20/30        | 6/9           | 0.66            | 0.18   | 76    | NA         |
-| 20/25        | 6/7.5         | 0.8             | 0.1    | 80    | NA         |
-| 20/20        | 6/6           | 1.0             | 0.0    | 85    | NA         |
-| 20/16        | 6/5           | 1.25            | \-0.1  | 90    | NA         |
-| 20/15        | 6/4.5         | 1.33            | \-0.12 | 91    | NA         |
-| 20/13        | 6/4           | 1.5             | \-0.2  | 95    | NA         |
-| 20/10        | 6/3           | 2.0             | \-0.3  | 100   | NA         |
-
-</div>
 
 ## Acknowledgements
 

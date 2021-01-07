@@ -22,16 +22,17 @@ library(eye)
 See more with *eye*
 
 ## Purpose
-*eye* is dedicated to facilitate very common tasks in ophthalmic research. 
-  
-- Visual acuity conversion for Snellen, logMAR and ETDRS
-- Tidy visual acuity entries
-- Counting patients and eyes
-- Recoding eye strings
-- Reshape eye specific variables  
-- Summarizing data with common statistics (mean, sd, n, range)
-- Calculating age of patients
-- Tidy NA entries
+*eye* is dedicated to facilitate very common tasks in ophthalmic research.
+
+## Features
+- [Handling of visual acuity notations](#visual-acuity) 
+- [Easy count of patients and eyes](#count-patients-and-eyes), return a vector or a text for your report
+- [Easy recoding of your eye variable](#recoding-the-eye-variable)
+- Reshape your eye data - [long](#myop) or [wide](#hyperop)
+- [Quick summary of your eye data](#blink)
+- [Get common summary statistics](#reveal)
+- [Calculate age](#getage)
+- [Clean NA equivalent entries](#clean-na-entries)
   
 ## Installation
 You can install eye from [CRAN](https://cran.r-project.org/web/packages/eye/index.html) using `install.packages("eye")` 
@@ -43,31 +44,21 @@ devtools::install_github("tjebo/eye")
 ```
 Installing eye will also install [eyedata](https://github.com/tjebo/eyedata/), a package collating open source ophthalmic data sets.
 
-## eye Features 
-- va: [Conversion of visual acuity notations](#va) 
-- cleanVA: clean visual acuity entries
-- eyes: [Easy count of patients and eyes](#eyes)
-- eyestr: [return eye count as text for your report](#eyestr)
-- recodeye: [recode eye variable](#recodeye)
-- myop: [Make your eye data long](#myop)
-- hyperop: [Make your eye data wide](#hyperop)
-- blink: [Perceive your data in a blink of an eye](#blink)
-- reveal: [Get common summary statistics](#reveal)
-- getage: [Calculate age](#getage)
-- tidyNA: [Tidy NA equivalent entries](#tidyNA)
-                          
 ## Details and examples
 
-### va
-Easy conversion from visual acuity notations in a single call to `va()`. The notation will automatically be detected and converted to the desired notation. For some more details see [VA conversion](#va-conversion). For entries with 
-mixed notation, use `va_mixed` instead.
+### Visual acuity
+Pesky visual acuity notations are now a matter of the past. Convert between any of Snellen (meter/ feet/ decimal!), logMAR and ETDRS.
+The notation will be detected automatically and converted to the desired notation. For some more details see [VA conversion](#va-conversion). For entries with mixed notation, use `va_mixed` instead.
+
+You can also decide to simply "clean" your VA vector with `cleanVA(x)`. This will remove all entries that are certainly no VA.
+
+#### Examples
 ```{r va}
-## automatic detection of VA notation and converting to logMAR by default
 x <- c(23, 56, 74, 58) ## ETDRS letters
 to_logmar(x) # wrapper of va(x, to = "logmar")
 
 ## ... or convert to snellen
-to_snellen(x) # wrapper of va(x, to = "snellen") 
+to_snellen(x) 
 
 ## eye knows metric as well 
 to_snellen(x, type = "m") 
@@ -104,24 +95,20 @@ va_mixed(x, to = "snellen", possible = c("snellen", "snellendec"))
 va_mixed(x, to = "snellen", possible = c("snellen", "logmar", "etdrs"))
 ```
                             
-### eyes
-Count patient and eyes (**eyes** or **eyestr**)
+### Count patients and eyes
+Use `eyes` to return a vector, and `eyestr` to return a string for your report. 
 ```{r eyes}
 library(eyedata)
 eyes(amd2)
-```
 
-#### eyestr
-Same as `eyes`, but as text for reports
-```{r eyestr}
+# Same as `eyes`, but as text for reports
 eyestr(amd2)
 
- ## Numbers smaller than or equal to 12 will be real English
-
+## Numbers smaller than or equal to 12 will be real English
 eyestr(head(amd2, 100))
 ```
 
-### recodeye
+### Recoding the eye variable
 Makes recoding eye variables very easy. It deals with weird missing entries like `"."` and `""`, or `"N/A"`
 ```{r}
 x <- c("r", "re", "od", "right", "l", "le", "os", "left")
@@ -148,8 +135,7 @@ x <- c("alright", "righton", "lefty","leftover")
 recodeye(x, eyecodes = list(r = c("alright","righton"), l = c("lefty","leftover")))
 ```
 
-### tidyNA
-Super easy tidying of NA equivalent values often found in data. 
+### Clean NA entries
 ```{r}
 x <- c("a", "   ", ".", "-", "NULL")
 tidyNA(x)
@@ -171,7 +157,6 @@ reveal(iris, by = "Species") #can be several groups
 
 ### getage
 - Calculate age in years, as [periods or durations](https://lubridate.tidyverse.org/articles/lubridate.html#time-intervals)
-                                                                
 ```{r age, warning=FALSE, message=FALSE}
 dob <- c("1984-10-16", "2000-01-01")
 
@@ -181,7 +166,7 @@ getage(dob, "2000-01-01")
 ```
 
 
-### myop - Make your data long {#myop}
+### myop
 Often enough, there are right eye / left eye columns for more than one variable, e.g., for both IOP and VA. This may be a necessary data formal for specific questions. However, "eye" is also variable (a dimension of your observation), and it can also be stored in a separate column. The data would be "longer". 
 
 Indeed, R requires exactly this data shape for many tasks: "eye[r/l]" as a separate column, and each eye-related variable (e.g., IOP or VA) in their own dedicated column. 
@@ -338,55 +323,14 @@ names(name_mess)
 - Categories **counting fingers** and **hand movements** are converted following [@bach]
 - Categories **(no) light perception** are converted following the suggestions by Michael Bach
  
-### VA conversion chart 
-This chart is included in the package (`va_chart`)
-
-<div style = "font-size:8 pt;">
-|Snellen feet |Snellen meter |Snellen decimal |logMAR | ETDRS| Categories |
-|----------|---------|-----------|------|-----|-----|
-|20/20000   |6/6000    |0.001       |3      |     0|NLP   |
-|20/10000   |6/3000    |0.002       |2.7    |     0|LP    |
-|20/4000    |6/1200    |0.005       |2.3    |     0|HM    |
-|20/2000    |6/600     |0.01        |1.9    |     2|CF    |
-|20/800     |6/240     |0.025       |1.6    |     5|NA    |
-|20/630     |6/190     |0.032       |1.5    |    10|NA    |
-|20/500     |6/150     |0.04        |1.4    |    15|NA    |
-|20/400     |6/120     |0.05        |1.3    |    20|NA    |
-|20/320     |6/96      |0.062       |1.2    |    25|NA    |
-|20/300     |6/90      |0.067       |1.18   |    26|NA    |
-|20/250     |6/75      |0.08        |1.1    |    30|NA    |
-|20/200     |6/60      |0.1         |1.0    |    35|NA    |
-|20/160     |6/48      |0.125       |0.9    |    40|NA    |
-|20/125     |6/38      |0.16        |0.8    |    45|NA    |
-|20/120     |6/36      |0.167        |0.78    |    46|NA    |
-|20/100     |6/30      |0.2         |0.7    |    50|NA    |
-|20/80      |6/24      |0.25        |0.6    |    55|NA    |
-|20/70      |6/21      |0.29        |0.54   |    58|NA    |
-|20/63      |6/19      |0.32        |0.5    |    60|NA    |
-|20/60      |6/18      |0.33        |0.48   |    61|NA    |
-|20/50      |6/15      |0.4         |0.4    |    65|NA    |
-|20/40      |6/12      |0.5         |0.3    |    70|NA    |
-|20/32      |6/9.6     |0.625       |0.2    |    75|NA    |
-|20/30      |6/9       |0.66        |0.18   |    76|NA    |
-|20/25      |6/7.5     |0.8         |0.1    |    80|NA    |
-|20/20      |6/6       |1.0         |0.0    |    85|NA    |
-|20/16      |6/5       |1.25        |-0.1   |    90|NA    |
-|20/15      |6/4.5     |1.33        |-0.12  |    91|NA    |
-|20/13      |6/4       |1.5         |-0.2   |    95|NA    |
-|20/10      |6/3       |2.0         |-0.3   |   100|NA    |
-</div>
-
 ## Acknowledgements
-
 - Thanks to **Alasdair Warwick**, **Aaron Lee**, **Tim Yap**, **Siegfried Wagner** and **Abraham Olvera** for great suggestions, testing and code review.  
 - **Pearse Keane**, **Dun Jack Fu**, **Katrin Fasler** and **Christoph Kern** for their contribution of open source data
 - Thanks to [Antoine Fabri](https://github.com/moodymudskipper) for his contribution to `getage()`
 - Thanks to Hadley Wickham and all developers of the `tidyverse` packages and the packages `roxygen2`, `usethis`, `testthis` and `devtools`, all on which `eye` heavily relies.
 
 ## Resources
-
 - [Michael Bach's homepage](https://michaelbach.de/sci/acuity.html)
 - [Michael Bach on NLP and LP](https://michaelbach.de/sci/pubs/Bach2007IOVS_eLetter_FrACT.pdf)
 
 ## References
-
