@@ -5,22 +5,16 @@ This is a major version upgrade to eye 0.1.0 (for details see below).
 * local OS X install, R 4.0.3
 * ubuntu Ubuntu 16.04.6 LTS (on travis-ci), R 4.0.2 (2020-06-22)
 * win-builder (devel and release), R 4.0.3 
-* R-hub:
-  - Windows Server 2008 R2 SP1, R-devel, 32/64 bit
-  - Fedora Linux, R-devel, clang, gfortran
-  
+* R-hub: Windows Server 2008 R2 SP1, R-devel, 32/64 bit with
 `devtools::check_rhub(platform = "windows-x86_64-devel", env_vars=c(R_COMPILE_AND_INSTALL_PACKAGES = "always"))`
 
 ## CHECK RESULTS
 ### R CMD check (local)
 There were no ERRORs or WARNINGs or NOTEs. 
-
 ### Travis
 There were no ERRORs or WARNINGs or NOTEs. 
-
 ### win-builder
 There were no ERRORs or WARNINGs or NOTEs. 
-
 ### R-hub
 There was one NOTE: 
 
@@ -29,9 +23,8 @@ There was one NOTE:
 #> 
 #>     Status: Forbidden
 #>   DOI: 10.1167/iovs.05-0981
-#> 
 
-Comment: 
+### Comment: 
 I am sorry, but I cannot help it :( This is the doi to this article! 
 
 ## Downstream dependencies
@@ -45,16 +38,13 @@ There are currently no downstream dependencies for this package.
 * Update import field description: add package "eyedata"
 
 ### Functions and objects (details)
-* introduced new verbs for class conversion for nice integration into known R grammar (issue #6) - simple wrapper for `va(x, to = ...)`
+* introduced new verbs `as_...` and `to_...` for class conversion for nice integration into known R grammar (issue #6) - simple wrapper for `va(x, to = ...)`
 * `va`
     * add arguments "from", "noplus" and "smallstep"
     * removed "from_logmar" and "logmarstep"
-    * VA notation guessing is not done by single element any more, but will be 
-      forced choice either by most likely or with argument "from". Any implausible  
-      values will be forced to NA.
+    * VA notation guessing is not done by single element any more, but will be forced choice either by most likely or with argument "from". Any implausible values will be forced to NA.
     * issue #6: introduce new verbs to convert to specific VA class
-    * issue #21 weird snellen values (e.g., 20/41) can now also converted to other
-      snellen values. 
+    * issue #21 weird snellen values (e.g., 20/41) can now also converted to other snellen values. 
     * New S3 methods introduced to check plausibility of entries by VA class. 
     * Adding plus/minus entries is now done by actual logmar values rather than via 
       lookup in the VA chart (rewrite of `snellen_steps` function)
@@ -87,8 +77,7 @@ There are currently no downstream dependencies for this package.
 * removed functions va_dissect() and which_va_dissect()
 
 ### Data sets
-* Removed data set amd - this will be now part of the dedicated ophthalmic data
-set package "eyedata" (currently in submission to CRAN)
-* removed data set 'va_quali'
+* Removed data set amd - this will be now part of the dedicated ophthalmic data set package "eyedata"
+* removed data set 'va_quali' which was anyways a part of "va_chart"
 
 
