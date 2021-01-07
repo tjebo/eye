@@ -11,9 +11,8 @@ Description: There is no ophthalmic researcher who has not had headaches from
     the handling of visual acuity entries. Different notations, untidy entries. 
     This shall now be a matter of the past. Eye makes it as easy as pie to work
     with VA data - easy cleaning, easy conversion between 
-    Snellen, logMAR (logarithm of the minimum angle of resolution) 
-    and Early-treatment-for-diabetic-retinopathy study (ETDRS) letters,
-    and qualitative visual acuity shall never pester you again. The eye 
+    Snellen, logMAR, ETDRS letters, and qualitative visual acuity 
+    shall never pester you again. The eye 
     package automates the pesky task to count number of patients and eyes, 
     and can help to clean data with easy re-coding for right and left eyes. 
     It also contains functions to help reshaping eye side specific variables 

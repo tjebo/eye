@@ -14,17 +14,23 @@ There were no ERRORs or WARNINGs or NOTEs.
 ### Travis
 There were no ERRORs or WARNINGs or NOTEs. 
 ### win-builder
-There were no ERRORs or WARNINGs or NOTEs. 
+There was one NOTE: 
+#> Possibly mis-spelled words in DESCRIPTION:
+#>   retinopathy (15:38)
+
+#### Comment: 
+This is as you spell it - it has to be included because that's the name of 
+this study. 
+
 ### R-hub
 There was one NOTE: 
-
 #> Found the following (possibly) invalid DOIs: 
 #> From: DESCRIPTION
 #> 
 #>     Status: Forbidden
 #>   DOI: 10.1167/iovs.05-0981
 
-### Comment: 
+#### Comment: 
 I am sorry, but I cannot help it :( This is the doi to this article! 
 
 ## Downstream dependencies
