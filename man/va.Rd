@@ -41,9 +41,9 @@ between Snellen (decimal, meter and feet), ETDRS, and logMAR.
 the visual acuity chart \link{va_chart}.
 \item \strong{Snellen to logMAR}: logMAR = -1 * log10(snellen_frac)
 \item \strong{Snellen to ETDRS}: ETDRS = 85 + 50 * log10(snellen_frac)
-\href{https://doi.org/10.1097/iae.0b013e3181d87e04}{Gregori et al.}.
+\doi{10.1097/iae.0b013e3181d87e04}
 \item \strong{ETDRS to logMAR}: logMAR = -0.02 * etdrs + 1.7
-\href{https://doi.org/10.1016/s0002-9394(02)01825-1}{Beck et al.}
+Beck et al. \doi{10.1016/s0002-9394(02)01825-1}
 \item \strong{Hand movements and counting fingers} are converted following
 Schulze-Bonsel et al. - https://doi.org/10.1167/iovs.05-0981
 \item \strong{(No) light perception} are converted following the suggestions by

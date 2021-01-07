@@ -19,9 +19,9 @@
 #' }
 #' @seealso
 #' - This chart and VA conversion formulas are based on charts in
-#' [Holladay et al.](https://doi.org/10.1016/j.jcrs.2004.01.014),
-#' \href{https://doi.org/10.1016/s0002-9394(02)01825-1}{Beck et al.}, and
-#' [Gregori et al.](https://doi.org/10.1097/iae.0b013e3181d87e04).
+#' Holladay et al.\doi{10.1016/j.jcrs.2004.01.014}, Beck et al.
+#' \doi{10.1016/s0002-9394(02)01825-1}{Beck et al.}, and
+#' Gregori et al.\doi{10.1097/iae.0b013e3181d87e04}.
 #'
 #' Categories **(no) light perception**,  **counting fingers**
 #' and **hand movements** are converted following

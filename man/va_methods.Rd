@@ -59,41 +59,11 @@ VA can be snellen feet/meter/decimal, logMAR, ETDRS, or
 }
 
 Any element which is not recognized will be converted to NA
-
-For other conversion rules see \link{va}
 }
 \section{Conversion}{
 
-Although there seems to be no good statistical reason to convert
-back to Snellen, it is a very natural thing to eye specialists to think
-in Snellen. A conversion to snellen gives a good gauge of how the visual
-acuity for the patients are. However, back-conversion should not be
-considered an exact science and any attempt to use formulas will result
-in very weird Snellen values that have no correspondence to common charts.
-Therefore, Snellen matching the nearest ETDRS and logMAR value in
-the \link{va_chart} are used.
-
-Further:
-\itemize{
-\item logMAR to ETDRS: logMAR rounded to the first digit and converted with
-the chart.
-\item Snellen to logMAR: logMAR = -1 * log10(snellen_frac)
-\item Snellen to ETDRS: ETDRS = 85 + 50 * log10(snellen_frac)
-\href{https://doi.org/10.1097/iae.0b013e3181d87e04}{Gregori et al.}.
-\item ETDRS to logMAR: logMAR = -0.02 * etdrs + 1.7
-\href{https://doi.org/10.1016/s0002-9394(02)01825-1}{Beck et al.}
-}
-}
-
-\section{VA classes}{
-
-convert_VA returns a vector of three classes:
-\enumerate{
-\item \code{va}
-\item One of \code{snellen}, \code{logmar}, \code{etdrs} or \code{quali}.
-\item Either of \code{character} (for Snellen and qualitative),
-\code{numeric} (for logMAR), or \code{integer} (for ETDRS).
-}
+For other conversion and theory behind conversion rules see \link{va}
+section VA conversion.
 }
 
 \section{plus/minus entries}{

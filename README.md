@@ -30,9 +30,8 @@ research.
 
 ## Installation
 
-You can install eye from
-[CRAN](https://cran.r-project.org/web/packages/eye/index.html) using
-`install.packages("eye")`
+You can install eye [from CRAN](https://CRAN.R-project.org/package=eye)
+using `install.packages("eye")`
 
 Or you can install the development version from github:
 
