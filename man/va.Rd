@@ -48,6 +48,18 @@ Beck et al. \doi{10.1016/s0002-9394(02)01825-1}
 Schulze-Bonsel et al. - https://doi.org/10.1167/iovs.05-0981
 \item \strong{(No) light perception} are converted following the suggestions by
 \href{https://michaelbach.de/sci/acuity.html}{Michael Bach}
+}
+}
+
+\section{Qualitative visual acuity entries}{
+
+In order to calculate with qualitative entries counting fingers,
+hand movement and (no) perception of light, \strong{use logMAR} !
+Qualitative visual acuity lower than counting fingers is assigned 0
+ETDRS letter, in order to keep it as a measurement (not: NA). It is very
+difficult to justify a "negative" letter score in a test which only has
+a specific range (0-100).
+\itemize{
 \item \strong{To Snellen}:
 Although there seems to be no good statistical reason to convert
 back to Snellen, it is a very natural thing to eye specialists to think

@@ -39,17 +39,6 @@ getage <- function(from_date,
   }
 }
 
-#' @rdname getage
-#' @description removed version from function now called "getage"
-#' @return message
-#' @family convenience functions
-#' @export
-#'
-age <- function() {
-  message("age() was removed in eye version 1.0.0 in order to avoid clashes of
-          namespace with environments. Please use getage() instead")
-}
-
 #' Capitalize words
 #' @name tocapital
 #' @description capitalises single words

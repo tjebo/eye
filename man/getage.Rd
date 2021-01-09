@@ -2,12 +2,9 @@
 % Please edit documentation in R/tools.R
 \name{getage}
 \alias{getage}
-\alias{age}
 \title{getage}
 \usage{
 getage(from_date, to_date = lubridate::now(), period = FALSE, dec = 1)
-
-age()
 }
 \arguments{
 \item{from_date}{start date}
@@ -20,13 +17,9 @@ age()
 }
 \value{
 Numeric vector
-
-message
 }
 \description{
 calculates age in years, as durations or periods
-
-removed version from function now called "getage"
 }
 \examples{
 getage("1984-10-16")
