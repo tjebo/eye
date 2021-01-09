@@ -1,5 +1,5 @@
 ## Submission eye 1.0.1
-This is a minor version upgrade to eye 1.0.0 - this resolves a bug from an erroneous conversion of visual acuity entries (more details see "changes").
+This is an important bug fix for v1.0.0 - fixing a dangerous bug of an erroneous visual acuity notation conversion (more details see "changes").
 
 ## CHECK ENVIRONMENTS
 * local OS X install, R 4.0.3
@@ -30,10 +30,10 @@ I am sorry, but I cannot help it :( This is the doi to this article!
 There are currently no downstream dependencies for this package.
 
 ## CHANGES - details
-- bug fix: conversion of quality visual acuity entries when ETDRS (#24)
+- bug fix: erroneous conversion of quality visual acuity entries when VA in ETDRS notation (#24)
 - removed deprecated function age()
 - VA chart now as internal data, not exported
-- internally used methods not exported to namespace any longer:
+- internally used S3 methods not exported to namespace any longer:
   - convertVA 
   - checkVA
   

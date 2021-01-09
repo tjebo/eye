@@ -1,4 +1,12 @@
-
+# eye 1.0.1
+- Nasty bug fix! Erroneous conversion of quality visual acuity entries when ETDRS (#24)
+- removed deprecated function `age()`
+- VA chart now as internal data, not exported - ideally the VA chart should not
+be necessary anyways. However, if you really need to see it, you can still access it with `eye:::va_chart`. Note some of the ETDRS values were chosen for easier conversion. 
+- internally used S3 methods not exported to namespace any longer:
+  - convertVA 
+  - checkVA
+  
 # eye 1.0.0
 Major version upgrade of eye 0.1.0!
 
