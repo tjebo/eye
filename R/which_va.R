@@ -24,7 +24,7 @@ which_va <- function(x, quali = c("nlp", "npl", "pl", "lp", "hm", "cf")) {
   if (all(grepl("/", x_noquali[!is.na(x_noquali)]))) {
     return("snellen")
   } else if (any(grepl("/", x_noquali[!is.na(x_noquali)])) & any(x_num <= 100)) {
-      return(c("snellen", "logmar", "snellendec", "etdrs"))
+    return(c("snellen", "logmar", "snellendec", "etdrs"))
   } else if (all(is.na(x_num))) {
     return("failed")
   }
@@ -41,4 +41,3 @@ which_va <- function(x, quali = c("nlp", "npl", "pl", "lp", "hm", "cf")) {
     return(c("logmar", "snellendec"))
   }
 }
-# eye:::which_va(va_vec)

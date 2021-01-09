@@ -62,9 +62,9 @@ checkVA.logmar <- function(x, ...){
 #' @keywords internal
 checkVA.etdrs <- function(x, ...){
   x_int <- suppressWarnings(as.integer(x))
-  test_int <- x == x_int
-  test_range <- (x_int >= 0 & x_int <= 100) | (x %in% c(-111L, -222L))
-  test <- test_int & test_range
+  test_int <- x == x_int & x_int >= 0 & x_int <= 100
+  test_quali <-  x %in% c(-111L, -222L)
+  test <- test_int | test_quali
   x_int[!test] <- NA
   class(x_int) <- c(class(x_int), "etdrs")
   x_int

@@ -157,6 +157,8 @@ convertVA.etdrs <- function(x, to, type, ...){
     if(to == "logmar"){
     x_num <- suppressWarnings(as.numeric(x))
     new_va <- (-0.02 * x_num) + 1.7
+    ind_int <- which(x %in% c(0, -111L, -222L))
+    new_va[ind_int] <- va_chart$logmar[match(x[ind_int], va_chart$etdrs)]
     new_va <- round(as.numeric(new_va), 2)
   } else if (to == "etdrs"){
     x[x < 0] <- 0
@@ -172,18 +174,6 @@ convertVA.etdrs <- function(x, to, type, ...){
   class(new_va) <- c(to, "va", class(new_va))
   new_va
 }
-
-# x1 <- c("a", 2.3, "20/200", "34", "-1", "nlp", "lp", "hm", "cf", NA)
-# va(x1,  to = "logmar", type = "m", from = "etdrs")
-# va(x1,  to = "snellen", type = "ft", from = "etdrs")
-# va(x1,  to = "etdrs", type = "ft", from = "etdrs")
-# va(x1,  to = "logmar", type = "m")
-# va(x1,  to = "snellen", type = "ft")
-# va(x1,  to = "etdrs", type = "ft")
-# va(x1,  to = "logmar", from = "logmar", type = "m")
-# va(x1,  to = "snellen", from = "logmar", type = "ft")
-# va(x1,  to = "etdrs", from = "logmar", type = "ft")
-
 
 #' @rdname va_methods
 #' @keywords internal
