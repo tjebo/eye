@@ -41,14 +41,14 @@
 #'
 #' @return vector with visual acuity of class `va`. See also "VA classes"
 #' @family VA converter
-#' @export
+#' @keywords internal
 convertVA <- function (x, ...) {
   UseMethod("convertVA", x)
 }
 
 #' @rdname va_methods
 #' @param type which snellen notation. One of "ft", "m" or "dec"
-#' @export
+#' @keywords internal
 #'
 convertVA.quali <- function(x, to, type, ...){
   matchcol <- paste0(to, type)
@@ -62,7 +62,7 @@ convertVA.quali <- function(x, to, type, ...){
 #'   increase/decrease snellen fractions by lines. If TRUE, each snellen
 #'   optotype will be considered equivalent to 0.02 logmar or 1 ETDRS
 #'   letter (assuming 5 letters in a row in a chart)
-#' @export
+#' @keywords internal
 convertVA.snellendec <- function(x, to, type, ...) {
   if (to == "logmar") {
     new_va <- round(-1 * log10(x), 2)
@@ -96,7 +96,7 @@ convertVA.snellendec <- function(x, to, type, ...) {
 #'   letter (assuming 5 letters in a row in a chart)
 #' @param noplus ignoring plus/minus entries and just returning the
 #'     snellen fraction. This overrides the smallstep argument.
-#' @export
+#' @keywords internal
 #'
 convertVA.snellen <- function(x, to, type, smallstep, noplus, ...) {
   if(noplus) {
@@ -130,7 +130,7 @@ convertVA.snellen <- function(x, to, type, smallstep, noplus, ...) {
 }
 
 #' @rdname va_methods
-#' @export
+#' @keywords internal
 #'
 convertVA.logmar <- function(x, to, type, ...){
   if(to != "logmar"){
@@ -141,6 +141,9 @@ convertVA.logmar <- function(x, to, type, ...){
     as.integer(b[findInterval(100*x_num, (b[-length(b)] + b[-1]) / 2) + 1])
   new_va <- va_chart[[matchcol]][match(round(round_logmar/100, 1),
                                        as.numeric(va_chart$logmar))]
+  if(to == "etdrs"){
+    new_va[new_va < 0] <- 0L
+  }
   } else {
     new_va <- as.numeric(x)
   }
@@ -149,27 +152,41 @@ convertVA.logmar <- function(x, to, type, ...){
 }
 
 #' @rdname va_methods
-#' @export
+#' @keywords internal
 convertVA.etdrs <- function(x, to, type, ...){
-  if(to == "snellen"){
-    matchcol <- paste0(to, type)
+    if(to == "logmar"){
+    x_num <- suppressWarnings(as.numeric(x))
+    new_va <- (-0.02 * x_num) + 1.7
+    new_va <- round(as.numeric(new_va), 2)
+  } else if (to == "etdrs"){
+    x[x < 0] <- 0
+    new_va <- x
+  } else if (to == "snellen"){
+    match_col <- paste0(to, type)
     b <- va_chart$etdrs[!is.na(va_chart$etdrs)]
     round_etdrs <- as.integer(b[findInterval(x, (b[-length(b)] + b[-1]) / 2) + 1])
-    new_va <- va_chart[[matchcol]][match(round_etdrs, va_chart$etdrs)]
-  } else if(to == "logmar"){
-    new_va <- (-0.02 * x) + 1.7
-    new_va <- round(as.numeric(new_va), 2)
-  } else if(to == "etdrs"){
-    new_va <- x
+    new_va <- va_chart[[match_col]][match(round_etdrs, va_chart$etdrs)]
   } else {
-    new_va <- x
+    new_va <- as.integer(x)
   }
   class(new_va) <- c(to, "va", class(new_va))
   new_va
 }
 
+# x1 <- c("a", 2.3, "20/200", "34", "-1", "nlp", "lp", "hm", "cf", NA)
+# va(x1,  to = "logmar", type = "m", from = "etdrs")
+# va(x1,  to = "snellen", type = "ft", from = "etdrs")
+# va(x1,  to = "etdrs", type = "ft", from = "etdrs")
+# va(x1,  to = "logmar", type = "m")
+# va(x1,  to = "snellen", type = "ft")
+# va(x1,  to = "etdrs", type = "ft")
+# va(x1,  to = "logmar", from = "logmar", type = "m")
+# va(x1,  to = "snellen", from = "logmar", type = "ft")
+# va(x1,  to = "etdrs", from = "logmar", type = "ft")
+
+
 #' @rdname va_methods
-#' @export
+#' @keywords internal
 convertVA.default <- function(x, to, ...){
 NA
 }

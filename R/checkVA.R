@@ -16,13 +16,13 @@
 #' Any element which is implausible / not recognized will be converted to NA
 #' @return vector with visual acuity of class `va`. See also "VA classes"
 #' @family VA converter
-#' @export
+#' @keywords internal
 checkVA <- function (x, ...) {
   UseMethod("checkVA", x)
 }
 
 #' @rdname plausibility_methods
-#' @export
+#' @keywords internal
 checkVA.quali <- function(x, ...){
   test <- is.na(x) | x %in% c("nlp", "lp", "hm", "cf")
   x[!test] <- NA
@@ -30,7 +30,7 @@ checkVA.quali <- function(x, ...){
 }
 
 #' @rdname plausibility_methods
-#' @export
+#' @keywords internal
 checkVA.snellen <- function(x, ...){
   test <- is.na(x) | grepl("/", x)
   x_old <- x
@@ -39,64 +39,39 @@ checkVA.snellen <- function(x, ...){
 }
 
 #' @rdname plausibility_methods
-#' @export
+#' @keywords internal
 checkVA.snellendec <- function(x, ...){
   x_num <- suppressWarnings(as.numeric(x))
-  newna <- as.logical(is.na(x_num) - is.na(x))
   test <- x_num > 0 & x_num <= 2
-  newtest <- ifelse(is.na(test), newna, !test)
   x_num[!test] <- NA
   class(x_num) <- c(class(x_num), "snellendec")
   x_num
 }
 
 #' @rdname plausibility_methods
-#' @export
+#' @keywords internal
 checkVA.logmar <- function(x, ...){
   x_num <- suppressWarnings(as.numeric(x))
-  newna <- as.logical(is.na(x_num) - is.na(x))
   test <- x_num >= -0.3 & x_num <= 3
-  newtest <- ifelse(is.na(test), newna, !test)
   x_num[!test] <- NA
-  # introduceNA(x, newtest)
   class(x_num) <- c(class(x_num), "logmar")
   x_num
 }
 
 #' @rdname plausibility_methods
-#' @export
+#' @keywords internal
 checkVA.etdrs <- function(x, ...){
   x_int <- suppressWarnings(as.integer(x))
-  newna <- as.logical(is.na(x_int) - is.na(x))
-  test <- x == x_int & x_int >= 0 & x_int <= 100
-  newtest <- ifelse(is.na(test), newna, !test)
+  test_int <- x == x_int
+  test_range <- (x_int >= 0 & x_int <= 100) | (x %in% c(-111L, -222L))
+  test <- test_int & test_range
   x_int[!test] <- NA
   class(x_int) <- c(class(x_int), "etdrs")
   x_int
 }
 
 #' @rdname plausibility_methods
-#' @export
+#' @keywords internal
 checkVA.default <- function(x, ...){
   x
 }
-
-
-
-#' convert quali entries
-#' @name convertQuali
-#' @param x vector
-#' @param va_class to which class
-#' @return vector
-#' @keywords internal
-convertQuali <- function(x, to_class){
-  if(to_class == "snellen"){
-    to_class <- "snellenft"
-  }
-  if (any(x %in% c("nlp", "lp", "hm", "cf"))) {
-    x_quali <- va_chart[[to_class]][match(x, va_chart$quali[1:4])]
-    x <- ifelse(!is.na(x_quali), x_quali, x)
-  }
-  x
-}
-

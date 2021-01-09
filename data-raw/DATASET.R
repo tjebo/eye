@@ -27,7 +27,7 @@ quali <- data.frame(snellenft = c("20/20000", "20/10000", "20/4000", "20/2000"),
                     snellenm = c("6/6000", "6/3000", "6/1200", "6/600"),
                     snellendec = c(0.001, 0.002, 0.005, 0.01),
                     logmar = c(3.0, 2.7, 2.3, 1.9),
-                    etdrs = c(0, 0, 0, 2),
+                    etdrs = c(-222, -111, 0, 2),
                     quali = c("nlp", "lp", "hm", "cf"))
 
 va_chart <- rbind(quali, va_chart1)
@@ -40,4 +40,4 @@ va_chart$snellendec[va_chart$snellendec %in% snell_dec_replace] <-
 va_chart$logmar <-  round(as.numeric(va_chart$logmar), 2)
 va_chart$etdrs <-  as.integer(va_chart$etdrs)
 
-usethis::use_data(va_chart, overwrite = TRUE)
+usethis::use_data(va_chart, overwrite = TRUE, internal = TRUE)
