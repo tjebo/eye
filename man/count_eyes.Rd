@@ -4,12 +4,12 @@
 \alias{count_eyes}
 \title{internal count}
 \usage{
-count_eyes(x, pat_col, eye)
+count_eyes(x, id, eye)
 }
 \arguments{
 \item{x}{object (data frame)}
 
-\item{pat_col}{patient column}
+\item{id}{patient column}
 
 \item{eye}{eye column}
 }

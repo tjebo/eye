@@ -60,10 +60,10 @@ eyes <- function(x, id = NULL, eye = NULL, dropunknown = TRUE) {
     return("0 eyes of 0 patients")
   }
   if (is.null(id)) {
-    pat_col <- getElem_id(x)
+    id <- getElem_id(x)
   }
 
-  if (length(pat_col) != 1) {
+  if (length(id) != 1) {
     warning("Did not find the ID column - use argument \"id\"",
       call. = FALSE
     )
@@ -79,13 +79,13 @@ eyes <- function(x, id = NULL, eye = NULL, dropunknown = TRUE) {
   }
   if (length(eye) < 1) {
     message("No eye column found: Counting patients only")
-    res <- c(patients = length(unique(x[[pat_col]])))
+    res <- c(patients = length(unique(x[[id]])))
   } else if (length(eye) == 1) {
     quiet_recode <- purrr::quietly(~ recodeye(x = .x, dropunknown = .y))
     recode_eye <- quiet_recode(.x = x[[eye]], .y = dropunknown)
     if (length(recode_eye$warnings) > 0) {
       message(recode_eye$warnings)
-      return(c(patients = length(unique(x[[pat_col]]))))
+      return(c(patients = length(unique(x[[id]]))))
     }
     if (length(recode_eye$messages) > 0) {
       message(gsub("\\\n", "", recode_eye$messages))
@@ -94,7 +94,7 @@ eyes <- function(x, id = NULL, eye = NULL, dropunknown = TRUE) {
       message("Some rows contain information for both eyes. Correct?")
     }
     x[[eye]] <- recode_eye$result
-    res <- count_eyes(x = x, pat_col = pat_col, eye = eye)
+    res <- count_eyes(x = x, id = id, eye = eye)
   }
   res
 }
@@ -102,18 +102,18 @@ eyes <- function(x, id = NULL, eye = NULL, dropunknown = TRUE) {
 #' internal count
 #' @name count_eyes
 #' @param x object (data frame)
-#' @param pat_col patient column
+#' @param id patient column
 #' @param eye eye column
 #' @description `count_eyes()` is the internal counting function
 #' @return Named integer vector with count of patients and eyes
 #' @keywords internal
 #'   for [`eyes()`]
-count_eyes <- function(x, pat_col, eye) {
-  n_pat <- length(unique(x[[pat_col]]))
+count_eyes <- function(x, id, eye) {
+  n_pat <- length(unique(x[[id]]))
 
   rl <- c("r", "l")
   x[[eye]] <- factor(x[[eye]], levels = union(c("b", rl), unique(x[[eye]])))
-  eye_tab <- table(unique(x[, c(pat_col, eye)]))
+  eye_tab <- table(unique(x[, c(id, eye)]))
 
   if (any(grepl("b", colnames(eye_tab)))) {
     if (any(grepl(paste(rl, collapse = "|"), colnames(eye_tab)))) {
