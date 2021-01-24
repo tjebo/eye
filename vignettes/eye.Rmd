@@ -215,9 +215,10 @@ For counting eyes, eyes need to be coded in commonly used ways. You can use [rec
 ### Report:
  `eyes` also include a convenience function to turn the count into a text. This is intended for integration into rmarkdown reports, or for easy copy / pasting. `eyes_to_string()` parses the output of `eyes` into text under the hood. Arguments to `eyes_to_string` are passed via **...**:
  
- - **small_num** If TRUE (default): numbers <= 12 will be printed as words.
- - **para** If TRUE (not default): Adding "A total of" to comply with most journal standards and to avoid awkward long numbers.
- - **UK** TRUE: UK style (English) or FALSE (default): US style (American).
+ - **english** Which numbers to be written in plain english:
+choose "small" for numbers till 12, "all" (all numbers),
+or "none" (or any other string!) for none
+ - **caps** First number will have capital letter
  
 **eyestr** is a shorthand for `eyes(x, report = TRUE)`. The name was chosen because it's a contraction of "eyes" and "strings" and it's a tiny bit easier to type than "eyetxt". 
 
@@ -236,17 +237,23 @@ The beauty of this report is of course that the numbers will always update with 
 ```{r eyestr}
 eyes(amd2)
 
-## or as text for a report
+library(eyedata)
+eyes(amd2)
+
+# Same as `eyes`, but as text for reports
 eyestr(amd2)
 
-## Complying with journal standards when at beginning of paragraph
-eyestr(amd2, para = TRUE)
- 
 ## Numbers smaller than or equal to 12 will be real English
 eyestr(head(amd2, 100))
 
-## But you can turn this off
-eyestr(head(amd2, 100), small_num = FALSE)
+## Or, you can make all numbers english:
+eyestr(amd2, english = "all")
+
+## make first number capital letter
+eyestr(head(amd2, 100), caps = TRUE)
+
+## you can have all numbers printed as numbers
+eyestr(head(amd2, 100), english = "none")
 ```
 
 ## Reshape eye data 

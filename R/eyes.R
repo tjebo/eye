@@ -41,9 +41,6 @@
 #'  which can be #'  readily pasted into reports with [eyes_to_string] under the hood.
 #'  Arguments to `eyes_to_string` are passed via **...**:
 #'  - **small_num** If TRUE (default): numbers <= 12 as words
-#'  - **para** If TRUE (not default): Adding "A total of" to
-#'     comply with most journal standards and to avoid awkward
-#'     long numbers.
 #'  - **UK** TRUE: UK style (English) or FALSE (default):
 #'  US style (American).
 #' @return `eyes`: Named integer vector with count of patients and eyes
@@ -52,6 +49,7 @@
 #' @examples
 #' library(eyedata)
 #' eyes(amd2)
+#'
 #' @export
 #'
 eyes <- function(x, id = NULL, eye = NULL, dropunknown = TRUE) {
@@ -138,52 +136,54 @@ count_eyes <- function(x, pat_col, eye) {
 #' @inheritParams eyes_to_string
 #' @return `eyestr`: Character string - can be directly pasted into reports
 #' @examples
-#' library(eyedata)
-#' eyestr(amd2, para = TRUE)
+#' # Examples for the usage of eyestr
+#' eyestr(amd2)
+#'
+#' set.seed(1)
+#' ls_dat <-
+#'   lapply(c(1, 12, 13),
+#'     function(x) data.frame(id = as.character(1:x),
+#'                            eye = sample(c("r", "l"), x, replace = TRUE)))
+#'
+#' lapply(ls_dat, eyestr, english = "small")
+#' lapply(ls_dat, eyestr, english = "all")
+#' lapply(ls_dat, eyestr, english = "all", caps = TRUE)
+#' lapply(ls_dat, eyestr, english = "none")
+#' lapply(ls_dat, eyestr, english = "none")
 #' @export
-eyestr <- function(x, ..., small_num = TRUE, para = FALSE, UK = FALSE){
+eyestr <- function(x, ..., english = "small", caps = FALSE){
   res <- suppressMessages(eyes(x, ...))
     res_str <- res[c("patients", "eyes")]
-    eyes_to_string(res_str[!is.na(res_str)],
-                   small_num = small_num, para = para, UK = UK)
+    eyes_to_string(res_str[!is.na(res_str)], caps = caps,
+                   english = english)
   }
 
 #' Eye count to strings
 #' @name eyes_to_string
 #' @param x vector of one or two
-#' @param small_num If TRUE: writing numbers <= 12 as words
-#' @param para If TRUE: Adding "A total of" to comply with most
-#' journal standards and to avoid awkward long numbers.
-#' @param UK Logical, Use UK (English) style (TRUE) or
-#'   USA (American) style (FALSE).
+#' @param english Which numbers to be written in plain english:
+#'   choose "small" for numbers till 12, "all" (all numbers),
+#'   or "none" (or any other string!) for none
+#' @param caps if TRUE, first number will have capital first letter
 #' @return Character string - can be directly pasted into reports
 #' @keywords internal
 #' @importFrom english english
 
-eyes_to_string <- function(x, small_num = TRUE, para = FALSE, UK = FALSE) {
-  if (para) {
-    para <- "A total of "
-  } else {
-    para <- NULL
+eyes_to_string <- function(x, english = "small", caps = FALSE) {
+  if (x[1] <= 1) patient <- "patient" else patient <- "patients"
+  if (!is.na(x[2]) & x[2] <= 1) eye <- "eye" else eye <- "eyes"
+
+  if (english == "small") {
+    x[x <= 12] <- as.character(english::english(x[x <= 12]))
+  } else if(english == "all"){
+    x <- as.character(english::english(x))
   }
-  if (isTRUE(small_num)) {
-    engl <- as.character(english::english(x[x <= 12], UK = UK))
-    x[x <= 12] <- engl
-  }
-  if (x[1] <= 1) {
-    patient <- "patient"
-  } else {
-    patient <- "patients"
-  }
+
   if (length(x) == 1) {
-    return(paste0(para, paste(tocapital(x[1]), patient)))
+    if(!caps) return(paste(x[1], patient))
+    return(paste(tocapital(x[1]), patient))
   } else {
-    if (x[2] <= 1) {
-      eye <- "eye"
-    } else {
-      eye <- "eyes"
-    }
-    return(paste0(para, paste(tocapital(x[2]),
-                              eye, "of", x[1], patient)))
+    if(!caps) return(paste(x[2], eye, "of", x[1], patient))
+    return(paste(tocapital(x[2]), eye, "of", x[1], patient))
   }
 }

@@ -149,7 +149,19 @@ eyestr(amd2)
 
 ## Numbers smaller than or equal to 12 will be real English
 eyestr(head(amd2, 100))
+#> [1] "eleven eyes of eleven patients"
+
+## Or, you can make all numbers english:
+eyestr(amd2, english = "all")
+#> [1] "three thousand three hundred and fifty-seven eyes of three thousand three hundred and fifty-seven patients"
+
+## make first number capital letter
+eyestr(head(amd2, 100), caps = TRUE)
 #> [1] "Eleven eyes of eleven patients"
+
+## you can have all numbers printed as numbers
+eyestr(head(amd2, 100), english = "none")
+#> [1] "11 eyes of 11 patients"
 ```
 
 ### Recoding the eye variable
@@ -249,7 +261,7 @@ dob <- c("1984-10-16", "2000-01-01")
 
 ## If no second date given, the age today
 getage(dob)
-#> [1] 36.2 21.0
+#> [1] 36.3 21.1
 getage(dob, "2000-01-01")                                                    
 #> [1] 15.2  0.0
 ```

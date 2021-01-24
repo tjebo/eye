@@ -106,6 +106,15 @@ eyestr(amd2)
 
 ## Numbers smaller than or equal to 12 will be real English
 eyestr(head(amd2, 100))
+
+## Or, you can make all numbers english:
+eyestr(amd2, english = "all")
+
+## make first number capital letter
+eyestr(head(amd2, 100), caps = TRUE)
+
+## you can have all numbers printed as numbers
+eyestr(head(amd2, 100), english = "none")
 ```
 
 ### Recoding the eye variable

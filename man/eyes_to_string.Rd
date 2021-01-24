@@ -4,18 +4,16 @@
 \alias{eyes_to_string}
 \title{Eye count to strings}
 \usage{
-eyes_to_string(x, small_num = TRUE, para = FALSE, UK = FALSE)
+eyes_to_string(x, english = "small", caps = FALSE)
 }
 \arguments{
 \item{x}{vector of one or two}
 
-\item{small_num}{If TRUE: writing numbers <= 12 as words}
+\item{english}{Which numbers to be written in plain english:
+choose "small" for numbers till 12, "all" (all numbers),
+or "none" (or any other string!) for none}
 
-\item{para}{If TRUE: Adding "A total of" to comply with most
-journal standards and to avoid awkward long numbers.}
-
-\item{UK}{Logical, Use UK (English) style (TRUE) or
-USA (American) style (FALSE).}
+\item{caps}{if TRUE, first number will have capital first letter}
 }
 \value{
 Character string - can be directly pasted into reports

@@ -7,7 +7,7 @@
 \usage{
 eyes(x, id = NULL, eye = NULL, dropunknown = TRUE)
 
-eyestr(x, ..., small_num = TRUE, para = FALSE, UK = FALSE)
+eyestr(x, ..., english = "small", caps = FALSE)
 }
 \arguments{
 \item{x}{required. (data frame)}
@@ -20,13 +20,11 @@ eyestr(x, ..., small_num = TRUE, para = FALSE, UK = FALSE)
 
 \item{...}{passed to \link{eyes}}
 
-\item{small_num}{If TRUE: writing numbers <= 12 as words}
+\item{english}{Which numbers to be written in plain english:
+choose "small" for numbers till 12, "all" (all numbers),
+or "none" (or any other string!) for none}
 
-\item{para}{If TRUE: Adding "A total of" to comply with most
-journal standards and to avoid awkward long numbers.}
-
-\item{UK}{Logical, Use UK (English) style (TRUE) or
-USA (American) style (FALSE).}
+\item{caps}{if TRUE, first number will have capital first letter}
 }
 \value{
 \code{eyes}: Named integer vector with count of patients and eyes
@@ -84,9 +82,6 @@ which can be #'  readily pasted into reports with \link{eyes_to_string} under th
 Arguments to \code{eyes_to_string} are passed via \strong{...}:
 \itemize{
 \item \strong{small_num} If TRUE (default): numbers <= 12 as words
-\item \strong{para} If TRUE (not default): Adding "A total of" to
-comply with most journal standards and to avoid awkward
-long numbers.
 \item \strong{UK} TRUE: UK style (English) or FALSE (default):
 US style (American).
 }
@@ -95,7 +90,20 @@ US style (American).
 \examples{
 library(eyedata)
 eyes(amd2)
-library(eyedata)
-eyestr(amd2, para = TRUE)
+
+# Examples for the usage of eyestr
+eyestr(amd2)
+
+set.seed(1)
+ls_dat <-
+  lapply(c(1, 12, 13),
+    function(x) data.frame(id = as.character(1:x),
+                           eye = sample(c("r", "l"), x, replace = TRUE)))
+
+lapply(ls_dat, eyestr, english = "small")
+lapply(ls_dat, eyestr, english = "all")
+lapply(ls_dat, eyestr, english = "all", caps = TRUE)
+lapply(ls_dat, eyestr, english = "none")
+lapply(ls_dat, eyestr, english = "none")
 }
 \concept{eye core functions}

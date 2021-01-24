@@ -1,12 +1,10 @@
-## Submission eye 1.0.1
-1) This is an important bug fix for v1.0.0 - fixing a dangerous bug of an erroneous visual acuity notation conversion (more details see "changes"). This was noticed unfortunately (or: luckily?) only shortly after the recent package upgrade.  
-
-2) fixed NOTE from CRAN package checks (eye 1.0.0): 
-#> Check: dependencies in R code 
-#>     Namespace in Imports field not imported from: ‘eyedata’
-#>      All declared Imports should be used. 
-
-COMMENT: in DESCRIPTION, moved eyedata (>= 0.1.0) to the "Suggests" section
+## Submission eye 
+- added internal function tidyNA_low to avoid double tolower call
+- eyestr remove para argument 
+- eyestr improved the number to english conversion with the change from "small_num" to "english" argument (#26)
+- eyestr prints one eye correctly in singular (#25)
+- eyestr added "caps" argument for more flexibility of spelling
+- eyestr removed "UK" argument (there is no difference in spelling for numbers :)
 
 ## CHECK ENVIRONMENTS
 * local OS X install, R 4.0.3
@@ -22,12 +20,6 @@ There were no ERRORs or WARNINGs or NOTEs.
 There were no ERRORs or WARNINGs or NOTEs. 
 
 ### win-builder
-There was one NOTE. 
-#> checking CRAN incoming feasibility ... NOTE
-#> ...
-#> Days since last update: 2
-
-COMMENT: See above. This is a horrendous bug that I had to immediately fix. 
 
 ### R-hub
 There was one NOTE: 
@@ -43,9 +35,4 @@ COMMENT: I am sorry :( This is truly the DOI to this article!
 There are currently no downstream dependencies for this package.
 
 ## Changes - details
-- bug fix: erroneous conversion of quality visual acuity entries when VA in ETDRS notation (#24)
-- removed deprecated function age()
-- VA chart now as internal data, not exported
-- internally used S3 methods not exported to namespace any longer:
-  - convertVA 
-  - checkVA
+
