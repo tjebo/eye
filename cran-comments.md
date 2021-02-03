@@ -5,6 +5,8 @@
 - eyestr prints one eye correctly in singular (#25)
 - eyestr added "caps" argument for more flexibility of spelling
 - eyestr removed "UK" argument (there is no difference in spelling for numbers :)
+- eyes fixed missing reference to column (#27)
+- update citation file
 
 ## CHECK ENVIRONMENTS
 * local OS X install, R 4.0.3
