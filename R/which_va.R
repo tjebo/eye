@@ -20,7 +20,6 @@ which_va <- function(x, quali = c("nlp", "npl", "pl", "lp", "hm", "cf")) {
   x_noquali <- x[!x %in% quali]
   x_num <- suppressWarnings(as.numeric(x_noquali))
   x_numval <- x_num[!is.na(x_num)]
-
   if (all(grepl("/", x_noquali[!is.na(x_noquali)]))) {
     return("snellen")
   } else if (any(grepl("/", x_noquali[!is.na(x_noquali)])) & any(x_num <= 100)) {
@@ -30,14 +29,18 @@ which_va <- function(x, quali = c("nlp", "npl", "pl", "lp", "hm", "cf")) {
   }
 
   if (all(x_numval == as.integer(x_numval))) {
-    if (all(x_numval > 3) & all(x_numval <= 100)) {
+    if (all(x_numval > 3)) {
       return("etdrs")
-    } else if (all(x_numval %in% 0:3)) {
-      return(c("logmar", "snellendec", "etdrs"))
     } else {
       return(c("etdrs", "logmar", "snellendec"))
     }
+  } else if (any(x_numval == as.integer(x_numval))){
+    return(c("logmar", "snellendec", "etdrs"))
   } else {
     return(c("logmar", "snellendec"))
   }
 }
+# x <-  c(0.2, 0.1, 75)
+# which_va(x)
+# which_va(snellen_logmar_na)
+# which_va(etdrs_unplaus)
