@@ -13,6 +13,10 @@ Details:
 - added internal function `tidyNA_low` to avoid double tolower call
 - recodeye fixed fail when trailing white space (#28)
 - which_va fixed conversion error when mixed ETDRS and logmar (#29)
+<<<<<<< HEAD
+=======
+- update citation file
+>>>>>>> cbdd7df1aa16373c3b0eeb89d62b39cf2b0d84f3
 
 # eye 1.0.1
 - Nasty bug fix! Erroneous conversion of quality visual acuity entries when ETDRS (#24)
