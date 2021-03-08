@@ -72,16 +72,17 @@ recodeye <- function(x, to = NULL,
 
   names(eyecodes) <- to[match(names(eyecodes), names(to))]
 
-  x <- tidyNA(x)
+  x <- tidyNA(tolower(x))
+  x <- gsub("^\\s+|\\s+$", "", x)
+
   if (sum(is.na(x) > 0)) {
     message("Missing values and/or meaningless strings contained")
   }
   eyeInt <- suppressWarnings(unique(as.integer(x[!is.na(x)])))
   eyeInt_noNA <- eyeInt[!is.na(eyeInt)]
   eyeChar <- as.logical(sum(is.na(eyeInt)))
-
   if (eyeChar) {
-    if (!all(tolower(unique(x)) %in% c(NA, unname(unlist(eyecodes))))) {
+    if (!all(unique(x) %in% c(NA, unname(unlist(eyecodes))))) {
       if (!dropunknown) {
         warn_recode(x)
         return(x)
