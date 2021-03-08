@@ -1,3 +1,20 @@
+## Submission eye version 1.1.0  
+summary of changes: 
+- new features for function `eyestr`
+- important bug fixes
+
+Details: 
+- eyestr: new "english" argument for more flexibility (#26)
+- eyestr removed "para" argument 
+- eyestr prints one eye correctly in singular (#25)
+- eyestr added "caps" argument for more flexibility of spelling
+- eyestr removed "UK" argument (there is no difference in spelling for numbers :)
+- eyes fixed missing reference to column (#27)
+- added internal function `tidyNA_low` to avoid double tolower call
+- recodeye fixed fail when trailing white space (#28)
+- which_va fixed conversion error when mixed ETDRS and logmar (#29)
+- update citation file
+
 # eye 1.0.1
 - Nasty bug fix! Erroneous conversion of quality visual acuity entries when ETDRS (#24)
 - removed deprecated function `age()`
