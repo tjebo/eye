@@ -7,6 +7,8 @@
 - eyestr removed "UK" argument (there is no difference in spelling for numbers :)
 - eyes fixed missing reference to column (#27)
 - update citation file
+- recodeye fixed issue #28
+- which_va fixed issue #29
 
 ## CHECK ENVIRONMENTS
 * local OS X install, R 4.0.3

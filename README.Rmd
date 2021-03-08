@@ -174,7 +174,6 @@ getage(dob)
 getage(dob, "2000-01-01")                                                    
 ```
 
-
 ### myop
 Often enough, there are right eye / left eye columns for more than one variable, e.g., for both IOP and VA. This may be a necessary data formal for specific questions. However, "eye" is also variable (a dimension of your observation), and it can also be stored in a separate column. The data would be "longer". 
 

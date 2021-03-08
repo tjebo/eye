@@ -261,7 +261,7 @@ dob <- c("1984-10-16", "2000-01-01")
 
 ## If no second date given, the age today
 getage(dob)
-#> [1] 36.3 21.1
+#> [1] 36.4 21.2
 getage(dob, "2000-01-01")                                                    
 #> [1] 15.2  0.0
 ```
