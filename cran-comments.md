@@ -1,14 +1,19 @@
-## Submission eye 
-- added internal function tidyNA_low to avoid double tolower call
-- eyestr remove para argument 
-- eyestr improved the number to english conversion with the change from "small_num" to "english" argument (#26)
+## Submission eye version 1.1.0  
+summary of changes: 
+- new features for function `eyestr`
+- important bug fixes
+
+Details: 
+- eyestr: new "english" argument for more flexibility (#26)
+- eyestr removed "para" argument 
 - eyestr prints one eye correctly in singular (#25)
 - eyestr added "caps" argument for more flexibility of spelling
 - eyestr removed "UK" argument (there is no difference in spelling for numbers :)
 - eyes fixed missing reference to column (#27)
+- added internal function `tidyNA_low` to avoid double tolower call
+- recodeye fixed fail when trailing white space (#28)
+- which_va fixed conversion error when mixed ETDRS and logmar (#29)
 - update citation file
-- recodeye fixed issue #28
-- which_va fixed issue #29
 
 ## CHECK ENVIRONMENTS
 * local OS X install, R 4.0.3
@@ -33,10 +38,7 @@ There was one NOTE:
 #>     Status: Forbidden
 #>   DOI: 10.1167/iovs.05-0981
 
-COMMENT: I am sorry :( This is truly the DOI to this article! 
+COMMENT: I am truly sorry, but this is the DOI to this article! 
 
 ## Downstream dependencies
 There are currently no downstream dependencies for this package.
-
-## Changes - details
-
