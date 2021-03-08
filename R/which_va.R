@@ -40,3 +40,7 @@ which_va <- function(x, quali = c("nlp", "npl", "pl", "lp", "hm", "cf")) {
     return(c("logmar", "snellendec"))
   }
 }
+# x <-  c(0.2, 0.1, 75)
+# which_va(x)
+# which_va(snellen_logmar_na)
+# which_va(etdrs_unplaus)
