@@ -9,6 +9,7 @@ returning list (of class "eyes") for easier access of count data
 - Change of terminology to "subjects/id" rather than "patients" 
 - print methods for class "eyes" and "eyes_details"
 - documentation corrected and expanded in `eyes` 
+- update description file with updated versions of dependencies
 
 Details: 
 - update citation file
