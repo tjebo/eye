@@ -50,3 +50,13 @@ tocapital <- function(x) {
   paste(toupper(substring(x, 1,1)), substring(x, 2),
         sep="", collapse=" ")
 }
+
+#' Pipe operator
+#'
+#' See \code{magrittr::\link[magrittr:pipe]{\%>\%}} for details.
+#'
+#' @name %>%
+#' @rdname pipe
+#' @keywords internal
+#' @importFrom magrittr %>%
+NULL

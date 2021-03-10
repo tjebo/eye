@@ -20,12 +20,14 @@
 
 \method{print}{eyes}(x, ...)
 
-\method{print}{eyes_details}(x, ...)
+\method{print}{eyes_details}(x, show = 6, ...)
 }
 \arguments{
 \item{x}{object of class "eyes_details"}
 
 \item{...}{arguments passed to \link{print.default}}
+
+\item{show}{how many subjects to be shown before printing the footnote}
 }
 \value{
 No return value, called for side effects (printing)

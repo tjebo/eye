@@ -75,14 +75,37 @@ print.eyes <- function(x, ...) {
 #' @rdname print_methods
 #' @description S3 methods for class eyes_details
 #' @param x object of class "eyes_details"
+#' @param show how many subjects to be shown before printing the footnote
 #' @param ... arguments passed to [print.default]
 #' @export
 #' @importFrom cli rule
-print.eyes_details <- function(x, ...) {
+#' @importFrom utils head
+print.eyes_details <- function(x, show = 6, ...) {
   cat(paste0(cli::rule(line = 2, left = "$counts", width = 45),
              "\n"))
   print(unlist(x$counts))
   cat(paste0("\n", cli::rule(line = 2, left = "$id", width = 45),
              "\n"))
-  print(x$id)
+  print_obj <- lapply(x$id, head)
+  ls_len <- lengths(x$id)
+  lapply(1:3, function(i){
+    if(ls_len[i] > show){
+      cat(paste0("$", names(print_obj)[i], "\n"))
+      print(print_obj[[i]])
+      newfoot <- paste0("with " , ls_len[i] - show, " more subjects\n\n")
+      cat(myfooter(newfoot))
+    } else{
+      print(print_obj[i])
+    }
+  })
 }
+
+#' @keywords internal
+#' @importFrom pillar style_subtle
+#' @importFrom cli symbol
+#' @importFrom cli console_width
+myfooter <- function(x, width = cli::console_width()) {
+  footer <- paste0(cli::symbol$ellipsis, " ", x)
+  pillar::style_subtle(paste("#", footer))
+}
+
