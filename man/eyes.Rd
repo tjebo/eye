@@ -33,8 +33,8 @@ or "none" (or any other string!) for none}
 \item{caps}{if TRUE, first number will have capital first letter}
 }
 \value{
-Named integer vector with count of patients and eyes
-if "details = TRUE", an object of class "eyes" will be returned (a list)
+List (of class "eyes" with count of patients and eyes
+if "details = TRUE", an list of class "eyes_details" will be returned
 
 \code{eyestr}: Character string - can be directly pasted into reports
 }

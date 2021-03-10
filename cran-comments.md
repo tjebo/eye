@@ -1,11 +1,13 @@
 ## Submission eye version 1.2.0 
 summary of changes: 
 - new features for function `eyes`:
-"details" argument creates object of class "eyes", allowing access to count statistics and subject ids 
+returning list (of class "eyes") for easier access of count data
+"details" argument creates object of class "eyes_details", allowing access to in depth count statistics and subject ids 
 - change id and eye arguments to "id_col" and "eye_col" - previous code should
   not break because of partial argument name matching. However, the new names
   make it clearer as to what those arguments are for.
-- print method for class "eyes"
+- Change of terminology to "subjects/id" rather than "patients" 
+- print methods for class "eyes" and "eyes_details"
 - documentation corrected and expanded in `eyes` 
 
 Details: 

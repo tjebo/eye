@@ -66,11 +66,19 @@ print.blink <- function(x, ...) {
 #' @param x object of class "eyes"
 #' @param ... arguments passed to [print.default]
 #' @export
-#' @importFrom cli cli_h1
-#' @importFrom cli cli_h3
 #' @importFrom cli rule
-#'
 print.eyes <- function(x, ...) {
+  cat(paste0(cli::rule(line = 2, left = "Counts", width = 45),
+             "\n"))
+  print(unlist(x))
+}
+#' @rdname print_methods
+#' @description S3 methods for class eyes_details
+#' @param x object of class "eyes_details"
+#' @param ... arguments passed to [print.default]
+#' @export
+#' @importFrom cli rule
+print.eyes_details <- function(x, ...) {
   cat(paste0(cli::rule(line = 2, left = "$counts", width = 45),
              "\n"))
   print(unlist(x$counts))

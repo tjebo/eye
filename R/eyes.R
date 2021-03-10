@@ -42,8 +42,8 @@
 #' If your eye column contains other values, they will be dropped to
 #' NA (dropunknown) or kept (and then only patients will be counted, because
 #' coding remains unclear). Recommend then to recode with [recodeye]
-#' @return Named integer vector with count of patients and eyes
-#'   if "details = TRUE", an object of class "eyes" will be returned (a list)
+#' @return List (of class "eyes" with count of patients and eyes
+#'   if "details = TRUE", an list of class "eyes_details" will be returned
 #' @family eye core functions
 #' @importFrom purrr quietly
 #' @examples
@@ -122,7 +122,9 @@ count_eyes <- function(x, id_col, eye_col, details = FALSE) {
   nr <- unname(outfinal["r"])
   nl <- unname(outfinal["l"])
 if(!details){
-  return(c(id = n_pat, eyes = n_eyes, right = nr, left = nl))
+  res <- list(id = n_pat, eyes = n_eyes, right = nr, left = nl)
+  class(res) <- c("eyes", class(res))
+  return(res)
 } else {
   both <- eye_tab[, "b"] == 1 | rowSums(eye_tab) > 1
   r_only <- eye_tab[, "r"] == 1 & rowSums(eye_tab) == 1
@@ -136,10 +138,10 @@ if(!details){
   id <- list(right = patid[r_only],
                    left = patid[l_only],
                    both = patid[both])
-  eyes_details <- list(counts = as.list(eyecount), id = id)
-  class(eyes_details) <- c("eyes", class(eyes_details))
-  return(eyes_details)
-}
+  res <- list(counts = as.list(eyecount), id = id)
+  class(res) <- c("eyes_details", class(res))
+  return(res)
+  }
 }
 #' @rdname eyes
 #' @inheritParams eyes
@@ -169,7 +171,7 @@ if(!details){
 #' lapply(ls_dat, eyestr, english = "none")
 #' @export
 eyestr <- function(x, ..., english = "small", caps = FALSE){
-  res <- suppressMessages(eyes(x, ...))
+  res <- unlist(suppressMessages(eyes(x, ...)))
     res_str <- res[c("id", "eyes")]
     eyes_to_string(res_str[!is.na(res_str)], caps = caps,
                    english = english)

@@ -7,6 +7,7 @@
 \alias{print.etdrs}
 \alias{print.blink}
 \alias{print.eyes}
+\alias{print.eyes_details}
 \title{print eye classes}
 \usage{
 \method{print}{snellen}(x, ...)
@@ -18,9 +19,11 @@
 \method{print}{blink}(x, ...)
 
 \method{print}{eyes}(x, ...)
+
+\method{print}{eyes_details}(x, ...)
 }
 \arguments{
-\item{x}{object of class "eyes"}
+\item{x}{object of class "eyes_details"}
 
 \item{...}{arguments passed to \link{print.default}}
 }
@@ -36,4 +39,6 @@ than continuous. \strong{logmar} and \strong{etdrs} are both numerics
 S3 methods for class blink
 
 S3 methods for class eyes
+
+S3 methods for class eyes_details
 }
