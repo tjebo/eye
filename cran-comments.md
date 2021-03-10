@@ -1,18 +1,14 @@
-## Submission eye version 1.1.0  
+## Submission eye version 1.2.0 
 summary of changes: 
-- new features for function `eyestr`
-- important bug fixes
+- new features for function `eyes`:
+"details" argument creates object of class "eyes", allowing access to count statistics and subject ids 
+- change id and eye arguments to "id_col" and "eye_col" - previous code should
+  not break because of partial argument name matching. However, the new names
+  make it clearer as to what those arguments are for.
+- print method for class "eyes"
+- documentation corrected and expanded in `eyes` 
 
 Details: 
-- eyestr: new "english" argument for more flexibility (#26)
-- eyestr removed "para" argument 
-- eyestr prints one eye correctly in singular (#25)
-- eyestr added "caps" argument for more flexibility of spelling
-- eyestr removed "UK" argument (there is no difference in spelling for numbers :)
-- eyes fixed missing reference to column (#27)
-- added internal function `tidyNA_low` to avoid double tolower call
-- recodeye fixed fail when trailing white space (#28)
-- which_va fixed conversion error when mixed ETDRS and logmar (#29)
 - update citation file
 
 ## CHECK ENVIRONMENTS

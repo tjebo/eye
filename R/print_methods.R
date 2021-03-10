@@ -25,7 +25,7 @@ print.etdrs <- function(x, ...) {
 }
 
 #' @rdname print_methods
-#' @description S3 methods for blink class
+#' @description S3 methods for class blink
 #' @param x object of class "blink"
 #' @param ... arguments passed to [print.default]
 #' @export
@@ -59,4 +59,22 @@ print.blink <- function(x, ...) {
 
   cli::cli_h3("$IOP_eyes (right and left eyes)")
   print(x$IOP_eyes)
+}
+
+#' @rdname print_methods
+#' @description S3 methods for class eyes
+#' @param x object of class "eyes"
+#' @param ... arguments passed to [print.default]
+#' @export
+#' @importFrom cli cli_h1
+#' @importFrom cli cli_h3
+#' @importFrom cli rule
+#'
+print.eyes <- function(x, ...) {
+  cat(paste0(cli::rule(line = 2, left = "$counts", width = 45),
+             "\n"))
+  print(unlist(x$counts))
+  cat(paste0("\n", cli::rule(line = 2, left = "$id", width = 45),
+             "\n"))
+  print(x$id)
 }

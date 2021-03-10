@@ -6,6 +6,7 @@
 \alias{print.logmar}
 \alias{print.etdrs}
 \alias{print.blink}
+\alias{print.eyes}
 \title{print eye classes}
 \usage{
 \method{print}{snellen}(x, ...)
@@ -15,9 +16,11 @@
 \method{print}{etdrs}(x, ...)
 
 \method{print}{blink}(x, ...)
+
+\method{print}{eyes}(x, ...)
 }
 \arguments{
-\item{x}{object of class "blink"}
+\item{x}{object of class "eyes"}
 
 \item{...}{arguments passed to \link{print.default}}
 }
@@ -30,5 +33,7 @@ S3 methods for VA classes "snellen", "logmar" and "etdrs".
 than continuous. \strong{logmar} and \strong{etdrs} are both numerics
 (logMAR is double, etdrs is integer).
 
-S3 methods for blink class
+S3 methods for class blink
+
+S3 methods for class eyes
 }

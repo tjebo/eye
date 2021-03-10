@@ -4,21 +4,21 @@
 \alias{count_eyes}
 \title{internal count}
 \usage{
-count_eyes(x, id, eye)
+count_eyes(x, id_col, eye_col, details = FALSE)
 }
 \arguments{
 \item{x}{object (data frame)}
 
-\item{id}{patient column}
+\item{id_col}{patient column}
 
-\item{eye}{eye column}
+\item{eye_col}{eye column}
+
+\item{details}{if TRUE, will get more information}
 }
 \value{
 Named integer vector with count of patients and eyes
 }
 \description{
-\code{count_eyes()} is the internal counting function
+\code{count_eyes()} is the internal counting function for \link{eyes}
 }
-\keyword{[`eyes()`]}
-\keyword{for}
 \keyword{internal}

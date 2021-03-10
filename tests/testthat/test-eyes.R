@@ -45,7 +45,8 @@ test_that("messages",{
   # expect_message(eyes(foo8), "Eye coding somewhat messy")
   expect_message(eyes(foo10), "Eyes coded 0:1")
   expect_message(eyes(foo11), regexp = "Eyes coded 1:2")
-  expect_message(eyes(foo17), regexp = "No eye column found")
+  expect_message(eyes(foo17), regexp = "Unclear which is the eye column")
+  expect_message(eyes(foo9), regexp = "Unclear which is the eye column")
   expect_message(eyes(foo34), regexp = "Some rows")
   })
 
@@ -63,7 +64,6 @@ test_that("warning/warning",{
   expect_message(eyes(foo0), "NOT RECODED")
   expect_message(eyes(foo3), "Introduced NA for unclear values")
   expect_warning(eyes(foo7), "Did not find")
-  expect_warning(eyes(foo9), "Please define eye column", fixed = TRUE)
   expect_warning(eyes(foo18), "Did not find")
   expect_message(eyes(foo19), "NOT RECODED")
   expect_message(eyes(foo14), "Introduced NA for unclear values")
@@ -77,10 +77,8 @@ test_that("warning/warning",{
   expect_message(eyes(foo15), "Introduced NA for unclear values")
 })
 
-
 test_that("NULL", {
 expect_null(suppressWarnings(eyes(foo7)))
-expect_null(suppressWarnings(eyes(foo9)))
 expect_null(suppressWarnings(eyes(foo18)))
 }
 )
@@ -89,4 +87,4 @@ test_that("return", {
   expect_true(length(eyestr(iop_wide)) == 1)
   expect_true(length(suppressWarnings(eyes(foo3, dropunknown = FALSE))) == 1)
 })
-
+eyes(iop_wide)
