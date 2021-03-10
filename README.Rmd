@@ -18,7 +18,6 @@ library(eye)
 <!-- badges: start -->
 [![Travis build status](https://travis-ci.com/tjebo/eye.svg?branch=master)](https://travis-ci.com/tjebo/eye)
 <!-- badges: end -->
-
 See more with *eye*
 
 ## Purpose

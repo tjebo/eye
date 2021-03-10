@@ -7,9 +7,7 @@ eye
 
 [![Travis build
 status](https://travis-ci.com/tjebo/eye.svg?branch=master)](https://travis-ci.com/tjebo/eye)
-<!-- badges: end -->
-
-See more with *eye*
+<!-- badges: end --> See more with *eye*
 
 ## Purpose
 
