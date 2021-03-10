@@ -68,7 +68,7 @@ print.blink <- function(x, ...) {
 #' @export
 #' @importFrom cli rule
 print.eyes <- function(x, ...) {
-  cat(paste0(cli::rule(line = 2, left = "Counts", width = 45),
+  cat(paste0(cli::rule(line = 2, left = "Counts", width = 25),
              "\n"))
   print(unlist(x))
 }
