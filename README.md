@@ -19,9 +19,9 @@ research.
 ## Features
 
   - [Handling of visual acuity notations](#visual-acuity)
-  - [Easy count of patients and eyes](#count-patients-and-eyes), return
-    a vector or a text for your report
-  - [Easy recoding of your eye variable](#recoding-the-eye-variable)
+  - [Super easy count of subjects and eyes](#count-subjects-and-eyes),
+    return a vector or a text for your report
+  - [Recode your eye variable](#recoding-the-eye-variable)
   - Reshape your eye data - [long](#myop) or [wide](#hyperop)
   - [Quick summary of your eye data](#blink)
   - [Get common summary statistics](#reveal)
@@ -132,18 +132,49 @@ va_mixed(x, to = "snellen", possible = c("snellen", "logmar", "etdrs"))
 #>  [7] "20/40"    "20/32"    "20/4000"  "20/200"
 ```
 
-### Count patients and eyes
+### Count subjects and eyes
 
-Use `eyes` to return a vector, and `eyestr` to return a string for your
-report.
+This is a massive convenience function to count subjects and eyes.
+Because this essentially returns a list, the stored data can easily be
+accessed by subsetting (e.g., with `$`). You can get the subject IDs for
+each subset with `details = TRUE`.
 
 ``` r
 library(eyedata)
 eyes(amd2)
-#> patients     eyes    right     left 
-#>     3357     3357     1681     1676
+#> ══ Counts ═══════════════
+#>    id  eyes right  left 
+#>  3357  3357  1681  1676
 
-# Same as `eyes`, but as text for reports
+eyes(amd2)$right
+#> [1] 1681
+
+eyes(amd2, details = TRUE)
+#> ══ $counts ══════════════════════════════════
+#>    id  eyes right  left  both 
+#>  3357  3357  1681  1676     0 
+#> 
+#> ══ $id ══════════════════════════════════════
+#> $right
+#> [1] "id_100"  "id_1001" "id_1002" "id_1003" "id_1007" "id_1009"
+#> # … with 1675 more subjects
+#> 
+#> $left
+#> [1] "id_1"    "id_10"   "id_1000" "id_1004" "id_1005" "id_1006"
+#> # … with 1670 more subjects
+#> 
+#> $both
+#> character(0)
+
+head(eyes(amd2, details = TRUE)$id$right)
+#> [1] "id_100"  "id_1001" "id_1002" "id_1003" "id_1007" "id_1009"
+```
+
+#### Smooth integration into rmarkdown
+
+`eyestr` returns a convenient string for your report.
+
+``` r
 eyestr(amd2)
 #> [1] "3357 eyes of 3357 patients"
 
@@ -159,7 +190,7 @@ eyestr(amd2, english = "all")
 eyestr(head(amd2, 100), caps = TRUE)
 #> [1] "Eleven eyes of eleven patients"
 
-## you can have all numbers printed as numbers
+## or all numbers printed as numbers
 eyestr(head(amd2, 100), english = "none")
 #> [1] "11 eyes of 11 patients"
 ```
@@ -399,8 +430,9 @@ blink(wide_df)
 #> 8 d     l     SLT     34        14         0.82     0.74     
 #> 
 #> ══ Count of patient and eyes ═══════════
-#> patients     eyes    right     left 
-#>        4        8        4        4 
+#> ══ Counts ═══════════════
+#>    id  eyes right  left 
+#>     4     8     4     4 
 #> 
 #> ══ Visual acuity ═══════════════════════
 #> 
