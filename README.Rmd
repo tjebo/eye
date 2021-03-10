@@ -26,8 +26,8 @@ See more with *eye*
 
 ## Features
 - [Handling of visual acuity notations](#visual-acuity) 
-- [Easy count of patients and eyes](#count-patients-and-eyes), return a vector or a text for your report
-- [Easy recoding of your eye variable](#recoding-the-eye-variable)
+- [Super easy count of subjects and eyes](#count-subjects-and-eyes), with smooth integration in your rmarkdown report
+- [Recode your eye variable](#recoding-the-eye-variable)
 - Reshape your eye data - [long](#myop) or [wide](#hyperop)
 - [Quick summary of your eye data](#blink)
 - [Get common summary statistics](#reveal)
@@ -95,13 +95,21 @@ va_mixed(x, to = "snellen", possible = c("snellen", "snellendec"))
 va_mixed(x, to = "snellen", possible = c("snellen", "logmar", "etdrs"))
 ```
                             
-### Count patients and eyes
-Use `eyes` to return a vector, and `eyestr` to return a string for your report. 
+### Count subjects and eyes
+This is a massive convenience function to count subjects and eyes. Because this essentially returns a list, the stored data can easily be accessed by subsetting (e.g., with `$`). You can get the subject IDs for each subset with `details = TRUE`.
 ```{r eyes}
 library(eyedata)
 eyes(amd2)
 
-# Same as `eyes`, but as text for reports
+eyes(amd2)$right
+
+eyes(amd2, details = TRUE)
+
+head(eyes(amd2, details = TRUE)$id$right)
+```
+#### Smooth integration into rmarkdown
+`eyestr` returns a convenient string for your report. 
+```{r eyestr}
 eyestr(amd2)
 
 ## Numbers smaller than or equal to 12 will be real English
@@ -113,7 +121,7 @@ eyestr(amd2, english = "all")
 ## make first number capital letter
 eyestr(head(amd2, 100), caps = TRUE)
 
-## you can have all numbers printed as numbers
+## or all numbers printed as numbers
 eyestr(head(amd2, 100), english = "none")
 ```
 
