@@ -7,21 +7,25 @@
 \alias{both_str}
 \title{String search func facs}
 \usage{
-whole_str(string)
+whole_str(haystack, needle)
 
-part_str(string)
+part_str(haystack, needle)
 
 both_str(string_vec)
 }
 \arguments{
-\item{string}{vector of strings to look for}
-
 \item{string_vec}{vector of two strings}
+
+\item{string}{vector of strings to look for}
 }
 \description{
 internal function factory for functions
-to match "whole_str string" with any non character as boundaries
-accepts string as regular expression.
+\strong{whole_str} matches "whole_str string"
+with any non character as boundaries accepts string as regular expression.
+
+\strong{part_str} convenience solution to match all given strings
+
+both_str looks for strings that contain both the given strings
 }
 \seealso{
 Other string matching functions: 

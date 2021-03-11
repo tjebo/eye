@@ -83,6 +83,7 @@ sort_substr <- function(x, list_substr) {
   }
   lookups <- data.frame(match = rep(names(list_substr), lengths(list_substr)),
                         token = unlist(list_substr))
+
   l <- strsplit(x, "_", fixed = TRUE)
   DF <- data.frame(id = rep(seq_along(l), lengths(l)), token = unlist(l))
   match_token <- lookups$match[match(DF$token, lookups$token)]
@@ -90,6 +91,7 @@ sort_substr <- function(x, list_substr) {
   rest_token <- base::setdiff(DF$match, names(list_substr))
   DF$match <- factor(DF$match, levels = c(names(list_substr), rest_token))
   DF <- DF[with(DF, order(id, match)), ]
+
   out <- vapply(split(DF$match, DF$id),
                 paste, collapse = "_",
                 FUN.VALUE = character(1),
@@ -97,30 +99,30 @@ sort_substr <- function(x, list_substr) {
   out
 }
 
-
 #' String search func facs
 #' @name str_func_facs
 #' @param string vector of strings to look for
 #' @description internal function factory for functions
-#'   to match "whole_str string" with any non character as boundaries
-#'   accepts string as regular expression.
+#'   **whole_str** matches "whole_str string"
+#'   with any non character as boundaries accepts string as regular expression.
 #' @keywords internal
 #' @family string matching functions
-whole_str <- function(string) {
-  reg <- paste0("(?<![a-z])(", paste(tolower(string), collapse = "|"), ")(?![a-z])")
-  function(x) {
-    x[grepl(reg, tolower(x), perl = TRUE)]
-  }
+whole_str <- function(haystack, needle) {
+  reg <- paste0("(?<![a-z])(", paste(tolower(needle), collapse = "|"), ")(?![a-z])")
+  haystack[grepl(reg, tolower(haystack), perl = TRUE)]
 }
 
 #' part_str
+#' @description **part_str** convenience solution to match all given strings
 #' @rdname str_func_facs
-part_str <- function(string) {
-  function(x) {
-    x[grepl(paste(tolower(string), collapse = "|"), tolower(x), perl = TRUE)]
-  }
+part_str <- function(haystack, needle) {
+  haystack[grepl(paste(tolower(needle), collapse = "|"),
+    tolower(haystack),
+    perl = TRUE
+  )]
 }
 #' both_str
+#' @description both_str looks for strings that contain both the given strings
 #' @rdname str_func_facs
 #' @param string_vec vector of two strings
 both_str <- function(string_vec) {

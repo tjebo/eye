@@ -117,7 +117,7 @@ blink <- function(x, va_to = "logmar",
   names(x) <- myop_rename(x)
   x_myop <- myopizer(x)
 
-  eye_cols <- whole_str(c("eyes", "eye"))(names(x_myop))
+  eye_cols <- whole_str(names(x_myop), c("eyes", "eye"))
 
   if (length(va_index) < 1){
     message("No VA column detected")

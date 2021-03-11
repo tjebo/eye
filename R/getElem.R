@@ -22,7 +22,7 @@ getElem_id <- function(obj) {
   } else if (any(grepl("^id$", obj))){
     pat_col <- grep("^id$", obj, value = TRUE)
   } else {
-    pat_col <- part_str(id_chr)(obj)
+    pat_col <- part_str(obj, id_chr)
   }
   pat_col
 }
@@ -48,9 +48,9 @@ getElem_eyecol <- function(obj) {
 
   if (any(grepl("(?<![a-z])(eye|eyes)(?![a-z])", obj, perl = TRUE,
                 ignore.case = TRUE))){
-    eye_col <- whole_str(c("eye","eyes"))(obj)
+    eye_col <- whole_str(obj, c("eye","eyes"))
   } else {
-    eye_col <- part_str("eye")(obj)
+    eye_col <- part_str(obj, "eye")
   }
   eye_col
 }
@@ -60,9 +60,9 @@ getElem_eye <- function(obj) {
   eye_chr <-  eye_codes[c("right","left")]
   if (inherits(obj, "data.frame")) {
     obj <- colnames(obj)
-    ls_eye <- lapply(eye_chr, function(x) whole_str(x)(obj))
+    ls_eye <- lapply(eye_chr, function(x) whole_str(obj, x))
   } else if (is.atomic(obj)){
-    ls_eye <- lapply(eye_chr, function(x) whole_str(x)(obj))
+    ls_eye <- lapply(eye_chr, function(x) whole_str(obj, x))
   } else {
     stop("only atomic or data.frame supported")
   }
@@ -76,12 +76,12 @@ getElem_va <- function(obj) {
          part = eye_codes$va_partial)
   if (inherits(obj, "data.frame")) {
     ns_obj <- colnames(obj)
-    va_cols <- paste0(whole_str(va_chr$whole)(ns_obj), part_str(va_chr$part)(ns_obj))
+    va_cols <- paste0(whole_str(ns_obj, va_chr$whole), part_str(ns_obj, va_chr$part))
   } else if (is.atomic(obj)) {
-    va_cols <- paste0(whole_str(va_chr$whole)(obj), part_str(va_chr$part)(obj))
+    va_cols <- paste0(whole_str(obj, va_chr$whole), part_str(obj, va_chr$part))
   } else {
     va_cols <- lapply(obj, function(x) {
-      paste0(whole_str(va_chr$whole)(obj), part_str(va_chr$part)(obj))
+      paste0(whole_str(obj, va_chr$whole), part_str(obj, va_chr$part))
     })
   }
   va_cols
@@ -94,12 +94,12 @@ getElem_iop <- function(obj) {
     iop_chr <-  list(whole = eye_codes$iop, part = eye_codes$iop_partial)
   if (inherits(obj, "data.frame")) {
     ns_obj <- colnames(obj)
-    iop_cols <- paste0(whole_str(iop_chr$whole)(ns_obj), part_str(iop_chr$part)(ns_obj))
+    iop_cols <- paste0(whole_str(ns_obj, iop_chr$whole), part_str(ns_obj, iop_chr$part))
   } else if (is.atomic(obj)) {
-    iop_cols <- paste0(whole_str(iop_chr$whole)(obj), part_str(iop_chr$part)(obj))
+    iop_cols <- paste0(whole_str(obj, iop_chr$whole), part_str(obj, iop_chr$part))
   } else {
     iop_cols <- lapply(obj, function(x) {
-      paste0(whole_str(iop_chr$whole)(obj), part_str(iop_chr$part)(obj))
+      paste0(whole_str(obj, iop_chr$whole), part_str(obj, iop_chr$part))
     })
   }
   iop_cols

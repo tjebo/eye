@@ -17,15 +17,15 @@ getElem_eye(obj)
 
 getElem_va(obj)
 
-getElem_iop(obj, iop_chr)
+getElem_iop(obj)
 }
 \arguments{
 \item{obj}{can be vector, data frame or list}
 
+\item{eye_chr}{strings to identify ID colums.}
+
 \item{iop_chr}{named list with strings for "whole" and "part"
 names have to be "whole" and "part"!}
-
-\item{eye_chr}{strings to identify ID colums.}
 }
 \value{
 vector

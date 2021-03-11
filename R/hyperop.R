@@ -42,7 +42,7 @@
 
 hyperop <- function(x, cols, eye = NULL) {
   if (is.null(eye)) {
-    eye <- whole_str(c("eyes", "eye"))(colnames(x))
+    eye <- whole_str(colnames(x), c("eyes", "eye"))
   }
   if (length(eye) != 1) {
     warning("Eye column must be specified. Did not change data.

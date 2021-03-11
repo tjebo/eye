@@ -18,11 +18,11 @@ part_true <- c("Id", "Eye", "FolloeyepDays", "BaselidAge")
 part_false <- c("I", "Ey", "FolloyepDays", "BaseliAge")
 
 test_that("whole", {
-  expect_identical(eye:::whole_str("va")(va_true), va_true)
-  expect_identical(eye:::whole_str("va")(va_false), character(0))
+  expect_identical(eye:::whole_str(va_true, "va"), va_true)
+  expect_identical(eye:::whole_str(va_false, "va"), character(0))
 })
 test_that("partial", {
-  expect_identical(eye:::part_str(c("id", "eye"))(part_true), part_true)
-  expect_identical(eye:::part_str(c("id", "eye"))(part_false), character(0))
+  expect_identical(eye:::part_str(part_true, c("id", "eye")), part_true)
+  expect_identical(eye:::part_str(part_false, c("id", "eye")), character(0))
 })
 

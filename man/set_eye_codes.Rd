@@ -9,6 +9,7 @@ set_eye_codes(
   left = c("l", "le", "os", "left"),
   both = c("b", "both", "ou"),
   iop = c("iop", "gat", "nct"),
+  iop_partial = c("pressure"),
   va = c("va", "bcva"),
   va_method = c("etdrs", "snellen", "logmar"),
   va_partial = c("acuit"),
@@ -27,12 +28,14 @@ set_eye_codes(
 
 \item{iop}{IOP codes}
 
+\item{iop_partial}{partial strings used to find IOP columns}
+
 \item{va}{VA codes}
 
 \item{va_method}{VA methods (used to recognize VA columns -
 when those strings occur "fully", i.e., not as part of sth else)}
 
-\item{va_partial}{ALso used to find VA columns - looking for partial strings}
+\item{va_partial}{Also used to find VA columns - looking for partial strings}
 
 \item{id}{patient column codes}
 
