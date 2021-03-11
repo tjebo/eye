@@ -1,7 +1,6 @@
 #' Find element based or strings
 #' @name getElem
 #' @param obj can be vector, data frame or list
-#' @param id_chr strings to identify ID colums.
 #' @description Finds the element in an object for one of the following:
 #'  - ID
 #'  - eye
@@ -12,10 +11,8 @@
 #' @return vector
 #' @family string matching functions
 #'
-getElem_id <- function(obj, id_chr) {
-  if(missing(id_chr)){
-    id_chr <-  eye_codes$id
-  }
+getElem_id <- function(obj) {
+  id_chr <-  eye_codes$id
   if (inherits(obj, "data.frame")) {
     obj <- colnames(obj)
   }
@@ -59,8 +56,6 @@ getElem_eyecol <- function(obj) {
 }
 
 #' @rdname getElem
-#' @param eye_chr named list with strings for "r" and "l"
-#' names have to be "r" and "l"!
 getElem_eye <- function(obj) {
   eye_chr <-  eye_codes[c("right","left")]
   if (inherits(obj, "data.frame")) {
@@ -75,12 +70,8 @@ getElem_eye <- function(obj) {
 }
 
 #' @rdname getElem
-#' @param va_chr named list with strings for "whole" and "part"
-#' names have to be "whole" and "part"!
-getElem_va <- function(obj, va_chr) {
-  if(missing(va_chr)){
-    va_chr <-  list(whole = c("va", "bcva", "etdrs", "snellen", "logmar"), part = "acuit")
-  }
+getElem_va <- function(obj) {
+  va_chr <-  list(whole = c("va", "bcva", "etdrs", "snellen", "logmar"), part = "acuit")
   if (inherits(obj, "data.frame")) {
     ns_obj <- colnames(obj)
     va_cols <- paste0(whole_str(va_chr$whole)(ns_obj), part_str(va_chr$part)(ns_obj))
