@@ -110,20 +110,15 @@ count_eyes <- function(x, id_col, eye_col, details = FALSE) {
   n_pat <- length(unique(x[[id_col]]))
 
   rl <- c("r", "l")
-  x[[eye_col]] <- factor(x[[eye_col]], levels = union(c("b", rl), unique(x[[eye_col]])))
+  x[[eye_col]] <- factor(x[[eye_col]], levels = c("b", rl))
   eye_tab <- table(unique(x[, c(id_col, eye_col)]))
-
-  if (any(grepl("b", colnames(eye_tab)))) {
-    if (any(grepl(paste(rl, collapse = "|"), colnames(eye_tab)))) {
-      eye_tab[, rl][eye_tab[, "b"] == 1] <- 0
-    }
-  }
+  eye_tab[, rl][eye_tab[, "b"] == 1] <- 0
   out <- colSums(eye_tab)
   outfinal <- out[rl] + out["b"]
   n_eyes <- sum(outfinal)
+if(!details){
   nr <- unname(outfinal["r"])
   nl <- unname(outfinal["l"])
-if(!details){
   res <- list(id = n_pat, eyes = n_eyes, right = nr, left = nl)
   class(res) <- c("eyes", class(res))
   return(res)
@@ -134,12 +129,9 @@ if(!details){
   nb <- sum(both)
   nr <- sum(r_only)
   nl <- sum(l_only)
-  eyecount <- c(id = n_pat, eyes = n_eyes, right = nr, left = nl,
-                both = nb)
+  eyecount <- c(id = n_pat, eyes = n_eyes, right = nr, left = nl, both = nb)
   patid <- rownames(eye_tab)
-  id <- list(right = patid[r_only],
-                   left = patid[l_only],
-                   both = patid[both])
+  id <- list(right = patid[r_only], left = patid[l_only], both = patid[both])
   res <- list(counts = as.list(eyecount), id = id)
   class(res) <- c("eyes_details", class(res))
   return(res)
