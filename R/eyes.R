@@ -52,6 +52,13 @@
 #' library(eyedata)
 #' eyes(amd2)
 #'
+#' ## If you code your eyes with different strings,
+#' ## e.g., because you are using a different language,
+#' ## you can change this either with `set_eye_codes`
+#' set_eye_codes(right = c("droit", "od"), left = c("gauche", "og"))
+#'
+#' ## restore defaults with
+#' set_eye_codes()
 #' @export
 #'
 eyes <- function(x, id_col = NULL, eye_col = NULL, dropunknown = TRUE, details = FALSE) {

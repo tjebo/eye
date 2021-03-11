@@ -46,6 +46,9 @@
 #' ## or change it more globally with `set_eye_codes`
 #' set_eye_codes(right = c("droit", "od"), left = c("gauche", "og"))
 #' recodeye(french)
+#'
+#' ## restore defaults with
+#' set_eye_codes()
 #' @importFrom stats setNames
 #' @export
 recodeye <- function(x, to = NULL,

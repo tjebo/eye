@@ -98,6 +98,13 @@ To use for other categories (e.g., "people" or "participants"), use
 library(eyedata)
 eyes(amd2)
 
+## If you code your eyes with different strings,
+## e.g., because you are using a different language,
+## you can change this either with `set_eye_codes`
+set_eye_codes(right = c("droit", "od"), left = c("gauche", "og"))
+
+## restore defaults with
+set_eye_codes()
 # Examples for the usage of eyestr
 eyestr(amd2)
 

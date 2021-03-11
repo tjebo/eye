@@ -69,6 +69,9 @@ recodeye(french, eyestrings = list(r = c("droit", "od"), l = c("gauche", "og")))
 ## or change it more globally with `set_eye_codes`
 set_eye_codes(right = c("droit", "od"), left = c("gauche", "og"))
 recodeye(french)
+
+## restore defaults with
+set_eye_codes()
 }
 \seealso{
 Other string matching functions: 
