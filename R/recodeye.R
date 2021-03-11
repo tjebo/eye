@@ -46,6 +46,7 @@
 #' ## or change it more globally with `set_eye_codes`
 #' set_eye_codes(right = c("droit", "od"), left = c("gauche", "og"))
 #' recodeye(french)
+#' @importFrom stats setNames
 #' @export
 recodeye <- function(x, to = NULL,
                      eyestrings = NULL,
@@ -61,7 +62,8 @@ recodeye <- function(x, to = NULL,
   to_l <- unname(to[names(to) == "l"])
 
   if (is.null(eyestrings)) {
-    eyestrings <- setNames(eye_codes[c("right", "left", "both")], c("r", "l", "b"))
+    eyestrings <-
+      stats::setNames(eye_codes[c("right", "left", "both")], c("r", "l", "b"))
   } else if (!inherits(eyestrings, "list")) {
     stop("eyestrings needs to be list")
   } else if (is.null(names(eyestrings))) {

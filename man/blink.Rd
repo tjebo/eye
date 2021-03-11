@@ -121,7 +121,7 @@ iop_l_postop = sample(11:13), iop_l_preop = sample(31:33),
 va_r_preop = sample(41:43),  va_l_preop = sample(41:43),
 va_r_postop = sample(51:53), va_l_postop = sample(45:47)
 )
-blink(messy_df)
+# blink(messy_df)
 }
 \seealso{
 \href{https://tidyselect.r-lib.org/reference/language.html}{About tidyselection}.

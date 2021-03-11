@@ -90,7 +90,7 @@
 #' va_r_preop = sample(41:43),  va_l_preop = sample(41:43),
 #' va_r_postop = sample(51:53), va_l_postop = sample(45:47)
 #' )
-#' blink(messy_df)
+#' # blink(messy_df)
 
 #' @export
 

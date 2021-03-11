@@ -181,11 +181,11 @@ Indeed, R requires exactly this data shape for many tasks: "eye[r/l]" as a separ
 `myop` provides an easy to use API for an automatic reshape of your data to a "myop" format.
 
 ```{r myop}
-iop_wide <- data.frame(id = letters[1:3], iop_r = 11:13, iop_l = 14:16)
-
 ## Simple data frame with one column for right eye and left eye.
+iop_wide <- data.frame(id = letters[1:3], iop_r = 11:13, iop_l = 14:16)
 iop_wide
-
+```
+```{r, eval=FALSE}
 myop(iop_wide)
 ```
 Or another example with many more variables:
@@ -221,7 +221,7 @@ myop_df
 ### hyperop 
 If you actually need certain eye-related variables spread over two columns, `hyperop()` is your friend:
 
-```{r}
+```{r, eval = FALSE}
 hyperop(myop(iop_wide), iop)
 
 hyperop(myop_df, cols = matches("va|iop"))
@@ -232,7 +232,7 @@ See your data in a blink of an eye - wrapper around [`myop`](#myop), [`eyes`](#e
 
 [**This requires a certain format of your names and codes**](#names-and-codes)
 
-```{r}
+```{r, eval = FALSE}
 blink(wide_df)
 ```
 

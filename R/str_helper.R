@@ -49,6 +49,7 @@ eye_codes <- list(
 #'
 #' # To restore the defaults, simply call set_eye_codes empty
 #' set_eye_codes()
+#' @importFrom utils assignInMyNamespace
 #' @export
 set_eye_codes <- function(
   right = c("r", "re", "od", "right"),
@@ -64,7 +65,7 @@ set_eye_codes <- function(
   quali = c("nlp", "lp", "hm", "cf"),
   ...){
   new_eyecodes <- c(as.list(environment()), list(...))
-  assignInMyNamespace("eye_codes", new_eyecodes)
+  utils::assignInMyNamespace("eye_codes", new_eyecodes)
 }
 
 #' sort substrings

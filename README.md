@@ -301,21 +301,17 @@ their own dedicated column.
 to a “myop” format.
 
 ``` r
-iop_wide <- data.frame(id = letters[1:3], iop_r = 11:13, iop_l = 14:16)
-
 ## Simple data frame with one column for right eye and left eye.
+iop_wide <- data.frame(id = letters[1:3], iop_r = 11:13, iop_l = 14:16)
 iop_wide
 #>   id iop_r iop_l
 #> 1  a    11    14
 #> 2  b    12    15
 #> 3  c    13    16
+```
 
+``` r
 myop(iop_wide)
-#> Warning: Data seems already myopic - no changes made. ?myop for help
-#>   id iop_r iop_l
-#> 1  a    11    14
-#> 2  b    12    15
-#> 3  c    13    16
 ```
 
 Or another example with many more variables:
@@ -364,27 +360,8 @@ columns, `hyperop()` is your friend:
 
 ``` r
 hyperop(myop(iop_wide), iop)
-#> Warning: Data seems already myopic - no changes made. ?myop for help
-#> Warning: Eye column must be specified. Did not change data.
-#>             Use argument "eye"
-#>   id iop_r iop_l
-#> 1  a    11    14
-#> 2  b    12    15
-#> 3  c    13    16
 
 hyperop(myop_df, cols = matches("va|iop"))
-#> Warning: Eye column must be specified. Did not change data.
-#>             Use argument "eye"
-#>   id right_surgery left_surgery iop_r_preop iop_r_postop iop_preop_l
-#> 1  a            TE           TE          21           11          31
-#> 2  b            TE           TE          22           12          32
-#> 3  c           SLT           TE          23           13          33
-#> 4  d           SLT          SLT          24           14          34
-#>   iop_postop_l va_r_preop va_r_postop va_preop_l va_postop_l
-#> 1           11         41          45         41          45
-#> 2           12         42          46         42          46
-#> 3           13         43          47         43          47
-#> 4           14         44          48         44          48
 ```
 
 ### blink
@@ -399,55 +376,6 @@ codes**](#names-and-codes)
 
 ``` r
 blink(wide_df)
-#> The lifecycle of blink() has expired. It will no longer be
-#>   maintained, but will be kept in the package.
-#> Warning: Data seems already myopic - no changes made. ?myop for help
-#> From etdrs
-#> From etdrs
-#> From etdrs
-#> From etdrs
-#> Unclear which is the eye column. Counting id only.
-#> Specify eye column with "eye_col" argument
-#> 
-#> ── blink ───────────────────────────────────────────────────────────────────────
-#> ══ Data ════════════════════════════════
-#> # A tibble: 4 x 11
-#>   id    right_surgery left_surgery iop_r_preop iop_r_postop iop_preop_l
-#>   <chr> <chr>         <chr>              <int>        <int>       <int>
-#> 1 a     TE            TE                    21           11          31
-#> 2 b     TE            TE                    22           12          32
-#> 3 c     SLT           TE                    23           13          33
-#> 4 d     SLT           SLT                   24           14          34
-#> # … with 5 more variables: iop_postop_l <int>, va_r_preop <logmar>,
-#> #   va_r_postop <logmar>, va_preop_l <logmar>, va_postop_l <logmar>
-#> 
-#> ══ Count of patient and eyes ═══════════
-#> id 
-#>  4 
-#> 
-#> ══ Visual acuity ═══════════════════════
-#> 
-#> ── $VA_total (all eyes)
-#>           var mean sd n min max
-#> 1  va_r_preop  0.8  0 4 0.8 0.9
-#> 2 va_r_postop  0.8  0 4 0.7 0.8
-#> 3  va_preop_l  0.8  0 4 0.8 0.9
-#> 4 va_postop_l  0.8  0 4 0.7 0.8
-#> 
-#> ── $VA_eyes (right and left eyes)
-#> NULL
-#> 
-#> ══ Intraocular pressure ════════════════
-#> 
-#> ── $IOP_total (all eyes)
-#>            var mean  sd n min max
-#> 1  iop_r_preop 22.5 1.3 4  21  24
-#> 2 iop_r_postop 12.5 1.3 4  11  14
-#> 3  iop_preop_l 32.5 1.3 4  31  34
-#> 4 iop_postop_l 12.5 1.3 4  11  14
-#> 
-#> ── $IOP_eyes (right and left eyes)
-#> NULL
 ```
 
 ## Names and codes

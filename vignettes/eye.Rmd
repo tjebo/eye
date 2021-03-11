@@ -228,13 +228,12 @@ or "none" (or any other string!) for none
 #### Use in rmarkdown
 `eyestr` was designed with the use in rmarkdown in mind, most explicitly for the use inline. You can change the way numbers are converted to english with the `english` argument. By default, numbers smaller than or equal to 12 will be real English, all other numbers will be ... numbers. You can capitalise the first number with the `caps` argument. 
 
-| <span style="display: inline-block; width:500px">rmarkdown code</span>  | results in |
-|----------|---------|
-|We analyzed `` `r knitr::inline_expr("eyestr(amd2)")` ``  |We analyzed `r eyestr(amd2)`|
-|We analyzed `` `r knitr::inline_expr("eyestr(head(amd2, 100))")` ``| We analyzed `r eyestr(head(amd2, 100))`|
-|We analyzed `` `r knitr::inline_expr('eyestr(amd2, english = "all")')` `` |We analyzed `r eyestr(amd2, english = "all")`|
-|`` `r knitr::inline_expr("eyestr(head(amd2, 100), caps = TRUE)")` `` were analyzed | `r eyestr(head(amd2, 100), caps = TRUE)` were analyzed|
-|We analyzed `` `r knitr::inline_expr('eyestr(head(amd2, 100), english = "none")')` ``| We analyzed `r eyestr(head(amd2, 100), english = "none")`|
+
+We analyzed `` `r knitr::inline_expr("eyestr(amd2)")` ``  gives: We analyzed `r eyestr(amd2)`
+We analyzed `` `r knitr::inline_expr("eyestr(head(amd2, 100))")` ``gives:  We analyzed `r eyestr(head(amd2, 100))`
+We analyzed `` `r knitr::inline_expr('eyestr(amd2, english = "all")')` `` gives: We analyzed `r eyestr(amd2, english = "all")`
+`` `r knitr::inline_expr("eyestr(head(amd2, 100), caps = TRUE)")` `` were analyzed gives:  `r eyestr(head(amd2, 100), caps = TRUE)` were analyzed
+We analyzed `` `r knitr::inline_expr('eyestr(head(amd2, 100), english = "none")')` `` gives: We analyzed `r eyestr(head(amd2, 100), english = "none")`
 
 ## Reshape eye data 
 Out of convenience, data is often entered in a "wide" format: In eye research, there will be often two columns for the same variable, one column for each eye.
@@ -286,17 +285,9 @@ Depending a lot on how the data was entered, the results could become quite surp
     - All columns with an eye string at first position will be selected pivoted to two long colums (`key` and `value`) using `tidyr::pivot_longer`.
     - The `key` column will be split by position into an eye column and a `variable` column. 
     - The `variable` and `value` columns will be pivoted wide again with `tidyr::pivot_wider`.
-
-```{r }
-## the variable has not been exactly named, (but it is probably IOP data), 
-## you can specify the dimension with the var argument
+```{r data frames}
 wide1 <- data.frame(id = letters[1:3],  r = 11:13 , l = 14:16)
-myop(wide1, var = "iop")
-
-## If the dimension is already part of the column names, this is not necessary. 
 iop_wide <- data.frame(id = letters[1:3], iop_r = 11:13, iop_l = 14:16)
-myop(iop_wide)
-
 ## Mildly messy data frame with several variables spread over two columns:
 wide_df <- data.frame(
   id = letters[1:4], 
@@ -307,6 +298,16 @@ wide_df <- data.frame(
   va_r_preop = 41:44, va_r_postop = 45:48,
   va_l_preop = 41:44, va_l_postop = 45:48
 )
+```
+
+```{r, eval = FALSE}
+## the variable has not been exactly named, (but it is probably IOP data), 
+## you can specify the dimension with the var argument
+
+myop(wide1, var = "iop")
+
+## If the dimension is already part of the column names, this is not necessary. 
+myop(iop_wide)
 
 ## myop deals with this in a breeze:
 myop(wide_df)
@@ -317,7 +318,7 @@ Basically the opposite of `myop()` - a slightly intelligent wrapper around `tidy
 
 The cols argument takes a tidyselection. [Read about tidyselection](https://tidyselect.r-lib.org/reference/language.html)
 
-```{r}
+```{r, eval = FALSE}
 myop_df <- myop(wide_df)
 hyperop(myop_df, cols = matches("va|iop"))
 ```
@@ -350,7 +351,7 @@ As you can imagine, a lot of those steps rely hugely on reasonable naming of you
 If you are not happy with the automatic column selection, you can manually select the VA and IOP columns with the arguments `va_cols` or `iop_cols`. Both accept [tidyselection](https://tidyselect.r-lib.org/reference/language.html). I personally find `starts_with`, `ends_with`, `contains()` or the more general `matches()` very useful.
 
 ### Examples
-```{r}
+```{r, eval = FALSE}
 blink(wide_df)
 
 blink(amd)
@@ -459,7 +460,7 @@ It uses an S3 generic under the hood with methods for atomic vectors, data frame
 `reveal()` takes the grouping argument `by` and it returns vector for atomic vectors or a data frame for lists. 
 
 ### Examples
-```{r stats, warning=FALSE, message=FALSE}
+```{r stats, warning=FALSE, message=FALSE, eval = FALSE}
 clean_df <- myop(wide_df)
 reveal(clean_df)
 
