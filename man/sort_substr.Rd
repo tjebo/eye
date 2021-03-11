@@ -21,7 +21,7 @@ unify code for substrings and arrange, after tokenizing
 Other string matching functions: 
 \code{\link{getElem}},
 \code{\link{recodeye}()},
-\code{\link{str_func_facs}}
+\code{\link{str_search}}
 }
 \concept{string matching functions}
 \keyword{internal}

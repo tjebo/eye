@@ -56,12 +56,12 @@ Finds the element in an object for one of the following:
 Other string matching functions: 
 \code{\link{recodeye}()},
 \code{\link{sort_substr}()},
-\code{\link{str_func_facs}}
+\code{\link{str_search}}
 
 Other string matching functions: 
 \code{\link{recodeye}()},
 \code{\link{sort_substr}()},
-\code{\link{str_func_facs}}
+\code{\link{str_search}}
 }
 \concept{string matching functions}
 \keyword{internal}

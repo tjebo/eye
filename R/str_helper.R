@@ -100,8 +100,9 @@ sort_substr <- function(x, list_substr) {
 }
 
 #' String search func facs
-#' @name str_func_facs
-#' @param string vector of strings to look for
+#' @name str_search
+#' @param needle vector of strings to look for
+#' @param haystack objedt in which to look for the needle
 #' @description internal function factory for functions
 #'   **whole_str** matches "whole_str string"
 #'   with any non character as boundaries accepts string as regular expression.
@@ -114,7 +115,7 @@ whole_str <- function(haystack, needle) {
 
 #' part_str
 #' @description **part_str** convenience solution to match all given strings
-#' @rdname str_func_facs
+#' @rdname str_search
 part_str <- function(haystack, needle) {
   haystack[grepl(paste(tolower(needle), collapse = "|"),
     tolower(haystack),
@@ -123,7 +124,7 @@ part_str <- function(haystack, needle) {
 }
 #' both_str
 #' @description both_str looks for strings that contain both the given strings
-#' @rdname str_func_facs
+#' @rdname str_search
 #' @param string_vec vector of two strings
 both_str <- function(string_vec) {
   if(length(string_vec)!=2){
