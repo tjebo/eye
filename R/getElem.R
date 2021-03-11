@@ -71,7 +71,9 @@ getElem_eye <- function(obj) {
 
 #' @rdname getElem
 getElem_va <- function(obj) {
-  va_chr <-  list(whole = c("va", "bcva", "etdrs", "snellen", "logmar"), part = "acuit")
+  va_chr <-
+    list(whole = unlist(eye_codes[c("va","va_method")], use.names = FALSE),
+         part = eye_codes$va_partial)
   if (inherits(obj, "data.frame")) {
     ns_obj <- colnames(obj)
     va_cols <- paste0(whole_str(va_chr$whole)(ns_obj), part_str(va_chr$part)(ns_obj))
@@ -88,10 +90,8 @@ getElem_va <- function(obj) {
 #' @rdname getElem
 #' @param iop_chr named list with strings for "whole" and "part"
 #' names have to be "whole" and "part"!
-getElem_iop <- function(obj, iop_chr) {
-  if(missing(iop_chr)){
-    iop_chr <-  list(whole = c("iop", "gat", "nct"), part = "pressure")
-  }
+getElem_iop <- function(obj) {
+    iop_chr <-  list(whole = eye_codes$iop, part = eye_codes$iop_partial)
   if (inherits(obj, "data.frame")) {
     ns_obj <- colnames(obj)
     iop_cols <- paste0(whole_str(iop_chr$whole)(ns_obj), part_str(iop_chr$part)(ns_obj))

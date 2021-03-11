@@ -14,6 +14,8 @@ returning list (of class "eyes") for easier access of count data
 - print methods for class "eyes" and "eyes_details"
 - documentation corrected and expanded in `eyes` 
 - update description file with updated versions of dependencies
+- simplified pivoting in myop using the pivot_longer regex feature
+- removed ..._chr arguments from getElem_... functions (redundant)
 
 Details: 
 - update citation file

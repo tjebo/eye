@@ -9,29 +9,23 @@
 \alias{getElem_iop}
 \title{Find element based or strings}
 \usage{
-getElem_id(obj, id_chr)
+getElem_id(obj)
 
 getElem_eyecol(obj)
 
 getElem_eye(obj)
 
-getElem_va(obj, va_chr)
+getElem_va(obj)
 
 getElem_iop(obj, iop_chr)
 }
 \arguments{
 \item{obj}{can be vector, data frame or list}
 
-\item{id_chr}{strings to identify ID colums.}
-
-\item{va_chr}{named list with strings for "whole" and "part"
-names have to be "whole" and "part"!}
-
 \item{iop_chr}{named list with strings for "whole" and "part"
 names have to be "whole" and "part"!}
 
-\item{eye_chr}{named list with strings for "r" and "l"
-names have to be "r" and "l"!}
+\item{eye_chr}{strings to identify ID colums.}
 }
 \value{
 vector

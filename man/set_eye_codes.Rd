@@ -10,7 +10,8 @@ set_eye_codes(
   both = c("b", "both", "ou"),
   iop = c("iop", "gat", "nct"),
   va = c("va", "bcva"),
-  method = c("etdrs", "snellen", "logmar"),
+  va_method = c("etdrs", "snellen", "logmar"),
+  va_partial = c("acuit"),
   id = c("pat", "id"),
   eye = c("eye", "eyes"),
   quali = c("nlp", "lp", "hm", "cf"),
@@ -28,7 +29,10 @@ set_eye_codes(
 
 \item{va}{VA codes}
 
-\item{method}{VA methods}
+\item{va_method}{VA methods (used to recognize VA columns -
+when those strings occur "fully", i.e., not as part of sth else)}
+
+\item{va_partial}{ALso used to find VA columns - looking for partial strings}
 
 \item{id}{patient column codes}
 
