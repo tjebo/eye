@@ -90,7 +90,7 @@
 #' va_r_preop = sample(41:43),  va_l_preop = sample(41:43),
 #' va_r_postop = sample(51:53), va_l_postop = sample(45:47)
 #' )
-#' # blink(messy_df)
+#' blink(messy_df)
 
 #' @export
 
@@ -127,7 +127,7 @@ blink <- function(x, va_to = "logmar",
     va_false <- remCols(x = x, cols = va_index, fct_level = fct_level)
     va_true <- va_index[va_false]
     names_va <- names(x)[va_true]
-    new_names_va <- unique(gsub("^(r|l)_", "", names_va))
+    new_names_va <- unique(gsub("^(right|left)_", "", names_va))
     #update VA with VA
     x_myop <- dplyr::mutate_at(x_myop, new_names_va, .funs = va, to = va_to)
     # summary for VA cols (based on new names!)
@@ -146,7 +146,7 @@ blink <- function(x, va_to = "logmar",
     iop_false <- remCols(x = x, cols = iop_index, fct_level = fct_level)
     iop_true <- iop_index[iop_false]
     names_iop <- names(x)[iop_true]
-    new_names_iop <- unique(gsub("^(r|l)_", "", names_iop))
+    new_names_iop <- unique(gsub("^(right|left)_", "", names_iop))
     res_iop <- reveal(x_myop[new_names_iop])
     if(length(eye_cols) > 0){
       res_iop_eyes <-
