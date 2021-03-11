@@ -2,9 +2,11 @@
 #' @name getElem
 #' @param obj can be vector, data frame or list
 #' @description Finds the element in an object for one of the following:
-#'  - ID
-#'  - eye
-#'  - Visual acuity
+#'  - *getElem_id* ID column
+#'  - *getElem_eyecol* eye column
+#'  - *getElem_eye* columns that contain information for right/left eyes
+#'  - *getElem_va* Visual acuity
+#'  - *getElem_iop* IOP
 #'
 #' `getElem` search a vector, the column names (data frame) or the names (list)
 #' @keywords internal
@@ -16,7 +18,7 @@ getElem_id <- function(obj) {
   if (inherits(obj, "data.frame")) {
     obj <- colnames(obj)
   }
-  both_elem <- both_str(id_chr)(obj)
+  both_elem <- both_str(obj, id_chr)
   if (length(both_elem) > 0) {
     pat_col <- both_elem
   } else if (any(grepl("^id$", obj))){
@@ -27,20 +29,7 @@ getElem_id <- function(obj) {
   pat_col
 }
 
-#' @name getElem
-#' @param obj can be vector, data frame or list
-#' @param eye_chr strings to identify ID colums.
-#' @description Finds the element in an object for one of the following:
-#'  - ID column
-#'  - eye column
-#'  - columns that contain information for right/left eyes
-#'  - Visual acuity
-#'
-#' `getElem` search a vector, the column names (data frame) or the names (list)
-#' @keywords internal
-#' @return vector
-#' @family string matching functions
-#'
+#' @rdname getElem
 getElem_eyecol <- function(obj) {
   if (inherits(obj, "data.frame")) {
     obj <- colnames(obj)
@@ -88,8 +77,6 @@ getElem_va <- function(obj) {
 }
 
 #' @rdname getElem
-#' @param iop_chr named list with strings for "whole" and "part"
-#' names have to be "whole" and "part"!
 getElem_iop <- function(obj) {
     iop_chr <-  list(whole = eye_codes$iop, part = eye_codes$iop_partial)
   if (inherits(obj, "data.frame")) {

@@ -101,11 +101,10 @@ sort_substr <- function(x, list_substr) {
 
 #' String search func facs
 #' @name str_search
-#' @param needle vector of strings to look for
-#' @param haystack objedt in which to look for the needle
-#' @description internal function factory for functions
-#'   **whole_str** matches "whole_str string"
-#'   with any non character as boundaries accepts string as regular expression.
+#' @param needle vector of strings to look for - accepts regular expressions
+#' @param haystack object in which to look for the needle
+#' @description **whole_str** finds haystack with "whole needles"
+#'   with any non character as boundaries
 #' @keywords internal
 #' @family string matching functions
 whole_str <- function(haystack, needle) {
@@ -114,7 +113,7 @@ whole_str <- function(haystack, needle) {
 }
 
 #' part_str
-#' @description **part_str** convenience solution to match all given strings
+#' @description **part_str** finds haystacks that match any of the needles
 #' @rdname str_search
 part_str <- function(haystack, needle) {
   haystack[grepl(paste(tolower(needle), collapse = "|"),
@@ -122,17 +121,14 @@ part_str <- function(haystack, needle) {
     perl = TRUE
   )]
 }
-#' both_str
-#' @description both_str looks for strings that contain both the given strings
+
+#' @description **both_str** will find haystacks that contain both needles
 #' @rdname str_search
-#' @param string_vec vector of two strings
-both_str <- function(string_vec) {
-  if(length(string_vec)!=2){
-    stop("string_vec needs to be of length 2")
+both_str <- function(haystack, needle) {
+  if(length(needle)!=2){
+    stop("needle needs to be of length 2")
   }
-  function(x) {
-  reg <- paste0("(", string_vec[1],".*", string_vec[2], "|",
-                string_vec[2], ".*", string_vec[1], ")")
-    x[grepl(reg, tolower(x), perl = TRUE)]
-  }
+  reg <- paste0("(", needle[1],".*", needle[2], "|",
+                needle[2], ".*", needle[1], ")")
+  haystack[grepl(reg, tolower(haystack), perl = TRUE)]
 }

@@ -21,43 +21,23 @@ getElem_iop(obj)
 }
 \arguments{
 \item{obj}{can be vector, data frame or list}
-
-\item{eye_chr}{strings to identify ID colums.}
-
-\item{iop_chr}{named list with strings for "whole" and "part"
-names have to be "whole" and "part"!}
 }
 \value{
-vector
-
 vector
 }
 \description{
 Finds the element in an object for one of the following:
 \itemize{
-\item ID
-\item eye
-\item Visual acuity
-}
-
-\code{getElem} search a vector, the column names (data frame) or the names (list)
-
-Finds the element in an object for one of the following:
-\itemize{
-\item ID column
-\item eye column
-\item columns that contain information for right/left eyes
-\item Visual acuity
+\item \emph{getElem_id} ID column
+\item \emph{getElem_eyecol} eye column
+\item \emph{getElem_eye} columns that contain information for right/left eyes
+\item \emph{getElem_va} Visual acuity
+\item \emph{getElem_iop} IOP
 }
 
 \code{getElem} search a vector, the column names (data frame) or the names (list)
 }
 \seealso{
-Other string matching functions: 
-\code{\link{recodeye}()},
-\code{\link{sort_substr}()},
-\code{\link{str_search}}
-
 Other string matching functions: 
 \code{\link{recodeye}()},
 \code{\link{sort_substr}()},

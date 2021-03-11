@@ -11,23 +11,20 @@ whole_str(haystack, needle)
 
 part_str(haystack, needle)
 
-both_str(string_vec)
+both_str(haystack, needle)
 }
 \arguments{
-\item{haystack}{objedt in which to look for the needle}
+\item{haystack}{object in which to look for the needle}
 
-\item{needle}{vector of strings to look for}
-
-\item{string_vec}{vector of two strings}
+\item{needle}{vector of strings to look for - accepts regular expressions}
 }
 \description{
-internal function factory for functions
-\strong{whole_str} matches "whole_str string"
-with any non character as boundaries accepts string as regular expression.
+\strong{whole_str} finds haystack with "whole needles"
+with any non character as boundaries
 
-\strong{part_str} convenience solution to match all given strings
+\strong{part_str} finds haystacks that match any of the needles
 
-both_str looks for strings that contain both the given strings
+\strong{both_str} will find haystacks that contain both needles
 }
 \seealso{
 Other string matching functions: 
