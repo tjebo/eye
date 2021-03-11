@@ -90,13 +90,10 @@ myop_pivot <- function(x) {
   x_myop <- x %>%
     dplyr::mutate_all(as.character) %>%
     tidyr::pivot_longer(
-      cols = tidyr::matches("^(r|l)_"),
-      names_to = "eyekey",
-      values_to = "new_val_wow"
-    ) %>%
-    tidyr::extract("eyekey", regex = "^(r|l)_(.*)", into = c("eye", "eyekey")) %>%
-    tidyr::pivot_wider(names_from = "eyekey", values_from = "new_val_wow")
-
+      cols = tidyr::matches("^(right|left)_"),
+      names_pattern = "^(right|left)_(.*)",
+      names_to = c("eye", ".value")
+    )
   x_myop
 }
 
@@ -111,7 +108,6 @@ myop_pivot <- function(x) {
 #' @importFrom dplyr mutate_all
 #' @keywords internal
 #' @family myopizer
-
 myop_rename <- function(x) {
   if (any(grepl("\\.", names(x)))) {
     names(x) <- gsub("\\.", "_", names(x))
