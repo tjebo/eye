@@ -176,7 +176,7 @@ english with the `english` argument. By default, numbers smaller than or
 equal to 12 will be real English, all other numbers will be … numbers.
 You can capitalise the first number with the `caps` argument.
 
-| <div width:500px">rmarkdown code</div> | results in                                                                                                             |
+| <div width:"500px">rmarkdown code</div> | results in                                                                                                             |
 | ---------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
 | We analyzed `` `r eyestr(amd2)` ``                                     | We analyzed 3357 eyes of 3357 patients                                                                                 |
 | We analyzed `` `r eyestr(head(amd2, 100))` ``                          | We analyzed eleven eyes of eleven patients                                                                             |
