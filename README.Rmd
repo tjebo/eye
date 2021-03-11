@@ -107,31 +107,20 @@ eyes(amd2, details = TRUE)
 head(eyes(amd2, details = TRUE)$id$right)
 ```
 #### Smooth integration into rmarkdown
-`eyestr` returns a convenient string for your report. 
-```{r eyestr}
-eyestr(amd2)
+`eyestr` was designed with the use in rmarkdown in mind, most explicitly for the use inline. You can change the way numbers are converted to english with the `english` argument. By default, numbers smaller than or equal to 12 will be real English, all other numbers will be ... numbers. You can capitalise the first number with the `caps` argument. 
 
-## Numbers smaller than or equal to 12 will be real English
-eyestr(head(amd2, 100))
-
-## Or, you can make all numbers english:
-eyestr(amd2, english = "all")
-
-## make first number capital letter
-eyestr(head(amd2, 100), caps = TRUE)
-
-## or all numbers printed as numbers
-eyestr(head(amd2, 100), english = "none")
-```
+| <span style="display: inline-block; width:500px">rmarkdown code</span>  | results in |
+|----------|---------|
+|We analyzed `` `r knitr::inline_expr("eyestr(amd2)")` ``  |We analyzed `r eyestr(amd2)`|
+|We analyzed `` `r knitr::inline_expr("eyestr(head(amd2, 100))")` ``| We analyzed `r eyestr(head(amd2, 100))`|
+|We analyzed `` `r knitr::inline_expr('eyestr(amd2, english = "all")')` `` |We analyzed `r eyestr(amd2, english = "all")`|
+|`` `r knitr::inline_expr("eyestr(head(amd2, 100), caps = TRUE)")` `` were analyzed | `r eyestr(head(amd2, 100), caps = TRUE)` were analyzed|
+|We analyzed `` `r knitr::inline_expr('eyestr(head(amd2, 100), english = "none")')` ``| We analyzed `r eyestr(head(amd2, 100), english = "none")`|
 
 ### Recoding the eye variable
 Makes recoding eye variables very easy. It deals with weird missing entries like `"."` and `""`, or `"N/A"`
 ```{r}
-x <- c("r", "re", "od", "right", "l", "le", "os", "left")
-recodeye(x)
-
-## or with "both eyes"
-x <- c(x, "both", "ou")
+x <- c("r", "re", "od", "right", "l", "le", "os", "left", "both", "ou")
 recodeye(x)
 
 ## chose the resulting codes
@@ -145,10 +134,13 @@ recodeye(x)
 x <- c(1:2, ".", NA, "", "    ")
 recodeye(x)
 
-## Or if you have weird codes for eyes
-x <- c("alright", "righton", "lefty","leftover")
+## If you are using different strings to code for eyes, e.g., you are using a different language, you can change this either with the "eyestrings" argument
+french <- c("OD", "droit", "gauche", "OG")
+recodeye(french, eyestrings = list(r = c("droit", "od"), l = c("gauche", "og")))
 
-recodeye(x, eyecodes = list(r = c("alright","righton"), l = c("lefty","leftover")))
+## or change it more globally with `set_eye_codes`
+set_eye_codes(right = c("droit", "od"), left = c("gauche", "og"))
+recodeye(french)
 ```
 
 ### Clean NA entries

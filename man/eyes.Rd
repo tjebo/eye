@@ -42,7 +42,7 @@ if "details = TRUE", an list of class "eyes_details" will be returned
 Counts number of subjects and right and left eyes. Columns are
 guessed.
 }
-\section{Guessing}{
+\section{Column guessing}{
 
 \strong{id_col} and \strong{eye_col} arguments overrule the name guessing for
 the respective columns (here, cases need to match). Both arguments can be
@@ -54,7 +54,8 @@ lower case, as you please)
 \strong{patient ID columns}:
 \itemize{
 \item First, \code{eyes} is looking for names that contain both strings
-"pat" and "id" (the order doesn't matter)
+"pat" and "id" (the order doesn't matter) -
+you can change this with \link{set_eye_codes}
 \item Next, it will look for columns that are plainly called "ID"
 \item Last, it will search for all names that contain either "pat"
 or "id"
@@ -63,6 +64,7 @@ or "id"
 \strong{eye column}:
 \itemize{
 \item \code{eyes} primarily looks for columns called either "eye" or "eyes",
+(you can change this with \link{set_eye_codes})
 and if they are not present, columns containing string "eye"
 (e.g., EyeName will be recognized)
 }
@@ -70,7 +72,7 @@ and if they are not present, columns containing string "eye"
 
 \section{Eye coding}{
 
-The following codes are recognized:
+The following codes are recognized: (change this with \link{set_eye_codes})
 \itemize{
 \item integer coding 0:1 and 1:2, right eye being the lower number.
 \item right eyes: c("r", "re", "od", "right") and

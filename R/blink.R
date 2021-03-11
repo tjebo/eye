@@ -185,10 +185,10 @@ remCols <- function(x, cols, fct_level) {
     y <- x[[col]]
     y_new <- tolower(suppressWarnings(as.character(y)))
 
-    if (all(y_new[!is.na(y_new)] %in% unlist(set_codes()["quali"]))) {
+    if (all(y_new[!is.na(y_new)] %in% eye_codes$quali)) {
       return(TRUE)
     }
-    y_noquali <- y_new[!y_new %in% unlist(set_codes()["quali"])]
+    y_noquali <- y_new[!y_new %in% eye_codes$quali]
     y_num <- suppressWarnings(as.numeric(y_noquali))
 
     if (any(grepl("/", y_noquali))) {

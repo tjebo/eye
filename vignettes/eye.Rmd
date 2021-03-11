@@ -26,7 +26,7 @@ library(eyedata)
 *eye* is dedicated to facilitate ophthalmic research, providing convenient application programming interfaces (API) for common tasks: 
 
 - [Handling of visual acuity notations](#visual-acuity) 
-- [Easy count of patients and eyes](#count-patients-and-eyes), return a vector or a text for your report
+- [Easy count of patients and eyes](#count-patients-and-eyes)
 - [Easy recoding of your eye variable](#recoding-the-eye-variable)
 - Reshape your eye data - [long](#myop) or [wide](#hyperop)
 - [Quick summary of your eye data](#blink)
@@ -153,13 +153,11 @@ The following codes are recognized:
 - left eyes: c("l", "le", "os", "left") and
 - both eyes: c("b", "both", "ou")
    
-If you have different codes, you can change the recognized strings with the `eyecodes` argument, which needs to be a list. But remember to put the strings for right eyes first, or pass a *named list*. 
-```{r}
-x <- c("r", "re", "od", "right", "l", "le", "os", "left")
-recodeye(x)
+If you have different codes, you can change the recognized strings with the `eyestrings` argument, which needs to be a list. But remember to put the strings for right eyes first, or pass a *named list*. 
 
-## or with "both eyes"
-x <- c(x, "both", "ou")
+You can also more globally change recognized codes with `set_eye_codes()`
+```{r}
+x <- c("r", "re", "od", "right", "l", "le", "os", "left", "both", "ou")
 recodeye(x)
 
 ## chose the resulting codes
@@ -173,14 +171,17 @@ recodeye(x)
 x <- c(1:2, ".", NA, "", "    ")
 recodeye(x)
 
-## Or if you have weird codes for eyes
-x <- c("alright", "righton", "lefty","leftover")
+## If you are using different strings to code for eyes, e.g., you are using a different language, you can change this either with the "eyestrings" argument
+french <- c("OD", "droit", "gauche", "OG")
+recodeye(french, eyestrings = list(r = c("droit", "od"), l = c("gauche", "og")))
 
-recodeye(x, eyecodes = list(r = c("alright","righton"), l = c("lefty","leftover")))
+## or change it more globally with `set_eye_codes`
+set_eye_codes(right = c("droit", "od"), left = c("gauche", "og"))
+recodeye(french)
 ```
 
 ## Counting patients and eyes {#eyes}
-`eyes` offers a very simple tool for counting patients and eyes. 
+`eyes` offers a very simple tool for counting patients and eyes. It will return a list object which gives you easy access to the data.
 
 An important step in `eyes` is the guessing of the columns that identify patients and eyes. As for `myop` and of course `blink`, a specific column naming is required for a reliable automatic detection of patient and eye column(s) (
 [see Names and codes](#names-and-codes))
@@ -191,14 +192,14 @@ The arguments **id** and **eye** arguments overrule the name guessing for the re
 #### patient ID columns:
 - names can be in any case.
 - First, `eyes` is looking for names that contain both strings
-"pat" and "id" (the order doesn't matter)
+"pat" and "id" (the order doesn't matter) you can change those codes with `set_eye_codes()`
 - Next, it will look for columns that are plainly called "ID"
 - Last, it will search for all names that contain either "pat"
 or "id"
 
 #### eye variable column:
 - names can be in any case.
-- `eyes` looks for columns that contain the string either "eye" or "eyes"
+- `eyes` looks for columns that contain the string either "eye" or "eyes" - you can change those codes with `set_eye_codes()`
 - columns will full string "eye" or "eyes" will be given precedence
 
 ### Counting 
@@ -211,6 +212,8 @@ For counting eyes, eyes need to be coded in commonly used ways. You can use [rec
   - right eyes: c("r", "re", "od", "right") 
   - left eyes: c("l", "le", "os", "left") 
   - both eyes: c("b", "both", "ou")
+  
+- you can change those codes with `set_eye_codes()`
 
 ### Report:
  `eyes` also include a convenience function to turn the count into a text. This is intended for integration into rmarkdown reports, or for easy copy / pasting. `eyes_to_string()` parses the output of `eyes` into text under the hood. Arguments to `eyes_to_string` are passed via **...**:
@@ -220,41 +223,18 @@ choose "small" for numbers till 12, "all" (all numbers),
 or "none" (or any other string!) for none
  - **caps** First number will have capital letter
  
-**eyestr** is a shorthand for `eyes(x, report = TRUE)`. The name was chosen because it's a contraction of "eyes" and "strings" and it's a tiny bit easier to type than "eyetxt". 
+**eyestr** will create a string which you can paste into a report. The name was chosen because it's a contraction of "eyes" and "strings" and it's a tiny bit easier to type than "eyetxt". 
 
 #### Use in rmarkdown
-`eyestr` was designed with the use in rmarkdown in mind, most explicitly for the use inline:
+`eyestr` was designed with the use in rmarkdown in mind, most explicitly for the use inline. You can change the way numbers are converted to english with the `english` argument. By default, numbers smaller than or equal to 12 will be real English, all other numbers will be ... numbers. You can capitalise the first number with the `caps` argument. 
 
-> We analysed `` `r knitr::inline_expr("eyestr(amd)")` `` 
-
-*will give:*
-
-> We analysed `r eyestr(amd)`. 
-
-The beauty of this report is of course that the numbers will always update with new data. 
-
-### Examples
-```{r eyestr}
-eyes(amd2)
-
-library(eyedata)
-eyes(amd2)
-
-# Same as `eyes`, but as text for reports
-eyestr(amd2)
-
-## Numbers smaller than or equal to 12 will be real English
-eyestr(head(amd2, 100))
-
-## Or, you can make all numbers english:
-eyestr(amd2, english = "all")
-
-## make first number capital letter
-eyestr(head(amd2, 100), caps = TRUE)
-
-## you can have all numbers printed as numbers
-eyestr(head(amd2, 100), english = "none")
-```
+| <span style="display: inline-block; width:500px">rmarkdown code</span>  | results in |
+|----------|---------|
+|We analyzed `` `r knitr::inline_expr("eyestr(amd2)")` ``  |We analyzed `r eyestr(amd2)`|
+|We analyzed `` `r knitr::inline_expr("eyestr(head(amd2, 100))")` ``| We analyzed `r eyestr(head(amd2, 100))`|
+|We analyzed `` `r knitr::inline_expr('eyestr(amd2, english = "all")')` `` |We analyzed `r eyestr(amd2, english = "all")`|
+|`` `r knitr::inline_expr("eyestr(head(amd2, 100), caps = TRUE)")` `` were analyzed | `r eyestr(head(amd2, 100), caps = TRUE)` were analyzed|
+|We analyzed `` `r knitr::inline_expr('eyestr(head(amd2, 100), english = "none")')` ``| We analyzed `r eyestr(head(amd2, 100), english = "none")`|
 
 ## Reshape eye data 
 Out of convenience, data is often entered in a "wide" format: In eye research, there will be often two columns for the same variable, one column for each eye.

@@ -27,7 +27,6 @@ accepts string as regular expression.
 Other string matching functions: 
 \code{\link{getElem}},
 \code{\link{recodeye}()},
-\code{\link{set_codes}()},
 \code{\link{sort_substr}()}
 }
 \concept{string matching functions}

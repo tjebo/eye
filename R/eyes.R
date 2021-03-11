@@ -11,7 +11,7 @@
 #' @param details if TRUE, will add information about which and how many
 #'   subjects have only one eye or both included, and provide a list of
 #'   subject IDs for each
-#' @section Guessing:
+#' @section Column guessing:
 #' **id_col** and **eye_col** arguments overrule the name guessing for
 #' the respective columns (here, cases need to match). Both arguments can be
 #' abbreviated (*id* or *eye*) as per partial argument name matching.
@@ -21,18 +21,20 @@
 #'
 #' **patient ID columns**:
 #' - First, `eyes` is looking for names that contain both strings
-#' "pat" and "id" (the order doesn't matter)
+#' "pat" and "id" (the order doesn't matter) -
+#'   you can change this with [set_eye_codes]
 #' - Next, it will look for columns that are plainly called "ID"
 #' - Last, it will search for all names that contain either "pat"
 #' or "id"
 #'
 #' **eye column**:
 #' - `eyes` primarily looks for columns called either "eye" or "eyes",
+#' (you can change this with [set_eye_codes])
 #' and if they are not present, columns containing string "eye"
 #' (e.g., EyeName will be recognized)
 #'
 #' @section Eye coding:
-#' The following codes are recognized:
+#' The following codes are recognized: (change this with [set_eye_codes])
 #'
 #' - integer coding 0:1 and 1:2, right eye being the lower number.
 #' - right eyes: c("r", "re", "od", "right") and

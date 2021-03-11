@@ -12,7 +12,7 @@ test_that("no error",{
   expect_error(recodeye(x_reg), regexp = NA)
   expect_error(recodeye(1:2), regexp = NA)
   expect_error(recodeye(x_numna), regexp = NA)
-  expect_error(recodeye(x_weird,eyecodes = list(c("alright","righton"), c("lefty","leftover"))), regexp = NA)
+  expect_error(recodeye(x_weird,eyestrings = list(c("alright","righton"), c("lefty","leftover"))), regexp = NA)
 
   })
 

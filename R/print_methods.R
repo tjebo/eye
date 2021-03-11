@@ -103,8 +103,7 @@ print.eyes_details <- function(x, show = 6, ...) {
 #' @keywords internal
 #' @importFrom pillar style_subtle
 #' @importFrom cli symbol
-#' @importFrom cli console_width
-myfooter <- function(x, width = cli::console_width()) {
+myfooter <- function(x) {
   footer <- paste0(cli::symbol$ellipsis, " ", x)
   pillar::style_subtle(paste("#", footer))
 }

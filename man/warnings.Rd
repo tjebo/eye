@@ -8,7 +8,7 @@
 \usage{
 warn_recode(x)
 
-messageNA(x, eyecodes)
+messageNA(x, eyestrings)
 }
 \description{
 recode warnings

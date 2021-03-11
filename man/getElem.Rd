@@ -61,13 +61,11 @@ Finds the element in an object for one of the following:
 \seealso{
 Other string matching functions: 
 \code{\link{recodeye}()},
-\code{\link{set_codes}()},
 \code{\link{sort_substr}()},
 \code{\link{str_func_facs}}
 
 Other string matching functions: 
 \code{\link{recodeye}()},
-\code{\link{set_codes}()},
 \code{\link{sort_substr}()},
 \code{\link{str_func_facs}}
 }

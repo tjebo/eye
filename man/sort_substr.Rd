@@ -21,7 +21,6 @@ unify code for substrings and arrange, after tokenizing
 Other string matching functions: 
 \code{\link{getElem}},
 \code{\link{recodeye}()},
-\code{\link{set_codes}()},
 \code{\link{str_func_facs}}
 }
 \concept{string matching functions}

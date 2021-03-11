@@ -42,7 +42,7 @@ myop will only recognize meaningful coding for eyes:
 \itemize{
 \item Right eyes: \emph{"r", "re", "od", "right"}
 \item Left eyes:  \emph{"l", "le", "os", "left"}
-\item for other codes see also \link{set_codes}
+\item for other codes see also \link{eye_codes}
 The strings for eyes need to be \strong{separated by period or underscores}.
 (Periods will be replaced by underscores). Any order is allowed.
 \item \strong{Will work}: "va_r", "right_morningpressure", "night_iop.le", "gat_os_postop"

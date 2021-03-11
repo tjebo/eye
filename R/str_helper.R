@@ -1,27 +1,63 @@
-#' Set string codes
-#' @name set_codes
-#' @param r right eyes
-#' @param l left eyes
-#' @param iop IOP codes
-#' @param va VA codes
-#' @param method VA methods
-#' @param id patient column codes
-#' @param quali quali VA codes
-#' @param vaPart partial VA codes
-#' @param ... further codes to set
+#' List of codes
+#' @name eye_codes
+#' @details
+#' - r right eyes
+#' - l left eyes
+#' - iop IOP codes
+#' - va VA codes
+#' - method VA methods
+#' - id patient column codes
+#' - quali quali VA codes
 #' @keywords internal
-#' @description currently only internal use for convenient set of coding strings
-#' @family string matching functions
-set_codes <- function(
-  r = c("r", "re", "od", "right"),
-  l = c("l", "le", "os", "left"),
+eye_codes <- list(
+  right = c("r", "re", "od", "right"),
+  left = c("l", "le", "os", "left"),
+  both = c("b", "both", "ou"),
   iop = c("iop", "gat", "nct"),
   va = c("va", "bcva"),
   method = c("etdrs", "snellen", "logmar"),
   id = c("pat","id"),
+  eye = c("eye", "eyes"),
+  quali = c("nlp", "lp", "hm", "cf")
+)
+#' Set list of codes
+#' @name set_eye_codes
+#' @description This sets the list of codes used throughout the eye package for
+#'   the coding of all kind of stuff. If you want to change recognized codes,
+#'   this is the place to do it. See examples below how to easily overwrite it.
+#'   It is important that you must pass them as a character vector!
+#'
+#'   **cases are always ignored**, so you don't need to worry about this bit.
+#' @param right right eyes
+#' @param left left eyes
+#' @param both both eyes
+#' @param iop IOP codes
+#' @param va VA codes
+#' @param method VA methods
+#' @param id patient column codes
+#' @param eye eye column codes
+#' @param quali quali VA codes
+#' @param ... currently not used, but might be needed in the future
+#' @examples
+#' # To expand recognized codes for eyes, e.g. if you want to use French names
+#' set_eye_codes(right = c("droit", "od"), left = c("gauche", "og"))
+#'
+#' # To restore the defaults, simply call set_eye_codes empty
+#' set_eye_codes()
+#' @export
+set_eye_codes <- function(
+  right = c("r", "re", "od", "right"),
+  left = c("l", "le", "os", "left"),
+  both = c("b", "both", "ou"),
+  iop = c("iop", "gat", "nct"),
+  va = c("va", "bcva"),
+  method = c("etdrs", "snellen", "logmar"),
+  id = c("pat","id"),
+  eye = c("eye", "eyes"),
   quali = c("nlp", "lp", "hm", "cf"),
-  vaPart = "acuit", ...){
-  c(as.list(environment()), list(...))
+  ...){
+  new_eyecodes <- c(as.list(environment()), list(...))
+  assignInMyNamespace("eye_codes", new_eyecodes)
 }
 
 #' sort substrings

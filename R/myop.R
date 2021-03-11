@@ -25,7 +25,7 @@
 #' myop will only recognize meaningful coding for eyes:
 #' - Right eyes: *"r", "re", "od", "right"*
 #' - Left eyes:  *"l", "le", "os", "left"*
-#' - for other codes see also [set_codes]
+#' - for other codes see also [eye_codes]
 #' The strings for eyes need to be **separated by period or underscores**.
 #' (Periods will be replaced by underscores). Any order is allowed.
 #'
@@ -118,7 +118,7 @@ myop_rename <- function(x) {
   }
   name_x <- sort_substr(
     tolower(names(x)),
-    set_codes()[c("r", "l", "iop", "va")]
+    eye_codes[c("right", "left", "iop", "va")]
   )
   name_x
 }

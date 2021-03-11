@@ -4,17 +4,17 @@
 \alias{recodeye}
 \title{Recode eyes}
 \usage{
-recodeye(x, to = NULL, eyecodes = NULL, dropunknown = TRUE)
+recodeye(x, to = NULL, eyestrings = NULL, dropunknown = TRUE)
 }
 \arguments{
 \item{x}{vector of strings}
 
 \item{to}{named vector to which eye codes. If unnamed, this order: c(r, l, b)}
 
-\item{eyecodes}{named list of substrings which should be converted to
+\item{eyestrings}{named list of substrings which should be converted to
 right and left eyes - if passed unnamed, this order: list(r, l, b)}
 
-\item{dropunknown}{introduces NA for values that are not part of eyecodes}
+\item{dropunknown}{introduces NA for values that are not part of eyestrings}
 }
 \value{
 Character vector
@@ -28,6 +28,8 @@ recodeye will automatically detect the following strings:
 right = c("r", "re", "od", "right"),
 left = c("l", "le", "os", "left"),
 both = c("b","both","ou")
+
+You can change this with \link{set_eye_codes}
 }
 
 \section{to and eyecode arguments}{
@@ -45,15 +47,11 @@ in the "eyecode" argument.
 
 Currently numeric coding only accepts binary
 coding (right and left eye). In order to use numeric coding for "both eyes"
-as well, a workaround using the eyecodes argument is suggested.
+as well, a workaround using the eyestrings argument is suggested.
 }
 
 \examples{
-x <- c("r", "re", "od", "right", "l", "le", "os", "left")
-recodeye(x)
-
-## or with "both eyes"
-x <- c(x, "both", "ou")
+x <- c("r", "re", "od", "right", "l", "le", "os", "left", "both", "ou")
 recodeye(x)
 
 ## chose the resulting codes
@@ -61,11 +59,20 @@ recodeye(x, to = c("od", "os", "ou"))
 
 x <- 1:2
 recodeye(x)
+
+## If you code your eyes with different strings,
+## e.g., because you are using a different language,
+## you can change this either with the eyestrings argument,
+french <- c("OD", "droit", "gauche", "OG")
+recodeye(french, eyestrings = list(r = c("droit", "od"), l = c("gauche", "og")))
+
+## or change it more globally with `set_eye_codes`
+set_eye_codes(right = c("droit", "od"), left = c("gauche", "og"))
+recodeye(french)
 }
 \seealso{
 Other string matching functions: 
 \code{\link{getElem}},
-\code{\link{set_codes}()},
 \code{\link{sort_substr}()},
 \code{\link{str_func_facs}}
 }

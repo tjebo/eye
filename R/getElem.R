@@ -14,7 +14,7 @@
 #'
 getElem_id <- function(obj, id_chr) {
   if(missing(id_chr)){
-    id_chr <-  unlist(set_codes()["id"])
+    id_chr <-  eye_codes$id
   }
   if (inherits(obj, "data.frame")) {
     obj <- colnames(obj)
@@ -63,7 +63,7 @@ getElem_eyecol <- function(obj) {
 #' names have to be "r" and "l"!
 getElem_eye <- function(obj, eye_chr) {
   if(missing(eye_chr)){
-    eye_chr <-  set_codes()[c("r","l")]
+    eye_chr <-  eye_codes[c("right","left")]
   }
   if (inherits(obj, "data.frame")) {
     obj <- colnames(obj)

@@ -1,6 +1,10 @@
 ## Submission eye version 1.2.0 
 summary of changes: 
-- new features for function `eyes`:
+- added option to change strings used for coding for variables (`set_eye_codes`)
+- calling set_eye_codes will super-assign the new codes to the internal 
+list object eye_codes
+- recodeye: renamed "eyecodes" argument to "eyestrings"
+- new features for function `eyes`
 returning list (of class "eyes") for easier access of count data
 "details" argument creates object of class "eyes_details", allowing access to in depth count statistics and subject ids 
 - change id and eye arguments to "id_col" and "eye_col" - previous code should
