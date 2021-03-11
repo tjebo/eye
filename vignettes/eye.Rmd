@@ -354,7 +354,7 @@ As you can imagine, a lot of those steps rely hugely on reasonable naming of you
 If you are not happy with the automatic column selection, you can manually select the VA and IOP columns with the arguments `va_cols` or `iop_cols`. Both accept [tidyselection](https://tidyselect.r-lib.org/reference/language.html). I personally find `starts_with`, `ends_with`, `contains()` or the more general `matches()` very useful.
 
 ### Examples
-```{r, eval = FALSE}
+```{r}
 blink(wide_df)
 
 blink(amd)

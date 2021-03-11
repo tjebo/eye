@@ -17,6 +17,7 @@ returning list (of class "eyes") for easier access of count data
 - simplified pivoting in myop using the pivot_longer regex feature
 - removed ..._chr arguments from getElem_... functions (redundant)
 - simplified getElem... functions because they were anyways only used for vectors
+- getElem_eyecol now gives precedence to columns that are called "eye" or "eyes" (fixed #30)
 
 Details: 
 - update citation file

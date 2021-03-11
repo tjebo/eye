@@ -109,7 +109,7 @@ head(eyes(amd2, details = TRUE)$id$right)
 #### Smooth integration into rmarkdown
 `eyestr` was designed with the use in rmarkdown in mind, most explicitly for the use inline. You can change the way numbers are converted to english with the `english` argument. By default, numbers smaller than or equal to 12 will be real English, all other numbers will be ... numbers. You can capitalise the first number with the `caps` argument. 
 
-| <span style="display: inline-block; width:500px">rmarkdown code</span>  | results in |
+| rmarkdown code | results in |
 |----------|---------|
 |We analyzed `` `r knitr::inline_expr("eyestr(amd2)")` ``  |We analyzed `r eyestr(amd2)`|
 |We analyzed `` `r knitr::inline_expr("eyestr(head(amd2, 100))")` ``| We analyzed `r eyestr(head(amd2, 100))`|

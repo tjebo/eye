@@ -176,13 +176,13 @@ english with the `english` argument. By default, numbers smaller than or
 equal to 12 will be real English, all other numbers will be … numbers.
 You can capitalise the first number with the `caps` argument.
 
-| <span style="display: inline-block; width:500px">rmarkdown code</span> | results in                                                                                                             |
-| ---------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| We analyzed `` `r eyestr(amd2)` ``                                     | We analyzed 3357 eyes of 3357 patients                                                                                 |
-| We analyzed `` `r eyestr(head(amd2, 100))` ``                          | We analyzed eleven eyes of eleven patients                                                                             |
-| We analyzed `` `r eyestr(amd2, english = "all")` ``                    | We analyzed three thousand three hundred and fifty-seven eyes of three thousand three hundred and fifty-seven patients |
-| `` `r eyestr(head(amd2, 100), caps = TRUE)` `` were analyzed           | Eleven eyes of eleven patients were analyzed                                                                           |
-| We analyzed `` `r eyestr(head(amd2, 100), english = "none")` ``        | We analyzed 11 eyes of 11 patients                                                                                     |
+| rmarkdown code                                                  | results in                                                                                                             |
+| --------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| We analyzed `` `r eyestr(amd2)` ``                              | We analyzed 3357 eyes of 3357 patients                                                                                 |
+| We analyzed `` `r eyestr(head(amd2, 100))` ``                   | We analyzed eleven eyes of eleven patients                                                                             |
+| We analyzed `` `r eyestr(amd2, english = "all")` ``             | We analyzed three thousand three hundred and fifty-seven eyes of three thousand three hundred and fifty-seven patients |
+| `` `r eyestr(head(amd2, 100), caps = TRUE)` `` were analyzed    | Eleven eyes of eleven patients were analyzed                                                                           |
+| We analyzed `` `r eyestr(head(amd2, 100), english = "none")` `` | We analyzed 11 eyes of 11 patients                                                                                     |
 
 ### Recoding the eye variable
 
