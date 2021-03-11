@@ -12,12 +12,8 @@
 #' @keywords internal
 #' @return vector
 #' @family string matching functions
-#'
 getElem_id <- function(obj) {
   id_chr <-  eye_codes$id
-  if (inherits(obj, "data.frame")) {
-    obj <- colnames(obj)
-  }
   both_elem <- both_str(obj, id_chr)
   if (length(both_elem) > 0) {
     pat_col <- both_elem
@@ -31,12 +27,9 @@ getElem_id <- function(obj) {
 
 #' @rdname getElem
 getElem_eyecol <- function(obj) {
-  if (inherits(obj, "data.frame")) {
-    obj <- colnames(obj)
-  }
-
-  if (any(grepl("(?<![a-z])(eye|eyes)(?![a-z])", obj, perl = TRUE,
-                ignore.case = TRUE))){
+  if(length(grepl("^(eye|eyes)$", tolower(obj))) > 0){
+    eye_col <- obj[grepl("^(eye|eyes)$", tolower(obj))]
+  } else if (length(whole_str(obj, c("eye","eyes"))) > 0){
     eye_col <- whole_str(obj, c("eye","eyes"))
   } else {
     eye_col <- part_str(obj, "eye")
@@ -47,47 +40,23 @@ getElem_eyecol <- function(obj) {
 #' @rdname getElem
 getElem_eye <- function(obj) {
   eye_chr <-  eye_codes[c("right","left")]
-  if (inherits(obj, "data.frame")) {
-    obj <- colnames(obj)
-    ls_eye <- lapply(eye_chr, function(x) whole_str(obj, x))
-  } else if (is.atomic(obj)){
-    ls_eye <- lapply(eye_chr, function(x) whole_str(obj, x))
-  } else {
-    stop("only atomic or data.frame supported")
-  }
-  ls_eye
+  lapply(eye_chr, function(x) whole_str(obj, x))
 }
 
 #' @rdname getElem
 getElem_va <- function(obj) {
   va_chr <-
-    list(whole = unlist(eye_codes[c("va","va_method")], use.names = FALSE),
-         part = eye_codes$va_partial)
-  if (inherits(obj, "data.frame")) {
-    ns_obj <- colnames(obj)
-    va_cols <- paste0(whole_str(ns_obj, va_chr$whole), part_str(ns_obj, va_chr$part))
-  } else if (is.atomic(obj)) {
-    va_cols <- paste0(whole_str(obj, va_chr$whole), part_str(obj, va_chr$part))
-  } else {
-    va_cols <- lapply(obj, function(x) {
-      paste0(whole_str(obj, va_chr$whole), part_str(obj, va_chr$part))
-    })
-  }
+    list(
+      whole = unlist(eye_codes[c("va", "va_method")], use.names = FALSE),
+      part = eye_codes$va_partial
+    )
+  va_cols <- paste0(whole_str(obj, va_chr$whole), part_str(obj, va_chr$part))
   va_cols
 }
 
 #' @rdname getElem
 getElem_iop <- function(obj) {
-    iop_chr <-  list(whole = eye_codes$iop, part = eye_codes$iop_partial)
-  if (inherits(obj, "data.frame")) {
-    ns_obj <- colnames(obj)
-    iop_cols <- paste0(whole_str(ns_obj, iop_chr$whole), part_str(ns_obj, iop_chr$part))
-  } else if (is.atomic(obj)) {
-    iop_cols <- paste0(whole_str(obj, iop_chr$whole), part_str(obj, iop_chr$part))
-  } else {
-    iop_cols <- lapply(obj, function(x) {
-      paste0(whole_str(obj, iop_chr$whole), part_str(obj, iop_chr$part))
-    })
-  }
+  iop_chr <- list(whole = eye_codes$iop, part = eye_codes$iop_partial)
+  iop_cols <- paste0(whole_str(obj, iop_chr$whole), part_str(obj, iop_chr$part))
   iop_cols
 }

@@ -5,7 +5,7 @@
 \alias{whole_str}
 \alias{part_str}
 \alias{both_str}
-\title{String search func facs}
+\title{String search helper}
 \usage{
 whole_str(haystack, needle)
 

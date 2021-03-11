@@ -105,13 +105,13 @@ blink <- function(x, va_to = "logmar",
       x_exp <- rlang::enquo(va_cols)
       va_index <- unname(tidyselect::eval_select(x_exp, x))
   } else {
-    va_index <- which(names(x) %in% getElem_va(x))
+    va_index <- which(names(x) %in% getElem_va(names(x)))
   }
   if(!rlang::quo_is_null(rlang::enquo(iop_cols))){
     x_exp <- rlang::enquo(iop_cols)
     iop_index <- unname(tidyselect::eval_select(x_exp, x))
   } else {
-    iop_index <- which(names(x) %in% getElem_iop(x))
+    iop_index <- which(names(x) %in% getElem_iop(names(x)))
   }
 
   names(x) <- myop_rename(x)

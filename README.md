@@ -301,6 +301,8 @@ their own dedicated column.
 to a “myop” format.
 
 ``` r
+iop_wide <- data.frame(id = letters[1:3], iop_r = 11:13, iop_l = 14:16)
+
 ## Simple data frame with one column for right eye and left eye.
 iop_wide
 #>   id iop_r iop_l

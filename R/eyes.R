@@ -62,7 +62,7 @@ eyes <- function(x, id_col = NULL, eye_col = NULL, dropunknown = TRUE, details =
     return("0 eyes of 0 subject")
   }
   if (is.null(id_col)) {
-    id_col <- getElem_id(x)
+    id_col <- getElem_id(names(x))
   }
 
   if (length(id_col) != 1) {
@@ -72,7 +72,7 @@ eyes <- function(x, id_col = NULL, eye_col = NULL, dropunknown = TRUE, details =
     return(NULL)
   }
   if (is.null(eye_col)) {
-    eye_col <- getElem_eyecol(x)
+    eye_col <- getElem_eyecol(names(x))
   }
   if (length(eye_col) != 1) {
     message("Unclear which is the eye column. Counting id only.

@@ -17,6 +17,10 @@ va_false <- c('rva', "other", "io", 'bvas', 'bva2', 'C_Lett','vare')
 part_true <- c("Id", "Eye", "FolloeyepDays", "BaselidAge")
 part_false <- c("I", "Ey", "FolloyepDays", "BaseliAge")
 
+id <- c(letters[sample(20)], letters[sample(20)])
+foo <- data.frame(id, eyes = c("r", "l"))
+foo$toldyou_eye <- "r"
+
 test_that("whole", {
   expect_identical(eye:::whole_str(va_true, "va"), va_true)
   expect_identical(eye:::whole_str(va_false, "va"), character(0))
@@ -25,4 +29,6 @@ test_that("partial", {
   expect_identical(eye:::part_str(part_true, c("id", "eye")), part_true)
   expect_identical(eye:::part_str(part_false, c("id", "eye")), character(0))
 })
-
+test_that("getElem_eye", {
+expect_identical(eye:::getElem_eyecol(names(foo)), "eyes")
+})

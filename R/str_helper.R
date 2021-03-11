@@ -99,7 +99,7 @@ sort_substr <- function(x, list_substr) {
   out
 }
 
-#' String search func facs
+#' String search helper
 #' @name str_search
 #' @param needle vector of strings to look for - accepts regular expressions
 #' @param haystack object in which to look for the needle

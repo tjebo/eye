@@ -180,10 +180,9 @@ Indeed, R requires exactly this data shape for many tasks: "eye[r/l]" as a separ
 
 `myop` provides an easy to use API for an automatic reshape of your data to a "myop" format.
 
-```{r myop, echo=FALSE}
+```{r myop}
 iop_wide <- data.frame(id = letters[1:3], iop_r = 11:13, iop_l = 14:16)
-```
-```{r myop2}
+
 ## Simple data frame with one column for right eye and left eye.
 iop_wide
 

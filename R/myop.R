@@ -134,7 +134,7 @@ myop_rename <- function(x) {
 #' @family myopizer
 myopizer <- function(x, var = "value") {
   x_sym <- deparse(substitute(x))
-  ls_eye <- getElem_eye(x)
+  ls_eye <- getElem_eye(names(x))
   eye_cols <- unlist(ls_eye)
   eye_str <- whole_str(names(x), c("eyes", "eye"))
 
