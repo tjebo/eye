@@ -220,6 +220,9 @@ recodeye(french, eyestrings = list(r = c("droit", "od"), l = c("gauche", "og")))
 set_eye_codes(right = c("droit", "od"), left = c("gauche", "og"))
 recodeye(french)
 #> [1] "r" "r" "l" "l"
+
+# to restore the default, call set_eye_codes empty
+set_eye_codes()
 ```
 
 ### Clean NA entries
@@ -312,6 +315,15 @@ iop_wide
 
 ``` r
 myop(iop_wide)
+#> # A tibble: 6 x 3
+#>   id    eye   iop  
+#>   <chr> <chr> <chr>
+#> 1 a     right 11   
+#> 2 a     left  14   
+#> 3 b     right 12   
+#> 4 b     left  15   
+#> 5 c     right 13   
+#> 6 c     left  16
 ```
 
 Or another example with many more variables:
@@ -338,19 +350,19 @@ wide_df <- data.frame(
 
 ``` r
 myop_df <- myop(wide_df)
-#> Warning: Data seems already myopic - no changes made. ?myop for help
 
 myop_df
-#>   id right_surgery left_surgery iop_r_preop iop_r_postop iop_preop_l
-#> 1  a            TE           TE          21           11          31
-#> 2  b            TE           TE          22           12          32
-#> 3  c           SLT           TE          23           13          33
-#> 4  d           SLT          SLT          24           14          34
-#>   iop_postop_l va_r_preop va_r_postop va_preop_l va_postop_l
-#> 1           11         41          45         41          45
-#> 2           12         42          46         42          46
-#> 3           13         43          47         43          47
-#> 4           14         44          48         44          48
+#> # A tibble: 8 x 7
+#>   id    eye   surgery iop_preop iop_postop va_preop va_postop
+#>   <chr> <chr> <chr>   <chr>     <chr>      <chr>    <chr>    
+#> 1 a     right TE      21        11         41       45       
+#> 2 a     left  TE      31        11         41       45       
+#> 3 b     right TE      22        12         42       46       
+#> 4 b     left  TE      32        12         42       46       
+#> 5 c     right SLT     23        13         43       47       
+#> 6 c     left  TE      33        13         43       47       
+#> 7 d     right SLT     24        14         44       48       
+#> 8 d     left  SLT     34        14         44       48
 ```
 
 ### hyperop
@@ -360,8 +372,24 @@ columns, `hyperop()` is your friend:
 
 ``` r
 hyperop(myop(iop_wide), iop)
+#> # A tibble: 3 x 3
+#>   id    r_iop l_iop
+#>   <chr> <chr> <chr>
+#> 1 a     11    14   
+#> 2 b     12    15   
+#> 3 c     13    16
 
 hyperop(myop_df, cols = matches("va|iop"))
+#> # A tibble: 5 x 10
+#>   id    surgery r_iop_preop r_iop_postop r_va_preop r_va_postop l_iop_preop
+#>   <chr> <chr>   <chr>       <chr>        <chr>      <chr>       <chr>      
+#> 1 a     TE      21          11           41         45          31         
+#> 2 b     TE      22          12           42         46          32         
+#> 3 c     SLT     23          13           43         47          <NA>       
+#> 4 c     TE      <NA>        <NA>         <NA>       <NA>        33         
+#> 5 d     SLT     24          14           44         48          34         
+#> # … with 3 more variables: l_iop_postop <chr>, l_va_preop <chr>,
+#> #   l_va_postop <chr>
 ```
 
 ### blink

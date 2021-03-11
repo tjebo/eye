@@ -16,6 +16,7 @@ returning list (of class "eyes") for easier access of count data
 - update description file with updated versions of dependencies
 - simplified pivoting in myop using the pivot_longer regex feature
 - removed ..._chr arguments from getElem_... functions (redundant)
+- simplified getElem... functions because they were anyways only used for vectors
 
 Details: 
 - update citation file

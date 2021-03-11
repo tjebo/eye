@@ -141,6 +141,9 @@ recodeye(french, eyestrings = list(r = c("droit", "od"), l = c("gauche", "og")))
 ## or change it more globally with `set_eye_codes`
 set_eye_codes(right = c("droit", "od"), left = c("gauche", "og"))
 recodeye(french)
+
+# to restore the default, call set_eye_codes empty
+set_eye_codes()
 ```
 
 ### Clean NA entries
@@ -185,7 +188,7 @@ Indeed, R requires exactly this data shape for many tasks: "eye[r/l]" as a separ
 iop_wide <- data.frame(id = letters[1:3], iop_r = 11:13, iop_l = 14:16)
 iop_wide
 ```
-```{r, eval=FALSE}
+```{r}
 myop(iop_wide)
 ```
 Or another example with many more variables:
@@ -221,7 +224,7 @@ myop_df
 ### hyperop 
 If you actually need certain eye-related variables spread over two columns, `hyperop()` is your friend:
 
-```{r, eval = FALSE}
+```{r}
 hyperop(myop(iop_wide), iop)
 
 hyperop(myop_df, cols = matches("va|iop"))

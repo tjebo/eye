@@ -178,6 +178,9 @@ recodeye(french, eyestrings = list(r = c("droit", "od"), l = c("gauche", "og")))
 ## or change it more globally with `set_eye_codes`
 set_eye_codes(right = c("droit", "od"), left = c("gauche", "og"))
 recodeye(french)
+
+# to restore the default, call set_eye_codes empty
+set_eye_codes()
 ```
 
 ## Counting patients and eyes {#eyes}
@@ -300,7 +303,7 @@ wide_df <- data.frame(
 )
 ```
 
-```{r, eval = FALSE}
+```{r}
 ## the variable has not been exactly named, (but it is probably IOP data), 
 ## you can specify the dimension with the var argument
 
@@ -318,7 +321,7 @@ Basically the opposite of `myop()` - a slightly intelligent wrapper around `tidy
 
 The cols argument takes a tidyselection. [Read about tidyselection](https://tidyselect.r-lib.org/reference/language.html)
 
-```{r, eval = FALSE}
+```{r}
 myop_df <- myop(wide_df)
 hyperop(myop_df, cols = matches("va|iop"))
 ```
@@ -460,7 +463,7 @@ It uses an S3 generic under the hood with methods for atomic vectors, data frame
 `reveal()` takes the grouping argument `by` and it returns vector for atomic vectors or a data frame for lists. 
 
 ### Examples
-```{r stats, warning=FALSE, message=FALSE, eval = FALSE}
+```{r stats, warning=FALSE, message=FALSE}
 clean_df <- myop(wide_df)
 reveal(clean_df)
 
