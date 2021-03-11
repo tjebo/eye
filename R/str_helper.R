@@ -15,7 +15,8 @@ eye_codes <- list(
   both = c("b", "both", "ou"),
   iop = c("iop", "gat", "nct"),
   va = c("va", "bcva"),
-  method = c("etdrs", "snellen", "logmar"),
+  va_method = c("etdrs", "snellen", "logmar"),
+  va_partial = c("acuit"),
   id = c("pat","id"),
   eye = c("eye", "eyes"),
   quali = c("nlp", "lp", "hm", "cf")
@@ -33,7 +34,9 @@ eye_codes <- list(
 #' @param both both eyes
 #' @param iop IOP codes
 #' @param va VA codes
-#' @param method VA methods
+#' @param va_method VA methods (used to recognize VA columns -
+#'   when those strings occur "fully", i.e., not as part of sth else)
+#' @param va_partial ALso used to find VA columns - looking for partial strings
 #' @param id patient column codes
 #' @param eye eye column codes
 #' @param quali quali VA codes
@@ -51,7 +54,8 @@ set_eye_codes <- function(
   both = c("b", "both", "ou"),
   iop = c("iop", "gat", "nct"),
   va = c("va", "bcva"),
-  method = c("etdrs", "snellen", "logmar"),
+  va_method = c("etdrs", "snellen", "logmar"),
+  va_partial = c("acuit"),
   id = c("pat","id"),
   eye = c("eye", "eyes"),
   quali = c("nlp", "lp", "hm", "cf"),
