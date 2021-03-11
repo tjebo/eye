@@ -61,10 +61,8 @@ getElem_eyecol <- function(obj) {
 #' @rdname getElem
 #' @param eye_chr named list with strings for "r" and "l"
 #' names have to be "r" and "l"!
-getElem_eye <- function(obj, eye_chr) {
-  if(missing(eye_chr)){
-    eye_chr <-  eye_codes[c("right","left")]
-  }
+getElem_eye <- function(obj) {
+  eye_chr <-  eye_codes[c("right","left")]
   if (inherits(obj, "data.frame")) {
     obj <- colnames(obj)
     ls_eye <- lapply(eye_chr, function(x) whole_str(x)(obj))

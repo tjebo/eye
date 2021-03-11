@@ -13,7 +13,7 @@ getElem_id(obj, id_chr)
 
 getElem_eyecol(obj)
 
-getElem_eye(obj, eye_chr)
+getElem_eye(obj)
 
 getElem_va(obj, va_chr)
 
@@ -24,14 +24,14 @@ getElem_iop(obj, iop_chr)
 
 \item{id_chr}{strings to identify ID colums.}
 
-\item{eye_chr}{named list with strings for "r" and "l"
-names have to be "r" and "l"!}
-
 \item{va_chr}{named list with strings for "whole" and "part"
 names have to be "whole" and "part"!}
 
 \item{iop_chr}{named list with strings for "whole" and "part"
 names have to be "whole" and "part"!}
+
+\item{eye_chr}{named list with strings for "r" and "l"
+names have to be "r" and "l"!}
 }
 \value{
 vector
