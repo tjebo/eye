@@ -85,7 +85,6 @@ myopic <- myop
 #' @importFrom dplyr mutate_all
 #' @keywords internal
 #' @family myopizer
-
 myop_pivot <- function(x) {
   x_myop <- x %>%
     dplyr::mutate_all(as.character) %>%
@@ -164,4 +163,3 @@ myopizer <- function(x, var = "value") {
   }
   myop_pivot(x)
 }
-
