@@ -55,7 +55,7 @@ lower case, as you please)
 \itemize{
 \item First, \code{eyes} is looking for names that contain both strings
 "pat" and "id" (the order doesn't matter) -
-you can change this with \link{set_eye_codes}
+you can change this with \link{set_eye_strings}
 \item Next, it will look for columns that are plainly called "ID"
 \item Last, it will search for all names that contain either "pat"
 or "id"
@@ -64,7 +64,7 @@ or "id"
 \strong{eye column}:
 \itemize{
 \item \code{eyes} primarily looks for columns called either "eye" or "eyes",
-(you can change this with \link{set_eye_codes})
+(you can change this with \link{set_eye_strings})
 and if they are not present, columns containing string "eye"
 (e.g., EyeName will be recognized)
 }
@@ -72,7 +72,7 @@ and if they are not present, columns containing string "eye"
 
 \section{Eye coding}{
 
-The following codes are recognized: (change this with \link{set_eye_codes})
+The following codes are recognized: (change this with \link{set_eye_strings})
 \itemize{
 \item integer coding 0:1 and 1:2, right eye being the lower number.
 \item right eyes: c("r", "re", "od", "right") and
@@ -100,11 +100,11 @@ eyes(amd2)
 
 ## If you code your eyes with different strings,
 ## e.g., because you are using a different language,
-## you can change this either with `set_eye_codes`
-set_eye_codes(right = c("droit", "od"), left = c("gauche", "og"))
+## you can change this either with `set_eye_strings`
+set_eye_strings(right = c("droit", "od"), left = c("gauche", "og"))
 
 ## restore defaults with
-set_eye_codes()
+set_eye_strings()
 # Examples for the usage of eyestr
 eyestr(amd2)
 

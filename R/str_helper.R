@@ -23,7 +23,7 @@ eye_codes <- list(
   quali = c("nlp", "lp", "hm", "cf")
 )
 #' Set list of codes
-#' @name set_eye_codes
+#' @name set_eye_strings
 #' @description This sets the list of codes used throughout the eye package for
 #'   the coding of all kind of stuff. If you want to change recognized codes,
 #'   this is the place to do it. See examples below how to easily overwrite it.
@@ -45,13 +45,13 @@ eye_codes <- list(
 #' @param ... currently not used, but might be needed in the future
 #' @examples
 #' # To expand recognized codes for eyes, e.g. if you want to use French names
-#' set_eye_codes(right = c("droit", "od"), left = c("gauche", "og"))
+#' set_eye_strings(right = c("droit", "od"), left = c("gauche", "og"))
 #'
-#' # To restore the defaults, simply call set_eye_codes empty
-#' set_eye_codes()
+#' # To restore the defaults, simply call set_eye_strings empty
+#' set_eye_strings()
 #' @importFrom utils assignInMyNamespace
 #' @export
-set_eye_codes <- function(
+set_eye_strings <- function(
   right = c("r", "re", "od", "right"),
   left = c("l", "le", "os", "left"),
   both = c("b", "both", "ou"),

@@ -12,7 +12,7 @@
 #'   left = c("l", "le", "os", "left"),
 #'   both = c("b","both","ou")
 #'
-#'   You can change this with [set_eye_codes]
+#'   You can change this with [set_eye_strings]
 #' @section to and eyecode arguments:
 #' If passed, should ideally be of same length, and have the respective eyes
 #' at the same index (or with the same name!). If the lengths are not equal,
@@ -43,12 +43,12 @@
 #' french <- c("OD", "droit", "gauche", "OG")
 #' recodeye(french, eyestrings = list(r = c("droit", "od"), l = c("gauche", "og")))
 #'
-#' ## or change it more globally with `set_eye_codes`
-#' set_eye_codes(right = c("droit", "od"), left = c("gauche", "og"))
+#' ## or change it more globally with `set_eye_strings`
+#' set_eye_strings(right = c("droit", "od"), left = c("gauche", "og"))
 #' recodeye(french)
 #'
 #' ## restore defaults with
-#' set_eye_codes()
+#' set_eye_strings()
 #' @importFrom stats setNames
 #' @export
 recodeye <- function(x, to = NULL,

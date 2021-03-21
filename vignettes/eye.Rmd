@@ -155,7 +155,7 @@ The following codes are recognized:
    
 If you have different codes, you can change the recognized strings with the `eyestrings` argument, which needs to be a list. But remember to put the strings for right eyes first, or pass a *named list*. 
 
-You can also more globally change recognized codes with `set_eye_codes()`
+You can also more globally change recognized codes with `set_eye_strings()`
 ```{r}
 x <- c("r", "re", "od", "right", "l", "le", "os", "left", "both", "ou")
 recodeye(x)
@@ -175,12 +175,12 @@ recodeye(x)
 french <- c("OD", "droit", "gauche", "OG")
 recodeye(french, eyestrings = list(r = c("droit", "od"), l = c("gauche", "og")))
 
-## or change it more globally with `set_eye_codes`
-set_eye_codes(right = c("droit", "od"), left = c("gauche", "og"))
+## or change it more globally with `set_eye_strings`
+set_eye_strings(right = c("droit", "od"), left = c("gauche", "og"))
 recodeye(french)
 
-# to restore the default, call set_eye_codes empty
-set_eye_codes()
+# to restore the default, call set_eye_strings empty
+set_eye_strings()
 ```
 
 ## Counting patients and eyes {#eyes}
@@ -195,14 +195,14 @@ The arguments **id** and **eye** arguments overrule the name guessing for the re
 #### patient ID columns:
 - names can be in any case.
 - First, `eyes` is looking for names that contain both strings
-"pat" and "id" (the order doesn't matter) you can change those codes with `set_eye_codes()`
+"pat" and "id" (the order doesn't matter) you can change those codes with `set_eye_strings()`
 - Next, it will look for columns that are plainly called "ID"
 - Last, it will search for all names that contain either "pat"
 or "id"
 
 #### eye variable column:
 - names can be in any case.
-- `eyes` looks for columns that contain the string either "eye" or "eyes" - you can change those codes with `set_eye_codes()`
+- `eyes` looks for columns that contain the string either "eye" or "eyes" - you can change those codes with `set_eye_strings()`
 - columns will full string "eye" or "eyes" will be given precedence
 
 ### Counting 
@@ -216,7 +216,7 @@ For counting eyes, eyes need to be coded in commonly used ways. You can use [rec
   - left eyes: c("l", "le", "os", "left") 
   - both eyes: c("b", "both", "ou")
   
-- you can change those codes with `set_eye_codes()`
+- you can change those codes with `set_eye_strings()`
 
 ### Report:
  `eyes` also include a convenience function to turn the count into a text. This is intended for integration into rmarkdown reports, or for easy copy / pasting. `eyes_to_string()` parses the output of `eyes` into text under the hood. Arguments to `eyes_to_string` are passed via **...**:

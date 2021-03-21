@@ -138,12 +138,12 @@ recodeye(x)
 french <- c("OD", "droit", "gauche", "OG")
 recodeye(french, eyestrings = list(r = c("droit", "od"), l = c("gauche", "og")))
 
-## or change it more globally with `set_eye_codes`
-set_eye_codes(right = c("droit", "od"), left = c("gauche", "og"))
+## or change it more globally with `set_eye_strings`
+set_eye_strings(right = c("droit", "od"), left = c("gauche", "og"))
 recodeye(french)
 
-# to restore the default, call set_eye_codes empty
-set_eye_codes()
+# to restore the default, call set_eye_strings empty
+set_eye_strings()
 ```
 
 ### Clean NA entries
