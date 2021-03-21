@@ -1,26 +1,25 @@
 ## Submission eye version 1.2.0 
-summary of changes: 
-- added option to change strings used for coding for variables (`set_eye_codes`)
-- calling set_eye_codes will super-assign the new codes to the internal 
-list object eye_codes
+Summary of changes: 
+- `eyes()` - now returns lists (of class "eyes") for easier access of count data
+- `set_eye_strings()` - set string codes globally! This makes it easier for people using different languages to use eye.
 - recodeye: renamed "eyecodes" argument to "eyestrings"
-- new features for function `eyes`
-returning list (of class "eyes") for easier access of count data
-"details" argument creates object of class "eyes_details", allowing access to in depth count statistics and subject ids 
-- change id and eye arguments to "id_col" and "eye_col" - previous code should
-  not break because of partial argument name matching. However, the new names
-  make it clearer as to what those arguments are for.
 - Change of terminology to "subjects/id" rather than "patients" 
-- print methods for class "eyes" and "eyes_details"
-- documentation corrected and expanded in `eyes` 
-- update description file with updated versions of dependencies
-- simplified pivoting in myop using the pivot_longer regex feature
-- removed ..._chr arguments from getElem_... functions (redundant)
-- simplified getElem... functions because they were anyways only used for vectors
-- getElem_eyecol now gives precedence to columns that are called "eye" or "eyes" (fixed #30)
+- simplified code
 
 Details: 
+- `eyes()`: "details" argument creates object of class "eyes_details", allowing access to in depth count statistics and subject ids 
+- This includes new print methods for class "eyes" and "eyes_details"
+- change id and eye arguments to "id_col" and "eye_col" - previous code should not break because of partial argument name matching. However, the new names make it clearer as to what those arguments are for.
+- calling `set_eye_strings` will super-assign the new codes to the internal
+list object eye_codes
+- getElem_eyecol now gives precedence to columns that are called "eye" or "eyes" (#30)
+- fixed errors in documentation 
 - update citation file
+- update description file
+Simplifications:
+- simplified pivoting in myop using the pivot_longer regex feature
+- removed ..._chr arguments from getElem_... functions (redundant)
+- getElem... now only for vectors (because they were anyways only used for vectors)
 
 ## CHECK ENVIRONMENTS
 * local OS X install, R 4.0.3
