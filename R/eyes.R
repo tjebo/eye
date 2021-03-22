@@ -84,13 +84,19 @@ eyes <- function(x, id_col = NULL, eye_col = NULL, dropunknown = TRUE, details =
   if (length(eye_col) != 1) {
     message("Unclear which is the eye column. Counting id only.
 Specify eye column with \"eye_col\" argument")
-    res <- c(id = length(unique(x[[id_col]])))
+    n_pat <-  length(unique(x[[id_col]]))
+    res <- list(id = n_pat)
+    class(res) <- c("eyes", class(res))
+    return(res)
   } else if (length(eye_col) == 1) {
     quiet_recode <- purrr::quietly(~ recodeye(x = .x, dropunknown = .y))
     recode_eye <- quiet_recode(.x = x[[eye_col]], .y = dropunknown)
     if (length(recode_eye$warnings) > 0) {
       message(recode_eye$warnings)
-      return(c(id = length(unique(x[[id_col]]))))
+      n_pat <-  length(unique(x[[id_col]]))
+      res <- list(id = n_pat)
+      class(res) <- c("eyes", class(res))
+      return(res)
     }
     if (length(recode_eye$messages) > 0) {
       message(gsub("\\\n", "", recode_eye$messages))
