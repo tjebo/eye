@@ -27,7 +27,7 @@ getElem_id <- function(obj) {
 
 #' @rdname getElem
 getElem_eyecol <- function(obj) {
-  eye_chr <- eye:::eye_codes$eye
+  eye_chr <- eye_codes$eye
   eye_chr_coll <- paste0("^(", paste(eye_chr, collapse = "|"),")$")
   is_eye_col <- obj[grepl(eye_chr_coll, tolower(obj))]
   if(length(is_eye_col) > 0){
