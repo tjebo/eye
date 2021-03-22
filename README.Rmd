@@ -41,7 +41,7 @@ Or you can install the development version from github:
 # install.packages("devtools")
 devtools::install_github("tjebo/eye")
 ```
-Installing eye will also install [eyedata](https://github.com/tjebo/eyedata/), a package collating open source ophthalmic data sets.
+I recommend to also get [eyedata](https://github.com/tjebo/eyedata/), a package collating open source ophthalmic data sets.
 
 ## Details and examples
 
