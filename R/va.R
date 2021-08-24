@@ -150,7 +150,7 @@ va <- function(x, from = NULL, to = NULL, type = "ft",
 
     if (all(guess_va %in% "NA")) {
       message("No conversion - vector of NA")
-      return(x)
+      return(x_clean)
     }
 
     if (!is.null(from)) {
