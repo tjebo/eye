@@ -53,6 +53,9 @@ convertVA <- function (x, ...) {
 convertVA.quali <- function(x, to, type, ...){
   matchcol <- paste0(to, type)
   new_va <- va_chart[[matchcol]][match(x, va_chart$quali[1:4])]
+  if(to == "etdrs"){
+    new_va[new_va < 0] <- 0L
+  }
   class(new_va) <- c(to, "va", class(new_va))
   new_va
 }
