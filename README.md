@@ -2,7 +2,6 @@ eye
 ================
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
 <!-- badges: start -->
 
 [![Travis build
@@ -16,15 +15,15 @@ research.
 
 ## Features
 
-  - [Handling of visual acuity notations](#visual-acuity)
-  - [Super easy count of subjects and eyes](#count-subjects-and-eyes),
+-   [Handling of visual acuity notations](#visual-acuity)
+-   [Super easy count of subjects and eyes](#count-subjects-and-eyes),
     with smooth integration in your rmarkdown report
-  - [Recode your eye variable](#recoding-the-eye-variable)
-  - Reshape your eye data - [long](#myop) or [wide](#hyperop)
-  - [Quick summary of your eye data](#blink)
-  - [Get common summary statistics](#reveal)
-  - [Calculate age](#getage)
-  - [Clean NA equivalent entries](#clean-na-entries)
+-   [Recode your eye variable](#recoding-the-eye-variable)
+-   Reshape your eye data - [long](#myop) or [wide](#hyperop)
+-   [Quick summary of your eye data](#blink)
+-   [Get common summary statistics](#reveal)
+-   [Calculate age](#getage)
+-   [Clean NA equivalent entries](#clean-na-entries)
 
 ## Installation
 
@@ -44,7 +43,7 @@ package collating open source ophthalmic data sets.
 ### Visual acuity
 
 Pesky visual acuity notations are now a matter of the past. Convert
-between any of Snellen (meter/ feet/ decimal\!), logMAR and ETDRS. The
+between any of Snellen (meter/ feet/ decimal!), logMAR and ETDRS. The
 notation will be detected automatically and converted to the desired
 notation. For some more details see [VA conversion](#va-conversion). For
 entries with mixed notation, use `va_mixed` instead.
@@ -107,7 +106,7 @@ to_logmar(x, smallstep = TRUE)
 #> From snellen
 #> [1] 1.02 0.04 0.34 0.08 0.14
 
-## or you can also decide to completely ignore them (converting them to the nearest snellen value in the VA chart)
+## or you can also decide to completely ignore them (converting them to the nearest snellen value in the VA chart, or if you convert to logMAR, rounding to the first digit)
 to_snellen(x, noplus = TRUE)
 #> From snellen
 #> [1] "20/200" "20/20"  "20/50"  "20/20"  "20/32"
@@ -176,7 +175,7 @@ equal to 12 will be real English, all other numbers will be … numbers.
 You can capitalise the first number with the `caps` argument.
 
 | rmarkdown code                                                  | results in                                                                                                             |
-| --------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+|-----------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
 | We analyzed `` `r eyestr(amd2)` ``                              | We analyzed 3357 eyes of 3357 patients                                                                                 |
 | We analyzed `` `r eyestr(head(amd2, 100))` ``                   | We analyzed eleven eyes of eleven patients                                                                             |
 | We analyzed `` `r eyestr(amd2, english = "all")` ``             | We analyzed three thousand three hundred and fifty-seven eyes of three thousand three hundred and fifty-seven patients |
@@ -272,17 +271,15 @@ reveal(iris, by = "Species") #can be several groups
 
 ### getage
 
-  - Calculate age in years, as [periods or
+-   Calculate age in years, as [periods or
     durations](https://lubridate.tidyverse.org/articles/lubridate.html#time-intervals)
-
-<!-- end list -->
 
 ``` r
 dob <- c("1984-10-16", "2000-01-01")
 
 ## If no second date given, the age today
 getage(dob)
-#> [1] 36.4 21.2
+#> [1] 36.9 21.6
 getage(dob, "2000-01-01")                                                    
 #> [1] 15.2  0.0
 ```
@@ -293,7 +290,7 @@ Often enough, there are right eye / left eye columns for more than one
 variable, e.g., for both IOP and VA. This may be a necessary data formal
 for specific questions. However, “eye” is also variable (a dimension of
 your observation), and it can also be stored in a separate column. The
-data would be “longer”.
+data would be “longer.”
 
 Indeed, R requires exactly this data shape for many tasks: “eye\[r/l\]”
 as a separate column, and each eye-related variable (e.g., IOP or VA) in
@@ -326,10 +323,10 @@ myop(iop_wide)
 ```
 
 Or another example with many more variables:
-
 <details>
-
-<summary>Click to unfold code to create `wide_df` </summary>
+<summary>
+Click to unfold code to create `wide_df`
+</summary>
 
 ``` r
 wide_df <- data.frame(
@@ -407,39 +404,33 @@ blink(wide_df)
 
 ## Names and codes
 
-**eye works smoother with tidy data** (any package does, really\!)
+**eye works smoother with tidy data** (any package does, really!)
 
 An important part of tidy data are good names. [Learn more about tidy
 data.](https://tidyr.tidyverse.org/articles/tidy-data.html)
 
 ### Tips and rules for naming:
 
-1)  Don’t be too creative with your names\!
-2)  Use common coding:
+1.  Don’t be too creative with your names!
+2.  Use common coding:
 
-<!-- end list -->
-
-  - **eyes**: “r”, “re”, “od”, “right” - or numeric coding r:l = 0:1 or
+-   **eyes**: “r,” “re,” “od,” “right” - or numeric coding r:l = 0:1 or
     1:2
-  - **Visual acuity**: “VA”, “BCVA”, “Acuity”
-  - **Intraocular pressure**: “IOP”, “GAT”, “NCT”, “pressure”
-  - **Patient identifier**: “pat”, “patient”, “ID” (ideally both:
+-   **Visual acuity**: “VA,” “BCVA,” “Acuity”
+-   **Intraocular pressure**: “IOP,” “GAT,” “NCT,” “pressure”
+-   **Patient identifier**: “pat,” “patient,” “ID” (ideally both:
     “patientID” or “patID”)
 
-<!-- end list -->
+3.  Column names:
 
-3)  Column names:
-
-<!-- end list -->
-
-  - No spaces\!
-  - Do not use numeric coding for eyes in column names
-  - Separate eye and VA and IOP codes with underscores
-    (“bcva\_l\_preop”, “VA\_r”, “left\_va”, “IOP\_re”)
-  - Keep names short
-  - Don’t use underscores when you don’t need to: Consider each section
+-   No spaces!
+-   Do not use numeric coding for eyes in column names
+-   Separate eye and VA and IOP codes with underscores
+    (“bcva\_l\_preop,” “VA\_r,” “left\_va,” “IOP\_re”)
+-   Keep names short
+-   Don’t use underscores when you don’t need to: Consider each section
     divided by an underscore as a relevant characteristic of your
-    variable. E.g., “preop” instead of “pre\_op”, or simply “VA” instead
+    variable. E.g., “preop” instead of “pre\_op,” or simply “VA” instead
     of “VA\_ETDRS\_Letters”
 
 ### Name examples
@@ -502,8 +493,8 @@ c("var1", "var2", "var3")
 When I started with R, I found it challenging to rename columns and I
 found the following threads on stackoverflow very helpful:
 
-  - [Rename single column](https://stackoverflow.com/q/7531868/7941188)
-  - [Rename columns with named
+-   [Rename single column](https://stackoverflow.com/q/7531868/7941188)
+-   [Rename columns with named
     vector](https://stackoverflow.com/q/20987295/7941188)
 
 I find the two following methods straight forward:
@@ -536,39 +527,39 @@ an unfortunate shape for which `eye` may not be suitable.
 
 ## VA conversion
 
-  - VA conversion between Snellen, ETDRS and logMAR is based on charts
-    and formulas in (Holladay [2004](#ref-holladay)), (Beck et al.
-    [2003](#ref-beck)) and (Gregori, Feuer, and Rosenfeld
-    [2010](#ref-gregori))
-  - Categories **counting fingers** and **hand movements** are converted
-    following (Schulze-Bonsel et al. [2006](#ref-bach))
-  - Categories **(no) light perception** are converted following the
+-   VA conversion between Snellen, ETDRS and logMAR is based on charts
+    and formulas in ([Holladay 2004](#ref-holladay)), ([Beck et al.
+    2003](#ref-beck)) and ([Gregori, Feuer, and Rosenfeld
+    2010](#ref-gregori))
+-   Categories **counting fingers** and **hand movements** are converted
+    following ([Schulze-Bonsel et al. 2006](#ref-bach))
+-   Categories **(no) light perception** are converted following the
     suggestions by Michael Bach
 
 ## Acknowledgements
 
-  - Thanks to **Alasdair Warwick**, **Aaron Lee**, **Tim Yap**,
+-   Thanks to **Alasdair Warwick**, **Aaron Lee**, **Tim Yap**,
     **Siegfried Wagner** and **Abraham Olvera** for great suggestions,
     testing and code review.  
-  - **Pearse Keane**, **Dun Jack Fu**, **Katrin Fasler** and **Christoph
+-   **Pearse Keane**, **Dun Jack Fu**, **Katrin Fasler** and **Christoph
     Kern** for their contribution of open source data
-  - Thanks to [Antoine Fabri](https://github.com/moodymudskipper) for
+-   Thanks to [Antoine Fabri](https://github.com/moodymudskipper) for
     his contribution to `getage()`
-  - Thanks to Hadley Wickham and all developers of the `tidyverse`
+-   Thanks to Hadley Wickham and all developers of the `tidyverse`
     packages and the packages `roxygen2`, `usethis`, `testthis` and
     `devtools`, all on which `eye` heavily relies.
 
 ## Resources
 
-  - [Michael Bach’s homepage](https://michaelbach.de/sci/acuity.html)
-  - [Michael Bach on NLP and
+-   [Michael Bach’s homepage](https://michaelbach.de/sci/acuity.html)
+-   [Michael Bach on NLP and
     LP](https://michaelbach.de/sci/pubs/Bach2007IOVS_eLetter_FrACT.pdf)
 
 ## References
 
-<div id="refs" class="references">
+<div id="refs" class="references csl-bib-body hanging-indent">
 
-<div id="ref-beck">
+<div id="ref-beck" class="csl-entry">
 
 Beck, Roy W, Pamela S Moke, Andrew H Turpin, Frederick L Ferris, John
 Paul SanGiovanni, Chris A Johnson, Eileen E Birch, et al. 2003. “A
@@ -578,7 +569,7 @@ Ophthalmology* 135 (2): 194–205.
 
 </div>
 
-<div id="ref-gregori">
+<div id="ref-gregori" class="csl-entry">
 
 Gregori, Ninel Z, William Feuer, and Philip J Rosenfeld. 2010. “Novel
 Method for Analyzing Snellen Visual Acuity Measurements.” *Retina* 30
@@ -586,21 +577,21 @@ Method for Analyzing Snellen Visual Acuity Measurements.” *Retina* 30
 
 </div>
 
-<div id="ref-holladay">
+<div id="ref-holladay" class="csl-entry">
 
 Holladay, Jack T. 2004. “Visual Acuity Measurements.” *Journal of
-Cataract and Refractive Surgery* 30 (2): 287–90.
+Cataract and Refractive Surgery* 30 (February): 287–90.
 <https://doi.org/10.1016/j.jcrs.2004.01.014>.
 
 </div>
 
-<div id="ref-bach">
+<div id="ref-bach" class="csl-entry">
 
 Schulze-Bonsel, Kilian, Nicolas Feltgen, Hermann Burau, Lutz Hansen, and
-Michael Bach. 2006. “Visual Acuities ‘Hand Motion’ and ‘Counting
-Fingers’ Can Be Quantified with the Freiburg Visual Acuity Test.”
-*Investigative Ophthalmology & Visual Science* 47 (3): 1236–40.
-<https://doi.org/10.1167/iovs.05-0981>.
+Michael Bach. 2006. “<span class="nocase">Visual Acuities ‘Hand Motion’
+and ‘Counting Fingers’ Can Be Quantified with the Freiburg Visual Acuity
+Test</span>.” *Investigative Ophthalmology & Visual Science* 47 (3):
+1236–40. <https://doi.org/10.1167/iovs.05-0981>.
 
 </div>
 

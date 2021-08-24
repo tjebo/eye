@@ -80,7 +80,7 @@ to_logmar(x)
 ## or evaluating them as logmar values (each optotype equals 0.02 logmar)
 to_logmar(x, smallstep = TRUE)
 
-## or you can also decide to completely ignore them (converting them to the nearest snellen value in the VA chart)
+## or you can also decide to completely ignore them (converting them to the nearest snellen value in the VA chart, or if you convert to logMAR, rounding to the first digit)
 to_snellen(x, noplus = TRUE)
 
 # terribly mixed notations
