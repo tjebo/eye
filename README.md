@@ -6,7 +6,13 @@ eye
 
 [![Travis build
 status](https://travis-ci.com/tjebo/eye.svg?branch=master)](https://travis-ci.com/tjebo/eye)
-<!-- badges: end --> See more with *eye*
+<!-- badges: end -->
+
+See more with *eye*
+
+*Travis build error: travis tests with R 4.0.2, but eye requires R
+4.1.1* *All other checks (R CMD, CRAN, win build, local OSX) currently
+pass*
 
 ## Purpose
 
@@ -311,7 +317,7 @@ iop_wide
 
 ``` r
 myop(iop_wide)
-#> # A tibble: 6 x 3
+#> # A tibble: 6 × 3
 #>   id    eye   iop  
 #>   <chr> <chr> <chr>
 #> 1 a     right 11   
@@ -348,7 +354,7 @@ wide_df <- data.frame(
 myop_df <- myop(wide_df)
 
 myop_df
-#> # A tibble: 8 x 7
+#> # A tibble: 8 × 7
 #>   id    eye   surgery iop_preop iop_postop va_preop va_postop
 #>   <chr> <chr> <chr>   <chr>     <chr>      <chr>    <chr>    
 #> 1 a     right TE      21        11         41       45       
@@ -368,7 +374,7 @@ columns, `hyperop()` is your friend:
 
 ``` r
 hyperop(myop(iop_wide), iop)
-#> # A tibble: 3 x 3
+#> # A tibble: 3 × 3
 #>   id    r_iop l_iop
 #>   <chr> <chr> <chr>
 #> 1 a     11    14   
@@ -376,7 +382,7 @@ hyperop(myop(iop_wide), iop)
 #> 3 c     13    16
 
 hyperop(myop_df, cols = matches("va|iop"))
-#> # A tibble: 5 x 10
+#> # A tibble: 5 × 10
 #>   id    surgery r_iop_preop r_iop_postop r_va_preop r_va_postop l_iop_preop
 #>   <chr> <chr>   <chr>       <chr>        <chr>      <chr>       <chr>      
 #> 1 a     TE      21          11           41         45          31         

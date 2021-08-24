@@ -34,5 +34,13 @@ There was one NOTE:
 
 COMMENT: I am truly sorry, but this is the DOI to this article! 
 
+### CRAN package checks
+Version: 1.2.0 
+Check: LazyData 
+Result: NOTE 
+     'LazyData' is specified without a 'data' directory 
+     
+COMMENT: Removed line `LazyData: true` from description file
+
 ## Downstream dependencies
 There are currently no downstream dependencies for this package.
