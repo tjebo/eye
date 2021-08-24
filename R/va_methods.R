@@ -102,7 +102,7 @@ convertVA.snellen <- function(x, to, type, smallstep, noplus, ...) {
   if(noplus) {
     x_split <- strsplit(x, "(?<=.)(?=[-\\+])", perl = TRUE)
     snellenfrac <- sapply(x_split, `[[`, 1)
-    logmarval <- -log10(parse_snellen(snellenfrac))
+    logmarval <- round(-log10(parse_snellen(snellenfrac)), 1)
   } else {
   logmarval <- snellensteps(x, smallstep)
   }

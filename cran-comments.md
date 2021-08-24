@@ -2,6 +2,7 @@
 - if no eye column is found, eyes also returns a list #31
 - set_eye_strings also updates eye column #32 
 - partial eye strings recognized in column names #33
+- logMAR will return rounded values to the first digit when `noplus = TRUE` #37
 
 
 ## CHECK ENVIRONMENTS
