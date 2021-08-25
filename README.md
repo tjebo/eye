@@ -3,16 +3,10 @@ eye
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- badges: start -->
-
-[![Travis build
-status](https://travis-ci.com/tjebo/eye.svg?branch=master)](https://travis-ci.com/tjebo/eye)
+<!-- [![Travis build status](https://travis-ci.com/tjebo/eye.svg?branch=master)](https://www.travis-ci.com/tjebo/eye) -->
 <!-- badges: end -->
 
 See more with *eye*
-
-*Travis build error: travis tests with R 4.0.2, but eye requires R
-4.1.1* *All other checks (R CMD, CRAN, win build, local OSX) currently
-pass*
 
 ## Purpose
 
@@ -285,7 +279,7 @@ dob <- c("1984-10-16", "2000-01-01")
 
 ## If no second date given, the age today
 getage(dob)
-#> [1] 36.9 21.6
+#> [1] 36.9 21.7
 getage(dob, "2000-01-01")                                                    
 #> [1] 15.2  0.0
 ```

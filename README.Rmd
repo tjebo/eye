@@ -16,13 +16,10 @@ library(eye)
 ```
 
 <!-- badges: start -->
-[![Travis build status](https://travis-ci.com/tjebo/eye.svg?branch=master)](https://travis-ci.com/tjebo/eye)
+<!-- [![Travis build status](https://travis-ci.com/tjebo/eye.svg?branch=master)](https://www.travis-ci.com/tjebo/eye) -->
 <!-- badges: end -->
 
 See more with *eye*
-
-*Travis build error: travis tests with R 4.0.2, but eye requires R 4.1.1*
-*All other checks (R CMD, CRAN, win build, local OSX) currently pass*
 
 ## Purpose
 *eye* is dedicated to facilitate very common tasks in ophthalmic research.
