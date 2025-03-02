@@ -12,7 +12,7 @@
 eye_codes <- list(
   right = c("r", "re", "od", "right"),
   left = c("l", "le", "os", "left"),
-  both = c("b", "both", "ou"),
+  both = c("b", "both", "ou", "be"),
   iop = c("iop", "gat", "nct"),
   iop_partial = c("pressure"),
   va = c("va", "bcva"),
