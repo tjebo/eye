@@ -1,13 +1,15 @@
-## Submission eye v1.2.1
+## Submission eye 1.2.2
 
-Bug fixes: 
-- if no eye column is found, `eyes` also returns a list #31
-- `set_eye_strings` also updates eye column #32 
-- partial eye strings recognized in column names #33
-- `to_etdrs` now correctly always returns integer class vector #34
-- conversion of pure "NA" saved as character now correctly returns `NA` #35
-- logMAR will return rounded values to the first digit when `noplus = TRUE` #37
-- `to_etdrs` from pure qualitative values correctly returns 0 for NPL and PL #38
+### Documentation fixes 
+- update documentation to reflect updated R documentation structure:
+1) fixed hyperlink in description (added "//")
+2) fixed eye package help file: added "@ alias eye-package" to eye.Rd
+3) fixed link inconsistency in va.Rd (removed redundant mention to authors of referenced article). 
+
+### Function updates
+- `recodeye` and `eyes` now also recognize "BE" as coding string for "both eyes"
+
+
 
 ## CHECK ENVIRONMENTS
 * local OS X install, R 4.1.1 ("Kick Things")
