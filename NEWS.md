@@ -1,5 +1,4 @@
 ## eye 1.2.2
-- update documentation to reflect updated R documentation structure (fixed 2 links, fixed package description file)
 - `recodeye` and `eyes` now also recognize "BE" as coding string for "both eyes"
 
 ## eye 1.2.1
