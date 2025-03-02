@@ -77,7 +77,7 @@ the VA chart are used.
 You can find with eye:::va_chart.
 This chart and VA conversion formulas are based on charts in
 Holladay et al.\doi{10.1016/j.jcrs.2004.01.014}, Beck et al.
-\doi{10.1016/s0002-9394(02)01825-1}{Beck et al.}, and
+\doi{10.1016/s0002-9394(02)01825-1}, and
 Gregori et al.\doi{10.1097/iae.0b013e3181d87e04}.
 The etdrs values for NLP and PL are deliberately set at those values because
 they are unlikely to happen by chance as a wrong entry (and as integers),
