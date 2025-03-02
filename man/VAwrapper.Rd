@@ -54,9 +54,9 @@ to_snellen(x, from = "logmar")
 Other VA converter: 
 \code{\link{plausibility_methods}},
 \code{\link{snellen_steps}},
+\code{\link{va}()},
 \code{\link{va_methods}},
 \code{\link{va_mixed}()},
-\code{\link{va}()},
 \code{\link{which_va}()}
 }
 \concept{VA converter}

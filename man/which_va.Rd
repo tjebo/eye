@@ -26,9 +26,9 @@ Other VA converter:
 \code{\link{VAwrapper}},
 \code{\link{plausibility_methods}},
 \code{\link{snellen_steps}},
+\code{\link{va}()},
 \code{\link{va_methods}},
-\code{\link{va_mixed}()},
-\code{\link{va}()}
+\code{\link{va_mixed}()}
 }
 \concept{VA converter}
 \concept{VA helper}

@@ -59,8 +59,8 @@ Other VA converter:
 \code{\link{VAwrapper}},
 \code{\link{plausibility_methods}},
 \code{\link{snellen_steps}},
-\code{\link{va_methods}},
 \code{\link{va}()},
+\code{\link{va_methods}},
 \code{\link{which_va}()}
 }
 \concept{Ophthalmic functions}

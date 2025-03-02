@@ -55,9 +55,9 @@ Any element which is implausible / not recognized will be converted to NA
 Other VA converter: 
 \code{\link{VAwrapper}},
 \code{\link{snellen_steps}},
+\code{\link{va}()},
 \code{\link{va_methods}},
 \code{\link{va_mixed}()},
-\code{\link{va}()},
 \code{\link{which_va}()}
 }
 \concept{VA converter}

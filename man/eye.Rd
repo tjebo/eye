@@ -2,6 +2,7 @@
 % Please edit documentation in R/eye.R
 \docType{package}
 \name{eye}
+\alias{eye-package}
 \alias{eye}
 \title{eye}
 \description{
@@ -32,9 +33,10 @@ and the wrapper \link{to_snellen}, \link{to_etdrs} and \link{to_logmar}
 \seealso{
 Useful links:
 \itemize{
-\item \href{https://github.com/tjebo/eye}{\code{eye} on github}
-\item \href{https://github.com/tjebo/eye/issues}{Report bugs}
+  \item \url{https://github.com/tjebo/eye}
+  \item Report bugs at \url{https://github.com/tjebo/eye/issues}
 }
+
 }
 \author{
 Tjebo Heeren

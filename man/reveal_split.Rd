@@ -16,8 +16,8 @@ splits into groups
 }
 \seealso{
 Other revealer: 
-\code{\link{reveal_methods}},
-\code{\link{reveal}()}
+\code{\link{reveal}()},
+\code{\link{reveal_methods}}
 }
 \concept{revealer}
 \keyword{internal}

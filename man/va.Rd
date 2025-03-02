@@ -109,10 +109,12 @@ Use \link{va_mixed} instead.
 \section{Snellen "+/-" entries}{
 
 By default, plus/minus entries are evaluated as intended by the
-test design: Snellen fractions increase/decrease only by lines.\preformatted{- if entry -2 to +2 : take same Snellen value
+test design: Snellen fractions increase/decrease only by lines.
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{- if entry -2 to +2 : take same Snellen value
 - if < -2 : take Snellen value one line below
 - if > +2 : take Snellen value one line above
-}
+}\if{html}{\out{</div>}}
 
 If smallstep = TRUE, each snellen optotype will be considered
 equivalent to 0.02 logmar (assuming 5 letters in a row in a chart)
