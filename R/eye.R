@@ -16,8 +16,8 @@
 #'
 #' @section Beyond ophthalmology:
 #' - [`getage`]: Calculate age
-#' @docType package
 #' @keywords internal
+"_PACKAGE"
 #' @seealso
 #' Useful links:
 #' - \href{https://github.com/tjebo/eye}{`eye` on github}
