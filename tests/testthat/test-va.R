@@ -183,6 +183,11 @@ test_that("NA_convert",{
 
 })
 
+test_that("va_mixed", {
+  expect_equal(sum(is.na(va_mixed(mixed_VA, to = "logmar"))), 4)
+  expect_equal(va_mixed(mixed_VA, to = "logmar")[3], 1.64)
+  expect_equal(va_mixed(mixed_VA, to = "logmar", possible = c("logmar", "etdrs"))[3], 3)
 
+})
 
 

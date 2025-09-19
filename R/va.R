@@ -243,8 +243,15 @@ va_mixed <- function(x, to, possible) {
   a <- sapply(possible, function(vaclass) {
     suppressMessages(va(x, to = to, from = vaclass))
   })
-  apply(a, 1, function(z) z[!is.na(z)][1])
+    ## fixed somewhat annoying bug to not allow vector of length = 1
+  if(is.null(dim(a))) {
+    return(unname(a[!is.na(a)][1]))
+  } else {
+  return(apply(a, 1, function(z) z[!is.na(z)][1]))
+  }
 }
+
+
 
 #' VA classes
 #' @name VAclasses
