@@ -1,4 +1,4 @@
-## Submission eye 1.2.2
+## Submission eye 1.3
 CRAN request for updates - final deadline given 2025-10-17
 
 ### Documentation fixes 
@@ -9,7 +9,7 @@ update documentation to reflect updated R documentation structure:
 - fixed use of citEntry in CITATION file (CRAN NOTE)
 
 ## CHECK ENVIRONMENTS
-* local OS X install, R 4.1.1 ("Kick Things")
+* local OS X install, R version 4.5.1 (2025-06-13)
 * ubuntu Ubuntu 16.04.6 LTS (on travis-ci), R 4.0.2 (2020-06-22)
 * win-builder (devel and release), R 4.0.3 
 * R-hub: Windows Server 2008 R2 SP1, R-devel, 32/64 bit with

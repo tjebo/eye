@@ -16,7 +16,6 @@ library(eye)
 ```
 
 <!-- badges: start -->
-<!-- [![Travis build status](https://travis-ci.com/tjebo/eye.svg?branch=master)](https://www.travis-ci.com/tjebo/eye) -->
 [![R-CMD-check](https://github.com/tjebo/eye/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/tjebo/eye/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
@@ -51,7 +50,7 @@ I recommend to also get [eyedata](https://github.com/tjebo/eyedata/), a package 
 Pesky visual acuity notations are now a matter of the past. Convert between any of Snellen (meter/ feet/ decimal!), logMAR and ETDRS.
 The notation will be detected automatically and converted to the desired notation. For some more details see [VA conversion](#va-conversion). For entries with mixed notation, use `va_mixed` instead.
 
-You can also decide to simply "clean" your VA vector with `cleanVA(x)`. This will remove all entries that are certainly no VA.
+You can also decide to simply "clean" your VA vector with `va(x)`. This will remove all entries that are certainly no VA.
 
 #### Examples
 ```{r va}
@@ -94,7 +93,27 @@ va_mixed(x, to = "snellen", possible = c("snellen", "snellendec"))
 
 # "I have snellen, logmar and etdrs in my data, and there is no etdrs value less than 4"
 va_mixed(x, to = "snellen", possible = c("snellen", "logmar", "etdrs"))
+
+## just clean your entries without conversion
+va(x)
+
+## recognises various ways to write qualitative values such as "hand motion"
+y <- c(23, "20/50", "hand motion", "hm", "count fingers", "no light perception", "nlp", "nonsense")
+va(y)
+
+## you can set custom strings that are recognised as values
+set_eye_strings(nlp = c("nonsense", "nlp", "no light perception"))
+va(y)
+
+## reset to default with an empty call to set_eye_strings
+set_eye_strings()
+va(y)
+
+## use your own custom values for qualitative entries
+to_logmar(y)
+to_logmar(y, quali_values = list(cf = 2, hm = 3, lp = 4, nlp = 6 ))
 ```
+
                             
 ### Count subjects and eyes
 This is a massive convenience function to count subjects and eyes. Because this essentially returns a list, the stored data can easily be accessed by subsetting (e.g., with `$`). You can get the subject IDs for each subset with `details = TRUE`.

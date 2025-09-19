@@ -2,8 +2,8 @@ eye
 ================
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+
 <!-- badges: start -->
-<!-- [![Travis build status](https://travis-ci.com/tjebo/eye.svg?branch=master)](https://www.travis-ci.com/tjebo/eye) -->
 
 [![R-CMD-check](https://github.com/tjebo/eye/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/tjebo/eye/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
@@ -50,8 +50,8 @@ notation will be detected automatically and converted to the desired
 notation. For some more details see [VA conversion](#va-conversion). For
 entries with mixed notation, use `va_mixed` instead.
 
-You can also decide to simply “clean” your VA vector with `cleanVA(x)`.
-This will remove all entries that are certainly no VA.
+You can also decide to simply “clean” your VA vector with `va(x)`. This
+will remove all entries that are certainly no VA.
 
 #### Examples
 
@@ -128,6 +128,38 @@ va_mixed(x, to = "snellen", possible = c("snellen", "snellendec"))
 va_mixed(x, to = "snellen", possible = c("snellen", "logmar", "etdrs"))
 #>  [1] NA         "20/20000" "20/200"   "20/2000"  "20/250"   NA        
 #>  [7] "20/40"    "20/32"    "20/4000"  "20/200"
+
+## just clean your entries without conversion
+va(x)
+#>  [1] NA       "nlp"    "1"      "2"      "1.1"    "-1"     "20/40"  "4/6"   
+#>  [9] "6/1000" "34"
+
+## recognises various ways to write qualitative values such as "hand motion"
+y <- c(23, "20/50", "hand motion", "hm", "count fingers", "no light perception", "nlp", "nonsense")
+va(y)
+#> 1x NA introduced for: nonsense
+#> [1] "23"    "20/50" "hm"    "hm"    "cf"    "nlp"   "nlp"   NA
+
+## you can set custom strings that are recognised as values
+set_eye_strings(nlp = c("nonsense", "nlp", "no light perception"))
+va(y)
+#> [1] "23"    "20/50" "hm"    "hm"    "cf"    "nlp"   "nlp"   "nlp"
+
+## reset to default with an empty call to set_eye_strings
+set_eye_strings()
+va(y)
+#> 1x NA introduced for: nonsense
+#> [1] "23"    "20/50" "hm"    "hm"    "cf"    "nlp"   "nlp"   NA
+
+## use your own custom values for qualitative entries
+to_logmar(y)
+#> From snellen. Could be snellen, logmar, snellendec, etdrs
+#> 2x NA introduced for: 23, nonsense
+#> [1]  NA 0.4 2.3 2.3 2.0 3.0 3.0  NA
+to_logmar(y, quali_values = list(cf = 2, hm = 3, lp = 4, nlp = 6 ))
+#> From snellen. Could be snellen, logmar, snellendec, etdrs
+#> 2x NA introduced for: 23, nonsense
+#> [1]  NA 0.4 3.0 3.0 2.0 6.0 6.0  NA
 ```
 
 ### Count subjects and eyes
@@ -176,13 +208,13 @@ english with the `english` argument. By default, numbers smaller than or
 equal to 12 will be real English, all other numbers will be … numbers.
 You can capitalise the first number with the `caps` argument.
 
-| rmarkdown code                                                  | results in                                                                                                     |
-|-----------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------|
-| We analyzed `` `r eyestr(amd2)` ``                              | We analyzed 3357 eyes of 3357 patients                                                                         |
-| We analyzed `` `r eyestr(head(amd2, 100))` ``                   | We analyzed eleven eyes of eleven patients                                                                     |
-| We analyzed `` `r eyestr(amd2, english = "all")` ``             | We analyzed three thousand three hundred fifty-seven eyes of three thousand three hundred fifty-seven patients |
-| `` `r eyestr(head(amd2, 100), caps = TRUE)` `` were analyzed    | Eleven eyes of eleven patients were analyzed                                                                   |
-| We analyzed `` `r eyestr(head(amd2, 100), english = "none")` `` | We analyzed 11 eyes of 11 patients                                                                             |
+| rmarkdown code | results in |
+|----|----|
+| We analyzed `` `r eyestr(amd2)` `` | We analyzed 3357 eyes of 3357 patients |
+| We analyzed `` `r eyestr(head(amd2, 100))` `` | We analyzed eleven eyes of eleven patients |
+| We analyzed `` `r eyestr(amd2, english = "all")` `` | We analyzed three thousand three hundred fifty-seven eyes of three thousand three hundred fifty-seven patients |
+| `` `r eyestr(head(amd2, 100), caps = TRUE)` `` were analyzed | Eleven eyes of eleven patients were analyzed |
+| We analyzed `` `r eyestr(head(amd2, 100), english = "none")` `` | We analyzed 11 eyes of 11 patients |
 
 ### Recoding the eye variable
 
@@ -256,19 +288,32 @@ reveal(iris)
 #> 5      Species  2.0 0.8 150 1.0 3.0
 
 reveal(iris, by = "Species") #can be several groups
-#>       Species          var mean  sd  n min max
-#> 1      setosa Sepal.Length  5.0 0.4 50 4.3 5.8
-#> 2      setosa  Sepal.Width  3.4 0.4 50 2.3 4.4
-#> 3      setosa Petal.Length  1.5 0.2 50 1.0 1.9
-#> 4      setosa  Petal.Width  0.2 0.1 50 0.1 0.6
-#> 5  versicolor Sepal.Length  5.9 0.5 50 4.9 7.0
-#> 6  versicolor  Sepal.Width  2.8 0.3 50 2.0 3.4
-#> 7  versicolor Petal.Length  4.3 0.5 50 3.0 5.1
-#> 8  versicolor  Petal.Width  1.3 0.2 50 1.0 1.8
-#> 9   virginica Sepal.Length  6.6 0.6 50 4.9 7.9
-#> 10  virginica  Sepal.Width  3.0 0.3 50 2.2 3.8
-#> 11  virginica Petal.Length  5.6 0.6 50 4.5 6.9
-#> 12  virginica  Petal.Width  2.0 0.3 50 1.4 2.5
+#>      var1   var2   var3   var4       var5       var6       var7       var8
+#> 1  setosa setosa setosa setosa versicolor versicolor versicolor versicolor
+#> 2  setosa setosa setosa setosa versicolor versicolor versicolor versicolor
+#> 3  setosa setosa setosa setosa versicolor versicolor versicolor versicolor
+#> 4  setosa setosa setosa setosa versicolor versicolor versicolor versicolor
+#> 5  setosa setosa setosa setosa versicolor versicolor versicolor versicolor
+#> 6  setosa setosa setosa setosa versicolor versicolor versicolor versicolor
+#> 7  setosa setosa setosa setosa versicolor versicolor versicolor versicolor
+#> 8  setosa setosa setosa setosa versicolor versicolor versicolor versicolor
+#> 9  setosa setosa setosa setosa versicolor versicolor versicolor versicolor
+#> 10 setosa setosa setosa setosa versicolor versicolor versicolor versicolor
+#> 11 setosa setosa setosa setosa versicolor versicolor versicolor versicolor
+#> 12 setosa setosa setosa setosa versicolor versicolor versicolor versicolor
+#>         var9     var10     var11     var12          var mean  sd  n min max
+#> 1  virginica virginica virginica virginica Sepal.Length  5.0 0.4 50 4.3 5.8
+#> 2  virginica virginica virginica virginica  Sepal.Width  3.4 0.4 50 2.3 4.4
+#> 3  virginica virginica virginica virginica Petal.Length  1.5 0.2 50 1.0 1.9
+#> 4  virginica virginica virginica virginica  Petal.Width  0.2 0.1 50 0.1 0.6
+#> 5  virginica virginica virginica virginica Sepal.Length  5.9 0.5 50 4.9 7.0
+#> 6  virginica virginica virginica virginica  Sepal.Width  2.8 0.3 50 2.0 3.4
+#> 7  virginica virginica virginica virginica Petal.Length  4.3 0.5 50 3.0 5.1
+#> 8  virginica virginica virginica virginica  Petal.Width  1.3 0.2 50 1.0 1.8
+#> 9  virginica virginica virginica virginica Sepal.Length  6.6 0.6 50 4.9 7.9
+#> 10 virginica virginica virginica virginica  Sepal.Width  3.0 0.3 50 2.2 3.8
+#> 11 virginica virginica virginica virginica Petal.Length  5.6 0.6 50 4.5 6.9
+#> 12 virginica virginica virginica virginica  Petal.Width  2.0 0.3 50 1.4 2.5
 ```
 
 ### getage
@@ -326,7 +371,9 @@ myop(iop_wide)
 
 Or another example with many more variables:
 <details>
+
 <summary>
+
 Click to unfold code to create `wide_df`
 </summary>
 

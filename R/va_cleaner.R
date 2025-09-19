@@ -9,6 +9,7 @@
 #' 1. Simplifying the notation for qualitative
 #' VA notation (NPL becomes NLP, PL becomes LP)
 #' 1. Removing non-Snellen character strings
+#' @importFrom utils stack
 #' @return character vector
 #' @family VA cleaner
 #' @keywords internal
@@ -18,7 +19,7 @@ clean_va <- function(x, message = TRUE) {
   x_tidied <- gsub("\\s", "", x_tidied)
 
   # unifying quali notation
-  lu_quali <- stack(eye_codes[c("nlp", "lp", "hm", "cf")])
+  lu_quali <- utils::stack(eye_codes[c("nlp", "lp", "hm", "cf")])
   lu_quali$values <- tolower(gsub("\\s", "", lu_quali$values))
   new_vec <- as.character(lu_quali$ind)[match(x_tidied, lu_quali$values)]
   x_tidied <- unname(ifelse(is.na(new_vec), x_tidied, new_vec))

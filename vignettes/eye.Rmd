@@ -109,6 +109,17 @@ in very weird Snellen values that have no correspondence to common charts.
 Therefore, Snellen matching the nearest ETDRS and logMAR value in
 [the VA conversion chart](#va-conversion-chart) are used.
 
+### Qualitative visual acuity measures
+By default, `va` recognises the following values (case does not matter!)
+
+- No light perception := c("nlp", "no light perception", "no light", "no perception of light", "npl"),
+- Light perception: = c("lp", "light perception", "perception of light", "pl"),
+- Hand movements: = c("hm",  "handmotion", "hand movement", "hand movements"),
+- Counting fingers: = c("cf", "counting finger", "counting fingers", "finger count", "count fingers")
+
+#### Custom values for qualitative entries:
+To define your own values for qualitative entries, you need to pass a names list with names c("cf", "hm", "nlp", "lp") - in that order - to quali_values. It accepts only values that can be reasonably converted into numeric values and it converts only to logMAR. If you want to convert to a different notation, you will need to call va() a second time.
+
 ### Examples
 ```{r va}
 ## automatic detection of VA notation and converting to logMAR by default
@@ -141,6 +152,22 @@ to_logmar(x, smallstep = TRUE)
 
 ## or you can also decide to completely ignore them (converting them to the nearest snellen value in the VA chart)
 to_snellen(x, noplus = TRUE)
+
+## recognises various ways to write qualitative values such as "hand motion"
+y <- c(23, "20/50", "hand motion", "hm", "count fingers", "no light perception", "nlp", "nonsense")
+va(y)
+
+## you can set custom strings that are recognised as values
+set_eye_strings(nlp = c("nonsense", "nlp", "no light perception"))
+va(y)
+
+## reset to default with an empty call to set_eye_strings
+set_eye_strings()
+va(y)
+
+## use your own custom values for qualitative entries
+to_logmar(y)
+to_logmar(y, quali_values = list(cf = 2, hm = 3, lp = 4, nlp = 6 ))
 ```
 
 ## recodeye {#recode}
