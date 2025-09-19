@@ -44,3 +44,4 @@ Other revealer:
 \code{\link{reveal_split}()}
 }
 \concept{revealer}
+\keyword{internal}

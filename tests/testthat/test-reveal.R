@@ -28,6 +28,6 @@ mylist <- list(x = x, y = y, z = z)
    expect_warning(reveal(mylist), regexp = NA)
  })
  test_that("warning",{
-   expect_warning(reveal(mydf), "character elements")
+   expect_warning(reveal(mydf), "character columns")
  })
 
