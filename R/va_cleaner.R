@@ -40,7 +40,7 @@ clean_va <- function(x, quali = c("nlp", "lp", "hm", "cf"), message = TRUE) {
 }
 
 #' @rdname clean_va
-#' @export
+#' @keywords internal
 cleanVA <- clean_va
 
 #' introduce NA for implausible VA entries
