@@ -4,6 +4,8 @@ eye
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- badges: start -->
 <!-- [![Travis build status](https://travis-ci.com/tjebo/eye.svg?branch=master)](https://www.travis-ci.com/tjebo/eye) -->
+
+[![R-CMD-check](https://github.com/tjebo/eye/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/tjebo/eye/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 See more with *eye*
@@ -15,15 +17,15 @@ research.
 
 ## Features
 
--   [Handling of visual acuity notations](#visual-acuity)
--   [Super easy count of subjects and eyes](#count-subjects-and-eyes),
-    with smooth integration in your rmarkdown report
--   [Recode your eye variable](#recoding-the-eye-variable)
--   Reshape your eye data - [long](#myop) or [wide](#hyperop)
--   [Quick summary of your eye data](#blink)
--   [Get common summary statistics](#reveal)
--   [Calculate age](#getage)
--   [Clean NA equivalent entries](#clean-na-entries)
+- [Handling of visual acuity notations](#visual-acuity)
+- [Super easy count of subjects and eyes](#count-subjects-and-eyes),
+  with smooth integration in your rmarkdown report
+- [Recode your eye variable](#recoding-the-eye-variable)
+- Reshape your eye data - [long](#myop) or [wide](#hyperop)
+- [Quick summary of your eye data](#blink)
+- [Get common summary statistics](#reveal)
+- [Calculate age](#getage)
+- [Clean NA equivalent entries](#clean-na-entries)
 
 ## Installation
 
@@ -174,13 +176,13 @@ english with the `english` argument. By default, numbers smaller than or
 equal to 12 will be real English, all other numbers will be … numbers.
 You can capitalise the first number with the `caps` argument.
 
-| rmarkdown code                                                  | results in                                                                                                             |
-|-----------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
-| We analyzed `` `r eyestr(amd2)` ``                              | We analyzed 3357 eyes of 3357 patients                                                                                 |
-| We analyzed `` `r eyestr(head(amd2, 100))` ``                   | We analyzed eleven eyes of eleven patients                                                                             |
-| We analyzed `` `r eyestr(amd2, english = "all")` ``             | We analyzed three thousand three hundred and fifty-seven eyes of three thousand three hundred and fifty-seven patients |
-| `` `r eyestr(head(amd2, 100), caps = TRUE)` `` were analyzed    | Eleven eyes of eleven patients were analyzed                                                                           |
-| We analyzed `` `r eyestr(head(amd2, 100), english = "none")` `` | We analyzed 11 eyes of 11 patients                                                                                     |
+| rmarkdown code                                                  | results in                                                                                                     |
+|-----------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------|
+| We analyzed `` `r eyestr(amd2)` ``                              | We analyzed 3357 eyes of 3357 patients                                                                         |
+| We analyzed `` `r eyestr(head(amd2, 100))` ``                   | We analyzed eleven eyes of eleven patients                                                                     |
+| We analyzed `` `r eyestr(amd2, english = "all")` ``             | We analyzed three thousand three hundred fifty-seven eyes of three thousand three hundred fifty-seven patients |
+| `` `r eyestr(head(amd2, 100), caps = TRUE)` `` were analyzed    | Eleven eyes of eleven patients were analyzed                                                                   |
+| We analyzed `` `r eyestr(head(amd2, 100), english = "none")` `` | We analyzed 11 eyes of 11 patients                                                                             |
 
 ### Recoding the eye variable
 
@@ -271,15 +273,15 @@ reveal(iris, by = "Species") #can be several groups
 
 ### getage
 
--   Calculate age in years, as [periods or
-    durations](https://lubridate.tidyverse.org/articles/lubridate.html#time-intervals)
+- Calculate age in years, as [periods or
+  durations](https://lubridate.tidyverse.org/articles/lubridate.html#time-intervals)
 
 ``` r
 dob <- c("1984-10-16", "2000-01-01")
 
 ## If no second date given, the age today
 getage(dob)
-#> [1] 36.9 21.7
+#> [1] 40.9 25.7
 getage(dob, "2000-01-01")                                                    
 #> [1] 15.2  0.0
 ```
@@ -290,7 +292,7 @@ Often enough, there are right eye / left eye columns for more than one
 variable, e.g., for both IOP and VA. This may be a necessary data formal
 for specific questions. However, “eye” is also variable (a dimension of
 your observation), and it can also be stored in a separate column. The
-data would be “longer.”
+data would be “longer”.
 
 Indeed, R requires exactly this data shape for many tasks: “eye\[r/l\]”
 as a separate column, and each eye-related variable (e.g., IOP or VA) in
@@ -384,8 +386,7 @@ hyperop(myop_df, cols = matches("va|iop"))
 #> 3 c     SLT     23          13           43         47          <NA>       
 #> 4 c     TE      <NA>        <NA>         <NA>       <NA>        33         
 #> 5 d     SLT     24          14           44         48          34         
-#> # … with 3 more variables: l_iop_postop <chr>, l_va_preop <chr>,
-#> #   l_va_postop <chr>
+#> # ℹ 3 more variables: l_iop_postop <chr>, l_va_preop <chr>, l_va_postop <chr>
 ```
 
 ### blink
@@ -411,27 +412,27 @@ data.](https://tidyr.tidyverse.org/articles/tidy-data.html)
 
 ### Tips and rules for naming:
 
-1.  Don’t be too creative with your names!
-2.  Use common coding:
+1)  Don’t be too creative with your names!
+2)  Use common coding:
 
--   **eyes**: “r,” “re,” “od,” “right” - or numeric coding r:l = 0:1 or
-    1:2
--   **Visual acuity**: “VA,” “BCVA,” “Acuity”
--   **Intraocular pressure**: “IOP,” “GAT,” “NCT,” “pressure”
--   **Patient identifier**: “pat,” “patient,” “ID” (ideally both:
-    “patientID” or “patID”)
+- **eyes**: “r”, “re”, “od”, “right” - or numeric coding r:l = 0:1 or
+  1:2
+- **Visual acuity**: “VA”, “BCVA”, “Acuity”
+- **Intraocular pressure**: “IOP”, “GAT”, “NCT”, “pressure”
+- **Patient identifier**: “pat”, “patient”, “ID” (ideally both:
+  “patientID” or “patID”)
 
-3.  Column names:
+3)  Column names:
 
--   No spaces!
--   Do not use numeric coding for eyes in column names
--   Separate eye and VA and IOP codes with underscores
-    (“bcva\_l\_preop,” “VA\_r,” “left\_va,” “IOP\_re”)
--   Keep names short
--   Don’t use underscores when you don’t need to: Consider each section
-    divided by an underscore as a relevant characteristic of your
-    variable. E.g., “preop” instead of “pre\_op,” or simply “VA” instead
-    of “VA\_ETDRS\_Letters”
+- No spaces!
+- Do not use numeric coding for eyes in column names
+- Separate eye and VA and IOP codes with underscores (“bcva_l_preop”,
+  “VA_r”, “left_va”, “IOP_re”)
+- Keep names short
+- Don’t use underscores when you don’t need to: Consider each section
+  divided by an underscore as a relevant characteristic of your
+  variable. E.g., “preop” instead of “pre_op”, or simply “VA” instead of
+  “VA_ETDRS_Letters”
 
 ### Name examples
 
@@ -493,9 +494,9 @@ c("var1", "var2", "var3")
 When I started with R, I found it challenging to rename columns and I
 found the following threads on stackoverflow very helpful:
 
--   [Rename single column](https://stackoverflow.com/q/7531868/7941188)
--   [Rename columns with named
-    vector](https://stackoverflow.com/q/20987295/7941188)
+- [Rename single column](https://stackoverflow.com/q/7531868/7941188)
+- [Rename columns with named
+  vector](https://stackoverflow.com/q/20987295/7941188)
 
 I find the two following methods straight forward:
 
@@ -527,37 +528,38 @@ an unfortunate shape for which `eye` may not be suitable.
 
 ## VA conversion
 
--   VA conversion between Snellen, ETDRS and logMAR is based on charts
-    and formulas in ([Holladay 2004](#ref-holladay)), ([Beck et al.
-    2003](#ref-beck)) and ([Gregori, Feuer, and Rosenfeld
-    2010](#ref-gregori))
--   Categories **counting fingers** and **hand movements** are converted
-    following ([Schulze-Bonsel et al. 2006](#ref-bach))
--   Categories **(no) light perception** are converted following the
-    suggestions by Michael Bach
+- VA conversion between Snellen, ETDRS and logMAR is based on charts and
+  formulas in ([Holladay 2004](#ref-holladay)), ([Beck et al.
+  2003](#ref-beck)) and ([Gregori, Feuer, and Rosenfeld
+  2010](#ref-gregori))
+- Categories **counting fingers** and **hand movements** are converted
+  following ([Schulze-Bonsel et al. 2006](#ref-bach))
+- Categories **(no) light perception** are converted following the
+  suggestions by Michael Bach
 
 ## Acknowledgements
 
--   Thanks to **Alasdair Warwick**, **Aaron Lee**, **Tim Yap**,
-    **Siegfried Wagner** and **Abraham Olvera** for great suggestions,
-    testing and code review.  
--   **Pearse Keane**, **Dun Jack Fu**, **Katrin Fasler** and **Christoph
-    Kern** for their contribution of open source data
--   Thanks to [Antoine Fabri](https://github.com/moodymudskipper) for
-    his contribution to `getage()`
--   Thanks to Hadley Wickham and all developers of the `tidyverse`
-    packages and the packages `roxygen2`, `usethis`, `testthis` and
-    `devtools`, all on which `eye` heavily relies.
+- Thanks to **Alasdair Warwick**, **Aaron Lee**, **Tim Yap**,
+  **Siegfried Wagner** and **Abraham Olvera** for great suggestions,
+  testing and code review.  
+- **Pearse Keane**, **Dun Jack Fu**, **Katrin Fasler** and **Christoph
+  Kern** for their contribution of open source data
+- Thanks to [Antoine Fabri](https://github.com/moodymudskipper) for his
+  contribution to `getage()`
+- Thanks to Hadley Wickham and all developers of the `tidyverse`
+  packages and the packages `roxygen2`, `usethis`, `testthis` and
+  `devtools`, all on which `eye` heavily relies.
 
 ## Resources
 
--   [Michael Bach’s homepage](https://michaelbach.de/sci/acuity.html)
--   [Michael Bach on NLP and
-    LP](https://michaelbach.de/sci/pubs/Bach2007IOVS_eLetter_FrACT.pdf)
+- [Michael Bach’s homepage](https://michaelbach.de/sci/acuity.html)
+- [Michael Bach on NLP and
+  LP](https://michaelbach.de/sci/pubs/Bach2007IOVS_eLetter_FrACT.pdf)
 
 ## References
 
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent"
+entry-spacing="0">
 
 <div id="ref-beck" class="csl-entry">
 

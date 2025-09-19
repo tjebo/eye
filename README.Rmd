@@ -17,6 +17,7 @@ library(eye)
 
 <!-- badges: start -->
 <!-- [![Travis build status](https://travis-ci.com/tjebo/eye.svg?branch=master)](https://www.travis-ci.com/tjebo/eye) -->
+[![R-CMD-check](https://github.com/tjebo/eye/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/tjebo/eye/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 See more with *eye*
