@@ -21,11 +21,11 @@
 #' the visual acuity chart (see section VA chart)
 #' - **Snellen to logMAR**: logMAR = -1 * log10(snellen_frac)
 #' - **Snellen to ETDRS**: ETDRS = 85 + 50 * log10(snellen_frac)
-#' \doi{10.1097/iae.0b013e3181d87e04}
+#'[Gregori et al.](https://doi.org/10.1097/iae.0b013e3181d87e04)
 #' - **ETDRS to logMAR**: logMAR = -0.02 * etdrs + 1.7
-#' Beck et al. \doi{10.1016/s0002-9394(02)01825-1}
+#' [Beck et al.)](https://doi.org/10.1016/s0002-9394(02)01825-1
 #' - **Hand movements and counting fingers** are converted following
-#' Schulze-Bonsel et al. - https://doi.org/10.1167/iovs.05-0981
+#' [Schulze-Bonsel et al.](https://doi.org/10.1167/iovs.05-0981)
 #' - **(No) light perception** are converted following the suggestions by
 #' [Michael Bach](https://michaelbach.de/sci/acuity.html)
 #' @section Qualitative visual acuity entries:
