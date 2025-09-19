@@ -20,7 +20,10 @@ eye_codes <- list(
   va_partial = c("acuit"),
   id = c("pat","id"),
   eye = c("eye", "eyes"),
-  quali = c("nlp", "lp", "hm", "cf")
+  nlp = c("nlp", "no light perception", "no light", "no perception of light", "npl"),
+  lp = c( "lp", "light perception", "perception of light", "pl"),
+  hm = c("hm",  "handmotion", "hand movement", "hand movements"),
+  cf = c("cf", "counting finger", "counting fingers", "finger count", "count fingers")
 )
 #' Set list of codes
 #' @name set_eye_strings
@@ -41,15 +44,24 @@ eye_codes <- list(
 #' @param va_partial Also used to find VA columns - looking for partial strings
 #' @param id patient column codes
 #' @param eye eye column codes
-#' @param quali quali VA codes
+#' @param nlp VA values recognised as "No light perception"
+#' @param lp VA values recognised as "light perception"
+#' @param hm VA values recognised as "hand movement"
+#' @param cf VA values recognised as "count fingers"
+#'
 #' @param ... currently not used, but might be needed in the future
+#' @details Beware, setting the recognised strings will fully overwrite
+#' previously recognised ones. If you want to keep all, you need
+#' to write them all out.
+#' @section Restoring the defaults:
+#' To restore the defaults, simply call set_eye_strings empty
 #' @examples
 #' # To expand recognized codes for eyes, e.g. if you want to use French names
 #' set_eye_strings(right = c("droit", "od"), left = c("gauche", "og"))
 #'
 #' # To restore the defaults, simply call set_eye_strings empty
 #' set_eye_strings()
-#' @importFrom utils assignInMyNamespace
+#' @importFrom utils assignInNamespace
 #' @export
 set_eye_strings <- function(
   right = c("r", "re", "od", "right"),
@@ -62,7 +74,11 @@ set_eye_strings <- function(
   va_partial = c("acuit"),
   id = c("pat","id"),
   eye = c("eye", "eyes"),
-  quali = c("nlp", "lp", "hm", "cf"),
+  nlp = c("nlp", "no light perception", "no light", "no perception of light", "npl"),
+  lp = c( "lp", "light perception", "perception of light", "pl"),
+  hm = c("hm",  "handmotion", "hand movement", "hand movements"),
+  cf = c("cf", "counting finger", "counting fingers", "finger count",
+         "count fingers"),
   ...){
   new_eyecodes <- c(as.list(environment()), list(...))
   utils::assignInMyNamespace("eye_codes", new_eyecodes)

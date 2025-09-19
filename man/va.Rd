@@ -63,8 +63,17 @@ Qualitative visual acuity lower than counting fingers is assigned 0
 ETDRS letter, in order to keep it as a measurement (not: NA). It is very
 difficult to justify a "negative" letter score in a test which only has
 a specific range (0-100).
+By default, \code{va} recognises the following values (case does not matter!)
 \itemize{
-\item \strong{To Snellen}:
+\item No light perception := c("nlp", "no light perception", "no light", "no perception of light", "npl"),
+\item Light perception: = c("lp", "light perception", "perception of light", "pl"),
+\item Hand movements: = c("hm",  "handmotion", "hand movement", "hand movements"),
+\item Counting fingers: = c("cf", "counting finger", "counting fingers", "finger count", "count fingers")
+}
+}
+
+\section{Converting to Snellen}{
+
 Although there seems to be no good statistical reason to convert
 back to Snellen, it is a very natural thing to eye specialists to think
 in Snellen. A conversion to snellen gives a good gauge of how the visual
@@ -73,7 +82,6 @@ considered an exact science and any attempt to use formulas will result
 in very weird Snellen values that have no correspondence to common charts.
 Therefore, Snellen matching the nearest ETDRS and logMAR value in
 the VA chart are used.
-}
 }
 
 \section{VA chart}{

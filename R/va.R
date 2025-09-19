@@ -35,8 +35,14 @@
 #' ETDRS letter, in order to keep it as a measurement (not: NA). It is very
 #' difficult to justify a "negative" letter score in a test which only has
 #' a specific range (0-100).
+#' By default, `va` recognises the following values (case does not matter!)
 #'
-#' - **To Snellen**:
+#' - No light perception := c("nlp", "no light perception", "no light", "no perception of light", "npl"),
+#' - Light perception: = c("lp", "light perception", "perception of light", "pl"),
+#' - Hand movements: = c("hm",  "handmotion", "hand movement", "hand movements"),
+#' - Counting fingers: = c("cf", "counting finger", "counting fingers", "finger count", "count fingers")
+#'
+#' @section Converting to Snellen:
 #' Although there seems to be no good statistical reason to convert
 #' back to Snellen, it is a very natural thing to eye specialists to think
 #' in Snellen. A conversion to snellen gives a good gauge of how the visual

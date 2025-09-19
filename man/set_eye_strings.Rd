@@ -15,7 +15,10 @@ set_eye_strings(
   va_partial = c("acuit"),
   id = c("pat", "id"),
   eye = c("eye", "eyes"),
-  quali = c("nlp", "lp", "hm", "cf"),
+  nlp = c("nlp", "no light perception", "no light", "no perception of light", "npl"),
+  lp = c("lp", "light perception", "perception of light", "pl"),
+  hm = c("hm", "handmotion", "hand movement", "hand movements"),
+  cf = c("cf", "counting finger", "counting fingers", "finger count", "count fingers"),
   ...
 )
 }
@@ -41,7 +44,13 @@ when those strings occur "fully", i.e., not as part of sth else)}
 
 \item{eye}{eye column codes}
 
-\item{quali}{quali VA codes}
+\item{nlp}{VA values recognised as "No light perception"}
+
+\item{lp}{VA values recognised as "light perception"}
+
+\item{hm}{VA values recognised as "hand movement"}
+
+\item{cf}{VA values recognised as "count fingers"}
 
 \item{...}{currently not used, but might be needed in the future}
 }
@@ -53,6 +62,16 @@ It is important that you must pass them as a character vector!
 
 \strong{cases are always ignored}, so you don't need to worry about this bit.
 }
+\details{
+Beware, setting the recognised strings will fully overwrite
+previously recognised ones. If you want to keep all, you need
+to write them all out.
+}
+\section{Restoring the defaults}{
+
+To restore the defaults, simply call set_eye_strings empty
+}
+
 \examples{
 # To expand recognized codes for eyes, e.g. if you want to use French names
 set_eye_strings(right = c("droit", "od"), left = c("gauche", "og"))

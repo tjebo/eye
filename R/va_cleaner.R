@@ -1,7 +1,6 @@
 #' Cleaning up Visual acuity entries
 #' @name clean_va
 #' @param x Vector with VA entries
-#' @param quali strings for qualitative visual acuity entries
 #' @param message message for replaced NA values
 #' @description VA cleaning:
 #' 1. [tidyNA]:
@@ -13,17 +12,18 @@
 #' @return character vector
 #' @family VA cleaner
 #' @keywords internal
-clean_va <- function(x, quali = c("nlp", "lp", "hm", "cf"), message = TRUE) {
+clean_va <- function(x, message = TRUE) {
   originalNA <- is.na(x)
   x_tidied <- tidyNA_low(x)
   x_tidied <- gsub("\\s", "", x_tidied)
 
-  # unifying nlp/npl etc
-  replace_PL = c(pl = "lp", npl = "nlp")
-  new_vec <- replace_PL[x_tidied]
+  # unifying quali notation
+  lu_quali <- stack(eye_codes[c("nlp", "lp", "hm", "cf")])
+  lu_quali$values <- tolower(gsub("\\s", "", lu_quali$values))
+  new_vec <- as.character(lu_quali$ind)[match(x_tidied, lu_quali$values)]
   x_tidied <- unname(ifelse(is.na(new_vec), x_tidied, new_vec))
 
-  x_quali <- x_tidied %in% quali
+  x_quali <- x_tidied %in% c("nlp", "lp", "hm", "cf")
   x_snell <- grepl("/", x_tidied)
   x_num <- !is.na(suppressWarnings(as.numeric(x_tidied)))
   x_keep <- as.logical(x_quali + x_snell + x_num + originalNA)

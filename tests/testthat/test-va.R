@@ -191,4 +191,23 @@ test_that("va_mixed", {
 
 })
 
+x_unclean <- c("pl", "lp", "HanD motion", "hand Movements", "perception of light",
+               "count Fingers", "Cf", "NA", "nonsense", ".")
 
+test_that("clean_va",{
+  expect_equal(sum(is.na(clean_va(x_unclean))), 3)
+  expect_in(clean_va(x_unclean)[!is.na(clean_va(x_unclean))], c("nlp", "lp",  "hm",  "cf"))
+})
+
+
+set_eye_strings(hm = c(eye_codes$hm, "nonsense"))
+
+test_that("clean_va",{
+  expect_equal(sum(is.na(clean_va(x_unclean))), 2)
+})
+
+set_eye_strings()
+
+test_that("clean_va",{
+  expect_equal(sum(is.na(clean_va(x_unclean))), 3)
+})

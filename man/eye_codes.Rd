@@ -5,7 +5,7 @@
 \alias{eye_codes}
 \title{List of codes}
 \format{
-An object of class \code{list} of length 11.
+An object of class \code{list} of length 14.
 }
 \usage{
 eye_codes
