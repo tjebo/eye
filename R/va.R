@@ -200,26 +200,27 @@ va <- function(x, from = NULL, to = NULL, type = "ft",
 #' @name va_mixed
 #' @param x vector with mixed VA entries
 #' @param to to which notation to be converted
-#' @param possible which possible VA notations - and the precedence given,
-#'     see details
+#' @param possible possible VA notations. The order defines which class
+#' will be prioritised if a value can be from more than one class, see details.
+#' Default = c("snellen", "etdrs", "logmar", "quali")
 #' @description va_mixed is a wrapper around [va] on all possible VA notations.
 #'   By default, c("snellen", "etdrs", "logmar", "snellendec") will be converted -
 #'   in that order! For tricky cases see details and examples. Note
-#'   that va_mixed will not give nice messages which values are transformed
-#'   from which notation, and which values were replaced with NA.
+#'   that va_mixed will not notify you from which notation the values
+#'   were transformed, nor if values were replaced with NA.
 #' @details Mixed entries are challenging, but unfortunately seem to occur in
 #'   real life data. It will be fairly individual what you have in yours, but
 #'   it should hopefully not happen that you have *all* possible notations.
 #'   Snellen fractions are usually not challenging because they contain a "/",
 #'   thus are easy to recognize.
 #'
-#'   **Most problematic are values between 0 and 3**,
+#'   **Values between 0 and 3 are most problematic**,
 #'   in particular full integers - this can be EDTRS, snellen decimal notation
-#'   or logmar. If your data doesn't have snellen decimal notation,
-#'   specify this with "possible", e.g. with
-#'   `possible = c("snellen", "etdrs", "logmar")`. If you know that you don't
-#'   have any ETDRS value less than 4, you can safely give precedence to logmar
-#'   instead, like this: `possible = c("snellen", "logmar", "etdrs")`
+#'   or logmar. By default, snellen decimal are not recognized, but you can
+#'   specify this with the "possible" argument.
+#'   Or, if you know that you don't have any ETDRS value less than 4,
+#'   you can safely give precedence to logmar instead, like this:
+#'   `possible = c("snellen", "logmar", "etdrs")`
 #'   @examples
 #'   # awfully mixed notation!! (and note the wrong -1 value)
 #'   x <- c(NA, "nlp", 1:2, 1.1, -1, "20/40", "4/6", "6/1000", 34)
@@ -234,12 +235,10 @@ va <- function(x, from = NULL, to = NULL, type = "ft",
 #' @family Ophthalmic functions
 #' @family VA converter
 #' @export
-va_mixed <- function(x, to = "logmar", possible) {
-  if (missing(possible)) {
-    possible <- VAclasses[1:4]
-  } else {
+va_mixed <- function(x, to = "logmar",
+                     possible = c("snellen", "etdrs", "logmar", "quali")) {
     possible <- tolower(possible)
-  }
+
   a <- sapply(possible, function(vaclass) {
     suppressMessages(va(x, to = to, from = vaclass))
   })

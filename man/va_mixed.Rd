@@ -4,22 +4,23 @@
 \alias{va_mixed}
 \title{VA classes}
 \usage{
-va_mixed(x, to = "logmar", possible)
+va_mixed(x, to = "logmar", possible = c("snellen", "etdrs", "logmar", "quali"))
 }
 \arguments{
 \item{x}{vector with mixed VA entries}
 
 \item{to}{to which notation to be converted}
 
-\item{possible}{which possible VA notations - and the precedence given,
-see details}
+\item{possible}{possible VA notations. The order defines which class
+will be prioritised if a value can be from more than one class, see details.
+Default = c("snellen", "etdrs", "logmar", "quali")}
 }
 \description{
 va_mixed is a wrapper around \link{va} on all possible VA notations.
 By default, c("snellen", "etdrs", "logmar", "snellendec") will be converted -
 in that order! For tricky cases see details and examples. Note
-that va_mixed will not give nice messages which values are transformed
-from which notation, and which values were replaced with NA.
+that va_mixed will not notify you from which notation the values
+were transformed, nor if values were replaced with NA.
 }
 \details{
 Mixed entries are challenging, but unfortunately seem to occur in
@@ -28,13 +29,13 @@ it should hopefully not happen that you have \emph{all} possible notations.
 Snellen fractions are usually not challenging because they contain a "/",
 thus are easy to recognize.
 
-\strong{Most problematic are values between 0 and 3},
+\strong{Values between 0 and 3 are most problematic},
 in particular full integers - this can be EDTRS, snellen decimal notation
-or logmar. If your data doesn't have snellen decimal notation,
-specify this with "possible", e.g. with
-\code{possible = c("snellen", "etdrs", "logmar")}. If you know that you don't
-have any ETDRS value less than 4, you can safely give precedence to logmar
-instead, like this: \code{possible = c("snellen", "logmar", "etdrs")}
+or logmar. By default, snellen decimal are not recognized, but you can
+specify this with the "possible" argument.
+Or, if you know that you don't have any ETDRS value less than 4,
+you can safely give precedence to logmar instead, like this:
+\code{possible = c("snellen", "logmar", "etdrs")}
 @examples
 }
 \section{awfully mixed notation!! (and note the wrong -1 value)}{
