@@ -35,3 +35,4 @@ Other VA cleaner:
 \code{\link{va}()}
 }
 \concept{VA cleaner}
+\keyword{internal}

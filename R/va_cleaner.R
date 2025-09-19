@@ -12,7 +12,7 @@
 #' 1. Removing non-Snellen character strings
 #' @return character vector
 #' @family VA cleaner
-#' @export
+#' @keywords internal
 clean_va <- function(x, quali = c("nlp", "lp", "hm", "cf"), message = TRUE) {
   originalNA <- is.na(x)
   x_tidied <- tidyNA_low(x)
