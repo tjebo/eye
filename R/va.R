@@ -23,7 +23,7 @@
 #' - **Snellen to ETDRS**: ETDRS = 85 + 50 * log10(snellen_frac)
 #'[Gregori et al.](https://doi.org/10.1097/iae.0b013e3181d87e04)
 #' - **ETDRS to logMAR**: logMAR = -0.02 * etdrs + 1.7
-#' [Beck et al.)](https://doi.org/10.1016/s0002-9394(02)01825-1
+#' [Beck et al.)](https://doi.org/10.1016/s0002-9394(02%2901825-1)
 #' - **Hand movements and counting fingers** are converted following
 #' [Schulze-Bonsel et al.](https://doi.org/10.1167/iovs.05-0981)
 #' - **(No) light perception** are converted following the suggestions by
@@ -46,12 +46,12 @@
 #' Therefore, Snellen matching the nearest ETDRS and logMAR value in
 #' the VA chart are used.
 #' @section VA chart:
-#' You can find with eye:::va_chart.
+#' You can find the chart with `eye:::va_chart`.
 #' This chart and VA conversion formulas are based on charts in
-#' Holladay et al.\doi{10.1016/j.jcrs.2004.01.014}, Beck et al.
-#' \doi{10.1016/s0002-9394(02)01825-1}, and
-#' Gregori et al.\doi{10.1097/iae.0b013e3181d87e04}.
-#' The etdrs values for NLP and PL are deliberately set at those values because
+#' [Holladay et al.](https://doi.org/10.1016/j.jcrs.2004.01.014),
+#' [Beck et al.)](https://doi.org/10.1016/s0002-9394(02%2901825-1), and
+#' [Gregori et al.](https://doi.org/10.1097/iae.0b013e3181d87e04).
+#' The ETDRS values for NLP and PL are deliberately set at those values because
 #' they are unlikely to happen by chance as a wrong entry (and as integers),
 #' and it has internal reasons that make conversion easier.
 #' @section Accepted VA formats / Plausibility checks:
@@ -83,39 +83,38 @@
 #' 1. `NA` is assigned to strings such as "." or "", "n/a" or "   "
 #' 1. notation for qualitative entries is simplified.
 #' @section VA classes:
-#' convertVA returns a vector of three classes:
+#' Under the hood, `convertVA` returns a vector that has three classes:
 #'   1. `va`
 #'   1. One of snellen, snellendec, logmar, etdrs or quali.
-#'   1. Either of `character` (for Snellen, snellendec, and qualitative),
+#'   1. Either of `character` (for Snellen, Snellen decimal, and qualitative),
 #'       `numeric` (for logMAR), or `integer` (for ETDRS).
 #' @return vector of `va` class. See also "VA classes"
 #' @family Ophthalmic functions
 #' @family VA converter
 #' @family VA cleaner
 #' @examples
-#' ## will automatically detect VA class and convert to logMAR by default
-#' ## ETDRS letters
-#' x <- c(23, 56, 74, 58)
+#' ## calling va without specifying "to" will clean visual acuity entries
+#' ## without conversion into another notation. Weird entries will be
+#' ## replaced by a missing value that R recognises as such
+#' x <- c(23, "", NA, "N/A", "Not measured", "20/50", 74, 58)
 #' va(x)
 #'
 #' ## ... or convert to snellen
 #' va(x, to = "snellen")
 #'
-#' ## snellen, mixed with categories. Also dealing with those "plus/minus" entries
+#' ## Dealing with those "plus/minus" entries, and qualitative values such as "HM"
 #' va(c("NLP", "NPL", "PL", "LP", "HM", "CF", "6/60", "20/200", "6/9",
-#'  "20/40", "20/40+3", "20/50-2"))
+#'  "20/40", "20/40+3", "20/50-2"), to = "snellen")
 #'
 #' ## A mix of notations is also possible
 #' x <- c("NLP", "0.8", "34", "3/60", "2/200", "20/40+3", "20/50-2")
-#' va(x)
+#' va(x, to = "snellen")
 #'
 #' ## Any fraction is possible, and empty values
+#' ## change Snellen type to meter with type = "m"
 #' x <- c("CF", "3/60", "2/200", "", "20/40+3", ".", "      ")
-#' va(x)
+#' va(x, to = "snellen", type = "m")
 #'
-#' ## but this not any fraction when converting from one class to the other
-#' x <- c("3/60", "2/200", "6/60", "20/200", "6/9")
-#' va(x, to="snellen", type = "m")
 #' @export
 va <- function(x, from = NULL, to = NULL, type = "ft",
                smallstep = FALSE, noplus = FALSE) {
