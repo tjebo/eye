@@ -2,6 +2,7 @@
 % Please edit documentation in R/eye.R
 \docType{package}
 \name{eye}
+\alias{eye-package}
 \alias{eye}
 \title{eye}
 \description{
