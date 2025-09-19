@@ -4,7 +4,7 @@
 \alias{va_mixed}
 \title{VA classes}
 \usage{
-va_mixed(x, to, possible)
+va_mixed(x, to = "logmar", possible)
 }
 \arguments{
 \item{x}{vector with mixed VA entries}

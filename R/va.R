@@ -234,7 +234,7 @@ va <- function(x, from = NULL, to = NULL, type = "ft",
 #' @family Ophthalmic functions
 #' @family VA converter
 #' @export
-va_mixed <- function(x, to, possible) {
+va_mixed <- function(x, to = "logmar", possible) {
   if (missing(possible)) {
     possible <- VAclasses[1:4]
   } else {
