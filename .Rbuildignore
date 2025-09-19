@@ -5,7 +5,6 @@
 [.]png$
 ^README\.Rmd$
 ^LICENSE\.md$
-^\.travis\.yml$
 ^cran-comments\.md$
 ^\.git$
 ^\.Rhistory$
