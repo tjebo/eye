@@ -4,7 +4,15 @@
 \alias{va}
 \title{Visual acuity notation conversion}
 \usage{
-va(x, from = NULL, to = NULL, type = "ft", smallstep = FALSE, noplus = FALSE)
+va(
+  x,
+  from = NULL,
+  to = NULL,
+  type = "ft",
+  smallstep = FALSE,
+  noplus = FALSE,
+  quali_values = NULL
+)
 }
 \arguments{
 \item{x}{Vector with visual acuity entries. Must be atomic.
@@ -26,6 +34,8 @@ entries equivalent to 0.02 logmar}
 
 \item{noplus}{ignoring plus/minus entries and just returning the
 snellen fraction. This overrides the smallstep argument.}
+
+\item{quali_values}{define your own values for qualitative entries (see details)}
 }
 \value{
 vector of \code{va} class. See also "VA classes"
@@ -70,6 +80,16 @@ By default, \code{va} recognises the following values (case does not matter!)
 \item Hand movements: = c("hm",  "handmotion", "hand movement", "hand movements"),
 \item Counting fingers: = c("cf", "counting finger", "counting fingers", "finger count", "count fingers")
 }
+}
+
+\section{Custom values for qualitative entries}{
+
+To define your own values for qualitative entries, you need to
+pass a names list with names c("cf", "hm", "npl", "pl") - in that order.
+It accepts only values that can be reasonably converted into numeric values
+and it converts only to logMAR.
+If you want to convert to a different notation, you will need to
+call va() a second time.
 }
 
 \section{Converting to Snellen}{

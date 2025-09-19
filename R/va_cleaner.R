@@ -62,21 +62,43 @@ introduceNA <- function(x, test){
 #' @description converting quality VA entries
 #' @name convertQuali
 #' @param x vector
-#' @param to_class to which class
+#' @param to_class to which class quali entries are cleaned (if not using custom values)
+#' @param to to which class the final conversion should be (only used when using custom quali values)
+#' @param quali_values define your own values for qualitative entries (see details)
+#' @details To define your own values for qualitative entries, you need to
+#' pass a names list with names c("cf", "hm", "npl", "pl") - in that order.
+#' It accepts only values that can be converted into numeric values and it converts only to logMAR.
+#' If you want to convert to a different notation, you will need to
+#' call va() a second time.
 #' @return vector
 #' @keywords internal
 
-convertQuali <- function(x, to_class){
-  if(to_class == "snellen"){
-    to_class <- "snellenft"
+convertQuali <- function(x, to_class, to, quali_values = NULL) {
+  if (is.null(quali_values)) {
+    if (to_class == "snellen") {
+      to_class <- "snellenft"
+    }
+    if (any(x %in% c("nlp", "lp", "hm", "cf"))) {
+      x_quali <- va_chart[[to_class]][match(x, va_chart$quali[1:4])]
+      x <- ifelse(!is.na(x_quali), x_quali, x)
+    }
+    x
+  } else {
+    ## test correct usage of values argument
+    if (to != "logmar") stop("needs to convert to logmar")
+    if (!is.list(quali_values)) stop("quali_values need to be list")
+    if (!identical(sort(names(quali_values)), c("cf", "hm", "npl", "pl"))) {
+      stop("quali_values need to be named list with names c(\"cf\", \"hm\", \"npl\", \"pl\") ")
+    }
+    qualis <- unlist(quali_values)
+    if (sum(suppressWarnings(is.na(as.numeric(qualis)))) > 0) stop("quali_values need to contain only values that can be converted into numerics")
+    if (any(x %in% c("nlp", "lp", "hm", "cf"))) {
+      x_quali <- unname(qualis[x])
+      x <- ifelse(!is.na(x_quali), x_quali, x)
+    }
+    x
   }
-  if (any(x %in% eye_codes$quali)) {
-    x_quali <- va_chart[[to_class]][match(x, va_chart$quali[1:4])]
-    x <- ifelse(!is.na(x_quali), x_quali, x)
-  }
-  x
 }
-
 
 #' Tidy NA entries to actual NA values
 #' @name tidyNA

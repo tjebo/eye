@@ -15,6 +15,7 @@
 #'   entries equivalent to 0.02 logmar
 #' @param noplus ignoring plus/minus entries and just returning the
 #'     snellen fraction. This overrides the smallstep argument.
+#' @param quali_values define your own values for qualitative entries (see details)
 #' @name va
 #' @section VA conversion:
 #' - **logMAR to ETDRS**: logMAR rounded to the first digit and converted with
@@ -42,6 +43,13 @@
 #' - Hand movements: = c("hm",  "handmotion", "hand movement", "hand movements"),
 #' - Counting fingers: = c("cf", "counting finger", "counting fingers", "finger count", "count fingers")
 #'
+#' @section Custom values for qualitative entries:
+#' To define your own values for qualitative entries, you need to
+#' pass a names list with names c("cf", "hm", "npl", "pl") - in that order.
+#' It accepts only values that can be reasonably converted into numeric values
+#' and it converts only to logMAR.
+#' If you want to convert to a different notation, you will need to
+#' call va() a second time.
 #' @section Converting to Snellen:
 #' Although there seems to be no good statistical reason to convert
 #' back to Snellen, it is a very natural thing to eye specialists to think
@@ -123,7 +131,8 @@
 #'
 #' @export
 va <- function(x, from = NULL, to = NULL, type = "ft",
-               smallstep = FALSE, noplus = FALSE) {
+               smallstep = FALSE, noplus = FALSE,
+               quali_values = NULL) {
   if (!is.atomic(x)) {
     stop("x must be atomic", call. = FALSE)
   }
@@ -145,11 +154,12 @@ va <- function(x, from = NULL, to = NULL, type = "ft",
     }
   }
   if (inherits(x, "va")) {
-    conVA <- convertVA(x, to = to, type = type,
-                       smallstep = smallstep, noplus = noplus
+    conVA <- convertVA(x,
+      to = to, type = type,
+      smallstep = smallstep, noplus = noplus
     )
-      return(conVA)
-    } else {
+    return(conVA)
+  } else {
     x_clean <- clean_va(x, message = FALSE)
     guess_va <- which_va(x_clean)
 
@@ -183,11 +193,13 @@ va <- function(x, from = NULL, to = NULL, type = "ft",
         va_class <- guess_va[1]
       }
     }
-    }
+  }
   class(x_clean) <- c(va_class, class(x_clean))
-
-  x_noquali <- convertQuali(x_clean, to_class = va_class)
-
+  x_noquali <- convertQuali(x_clean,
+    to_class = va_class,
+    to = to,
+    quali_values = quali_values
+  )
   class(x_noquali) <- va_class
 
   x_plausible <- checkVA(x_noquali)
@@ -195,12 +207,12 @@ va <- function(x, from = NULL, to = NULL, type = "ft",
   introduceNA(x, newNA)
 
   x_final <- convertVA(
-    x_plausible, to = to, type = type,
+    x_plausible,
+    to = to, type = type,
     smallstep = smallstep, noplus = noplus
   )
   x_final
 }
-
 #' VA classes
 #' @name va_mixed
 #' @param x vector with mixed VA entries

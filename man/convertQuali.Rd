@@ -4,17 +4,28 @@
 \alias{convertQuali}
 \title{convert quali entries}
 \usage{
-convertQuali(x, to_class)
+convertQuali(x, to_class, to, quali_values = NULL)
 }
 \arguments{
 \item{x}{vector}
 
-\item{to_class}{to which class}
+\item{to_class}{to which class quali entries are cleaned (if not using custom values)}
+
+\item{to}{to which class the final conversion should be (only used when using custom quali values)}
+
+\item{quali_values}{define your own values for qualitative entries (see details)}
 }
 \value{
 vector
 }
 \description{
 converting quality VA entries
+}
+\details{
+To define your own values for qualitative entries, you need to
+pass a names list with names c("cf", "hm", "npl", "pl") - in that order.
+It accepts only values that can be converted into numeric values and it converts only to logMAR.
+If you want to convert to a different notation, you will need to
+call va() a second time.
 }
 \keyword{internal}
