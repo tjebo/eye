@@ -147,26 +147,18 @@ test_that("No error / no warning", {
 }
 )
 
-test_that("NA", {
+test_that("NA_va", {
+
   expect_equal(sum(is.na(va(va_vec))), 2)
+  expect_equal(sum(is.na(va(va_vec4))), 2)
+  expect_equal(sum(is.na(va(va_vec6))), 5)
   expect_equal(suppressWarnings(sum(is.na(va(va_vecNA)))), 2)
   expect_equal(sum(is.na(va(va_vec1))), 0)
   expect_equal(sum(is.na(va(va_vec2))), 0)
   expect_equal(sum(is.na(va(va_vec3))), 0)
-  expect_equal(sum(is.na(va(va_vec4))), 2)
   expect_equal(sum(is.na(va(va_vec5))), 0)
-  expect_equal(sum(is.na(va(va_vec6))), 5)
   expect_equal(sum(is.na(va(va_vec8, to = "etdrs"))), 26)
   expect_equal(sum(is.na(va(va_vec8, to = "snellen", type = "dec"))), 26)
-  expect_equal(sum(is.na(eye:::convertVA(va_vec2, to = "snellen", "ft"))),0) #class logmar
-  expect_equal(sum(is.na(eye:::convertVA(va_vec2, to = "logmar", "ft"))),0) #class logmar
-  expect_equal(sum(is.na(eye:::convertVA(va_vec3, to = "etdrs", "ft"))),0) #class etdrs
-  expect_equal(sum(is.na(eye:::convertVA(va_vec3, to = "snellen", "ft"))),0) #class etdrs
-  expect_equal(sum(is.na(eye:::convertVA(va_vec3, to = "logmar", "ft"))),0) #class etdrs
-  expect_equal(sum(is.na(eye:::convertVA(va_vec7, smallstep = FALSE, noplus = FALSE, to = "snellen", "dec"))), 1) #class snellen
-  expect_equal(sum(is.na(eye:::convertVA(va_vec7,  smallstep = FALSE,noplus = FALSE,to = "etdrs", "ft"))),1) #class snellen
-  expect_equal(sum(is.na(eye:::convertVA(va_vec7, smallstep = FALSE, noplus = FALSE,to = "logmar", "ft"))),1) #class snellen
-  expect_equal(sum(is.na(eye:::convertVA(va_vec8, to = "snellen", "ft"))),26) #class quali
   expect_equal(sum(is.na(va(c(25, 23, 0.4), to = "snellen"))), 2) #class quali
   expect_equal(suppressWarnings(sum(is.na(va(mixed_VA2)))), 2)
   expect_equal(suppressWarnings(sum(is.na(va(mixed_VA)))), 3)
@@ -178,7 +170,18 @@ test_that("NA", {
   }
 )
 
+test_that("NA_convert",{
+  expect_equal(sum(is.na(eye:::convertVA(va_vec2, to = "snellen", "ft"))),0) #class logmar
+  expect_equal(sum(is.na(eye:::convertVA(va_vec2, to = "logmar", "ft"))),0) #class logmar
+  expect_equal(sum(is.na(eye:::convertVA(va_vec3, to = "etdrs", "ft"))),0) #class etdrs
+  expect_equal(sum(is.na(eye:::convertVA(va_vec3, to = "snellen", "ft"))),0) #class etdrs
+  expect_equal(sum(is.na(eye:::convertVA(va_vec3, to = "logmar", "ft"))),0) #class etdrs
+  expect_equal(sum(is.na(eye:::convertVA(va_vec7, smallstep = FALSE, noplus = FALSE, to = "snellen", "dec"))), 1) #class snellen
+  expect_equal(sum(is.na(eye:::convertVA(va_vec7,  smallstep = FALSE,noplus = FALSE,to = "etdrs", "ft"))),1) #class snellen
+  expect_equal(sum(is.na(eye:::convertVA(va_vec7, smallstep = FALSE, noplus = FALSE,to = "logmar", "ft"))),1) #class snellen
+  expect_equal(sum(is.na(eye:::convertVA(va_vec8, to = "snellen", "ft"))),26) #class quali
 
+})
 
 
 

@@ -142,6 +142,8 @@ split_mult <- function(x, col,
                        sep = ""){
   cols <- stringr::str_split_fixed(x[[col]], pattern, n = Inf)
   cols[which(cols == "")] <- NA_character_
+  ## removing whitespace
+  cols <- data.frame(lapply(cols, trimws))
   m <- dim(cols)[2]
   if(length(into) == m){
     colnames(cols) <- into
