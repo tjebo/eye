@@ -1,15 +1,12 @@
 ## Submission eye 1.2.2
+CRAN request for updates - final deadline given 2025-10-17
 
 ### Documentation fixes 
-- update documentation to reflect updated R documentation structure:
-1) fixed hyperlink in description (added "//")
-2) fixed eye package help file: added "@ alias eye-package" to eye.Rd
-3) fixed link inconsistency in va.Rd (removed redundant mention to authors of referenced article). 
-
-### Function updates
-- `recodeye` and `eyes` now also recognize "BE" as coding string for "both eyes"
-
-
+update documentation to reflect updated R documentation structure:
+- fixed hyperlink in description 
+- fixed eye package help file: added "@ alias eye-package" to eye.Rd
+- fixed link inconsistency in va.Rd (removed redundant mention to authors of referenced article). 
+- fixed use of citEntry in CITATION file (CRAN NOTE)
 
 ## CHECK ENVIRONMENTS
 * local OS X install, R 4.1.1 ("Kick Things")
@@ -20,29 +17,18 @@
 
 ## CHECK RESULTS
 ### R CMD check (local)
-There were no ERRORs or WARNINGs or NOTEs. 
-### Travis
-There were no ERRORs or WARNINGs or NOTEs. 
+0 errors | 0 warnings | 0 notes
 
 ### win-builder
 
-### R-hub
-There was one NOTE: 
-#> Found the following (possibly) invalid DOIs:
-#>   DOI: 10.1167/iovs.05-0981
-#>     From: DESCRIPTION
-#>     Status: Forbidden
-#>     Message: 403
+### macOS builder 
+Build system: r-devel-macosx-arm64|4.5.1|macosx|macOS 13.3.1 (22E261)|Mac mini|Apple M1||en_US.UTF-8|macOS 11.3|clang-1403.0.22.14.1|GNU Fortran (GCC) 14.2.0
 
-COMMENT: I am truly sorry, but this is the DOI to this article! 
+Status: OK
+
+### R-hub
 
 ### CRAN package checks
-Version: 1.2.0 
-Check: LazyData 
-Result: NOTE 
-     'LazyData' is specified without a 'data' directory 
-     
-COMMENT: Removed line `LazyData: true` from description file
 
-## Downstream dependencies
-There are currently no downstream dependencies for this package.
+## Rverse dependencies
+There are currently no reverse dependencies for this package.

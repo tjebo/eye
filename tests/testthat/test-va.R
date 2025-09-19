@@ -144,9 +144,9 @@ expect_error(to_snellen(va_vec, quali_values = 2), regexp = "needs to convert to
 expect_error(to_logmar(va_vec, quali_values = c(hm = 2)), regexp = "quali_values need to be list")
 expect_error(to_logmar(va_vec, quali_values = c(hm = 2)), regexp = "quali_values need to be list")
 expect_error(to_logmar(va_vec, quali_values = list(hm = 2, cf = 3)), regexp = "values need to be named list")
-expect_error(to_logmar(va_vec, quali_values = list(hm = 2, cf = 3, npl = 4, pl = 5)), regexp = NA)
-expect_error(to_logmar(va_vec, quali_values = list(hm = "3", cf = 3, npl = 4, pl = 5)), regexp = NA)
-expect_error(to_logmar(va_vec, quali_values = list(hm = "20/50", cf = 3, npl = 4, pl = 5)), regexp = "quali_values need to contain only values that can be converted into numerics")
+expect_error(to_logmar(va_vec, quali_values = list(hm = 2, cf = 3, nlp = 4, lp = 5)), regexp = NA)
+expect_error(to_logmar(va_vec, quali_values = list(hm = "3", cf = 3, nlp = 4, lp = 5)), regexp = NA)
+expect_error(to_logmar(va_vec, quali_values = list(hm = "20/50", cf = 3, nlp = 4, lp = 5)), regexp = "quali_values need to contain only values that can be converted into numerics")
 }
 )
 

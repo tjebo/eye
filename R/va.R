@@ -45,7 +45,7 @@
 #'
 #' @section Custom values for qualitative entries:
 #' To define your own values for qualitative entries, you need to
-#' pass a names list with names c("cf", "hm", "npl", "pl") - in that order.
+#' pass a names list with names c("cf", "hm", "nlp", "lp") - in that order.
 #' It accepts only values that can be reasonably converted into numeric values
 #' and it converts only to logMAR.
 #' If you want to convert to a different notation, you will need to
@@ -195,22 +195,45 @@ va <- function(x, from = NULL, to = NULL, type = "ft",
     }
   }
   class(x_clean) <- c(va_class, class(x_clean))
+
+  ## standard without custom qualis
+  if(is.null(quali_values)){
   x_noquali <- convertQuali(x_clean,
-    to_class = va_class,
-    to = to,
-    quali_values = quali_values
+    to_class = va_class
   )
   class(x_noquali) <- va_class
-
   x_plausible <- checkVA(x_noquali)
   newNA <- as.logical(is.na(x_plausible) - is.na(x))
   introduceNA(x, newNA)
 
   x_final <- convertVA(
     x_plausible,
-    to = to, type = type,
-    smallstep = smallstep, noplus = noplus
+    to = to,
+    type = type,
+    smallstep = smallstep,
+    noplus = noplus
   )
+  } else {
+    x_noquali <- convertQuali_custom(x_clean,
+                        to_class = va_class,
+                        to = to,
+                        quali_values = quali_values)
+    class(x_noquali) <- va_class
+    x_plausible <- checkVA(x_clean)
+    ## converting non_quali values to logMAR
+    x_to_logmar <- convertVA(
+      x_plausible,
+      to = to,
+      type = type,
+      smallstep = smallstep,
+      noplus = noplus
+    )
+
+    x_final <- ifelse(is.na(x_to_logmar), x_noquali, x_to_logmar)
+    newNA <- as.logical(is.na(x_final) - is.na(x))
+    introduceNA(x, newNA)
+
+  }
   x_final
 }
 #' VA classes

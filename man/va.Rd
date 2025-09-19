@@ -85,7 +85,7 @@ By default, \code{va} recognises the following values (case does not matter!)
 \section{Custom values for qualitative entries}{
 
 To define your own values for qualitative entries, you need to
-pass a names list with names c("cf", "hm", "npl", "pl") - in that order.
+pass a names list with names c("cf", "hm", "nlp", "lp") - in that order.
 It accepts only values that can be reasonably converted into numeric values
 and it converts only to logMAR.
 If you want to convert to a different notation, you will need to

@@ -63,6 +63,23 @@ introduceNA <- function(x, test){
 #' @name convertQuali
 #' @param x vector
 #' @param to_class to which class quali entries are cleaned (if not using custom values)
+#' @return vector
+#' @keywords internal
+
+convertQuali <- function(x, to_class) {
+    if (to_class == "snellen") {
+      to_class <- "snellenft"
+    }
+    if (any(x %in% c("nlp", "lp", "hm", "cf"))) {
+      x_quali <- va_chart[[to_class]][match(x, va_chart$quali[1:4])]
+      x <- ifelse(!is.na(x_quali), x_quali, x)
+    }
+    x
+  }
+
+#' @rdname convertQuali
+#' @param x vector
+#' @param to_class to which class quali entries are cleaned (if not using custom values)
 #' @param to to which class the final conversion should be (only used when using custom quali values)
 #' @param quali_values define your own values for qualitative entries (see details)
 #' @details To define your own values for qualitative entries, you need to
@@ -72,32 +89,20 @@ introduceNA <- function(x, test){
 #' call va() a second time.
 #' @return vector
 #' @keywords internal
-
-convertQuali <- function(x, to_class, to, quali_values = NULL) {
-  if (is.null(quali_values)) {
-    if (to_class == "snellen") {
-      to_class <- "snellenft"
-    }
-    if (any(x %in% c("nlp", "lp", "hm", "cf"))) {
-      x_quali <- va_chart[[to_class]][match(x, va_chart$quali[1:4])]
-      x <- ifelse(!is.na(x_quali), x_quali, x)
-    }
-    x
-  } else {
-    ## test correct usage of values argument
-    if (to != "logmar") stop("needs to convert to logmar")
-    if (!is.list(quali_values)) stop("quali_values need to be list")
-    if (!identical(sort(names(quali_values)), c("cf", "hm", "npl", "pl"))) {
-      stop("quali_values need to be named list with names c(\"cf\", \"hm\", \"npl\", \"pl\") ")
-    }
-    qualis <- unlist(quali_values)
-    if (sum(suppressWarnings(is.na(as.numeric(qualis)))) > 0) stop("quali_values need to contain only values that can be converted into numerics")
-    if (any(x %in% c("nlp", "lp", "hm", "cf"))) {
-      x_quali <- unname(qualis[x])
-      x <- ifelse(!is.na(x_quali), x_quali, x)
-    }
-    x
-  }
+#'
+convertQuali_custom <- function(x, to_class, to, quali_values){
+      ## test correct usage of values argument
+      if (to != "logmar") stop("needs to convert to logmar")
+      if (!is.list(quali_values)) stop("quali_values need to be list")
+      if (!identical(sort(names(quali_values)), c("cf", "hm", "lp", "nlp"))) {
+        stop("quali_values need to be named list with names c(\"cf\", \"hm\", \"lp\", \"nlp\") ")
+      }
+      qualis <- unlist(quali_values)
+      if (sum(suppressWarnings(is.na(as.numeric(qualis)))) > 0) stop("quali_values need to contain only values that can be converted into numerics")
+      if (any(x %in% c("nlp", "lp", "hm", "cf"))) {
+        x_quali <- unname(qualis[x])
+      }
+      x_quali
 }
 
 #' Tidy NA entries to actual NA values

@@ -2,9 +2,12 @@
 % Please edit documentation in R/va_cleaner.R
 \name{convertQuali}
 \alias{convertQuali}
+\alias{convertQuali_custom}
 \title{convert quali entries}
 \usage{
-convertQuali(x, to_class, to, quali_values = NULL)
+convertQuali(x, to_class)
+
+convertQuali_custom(x, to_class, to, quali_values)
 }
 \arguments{
 \item{x}{vector}
@@ -16,6 +19,8 @@ convertQuali(x, to_class, to, quali_values = NULL)
 \item{quali_values}{define your own values for qualitative entries (see details)}
 }
 \value{
+vector
+
 vector
 }
 \description{
