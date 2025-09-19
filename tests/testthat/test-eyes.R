@@ -87,4 +87,3 @@ test_that("return", {
   expect_true(length(eyestr(iop_wide)) == 1)
   expect_true(length(suppressWarnings(eyes(foo3, dropunknown = FALSE))) == 1)
 })
-eyes(iop_wide)
