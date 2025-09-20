@@ -51,11 +51,11 @@ between Snellen (decimal, meter and feet), ETDRS, and logMAR.
 the visual acuity chart (see section VA chart)
 \item \strong{Snellen to logMAR}: logMAR = -1 * log10(snellen_frac)
 \item \strong{Snellen to ETDRS}: ETDRS = 85 + 50 * log10(snellen_frac)
-Gregori et al. \\doi{10.1097/iae.0b013e3181d87e04}
+Gregori et al. DOI: 10.1097/iae.0b013e3181d87e04
 \item \strong{ETDRS to logMAR}: logMAR = -0.02 * etdrs + 1.7
-Beck et al. \\doi{10.1016/s0002-9394(02)01825-1}
+Beck et al. DOI: 10.1016/s0002-9394(02)01825-1
 \item \strong{Hand movements and counting fingers} are converted following
-Schulze-Bonsel et al. \\doi{10.1167/iovs.05-0981}
+Schulze-Bonsel et al. DOI: 10.1167/iovs.05-0981
 \item \strong{(No) light perception} are converted following the suggestions by
 \href{https://michaelbach.de/sci/acuity.html}{Michael Bach}
 }
@@ -104,9 +104,10 @@ the VA chart are used.
 
 You can find the chart with \code{eye:::va_chart}.
 This chart and VA conversion formulas are based on charts in
-Holladay et al. \\doi{10.1016/j.jcrs.2004.01.014},
-Beck et al. \\doi{10.1016/s0002-9394(02)01825-1}, and
-Gregori et al. \\doi{10.1097/iae.0b013e3181d87e04}.
+Holladay et al. DOI: 10.1016/j.jcrs.2004.01.014,
+Beck et al. DOI: 10.1016/s0002-9394(02)01825-1, and
+Gregori et al. DOI: 10.1097/iae.0b013e3181d87e04.
+
 The ETDRS values for NLP and PL are deliberately set at those values because
 they are unlikely to happen by chance as a wrong entry (and as integers),
 and it has internal reasons that make conversion easier.

@@ -22,11 +22,11 @@
 #' the visual acuity chart (see section VA chart)
 #' - **Snellen to logMAR**: logMAR = -1 * log10(snellen_frac)
 #' - **Snellen to ETDRS**: ETDRS = 85 + 50 * log10(snellen_frac)
-#' Gregori et al. \\doi{10.1097/iae.0b013e3181d87e04}
+#' Gregori et al. DOI: 10.1097/iae.0b013e3181d87e04
 #' - **ETDRS to logMAR**: logMAR = -0.02 * etdrs + 1.7
-#'  Beck et al. \\doi{10.1016/s0002-9394(02)01825-1}
+#'  Beck et al. DOI: 10.1016/s0002-9394(02)01825-1
 #' - **Hand movements and counting fingers** are converted following
-#' Schulze-Bonsel et al. \\doi{10.1167/iovs.05-0981}
+#' Schulze-Bonsel et al. DOI: 10.1167/iovs.05-0981
 #' - **(No) light perception** are converted following the suggestions by
 #' [Michael Bach](https://michaelbach.de/sci/acuity.html)
 #' @section Qualitative visual acuity entries:
@@ -62,9 +62,10 @@
 #' @section VA chart:
 #' You can find the chart with `eye:::va_chart`.
 #' This chart and VA conversion formulas are based on charts in
-#' Holladay et al. \\doi{10.1016/j.jcrs.2004.01.014},
-#' Beck et al. \\doi{10.1016/s0002-9394(02)01825-1}, and
-#' Gregori et al. \\doi{10.1097/iae.0b013e3181d87e04}.
+#' Holladay et al. DOI: 10.1016/j.jcrs.2004.01.014,
+#' Beck et al. DOI: 10.1016/s0002-9394(02)01825-1, and
+#' Gregori et al. DOI: 10.1097/iae.0b013e3181d87e04.
+#'
 #' The ETDRS values for NLP and PL are deliberately set at those values because
 #' they are unlikely to happen by chance as a wrong entry (and as integers),
 #' and it has internal reasons that make conversion easier.
