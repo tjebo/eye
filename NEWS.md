@@ -1,5 +1,15 @@
-## eye 1.2.2
+## eye 1.3
+- new functionality for qualitative visual acuity entries: 
+1) More values recognised as qualitative entries, and one can define values that are being recognized using `set_eye_strings`.(#36) 
+2) You can now set custom values for qualitative entries (hand movements, count fingers etc) using the "quali_values" argument in `va`
 - `recodeye` and `eyes` now also recognize "BE" as coding string for "both eyes"
+- updated package documentation file  
+- updated hyperlinks 
+- fixed issues #43, #48, #50
+- removed clean_va and alias cleanVA from exported namespace to keep it simpler
+- Improved warning when removing character column in `reveal()`
+- moved `revealEye` generic to internal functions
+- `va_mixed`: added default to `possible` argument, thus removing snellen decimals from recognised notations by default. 
 
 ## eye 1.2.1
 Bug fixes: 
