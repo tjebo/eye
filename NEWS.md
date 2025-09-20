@@ -6,7 +6,7 @@
 - updated package documentation file  
 - updated hyperlinks 
 - fixed issues #43, #48, #50
-- removed clean_va and alias cleanVA from exported namespace to keep it simpler
+- removed `clean_va` and alias `cleanVA` from exported namespace to keep it simpler
 - Improved warning when removing character column in `reveal()`
 - moved `revealEye` generic to internal functions
 - `va_mixed`: added default to `possible` argument, thus removing snellen decimals from recognised notations by default. 
