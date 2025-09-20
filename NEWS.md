@@ -1,3 +1,5 @@
+# eye 1.3.0
+
 ## eye 1.3
 - new functionality for qualitative visual acuity entries: 
 1) More values recognised as qualitative entries, and one can define values that are being recognized using `set_eye_strings`.(#36) 

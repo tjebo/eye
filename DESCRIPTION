@@ -1,6 +1,6 @@
 Package: eye
 Title: Analysis of Eye Data
-Version: 1.2.1.9000
+Version: 1.3.0
 Authors@R: c(
     person("Tjebo", "Heeren",
            role = c("aut", "cre"),
