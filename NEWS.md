@@ -1,6 +1,4 @@
-# eye 1.3.0
-
-## eye 1.3
+## eye 1.3.0
 - new functionality for qualitative visual acuity entries: 
 1) More values recognised as qualitative entries, and one can define values that are being recognized using `set_eye_strings`.(#36) 
 2) You can now set custom values for qualitative entries (hand movements, count fingers etc) using the "quali_values" argument in `va`
