@@ -1,75 +1,77 @@
-# 
-## eye 1.3.0
-- new functionality for qualitative visual acuity entries: 
+# eye 1.3.0
+
+* Added a `NEWS.md` file to track changes to the package.
+
+* new functionality for qualitative visual acuity entries: 
 1) More values recognised as qualitative entries, and one can define values that are being recognized using `set_eye_strings`.(#36) 
 2) You can now set custom values for qualitative entries (hand movements, count fingers etc) using the "quali_values" argument in `va`
-- `recodeye` and `eyes` now also recognize "BE" as coding string for "both eyes"
-- updated package documentation file  
-- updated hyperlinks 
-- fixed issues #43, #48, #50
-- removed `clean_va` and alias `cleanVA` from exported namespace to keep it simpler
-- Improved warning when removing character column in `reveal()`
-- moved `revealEye` generic to internal functions
-- `va_mixed`: added default to `possible` argument, thus removing snellen decimals from recognised notations by default. 
+* `recodeye` and `eyes` now also recognize "BE" as coding string for "both eyes"
+* updated package documentation file  
+* updated hyperlinks 
+* fixed issues #43, #48, #50
+* removed `clean_va` and alias `cleanVA` from exported namespace to keep it simpler
+* Improved warning when removing character column in `reveal()`
+* moved `revealEye` generic to internal functions
+* `va_mixed`: added default to `possible` argument, thus removing snellen decimals from recognised notations by default. 
 
 ## eye 1.2.1
 Bug fixes: 
 
-- if no eye column is found, `eyes` also returns a list #31
-- `set_eye_strings` also updates eye column #32 
-- partial eye strings recognized in column names #33
-- `to_etdrs` now correctly always returns integer class vector #34
-- conversion of pure "NA" saved as character now correctly returns `NA` #35
-- logMAR will return rounded values to the first digit when `noplus = TRUE` #37
-- `to_etdrs` from pure qualitative values correctly returns 0 for NPL and PL #38
+* if no eye column is found, `eyes` also returns a list #31
+* `set_eye_strings` also updates eye column #32 
+* partial eye strings recognized in column names #33
+* `to_etdrs` now correctly always returns integer class vector #34
+* conversion of pure "NA" saved as character now correctly returns `NA` #35
+* logMAR will return rounded values to the first digit when `noplus = TRUE` #37
+* `to_etdrs` from pure qualitative values correctly returns 0 for NPL and PL #38
 
 ## eye 1.2.0
 Summary of changes: 
 
-- `eyes()` - now returns lists (of class "eyes") for easier access of count data
-- `set_eye_strings()` - set string codes globally! This makes it easier for people using different languages to use eye.
-- recodeye: renamed "eyecodes" argument to "eyestrings"
-- Change of terminology to "subjects/id" rather than "patients" 
-- simplified code
+* `eyes()` - now returns lists (of class "eyes") for easier access of count data
+* `set_eye_strings()` - set string codes globally! This makes it easier for people using different languages to use eye.
+* recodeye: renamed "eyecodes" argument to "eyestrings"
+* Change of terminology to "subjects/id" rather than "patients" 
+* simplified code
 
 Details: 
 
-- `eyes()`: "details" argument creates object of class "eyes_details", allowing access to in depth count statistics and subject ids 
-- This includes new print methods for class "eyes" and "eyes_details"
-- change id and eye arguments to "id_col" and "eye_col" - previous code should not break because of partial argument name matching. However, the new names make it clearer as to what those arguments are for.
-- calling `set_eye_strings` will super-assign the new codes to the internal
+* `eyes()`: "details" argument creates object of class "eyes_details", allowing access to in depth count statistics and subject ids 
+* This includes new print methods for class "eyes" and "eyes_details"
+* change id and eye arguments to "id_col" and "eye_col" - previous code should not break because of partial argument name matching. However, the new names make it clearer as to what those arguments are for.
+* calling `set_eye_strings` will super-assign the new codes to the internal
 list object eye_codes
-- getElem_eyecol now gives precedence to columns that are called "eye" or "eyes" (#30)
+* getElem_eyecol now gives precedence to columns that are called "eye" or "eyes" (#30)
 Simplifications:
-- simplified pivoting in myop using the pivot_longer regex feature
-- removed ..._chr arguments from getElem_... functions (redundant)
-- getElem... now only for vectors (because they were anyways only used for vectors)
+* simplified pivoting in myop using the pivot_longer regex feature
+* removed ..._chr arguments from getElem_... functions (redundant)
+* getElem... now only for vectors (because they were anyways only used for vectors)
 
 ## eye 1.1.0  
 summary of changes: 
 
-- new features for function `eyestr`
-- important bug fixes
+* new features for function `eyestr`
+* important bug fixes
 
 Details: 
 
-- eyestr: new "english" argument for more flexibility (#26)
-- eyestr removed "para" argument 
-- eyestr prints one eye correctly in singular (#25)
-- eyestr added "caps" argument for more flexibility of spelling
-- eyestr removed "UK" argument (there is no difference in spelling for numbers :)
-- eyes fixed missing reference to column (#27)
-- added internal function `tidyNA_low` to avoid double tolower call
-- recodeye fixed fail when trailing white space (#28)
-- which_va fixed conversion error when mixed ETDRS and logmar (#29)
+* eyestr: new "english" argument for more flexibility (#26)
+* eyestr removed "para" argument 
+* eyestr prints one eye correctly in singular (#25)
+* eyestr added "caps" argument for more flexibility of spelling
+* eyestr removed "UK" argument (there is no difference in spelling for numbers :)
+* eyes fixed missing reference to column (#27)
+* added internal function `tidyNA_low` to avoid double tolower call
+* recodeye fixed fail when trailing white space (#28)
+* which_va fixed conversion error when mixed ETDRS and logmar (#29)
 
 ## eye 1.0.1
 
-- Nasty bug fix! Erroneous conversion of quality visual acuity entries when ETDRS (#24)
-- removed deprecated function `age()`
-- VA chart now as internal data, not exported - ideally the VA chart should not
+* Nasty bug fix! Erroneous conversion of quality visual acuity entries when ETDRS (#24)
+* removed deprecated function `age()`
+* VA chart now as internal data, not exported - ideally the VA chart should not
 be necessary anyways. However, if you really need to see it, you can still access it with `eye:::va_chart`. Note some of the ETDRS values were chosen for easier conversion. 
-- internally used S3 methods not exported to namespace any longer:
+* internally used S3 methods not exported to namespace any longer:
   - convertVA 
   - checkVA
   
