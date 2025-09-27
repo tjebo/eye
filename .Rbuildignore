@@ -12,3 +12,4 @@
 ^revdep$
 ^man/figures$
 ^\.github$
+^CRAN-SUBMISSION$

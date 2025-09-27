@@ -1,6 +1,6 @@
-# eye 1.3.0
+# eye (development version)
 
-* Added a `NEWS.md` file to track changes to the package.
+# eye 1.3.0
 
 * new functionality for qualitative visual acuity entries: 
 1) More values recognised as qualitative entries, and one can define values that are being recognized using `set_eye_strings`.(#36) 

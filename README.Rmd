@@ -15,6 +15,7 @@ knitr::opts_chunk$set(
 library(eye)
 ```
 
+
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/tjebo/eye/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/tjebo/eye/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
